@@ -199,7 +199,7 @@
    julia
 
    ;; Dev-R
-   r r-languageserver ;; rstudio
+   r r-languageserver rstudio
 
    ;; Dev-TextProcessing
    gawk sed
