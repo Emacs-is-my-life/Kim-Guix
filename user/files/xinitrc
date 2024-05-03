@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Source .profile for commmon env vars
+source ~/.profile
+
+# Disable access control for the current user
+xhost +SI:localuser:$USER
+
+# Make Java apps aware this is non-reparenting WM
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# Load X11 settings
+xrdb $XDG_CONFIG_HOME/X11/xresources
+xsettingsd &
+
+# Enable screen compositing
+picom &
+
+# Enbable screen locking on suspend
+xss-lock -- slock &
+
+# Use Emacs for text edit
+export VISUAL=emacsclient
+export EDITOR="$VISUAL"
+
+# Debug purpose
+#exec xterm
+
+# Start EXWM
+exec dbus-launch --exit-with-session emacs -mm --debug-init -f exwm-enable

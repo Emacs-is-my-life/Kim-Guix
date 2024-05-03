@@ -1,0 +1,27 @@
+set terminal x11 enhanced replotonresize
+set encoding utf8
+
+set samples 256
+set isosamples 64
+set grid
+set hidden3d
+set border lw 3 lc rgb '#37474F'
+
+set title textcolor rgb '#37474F' 
+set xlabel "x" textcolor rgb '#0CCA4A'
+set ylabel "y" textcolor rgb '#0CCA4A'
+set zlabel "z" textcolor rgb '#0CCA4A'
+set key textcolor rgb '#37474F'
+set tics textcolor rgb '#95190C'
+
+set linetype 1 linecolor rgb '#37474F' linewidth 3 pointsize 1 pointtype 1
+set linetype 2 linecolor rgb '#FC996E' linewidth 3 pointsize 1 pointtype 2
+set linetype 3 linecolor rgb '#33A1FD' linewidth 3 pointsize 1 pointtype 3
+set linetype 4 linecolor rgb '#F8333C' linewidth 3 pointsize 1 pointtype 4
+set linetype 5 linecolor rgb '#95C623' linewidth 3 pointsize 1 pointtype 5 dashtype 1
+set linetype 6 linecolor rgb '#23F0C7' linewidth 3 pointsize 1 pointtype 6 dashtype 2
+set linetype 7 linecolor rgb '#DF57BC' linewidth 3 pointsize 1 pointtype 7 dashtype 3
+set linetype cycle 7
+
+
+

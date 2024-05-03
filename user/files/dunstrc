@@ -1,0 +1,34 @@
+[global]
+  sort = yes
+  indicate_hidden = yes
+  word_wrap = yes
+  idle_threshold = 60
+  monitor = 0
+  follow = keyboard
+  sticky_history = yes
+
+  separator_height = 2
+  padding = 8
+  horizontal_padding = 6
+
+[frame]
+  width = 4
+  color = "#37474F"
+
+[urgency_low]
+  frame_color = "#37474F"
+  foreground = "#37474F"
+  background = "#FFFFFF"
+  timeout = 10
+
+[urgency_normal]
+  frame_color = "#37474F"
+  foreground = "#37474F"
+  background = "#FFFFFF"
+  timeout = 15
+
+[urgency_critical]
+  frame_color = "#95190C"
+  foreground = "#37474F"
+  background = "#FFFFFF"
+  timeout = 0
