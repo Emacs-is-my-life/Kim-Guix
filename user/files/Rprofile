@@ -7,6 +7,9 @@
 # Set default browser
 options(browser = "qutebrowser")
 
+# Set working directory
+setwd(Sys.getenv("R_WORK_DIR"))
+
 local({
     # Detect the number of cores available for use in parallelisation
     n <- max(parallel::detectCores() - 2L, 1L)
