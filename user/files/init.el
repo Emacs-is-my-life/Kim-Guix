@@ -47,7 +47,7 @@
 ;; use-package
 (eval-when-compile
   (require 'use-package))
-(package-refresh-contents)
+;; (package-refresh-contents)
 (setq package-enable-at-startup nil)
 (setq use-package-always-ensure t)
 (setq use-package-verbose nil)
