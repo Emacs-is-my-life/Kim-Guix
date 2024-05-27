@@ -1789,34 +1789,33 @@
 
 
 
-(setq not-to-kill-buffers-list '("*scratch*" "*Messages*" "#emacs"))
-(defun kill-all-buffers ()
-  (if (member (buffer-name (current-buffer)) not-to-kill-buffers-list)
-      (bury-buffer)
-    (kill-buffer (current-buffer))))
 
-(add-hook 'after-init-hook #'kill-all-buffers)
+(defun clean-buffer-list ()
+  (progn
+    (kill-buffer "*straight-process*")
+    (kill-buffer "*quelpa-build-checkout*")))
+(add-hook 'after-init-hook #'clean-buffer-list)
 
 
 (use-package dashboard
   :ensure t
   :after exwm
   :config
-  (setq dashboard-banner-logo-title 'official)
-  (setq dashboard-startup-banner "")
+  (setq dashboard-banner-logo-title "")
+  (setq dashboard-startup-banner nil)
+  (setq dashboard-footer-messages '(""))
   (setq dashboard-center-content t)
   (setq dashboard-vertically-center-content nil)
   (setq dashboard-show-shortcuts t)
   (setq dashboard-items '((agenda . 12)
-                          (recents . 4)))
+                          (projects . 4)))
   (setq dashboard-navigation-cycle t)
   (setq dashboard-icon-types 'all-the-icons)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-week-agenda t)
-  (setq initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name)))
-  (kill-all-buffers)
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (dashboard-open))
 
 
 
