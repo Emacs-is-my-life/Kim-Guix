@@ -941,14 +941,13 @@
 
 
 ;; <Common Lisp>
-;; Slime for Common Lisp
-(use-package slime
+;; Sly for Common Lisp
+(use-package sly
   :mode ("\\.lisp\\'" . common-lisp-mode)
-  :commands (slime)
+  :commands (sly)
   :config
   (setq inferior-lisp-program "sbcl")
-  (add-hook 'slime-repl-mode #'smartparens-mode)
-  (slime-setup))
+  (add-hook 'sly-repl-mode #'smartparens-mode))
 
 
 
@@ -1309,17 +1308,17 @@
   (setq org-directory (getenv "USER_ORG_DIR"))
   (make-directory org-directory t)
 
-  (setq org-archive-location (concat org-directory "archive/"))
-  (make-directory org-archive-location t)
-
   (make-directory (concat org-directory "notes") t)
   (make-directory (concat org-directory "agenda") t)
   (make-directory (concat org-directory "roam") t)
-  (make-directory (concat org-directory "images") t)
   (make-directory (concat org-directory "blog") t)
-  (make-directory (concat org-directory "blog-static") t)
+  (make-directory (concat org-directory ".archive") t)
+  (setq org-archive-location (concat org-directory ".archive/"))
+  (make-directory (concat org-directory ".files") t)
+  (make-directory (concat org-directory ".files/images") t)
+  (make-directory (concat org-directory ".files/static") t)
 
-  (setq org-default-notes-file (concat (concat org-directory "notes/") "default-note.org")
+  (setq org-default-notes-file (concat (concat org-directory "notes/") "default.org")
 	      org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$"))
 	      
 	      org-capture-templates
@@ -1438,13 +1437,13 @@
            
            :htmlized-source t)
           ("static"
-           :base-directory ,(concat org-directory "blog-static/")
+           :base-directory ,(concat org-directory ".files/static/")
            :base-extension "css\\|js\\|txt\\|png\\|jpg\\|jpeg\\|gif"
            :publishing-directory ,(concat (getenv "USER_HTML_DIR") "static/")
            :recursive t
            :publishing-function org-publish-attachment)
           ("images"
-           :base-directory ,(concat org-directory "images/")
+           :base-directory ,(concat org-directory ".files/images/")
            :base-extension "png\\|jpg\\|jpeg\\|gif\\|webp\\|webm"
            :publishing-directory ,(concat (getenv "USER_HTML_DIR") "images/")
            :recursive t
@@ -1457,7 +1456,7 @@
   :ensure t
   :init
   (setq org-bullets-bullet-list
-	'("■" "□" "◆" "◇" "▲" "△" "●" "○"))
+	      '("■" "□" "◆" "◇" "▲" "△" "●" "○"))
   :hook (org-mode . org-bullets-mode))
 
 ;; Asynchronous src block execution for org-babel
@@ -1490,11 +1489,17 @@
   :custom
   (org-roam-directory (concat org-directory "roam/"))
   (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         :map org-mode-map
-         ("C-M-i" . completion-at-point))
+  (org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)))
+  :bind
+  (("C-c n l" . org-roam-buffer-toggle)
+   ("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert)
+   :map org-mode-map
+   ("C-M-i" . completion-at-point))
   :config
   (org-roam-setup))
 
@@ -1525,7 +1530,7 @@
 (use-package org-download
   :after org 
   :init
-  (setq-default org-download-image-dir (concat org-directory "images/"))
+  (setq-default org-download-image-dir (concat org-directory ".files/images/"))
   :config
   (add-hook 'dired-mode-hook 'org-download-enable)
   (setq-default org-download-timestamp t))
@@ -1581,33 +1586,6 @@
   :after vterm 
   :config
   (add-hook 'vterm-mode-hook #'eterm-256color-mode))
-
-
-
-
-
-
-
-
-;; # ==== [Cleanup]
-
-
-
-
-(defun kill-buffers-after-init ()
-  (progn
-    (when (get-buffer "*Quail Completions*")
-      (kill-buffer "*Quail Completions*"))
-    (when (get-buffer "*quelpa-build-checkout*")
-      (kill-buffer "*quelpa-build-checkout*"))
-    (when (get-buffer "*straight-process*")
-      (kill-buffer "*straight-process*"))
-    (when (get-buffer "*Compile-Log*")
-      (kill-buffer "*Compile-Log*"))
-    (when (get-buffer "*package update results*")
-      (kill-buffer "*package update results*"))))
-
-(add-hook 'after-init-hook #'kill-buffers-after-init)
 
 
 
@@ -1791,11 +1769,59 @@
      ([?\C-s] . ?\C-f))))
 ;; (exwm-enable) will be invoked from xinitrc
 
-  (use-package desktop-environment
-    :after exwm
-    :config (desktop-environment-mode)
-    :custom
-    (desktop-environment-brightness-small-increment "2%+")
-    (desktop-environment-brightness-small-decrement "2%-")
-    (desktop-environment-brightness-normal-increment "5%+")
-    (desktop-environment-brightness-normal-decrement "5%-"))
+(use-package desktop-environment
+  :after exwm
+  :config (desktop-environment-mode)
+  :custom
+  (desktop-environment-brightness-small-increment "2%+")
+  (desktop-environment-brightness-small-decrement "2%-")
+  (desktop-environment-brightness-normal-increment "5%+")
+  (desktop-environment-brightness-normal-decrement "5%-"))
+
+
+
+
+
+
+
+
+;; # ==== [Dashboard]
+
+
+
+(setq not-to-kill-buffers-list '("*scratch*" "*Messages*" "#emacs"))
+(defun kill-all-buffers ()
+  (if (member (buffer-name (current-buffer)) not-to-kill-buffers-list)
+      (bury-buffer)
+    (kill-buffer (current-buffer))))
+
+(add-hook 'after-init-hook #'kill-all-buffers)
+
+
+(use-package dashboard
+  :ensure t
+  :after exwm
+  :config
+  (setq dashboard-banner-logo-title 'official)
+  (setq dashboard-startup-banner "")
+  (setq dashboard-center-content t)
+  (setq dashboard-vertically-center-content nil)
+  (setq dashboard-show-shortcuts t)
+  (setq dashboard-items '((agenda . 12)
+                          (recents . 4)))
+  (setq dashboard-navigation-cycle t)
+  (setq dashboard-icon-types 'all-the-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-week-agenda t)
+  (setq initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name)))
+  (kill-all-buffers)
+  (dashboard-setup-startup-hook))
+
+
+
+
+
+
+
+
