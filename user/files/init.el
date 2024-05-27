@@ -1802,7 +1802,7 @@
   :after exwm
   :config
   (setq dashboard-banner-logo-title "")
-  (setq dashboard-startup-banner nil)
+  (setq dashboard-startup-banner 'official)
   (setq dashboard-footer-messages '(""))
   (setq dashboard-center-content t)
   (setq dashboard-vertically-center-content nil)
