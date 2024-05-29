@@ -256,6 +256,8 @@ mkdir -p $HOME/Downloads
 mkdir -p $HOME/Mount
 mkdir -p $HOME/.local/share/Trash
 
+ln -sfn $USER_ORG_DIR $HOME/Org
+
 export HISTFILE=$XDG_CACHE_HOME/.bash_history
 export PATH=$HOME/.config/guix/current/bin:$HOME/.local/bin:$PATH
 export INFOPATH=$HOME/.config/guix/current/share/info:$INFOPATH
