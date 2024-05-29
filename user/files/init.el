@@ -1318,6 +1318,9 @@
   (make-directory (concat org-directory ".files/images") t)
   (make-directory (concat org-directory ".files/static") t)
 
+  (make-directory (concat (getenv "USER_HTML_DIR") "images") t)
+  (make-directory (concat (getenv "USER_HTML_DIR") "static") t)
+
   (setq org-default-notes-file (concat (concat org-directory "notes/") "default.org")
 	      org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$"))
 	      

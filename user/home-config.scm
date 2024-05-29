@@ -236,7 +236,7 @@
                            "
 export USER_PROJECT_DIR=$HOME/Workspace/
 export USER_ORG_DIR=$HOME/Documents/Org/
-export USER_HTML_DIR=$HOME/Public_Html/
+export USER_HTML_DIR=$XDG_CACHE_HOME/public_html/
 export USER_SECRET_DIR=$HOME/Documents/Secrets/
 export USER_LEDGER_DIR=$HOME/Documents/Ledger/
 export USER_BOOK_DIR=$HOME/Books/
