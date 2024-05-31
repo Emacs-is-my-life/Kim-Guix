@@ -1749,7 +1749,7 @@
   (exwm-input-set-key (kbd "s-h") (lambda () (interactive) (exwm/dunstctl "history-pop")))
   (exwm-input-set-key (kbd "s-H") (lambda () (interactive) (exwm/dunstctl "close-all")))
   
-  (exwm-input-set-simulation-keys
+  (exwm-input-set-simulation-key
    '(
      ;; movement
      ([?\C-b] . left)
