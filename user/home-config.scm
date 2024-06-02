@@ -83,6 +83,7 @@
              (gnu packages python)
              (gnu packages python-build)
 	           (gnu packages python-xyz)
+             (gnu packages jupyter)
              (gnu packages package-management)
              (gnu packages julia)
              (gnu packages statistics)
@@ -98,9 +99,6 @@
              (guix channels)
              (guix packages)
              (guix gexp)
-             (gnu packages jupyter)
-             (guix-science packages jupyter)
-             (guix-science packages rstudio)
 	           (nongnu packages game-client))
 
 (home-environment
@@ -193,13 +191,14 @@
    ;; Dev-Python
    python python-pip python-lsp-server python-debugpy
    python-ipython python-ipython-documentation
-   python-jupyterlab python-jupyterlab-pygments python-jupyterlab-widgets
+   python-jupyter-core python-jupyter-client python-jupyter-server python-jupyter-console
+   python-ipympl python-ipydatawidgets
    
    ;; Dev-Julia
    julia
 
    ;; Dev-R
-   r r-languageserver rstudio
+   r r-languageserver
 
    ;; Dev-TextProcessing
    gawk sed
@@ -356,15 +355,6 @@ fi
    (simple-service 'guix-channels
                    home-channels-service-type
                    (append (list
-                            (channel
-                             (name 'guix-science)
-                             (url "https://github.com/guix-science/guix-science.git")
-                             (branch "master")
-                             (introduction
-                              (make-channel-introduction
-                               "b1fe5aaff3ab48e798a4cce02f0212bc91f423dc"
-                               (openpgp-fingerprint
-                                "CA4F 8CF4 37D7 478F DA05  5FD4 4213 7701 1A37 8446"))))
                             (channel
                              (name 'nonguix)
                              (url "https://gitlab.com/nonguix/nonguix")

@@ -1748,28 +1748,28 @@
 
   (exwm-input-set-key (kbd "s-h") (lambda () (interactive) (exwm/dunstctl "history-pop")))
   (exwm-input-set-key (kbd "s-H") (lambda () (interactive) (exwm/dunstctl "close-all")))
-  
-  (exwm-input-set-simulation-key
-   '(
-     ;; movement
-     ([?\C-b] . left)
-     ([?\M-b] . C-left)
-     ([?\C-f] . right)
-     ([?\M-f] . C-right)
-     ([?\C-p] . up)
-     ([?\C-n] . down)
-     ([?\C-a] . home)
-     ([?\C-e] . end)
-     ([?\M-v] . prior)
-     ([?\C-v] . next)
-     ([?\C-d] . delete)
-     ([?\C-k] . (S-end delete))
-     ;; cut/paste
-     ([?\C-w] . ?\C-x)
-     ([?\M-w] . ?\C-c)
-     ([?\C-y] . ?\C-v)
-     ;; search
-     ([?\C-s] . ?\C-f))))
+
+  (setq exwm-input-simulation-keys
+        '(
+          ;; movement
+          ([?\C-b] . left)
+          ([?\M-b] . C-left)
+          ([?\C-f] . right)
+          ([?\M-f] . C-right)
+          ([?\C-p] . up)
+          ([?\C-n] . down)
+          ([?\C-a] . home)
+          ([?\C-e] . end)
+          ([?\M-v] . prior)
+          ([?\C-v] . next)
+          ([?\C-d] . delete)
+          ([?\C-k] . (S-end delete))
+          ;; cut/paste
+          ([?\C-w] . ?\C-x)
+          ([?\M-w] . ?\C-c)
+          ([?\C-y] . ?\C-v)
+          ;; search
+          ([?\C-s] . ?\C-f))))
 ;; (exwm-enable) will be invoked from xinitrc
 
 (use-package desktop-environment
