@@ -1349,6 +1349,8 @@
           (switch-to-buffer return-buffer-name)))))
 
   (add-hook 'after-save-hook 'refresh-org-agenda-files)
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "DOING(g)" "HOLD(h)" "DONE(d)")))
 
   ;; org-tempo for structured editing
   (require 'org-tempo)
