@@ -1343,7 +1343,7 @@
                (or (string-equal (concat org-directory "agenda/") (file-name-directory (buffer-file-name)))
                    (string-equal (concat (getenv "USER_ORG_SHORTCUT_DIR") "agenda/") (file-name-directory (buffer-file-name)))))
       (progn
-        (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$")))
+        (org-agenda-file-to-front)
         (let ((return-buffer-name (buffer-name)))
           (dashboard-refresh-buffer)
           (switch-to-buffer return-buffer-name)))))
