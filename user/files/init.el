@@ -1283,6 +1283,8 @@
 ;; * ---- Org mode
 
 
+
+
 ;; org
 (use-package org
   :ensure t
@@ -1333,6 +1335,20 @@
 	         "* IDEA %? :IDEA:\n%t" :clock-in t :clock-resume t)
 	        ("j" "Journal" entry (file+headline org-default-notes-file "Journal")
 	         "* Journal %?\n%U\n" :clock-in t :clock-resume t)))
+
+  (defun refresh-org-agenda-files ()
+    "Refresh 'org-agenda-files' variable if tue current buffer is an .org file."
+    (when (and (buffer-file-name)
+               (string-equal "org" (file-name-extension (buffer-file-name)))
+               (or (string-equal (concat org-directory "agenda/") (file-name-directory (buffer-file-name)))
+                   (string-equal (concat (getenv "USER_ORG_SHORTCUT_DIR") "agenda/") (file-name-directory (buffer-file-name)))))
+      (progn
+        (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$")))
+        (let ((return-buffer-name (buffer-name)))
+          (dashboard-refresh-buffer)
+          (switch-to-buffer return-buffer-name)))))
+
+  (add-hook 'after-save-hook 'refresh-org-agenda-files)
 
   ;; org-tempo for structured editing
   (require 'org-tempo)

@@ -141,7 +141,7 @@
    gnu-make cmake git bison flex graphviz
 
    ;; Dev-Debug
-   gdb lldb rr valgrind strace uftrace bpftrace bpftool bcc
+   gdb lldb rr valgrind strace uftrace ;; bpftrace bpftool bcc
 
    ;; Dev-Profiling
    perf perf-tools flamegraph
@@ -235,6 +235,7 @@
                            "
 export USER_PROJECT_DIR=$HOME/Workspace/
 export USER_ORG_DIR=$HOME/Documents/Org/
+export USER_ORG_SHORTCUT_DIR=$HOME/Org/
 export USER_HTML_DIR=$XDG_CACHE_HOME/public_html/
 export USER_SECRET_DIR=$HOME/Documents/Secrets/
 export USER_LEDGER_DIR=$HOME/Documents/Ledger/
@@ -255,7 +256,7 @@ mkdir -p $HOME/Downloads
 mkdir -p $HOME/Mount
 mkdir -p $HOME/.local/share/Trash
 
-ln -sfn $USER_ORG_DIR $HOME/Org
+ln -sfn $USER_ORG_DIR $USER_ORG_SHORTCUT_DIR
 
 export HISTFILE=$XDG_CACHE_HOME/.bash_history
 export PATH=$HOME/.config/guix/current/bin:$HOME/.local/bin:$PATH
