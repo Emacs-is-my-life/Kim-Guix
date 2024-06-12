@@ -96,6 +96,7 @@
              (gnu packages tex)
              (gnu packages password-utils)
 	           (gnu packages games)
+             (gnu packages game-development)
              (guix channels)
              (guix packages)
              (guix gexp)
@@ -129,7 +130,7 @@
    hledger monero
 
    ;; Media Viewer
-   viewnior mpv ffmpeg gstreamer
+   viewnior mpv ffmpeg gstreamer godot
 
    ;; Media Creation
    xournalpp gimp imagemagick inkscape audacity shotcut blender
