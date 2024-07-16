@@ -1469,7 +1469,8 @@
            :publishing-directory ,(concat (getenv "USER_HTML_DIR") "images/")
            :recursive t
            :publishing-function org-publish-attachment)))
-  (org-publish-all))
+  ;;(org-publish-all)
+  )
 
 ;; org-bullets
 (use-package org-bullets

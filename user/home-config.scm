@@ -115,7 +115,7 @@
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
-   nautilus trash-cli
+   nautilus gvfs trash-cli
 
    ;; Web Browser
    qutebrowser ungoogled-chromium
