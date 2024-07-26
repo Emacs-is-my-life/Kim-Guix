@@ -130,7 +130,7 @@
    hledger monero
 
    ;; Media Viewer
-   viewnior mpv ffmpeg gstreamer godot
+   viewnior mpv ffmpeg gstreamer
 
    ;; Media Creation
    xournalpp gimp imagemagick inkscape audacity shotcut blender
@@ -194,6 +194,7 @@
    python-ipython python-ipython-documentation
    python-jupyter-core python-jupyter-client python-jupyter-server python-jupyter-console
    python-ipympl python-ipydatawidgets
+   python-pyxel
    
    ;; Dev-Julia
    julia
