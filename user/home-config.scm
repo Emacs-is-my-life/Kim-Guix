@@ -142,7 +142,7 @@
    gnu-make cmake git bison flex graphviz
 
    ;; Dev-Debug
-   gdb lldb rr valgrind strace uftrace ;; bpftrace bpftool bcc
+   gdb lldb rr valgrind strace uftrace bpftrace bpftool bcc
 
    ;; Dev-Profiling
    perf perf-tools flamegraph
@@ -194,7 +194,6 @@
    python-ipython python-ipython-documentation
    python-jupyter-core python-jupyter-client python-jupyter-server python-jupyter-console
    python-ipympl python-ipydatawidgets
-   python-pyxel
    
    ;; Dev-Julia
    julia
