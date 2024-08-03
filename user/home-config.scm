@@ -84,6 +84,7 @@
              (gnu packages python-build)
 	           (gnu packages python-xyz)
              (gnu packages jupyter)
+             (gnu packages parallel)
              (gnu packages package-management)
              (gnu packages julia)
              (gnu packages statistics)
@@ -193,7 +194,8 @@
    python python-pip python-lsp-server python-debugpy
    python-ipython python-ipython-documentation
    python-jupyter-core python-jupyter-client python-jupyter-server python-jupyter-console
-   python-ipympl python-ipydatawidgets
+   python-ipympl python-ipydatawidgets python-jupyter-server-mathjax python-matplotlib-inline
+   python-nbconvert python-slurm-magic
    
    ;; Dev-Julia
    julia
