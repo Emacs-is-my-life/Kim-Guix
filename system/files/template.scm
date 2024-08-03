@@ -90,7 +90,7 @@
 (define cron-job-guix-gc
   ;; Collect garbage 5 minutes after midnight every day
   #~(job "5 0 * * *"
-         "guix gc -F 1G"))
+         "guix gc -d 1w"))
 
 (operating-system
  (kernel linux)
