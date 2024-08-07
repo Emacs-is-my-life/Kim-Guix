@@ -88,6 +88,7 @@
              (gnu packages package-management)
              (gnu packages julia)
              (gnu packages statistics)
+             (gnu packages maths)
              (gnu packages gawk)
              (gnu packages golang)
              (gnu packages java)
@@ -96,8 +97,7 @@
              (gnu packages web)
              (gnu packages tex)
              (gnu packages password-utils)
-	           (gnu packages games)
-             (gnu packages game-development)
+             (gnu packages games)
              (guix channels)
              (guix packages)
              (guix gexp)
@@ -192,9 +192,7 @@
 
    ;; Dev-Python
    python python-pip python-lsp-server python-debugpy
-   python-ipython python-ipython-documentation
-   python-jupyter-core python-jupyter-client python-jupyter-server python-jupyter-console
-   python-ipympl python-ipydatawidgets python-jupyter-server-mathjax python-matplotlib-inline
+   python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
    python-nbconvert python-slurm-magic
    
    ;; Dev-Julia
@@ -202,6 +200,9 @@
 
    ;; Dev-R
    r r-languageserver
+
+   ;; Dev-Octave (MATLAB alternative)
+   octave
 
    ;; Dev-TextProcessing
    gawk sed
