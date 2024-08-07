@@ -10,6 +10,4 @@
    "python-matplotlib"
    "python-seaborn"
    "python-plotnine"
-   "python-pytorch"
-   "python-keras"
-   "python-tensorflow"))
+   "python-pytorch"))
