@@ -3,13 +3,13 @@
  '("python"
    "python-numpy"
    "python-scipy"
-   "python-jax"
-   "python-jaxlib"
-   "python-jaxtyping"
+   "python-scikit-learn"
+   "python-scikit-learn-extra"
    "python-numba"
    "python-pandas"
    "python-matplotlib"
+   "python-seaborn"
    "python-plotnine"
    "python-pytorch"
-   "python-tensorflow"
-   "python-jupyterhub"))
+   "python-keras"
+   "python-tensorflow"))
