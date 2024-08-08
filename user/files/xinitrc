@@ -14,7 +14,7 @@ xrdb $XDG_CONFIG_HOME/X11/xresources
 xsettingsd &
 
 # Enable screen compositing
-picom &
+picom --config $XDG_CONFIG_HOME/picom/picom.conf &
 
 # Enbable screen locking on suspend
 xss-lock -- slock &

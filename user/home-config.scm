@@ -327,6 +327,7 @@ fi
                    `(("X11/xresources" ,(local-file "./files/xresources"))
                      ("X11/xinitrc" ,(local-file "./files/xinitrc"))
                      ("X11/xmodmap" ,(local-file "./files/xmodmap"))
+                     ("picom/picom.conf" ,(local-file "./files/picom.conf"))
                      ("xsettingsd/xsettingsd.conf" ,(local-file "./files/xsettingsd.conf"))
                      ("emacs/init.el" ,(local-file "./files/init.el"))
                      ("emacs/exwm/start-exwm.sh" ,(local-file "./files/start-exwm.sh" #:recursive? #t))
