@@ -220,7 +220,7 @@
    gnuplot
 
    ;; TeX
-   texlive-scheme-basic texlive-listing texlive-hyperref texlive-beamer texlive-pgf texlive-pgfplots texlive-wrapfig texlive-cm-super texlive-amsfonts texlive-gnuplottex
+   texlive-scheme-basic texlive-listing texlive-hyperref texlive-beamer texlive-pgf texlive-pgfplots texlive-wrapfig texlive-cm-super texlive-amsfonts texlive-roboto texlive-gnuplottex
    
    ;; Security
    keepassxc keepassxc-browser/icecat
