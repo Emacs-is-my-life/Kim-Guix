@@ -191,7 +191,7 @@
    swi-prolog
 
    ;; Dev-Python
-   python python-lsp-server python-debugpy
+   python python-pip python-lsp-server python-debugpy
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
    python-nbconvert python-slurm-magic
    
