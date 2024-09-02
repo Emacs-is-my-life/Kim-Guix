@@ -1,0 +1,21 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User {{ USER_GMAIL_ADDRESS }}
+PassCmd "gpg --quiet --for-your-eyes-only --no-tty -d ~/Documents/Secrets/authinfo.gpg | grep imap.gmail.com | awk '{print $8}'"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Subfolders Verbatim
+Path ~/Documents/Mail/
+Inbox ~/Documents/Mail/Inbox
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash"
+Create Both
+SyncState *

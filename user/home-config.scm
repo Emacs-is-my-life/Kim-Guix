@@ -25,7 +25,7 @@
              (gnu packages web-browsers)
              (gnu packages chromium)
              (gnu packages browser-extensions)
-             (gnu packages messaging)
+             (gnu packages mail)
              (gnu packages pdf)
              (gnu packages libreoffice)
              (gnu packages education)
@@ -49,7 +49,7 @@
              (gnu packages magic-wormhole)
              (gnu packages base)
              (gnu packages cmake)
-	           (gnu packages autotools)
+	     (gnu packages autotools)
              (gnu packages version-control)
              (gnu packages bison)
              (gnu packages flex)
@@ -82,7 +82,7 @@
              (gnu packages prolog)
              (gnu packages python)
              (gnu packages python-build)
-	           (gnu packages python-xyz)
+	     (gnu packages python-xyz)
              (gnu packages jupyter)
              (gnu packages parallel)
              (gnu packages package-management)
@@ -101,13 +101,19 @@
              (guix channels)
              (guix packages)
              (guix gexp)
-	           (nongnu packages game-client))
+	     (nongnu packages game-client))
 
 (home-environment
  (packages
   (list
    ;; Emacs
-   emacs emacs-vterm libtool ncurses pinentry dunst scrot brightnessctl playerctl
+   emacs emacs-vterm pinentry-emacs libtool ncurses dunst scrot brightnessctl playerctl
+
+   ;; Security
+   gnupg paperkey argon2 keepassxc keepassxc-browser/icecat
+   
+   ;; Email
+   isync mu
    
    ;; Fonts
    font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono 
@@ -121,11 +127,8 @@
    ;; Web Browser
    qutebrowser ungoogled-chromium
 
-   ;; Messenger
-   dino
-
    ;; Document
-   zathura-pdf-mupdf libreoffice pandoc pandoc-include
+   zathura-pdf-mupdf libreoffice evince
 
    ;; Finance
    hledger monero
@@ -143,7 +146,7 @@
    gnu-make cmake git bison flex graphviz
 
    ;; Dev-Debug
-   gdb lldb rr valgrind strace uftrace bpftrace bpftool bcc
+   gdb lldb rr valgrind strace uftrace ;; bpftrace bpftool bcc
 
    ;; Dev-Profiling
    perf perf-tools flamegraph
@@ -173,13 +176,13 @@
    gforth
 
    ;; Dev-Scheme
-   chicken racket gerbil
+   chicken
 
    ;; Dev-CommonLisp
    sbcl
 
    ;; Dev-Coq
-   coq coq-ide
+   coq
 
    ;; Dev-Lean
    lean
@@ -192,8 +195,7 @@
 
    ;; Dev-Python
    python python-pip python-lsp-server python-debugpy
-   python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
-   python-nbconvert python-slurm-magic
+   ;; python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
    
    ;; Dev-Julia
    julia
@@ -222,9 +224,6 @@
    ;; TeX
    texlive-scheme-basic texlive-listing texlive-hyperref texlive-beamer texlive-pgf texlive-pgfplots texlive-wrapfig texlive-cm-super texlive-amsfonts texlive-roboto texlive-gnuplottex
    
-   ;; Security
-   keepassxc keepassxc-browser/icecat
-
    ;; ETC
    steam))
  
@@ -243,6 +242,7 @@ export USER_ORG_SHORTCUT_DIR=$HOME/Org/
 export USER_HTML_DIR=$XDG_CACHE_HOME/public_html/
 export USER_SECRET_DIR=$HOME/Documents/Secrets/
 export USER_LEDGER_DIR=$HOME/Documents/Ledger/
+export USER_MAIL_DIR=$HOME/Documents/Mail/
 export USER_BOOK_DIR=$HOME/Books/
 
 JULIA_VERSION=$(ls $HOME/.julia/environments/ | tail -n 1)
@@ -252,7 +252,9 @@ mkdir -p $USER_PROJECT_DIR
 mkdir -p $USER_ORG_DIR
 mkdir -p $USER_HTML_DIR
 mkdir -p $USER_SECRET_DIR
+chmod -R 700 $USER_SECRET_DIR
 mkdir -p $USER_LEDGER_DIR
+mkdir -p $USER_MAIL_DIR
 mkdir -p $USER_BOOK_DIR
 
 mkdir -p $HOME/Desktop
@@ -296,10 +298,22 @@ export JULIAUP_DEPOT_PATH=$XDG_DATA_HOME/julia
 export R_ENVIRON=$XDG_CONFIG_HOME/R/Renviron
 export R_WORK_DIR=$USER_PROJECT_DIR
 
+export GNUPGHOME=\"$USER_SECRET_DIR\"GnuPG
+mkdir -p $GNUPGHOME
+chmod -R 700 $GNUPGHOME
+export GPG_TTY=$(tty)
+
+export GNUPG_KEYID_SIGN=$(gpg -K | grep -E -i '\\[S\\]' | awk -F'/0x' '{print $2}' | cut -d ' ' -f 1)
+export GNUPG_KEYID_ENCRYPT=$(gpg -K | grep -E -i '\\[E\\]' | awk -F'/0x' '{print $2}' | cut -d ' ' -f 1)
+source \"$USER_SECRET_DIR\"userinfo.env
+
 export LEDGER_FILE=$USER_LEDGER_DIR/hledger.journal
 export TEXMFHOME=$XDG_DATA_HOME/texmf
 export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
 export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
+
+
+
 
 # emacs-vterm
 if [[ \"$INSIDE_EMACS\" = 'vterm' ]]; then
@@ -336,7 +350,8 @@ fi
                      ("qutebrowser/config.py" ,(local-file "./files/config.py"))
                      ("R/Renviron" ,(local-file "./files/Renviron"))
                      ("R/Rprofile" ,(local-file "./files/Rprofile"))
-                     ("ipython/profile_default/startup/10-nopager.py" ,(local-file "./files/10-nopager.py"))))
+                     ("ipython/profile_default/startup/10-nopager.py" ,(local-file "./files/10-nopager.py"))
+                     ("isyncrc" ,(local-file "./.temp/isyncrc"))))
 
    (service home-shepherd-service-type)
    
@@ -353,8 +368,11 @@ fi
    (service home-gpg-agent-service-type
             (home-gpg-agent-configuration
              (pinentry-program
-              (file-append pinentry-emacs "/bin/pinentry-emacs"))
-             (ssh-support? #f)))
+              (file-append pinentry-emacs "~/.guix-home/profile/bin/pinentry-emacs"))
+             (ssh-support? #f)
+	     (extra-content "allow-emacs-pinentry
+			    allow-loopback-pinentry
+			    pinentry-program ~/.guix-home/profile/bin/pinentry-emacs")))
 
    (service home-syncthing-service-type)
    

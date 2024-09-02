@@ -462,14 +462,35 @@
   :ensure t)
 
 ;; treemacs-magit
-(use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
+;; (use-package treemacs-magit
+;;  :after (treemacs magit)
+;;  :ensure t)
 
 ;; treemacs-all-the-icons
 (use-package treemacs-all-the-icons
   :after (treemacs all-the-icons)
   :ensure t)
+
+
+;; Openwith for external programs
+(use-package openwith
+  :init
+  (openwith-mode 1)
+  :config
+  (setq openwith-associations
+        (list
+         (list (openwith-make-extension-regexp
+                '("pdf" "ps" "ps.gz" "dvi"))
+               "evince"
+               '(file))
+         (list (openwith-make-extension-regexp
+                '("doc" "xls" "xlsx" "ppt" "pptx" "odt" "ods" "odg" "odp"))
+               "libreoffice"
+               '(file))
+         (list (openwith-make-extension-regexp
+                '("mp4" "mov" "flv" "avi" "wmv" "mkv"))
+               "mpv"
+               '(file)))))
 
 
 
@@ -500,8 +521,11 @@
   :after (helm projectile))
 
 ;; Magit
-(use-package magit
-  :ensure t)
+;; (use-package magit
+;;  :ensure t)
+
+;; (use-package magit-todos)
+;; (use-package magit-file-icons)
 
 
 ;; * ---- <Convenience>
@@ -662,12 +686,6 @@
   :commands lsp
   :ensure t
   :after (treemacs which-key)
-  :mode
-  (("\\.ml\\'" . lsp)
-   ("\\.rs\\'" . lsp)
-   ("\\.idr\\'" . lsp)
-   ("\\.go\\'" . lsp)
-   ("\\.cs\\'" . lsp))
   :hook
   ((verilog-mode . lsp)
    (vhdl-mode . lsp)
@@ -703,11 +721,11 @@
   (setq lsp-completion-show-kind t)
   ;; lsp garbage collection setting
   (setq gc-cons-threshold (* 128 1024 1024)
-	read-process-output-max (* 16 1024 1024)
-	treemacs-space-between-root-nodes nil
-	company-idle-delay 0.05
-	company-minimum-prefix-length 1
-	lsp-idle-delay 0.05))
+	      read-process-output-max (* 16 1024 1024)
+	      treemacs-space-between-root-nodes nil
+	      company-idle-delay 0.05
+	      company-minimum-prefix-length 1
+	      lsp-idle-delay 0.05))
 
 ;; Attach lsp to which-key-mode
 (with-eval-after-load 'lsp-mode
@@ -853,18 +871,20 @@
 
 
 ;; <Haskell>
-;; lsp-haskell
-(use-package lsp-haskell
-  :mode ("\\.hs\\'" . haskell-mode)
-  :after lsp-mode
-  :config
-  (add-hook 'haskell-mode-hook #'lsp)
-  (add-hook 'haskell-literate-mode-hook #'lsp))
+;; lsp-haskell (broken for now)
+;; (use-package lsp-haskell
+;;   :after lsp-mode
+;;   :config
+;;   (add-hook 'haskell-mode-hook #'lsp)
+;;   (add-hook 'haskell-literate-mode-hook #'lsp))
 ;; MANUAL INSTALL REQUIRED: $ ghcup install hls
 
 
 ;; <Ocaml>
 ;; MANUAL INSTALL REQUIRED: $ opam install ocaml-lsp-server
+(use-package tuareg
+  :config
+  (add-hook 'tuareg-mode-hook #'lsp))
 
 
 ;; <C/C++>
@@ -873,6 +893,9 @@
 
 ;; <Rust>
 ;; MANUAL INSTALL REQUIRED: rust-analyzer
+(use-package rust-mode
+  :config
+  (add-hook 'rust-mode-hook #'lsp))
 
 
 ;; <Forth>
@@ -969,17 +992,19 @@
 (use-package lean4-mode
   :mode ("\\.lean\\'" . lean4-mode)
   :straight (lean4-mode
-	     :type git
-	     :host github
-	     :repo "leanprover/lean4-mode"
-	     :files ("*.el" "data"))
+	           :type git
+	           :host github
+	           :repo "leanprover/lean4-mode"
+	           :files ("*.el" "data"))
   ;; to defer loading the package until required
   :commands (lean4-mode))
 
 
 ;; <Idris>
 ;; MANUAL INSTALL REQUIRED: $ pack install-app idris2-lsp
-
+(use-package idris-mode
+  :config
+  (add-hook 'idris-mode #'lsp))
 
 
 
@@ -1024,9 +1049,6 @@
 
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
-
-;; Jupyter support
-(use-package jupyter)
 
 
 ;; <Julia>
@@ -1096,9 +1118,8 @@
 ;; Java
 (use-package lsp-java
   :config
+  (require 'dap-java)
   (add-hook 'java-mode-hook #'lsp))
-(use-package dap-java
-  :ensure nil)
 
 
 ;; Scala
@@ -1125,10 +1146,13 @@
 ;; Golang
 ;; MANUAL INSTALL REQUIRED
 ;; $ go install golang.org/x/tools/gopls@latest
+(use-package go-mode
+  :config
+  (add-hook 'go-mode #'lsp))
 
 
-;; C#
-;; MANUAL INSTALL REQUIRED: [M-x] lsp-install-server [RET] csharp-ls [RET]
+
+
 
 
 
@@ -1190,8 +1214,8 @@
   (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
   (add-hook 'hledger-mode-hook
             #'(lambda ()
-              (make-local-variable 'company-backends)
-              (add-to-list 'company-backends 'hledger-company))))
+                (make-local-variable 'company-backends)
+                (add-to-list 'company-backends 'hledger-company))))
 
 ;; flycheck-hledger
 (use-package flycheck-hledger
@@ -1404,11 +1428,7 @@
      (latex . t)
      (gnuplot . t)
      (sql . t)
-     (jupyter . t)
      (css . t)))
-
-  ;; override python block to jupyter-python
-  (org-babel-jupyter-override-src-block "python")
 
   ;; refresh org inline image every execution
   (setq org-image-actual-width '(1024))
@@ -1422,13 +1442,10 @@
   (setq org-html-head-include-scripts nil)
   (setq org-html-head-include-default-style nil)
   (setq org-html-head
-        "<meta charset=\"UTF-8\">
-         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-         <link rel=\"stylesheet\" href=\"/static/style.css\"/>
-         <script src=\"/static/script.js\"</script>")  
+        ""        )   
 
   (setq org-publish-project-alist
-        `(("blog"
+        `(("articles"
            :base-directory ,(concat org-directory "blog/")
            :base-extension "org"
            :publishing-directory ,(getenv "USER_HTML_DIR")
@@ -1455,22 +1472,46 @@
            :html-html5-fancy t
            :html-head-include-default-style nil
            :html-head-include-scripts nil
-           
+           :html-preamble
+           "<nav>
+               <a href=\"/\">&lt; Home</a>
+           </nav>"
+           :html-postamble
+           "<hr/>
+           <footer>
+               <div class=\"copyright-container\">
+                   <div class=\"copyright\">
+                       Copyright &copy; 1996-2077 Emacs is my life rights reserved<br/>
+                       Content is available under
+                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
+                           CC-BY-SA 4.0
+                       </a> unless otherwise noted
+                   </div>
+                   <div class=\"cc-badge\">
+                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
+                           <img alt=\"Creative Commons License\"
+                                src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\"/>
+                       </a>
+                   </div>
+               </div>
+           </footer>"
            :htmlized-source t)
+          
           ("static"
            :base-directory ,(concat org-directory ".files/static/")
            :base-extension "css\\|js\\|txt\\|png\\|jpg\\|jpeg\\|gif"
            :publishing-directory ,(concat (getenv "USER_HTML_DIR") "static/")
            :recursive t
            :publishing-function org-publish-attachment)
+          
           ("images"
            :base-directory ,(concat org-directory ".files/images/")
            :base-extension "png\\|jpg\\|jpeg\\|gif\\|webp\\|webm"
            :publishing-directory ,(concat (getenv "USER_HTML_DIR") "images/")
            :recursive t
-           :publishing-function org-publish-attachment)))
-  ;;(org-publish-all)
-  )
+           :publishing-function org-publish-attachment)
+          
+          ("blog" :components ("articles" "static" "images")))))
 
 ;; org-bullets
 (use-package org-bullets
@@ -1485,7 +1526,7 @@
 (use-package ob-async
   :after org
   :config
-  (setq ob-async-no-async-languages-alist '("python" "jupyter-python"))
+  (setq ob-async-no-async-languages-alist '("python"))
   (add-hook 'ob-async-pre-execute-src-block-hook
             #'(lambda ()
 	       (setq inferior-julia-program-name "julia"))))
@@ -1587,6 +1628,75 @@
 
 
 
+
+
+
+;; # ==== [Email]
+
+
+
+
+;; mu4e
+(use-package mu4e
+  :ensure t
+  :defer 20
+  :config
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir (getenv "USER_MAIL_DIR"))
+  (setq mu4e-attachment-dir "~/Downloads")
+  
+  (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+  (setq mu4e-sent-folder "/[Gmail]/Sent Mail")
+  (setq mu4e-refile-folder "/[Gmail]/All Mail")
+  (setq mu4e-trash-folder "/[Gmail]/Trash")
+  
+  (setq mu4e-maildir-shortcuts
+        '((:maildir "/Inbox"    :key ?i)
+          (:maildir "/[Gmail]/Sent Mail" :key ?s)
+          (:maildir "/[Gmail]/Trash"     :key ?t)
+          (:maildir "/[Gmail]/Drafts"    :key ?d)
+          (:maildir "/[Gmail]/All Mail"  :key ?a)))
+
+  (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+  (setq mu4e-search-include-related t)
+  (setq mu4e-compose-format-flowed t)
+
+  (require 'smtpmail)
+  (require 'auth-source)
+  (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
+  (setq smtp-mail-stream-type 'starttls)
+  (setq auth-sources `(,(concat (getenv "USER_SECRET_DIR") "authinfo.gpg")))
+  (setq smtpmail-auth-credentials 'auth-source)
+  (setq user-mail-address (getenv "USER_MAIL_ADDRESS"))
+  (setq user-full-name (getenv "USER_FULL_NAME"))
+  (setq smtpmail-smtp-server "smtp.gmail.com")
+  (setq smtpmail-smtp-service 587)
+
+  (defun sign-or-encrypt-message ()
+    (let ((answer (read-from-minibuffer "Sign or encrypt?\nEmpty to do nothing.\n[s/e]: ")))
+      (cond
+       ((string-equal answer "s") (progn
+                                    (message "Signing message.")
+                                    (mml-secure-message-sign-pgpmime)))
+       ((string-equal answer "e") (progn
+                                    (message "Encrypt and signing message.")
+                                    (mml-secure-message-encrypt-pgpmime)))
+       (t (progn
+            (message "Dont signing or encrypting message.")
+            nil)))))
+  (add-hook 'message-send-hook 'sign-or-encrypt-message)
+  :init
+  (mu4e t))
+
+
+
+
+
+
+
+
 ;; # ==== [Utilities]
 
 
@@ -1619,12 +1729,12 @@
 ;; # ==== [EXWM]
 
 
-
-
-(use-package pinentry)
-(defun pinentry-emacs (desc prompt ok error)
-  (let ((str (read-passwd (concat (replace-regexp-in-string "%22" "\"" (replace-regexp-in-string "%0A" "\n" desc)) prompt ": "))))
-    str))
+(use-package epg
+  :ensure t
+  :config
+  (setq epg-pinentry-mode 'loopback)
+  :init
+  (pinentry-start))
 
 (defun exwm/update-class ()
   (exwm-workspace-rename-buffer exwm-class-name))
