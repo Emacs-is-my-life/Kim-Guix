@@ -1,7 +1,7 @@
 IMAPAccount gmail
 Host imap.gmail.com
 User {{ USER_GMAIL_ADDRESS }}
-PassCmd "gpg --quiet --for-your-eyes-only --no-tty -d ~/Documents/Secrets/authinfo.gpg | grep imap.gmail.com | awk '{print $8}'"
+PassCmd "echo $MBSYNC_TEMP_ARG"
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 

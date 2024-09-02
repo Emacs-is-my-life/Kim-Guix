@@ -1642,10 +1642,28 @@
   :defer 20
   :config
   (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-update-interval (* 10 60))
-  (setq mu4e-get-mail-command "mbsync -a")
   (setq mu4e-maildir (getenv "USER_MAIL_DIR"))
   (setq mu4e-attachment-dir "~/Downloads")
+
+  (defun mu4e/run-mbsync (temp_arg)
+    (with-environment-variables (("MBSYNC_TEMP_ARG" temp_arg))
+      (start-process "mbsync" nil "mbsync" "-a")))
+  
+  (add-hook 'mu4e-update-pre-hook
+            (lambda ()
+              (let ((auth-info (car (auth-source-search :max 1
+                                                        :host "imap.gmail.com"
+                                                        :user (getenv "USER_MAIL_ADDRESS")
+                                                        :require '(:secret)))))
+                (if auth-info
+                    (let ((secret (plist-get auth-info :secret)))
+                      (cond
+                       ((stringp secret) (mu4e/run-mbsync secret))
+                       ((functionp secret) (mu4e/run-mbsync (funcall secret)))
+                       (t (message "[MU4E]: Unexpected secret type: %s" (type-of secret)))))
+                  (message "[MU4E]: No matching auth entry found")))))
+  
+  (setq mu4e-get-mail-command "true")
   
   (setq mu4e-drafts-folder "/[Gmail]/Drafts")
   (setq mu4e-sent-folder "/[Gmail]/Sent Mail")

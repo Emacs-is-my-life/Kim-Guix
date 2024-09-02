@@ -19,8 +19,8 @@ while true; do
 	sleep 60
 done
 
-echo "export USER_EMAIL_ADDRESS=${USER_GMAIL_ADDRESS}" > ~/Documents/Secrets/userinfo.env
-echo "export USER_FULL_NAME=${USER_FULL_NAME}" >> ~/Documents/Secrets/userinfo.env
+echo "export USER_MAIL_ADDRESS='${USER_GMAIL_ADDRESS}'" > ~/Documents/Secrets/userinfo.env
+echo "export USER_FULL_NAME='${USER_FULL_NAME}'" >> ~/Documents/Secrets/userinfo.env
 
 rm -rf ./.temp
 
