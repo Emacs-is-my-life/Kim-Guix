@@ -250,6 +250,10 @@
   (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode))
 
 
+;; Nano Agenda
+(use-package nano-agenda)
+
+
 ;; Font
 (add-to-list 'default-frame-alist '(font . "JuliaMono 12"))
 (set-face-attribute 'default t :font "JuliaMono 12" :height 120 :weight 'regular)
