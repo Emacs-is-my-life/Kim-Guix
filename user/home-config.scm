@@ -44,6 +44,7 @@
              (gnu packages graphics)
              (gnu packages ssh)
              (gnu packages linux)
+	     (gnu packages compression)
              (gnu packages vnc)
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
@@ -141,6 +142,9 @@
 
    ;; Remote Tools
    openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
+
+   ;; Utility
+   zlib gzip unzip 
 
    ;; Dev-Build
    gnu-make cmake git bison flex graphviz
