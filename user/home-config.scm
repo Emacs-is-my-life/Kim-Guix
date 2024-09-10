@@ -84,6 +84,9 @@
              (gnu packages python)
              (gnu packages python-build)
 	     (gnu packages python-xyz)
+	     (gnu packages python-web)
+	     (gnu packages python-science)
+	     (gnu packages machine-learning)
              (gnu packages jupyter)
              (gnu packages parallel)
              (gnu packages package-management)
@@ -150,7 +153,7 @@
    gnu-make cmake git bison flex graphviz
 
    ;; Dev-Debug
-   gdb lldb rr valgrind strace uftrace ;; bpftrace bpftool bcc
+   gdb lldb rr valgrind strace uftrace 
 
    ;; Dev-Profiling
    perf perf-tools flamegraph
@@ -180,7 +183,9 @@
    gforth
 
    ;; Dev-Scheme
-   chicken
+   chicken chicken-compile-file
+   chicken-datatype chicken-iset
+   chicken-srfi-1 chicken-srfi-13 chicken-srfi-14 chicken-srfi-18 chicken-srfi-69
 
    ;; Dev-CommonLisp
    sbcl
@@ -198,8 +203,12 @@
    swi-prolog
 
    ;; Dev-Python
-   python python-pip python-lsp-server python-debugpy
-   ;; python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
+   python python-pip python-virtualenv python-lsp-server python-debugpy
+   python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
+   python-numpy python-scipy python-sympy
+   python-matplotlib python-matplotlib-inline
+   python-seaborn python-plotnine
+   python-pandas python-statsmodels python-scikit-learn python-scikit-image python-xgboost
    
    ;; Dev-Julia
    julia
@@ -296,6 +305,7 @@ export GOPATH=$XDG_DATA_HOME/go
 export GOMODCACHE=$XDG_CACHE_HOME/go/mod
 export PATH=$PATH:$GOPATH/bin
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\"
+alias python='python3'
 export IPYTHONDIR=$XDG_CONFIG_HOME/ipython
 export JULIA_DEPOT_PATH=$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH
 export JULIAUP_DEPOT_PATH=$XDG_DATA_HOME/julia
@@ -374,7 +384,7 @@ fi
              (pinentry-program
               (file-append pinentry-emacs "~/.guix-home/profile/bin/pinentry-emacs"))
              (ssh-support? #f)
-	     (extra-content "allow-emacs-pinentry
+	           (extra-content "allow-emacs-pinentry
 			    allow-loopback-pinentry
 			    pinentry-program ~/.guix-home/profile/bin/pinentry-emacs")))
 

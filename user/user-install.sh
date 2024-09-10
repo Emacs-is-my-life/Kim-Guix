@@ -28,5 +28,6 @@ if [ "$(pwd)" != "$HOME/Documents/Guix/user" ]; then
     cp -r ../../Guix $HOME/Documents/
 fi
 
-echo "Check examples/authinfo"
-echo "Then place your GPG encrypted authinfo file at: ~/Documents/Secrets/authinfo.gpg"
+echo 'Check "examples/authinfo"'
+echo ""
+echo 'Then place your GPG encrypted authinfo file at: "~/Documents/Secrets/authinfo.gpg"'

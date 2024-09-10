@@ -88,13 +88,13 @@
 ;; Straight package manager
 (defvar bootstrap-version)
 (let ((bootstrap-file
-      (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
-      (url-retrieve-synchronously
-        "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-        'silent 'inhibit-cookies)
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -108,18 +108,18 @@
   :diminish gcmh-mode
   :config
   (setq gcmh-idle-delay 5
-	gcmh-high-cons-threshold (* 64 1024 1024)) ; 64 mb
+	      gcmh-high-cons-threshold (* 64 1024 1024)) ; 64 mb
   (gcmh-mode 1)
   (add-hook 'emacs-startup-hook
-    #'(lambda ()
-      (setq gc-cons-percentage 0.1))) ;;; Default value for 'gc-cons-percentage
+            #'(lambda ()
+                (setq gc-cons-percentage 0.1))) ;;; Default value for 'gc-cons-percentage
   (add-hook 'emacs-startup-hook
-    #'(lambda ()
-      (message "Emacs ready in %s with %d garbade collections."
-        (format "%.2f seconds"
-		  (float-time
-		    (time-subtract after-init-time before-init-time)))
-             gcs-done))))
+            #'(lambda ()
+                (message "Emacs ready in %s with %d garbade collections."
+                         (format "%.2f seconds"
+		                             (float-time
+		                              (time-subtract after-init-time before-init-time)))
+                         gcs-done))))
 
 
 
@@ -248,10 +248,6 @@
   (add-hook 'messages-buffer-mode-hook #'nano-modeline-message-mode)
   (add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode)
   (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode))
-
-
-;; Nano Agenda
-(use-package nano-agenda)
 
 
 ;; Font
@@ -1628,6 +1624,10 @@
   (global-set-key (kbd "C-c f") 'org-fc-hydra/body)
   (setq org-fc-directories `(,(concat org-directory "roam/")))
   (setq org-fc-review-history-file (concat org-directory "notes/org-fc-reviews.tsv")))
+
+;; Nano Agenda
+(use-package nano-agenda)
+
 
 
 
