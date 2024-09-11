@@ -523,7 +523,6 @@
 ;; Magit
 ;; (use-package magit
 ;;  :ensure t)
-
 ;; (use-package magit-todos)
 ;; (use-package magit-file-icons)
 
@@ -1642,7 +1641,7 @@
 
 ;; mu4e
 (use-package mu4e
-  :ensure t
+  :ensure nil
   :defer 20
   :config
   (setq mu4e-change-filenames-when-moving t)

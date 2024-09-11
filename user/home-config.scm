@@ -44,13 +44,14 @@
              (gnu packages graphics)
              (gnu packages ssh)
              (gnu packages linux)
-	     (gnu packages compression)
+	           (gnu packages compression)
              (gnu packages vnc)
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
              (gnu packages base)
              (gnu packages cmake)
-	     (gnu packages autotools)
+	           (gnu packages autotools)
+             (gnu packages build-tools)             
              (gnu packages version-control)
              (gnu packages bison)
              (gnu packages flex)
@@ -83,10 +84,10 @@
              (gnu packages prolog)
              (gnu packages python)
              (gnu packages python-build)
-	     (gnu packages python-xyz)
-	     (gnu packages python-web)
-	     (gnu packages python-science)
-	     (gnu packages machine-learning)
+	           (gnu packages python-xyz)
+	           (gnu packages python-web)
+	           (gnu packages python-science)
+	           (gnu packages machine-learning)
              (gnu packages jupyter)
              (gnu packages parallel)
              (gnu packages package-management)
@@ -105,7 +106,7 @@
              (guix channels)
              (guix packages)
              (guix gexp)
-	     (nongnu packages game-client))
+	           (nongnu packages game-client))
 
 (home-environment
  (packages
@@ -150,7 +151,7 @@
    zlib gzip unzip 
 
    ;; Dev-Build
-   gnu-make cmake git bison flex graphviz
+   gnu-make cmake meson git bison flex graphviz
 
    ;; Dev-Debug
    gdb lldb rr valgrind strace uftrace 
