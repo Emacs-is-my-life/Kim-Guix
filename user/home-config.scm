@@ -87,6 +87,7 @@
 	           (gnu packages python-xyz)
 	           (gnu packages python-web)
 	           (gnu packages python-science)
+             (gnu packages graph)
 	           (gnu packages machine-learning)
              (gnu packages jupyter)
              (gnu packages parallel)
@@ -208,8 +209,8 @@
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
    python-numpy python-scipy python-sympy
    python-matplotlib python-matplotlib-inline
-   python-seaborn python-plotnine
-   python-pandas python-statsmodels python-scikit-learn python-scikit-image python-xgboost
+   python-seaborn python-plotnine python-plotly
+   python-pandas python-dask-expr python-statsmodels python-scikit-learn python-scikit-image python-xgboost
    
    ;; Dev-Julia
    julia

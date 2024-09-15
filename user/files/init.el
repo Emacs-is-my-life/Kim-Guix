@@ -1146,8 +1146,8 @@
 ;; MANUAL INSTALL REQUIRED
 ;; $ go install golang.org/x/tools/gopls@latest
 (use-package go-mode
-  :config
-  (add-hook 'go-mode #'lsp))
+  :mode "\\.go\\'"
+  :hook (go-mode . lsp-mode))
 
 
 
