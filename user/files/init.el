@@ -49,7 +49,6 @@
   (require 'use-package))
 ;; (package-refresh-contents)
 (setq package-enable-at-startup nil)
-(setq use-package-always-ensure t)
 (setq use-package-verbose nil)
 
 ;; Quelpa
@@ -1145,9 +1144,32 @@
 ;; Golang
 ;; MANUAL INSTALL REQUIRED
 ;; $ go install golang.org/x/tools/gopls@latest
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
 (use-package go-mode
-  :mode "\\.go\\'"
-  :hook (go-mode . lsp-mode))
+  :config
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+  (add-hook 'go-mode-hook #'lsp-deferred))
+
+(with-eval-after-load 'lsp-mode
+  (lsp-register-custom-settings
+   '(("golangci-lint.command"
+      ["golangci-lint" "run" "--enable-all" "--disable" "lll" "--out-format" "json" "--issues-exit-code=1"])))
+
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection
+                                     '("golangci-lint-langserver"))
+                    :activation-fn (lsp-activate-on "go")
+                    :language-id "go"
+                    :priority 0
+                    :server-id 'golangci-lint
+                    :add-on? t
+                    :library-folders-fn #'lsp-go--library-default-directories
+                    :initialization-options (lambda ()
+                                              (gethash "golangci-lint"
+                                                       (lsp-configuration-section "golangci-lint"))))))
 
 
 
