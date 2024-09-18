@@ -40,6 +40,7 @@
              (gnu packages gimp)
              (gnu packages imagemagick)
              (gnu packages inkscape)
+	           (gnu packages image-processing)
              (gnu packages kde)
              (gnu packages graphics)
              (gnu packages ssh)
@@ -84,9 +85,10 @@
              (gnu packages prolog)
              (gnu packages python)
              (gnu packages python-build)
-	           (gnu packages python-xyz)
+             (gnu packages python-xyz)
 	           (gnu packages python-web)
 	           (gnu packages python-science)
+             (gnu packages time)
              (gnu packages graph)
 	           (gnu packages machine-learning)
              (gnu packages jupyter)
@@ -208,9 +210,15 @@
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
    python-numpy python-scipy python-sympy
-   python-matplotlib python-matplotlib-inline
+   python-numba python-tqdm python-h5py
+   python-matplotlib python-matplotlib-inline python-graphviz
    python-seaborn python-plotnine python-plotly
-   python-pandas python-dask-expr python-statsmodels python-scikit-learn python-scikit-image python-xgboost
+   python-pandas python-dask-expr python-statsmodels python-scikit-learn python-xgboost
+   python-pytorch
+   python-pillow python-scikit-image opencv python-ffmpeg-python
+   python-arrow python-glob2
+   python-requests python-httpx python-beautifulsoup4 python-nltk
+   python-fastapi python-websockets python-jinja2 python-markupsafe python-faker python-schedule
    
    ;; Dev-Julia
    julia
