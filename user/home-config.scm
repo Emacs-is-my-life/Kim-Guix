@@ -40,18 +40,18 @@
              (gnu packages gimp)
              (gnu packages imagemagick)
              (gnu packages inkscape)
-	           (gnu packages image-processing)
+	     (gnu packages image-processing)
              (gnu packages kde)
              (gnu packages graphics)
              (gnu packages ssh)
              (gnu packages linux)
-	           (gnu packages compression)
+	     (gnu packages compression)
              (gnu packages vnc)
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
              (gnu packages base)
              (gnu packages cmake)
-	           (gnu packages autotools)
+	     (gnu packages autotools)
              (gnu packages build-tools)             
              (gnu packages version-control)
              (gnu packages bison)
@@ -86,11 +86,12 @@
              (gnu packages python)
              (gnu packages python-build)
              (gnu packages python-xyz)
-	           (gnu packages python-web)
-	           (gnu packages python-science)
+	     (gnu packages python-web)
+	     (gnu packages python-science)
              (gnu packages time)
              (gnu packages graph)
-	           (gnu packages machine-learning)
+	     (gnu packages machine-learning)
+	     (gnu packages qt)
              (gnu packages jupyter)
              (gnu packages parallel)
              (gnu packages package-management)
@@ -109,7 +110,7 @@
              (guix channels)
              (guix packages)
              (guix gexp)
-	           (nongnu packages game-client))
+	     (nongnu packages game-client))
 
 (home-environment
  (packages
@@ -216,7 +217,7 @@
    python-pandas python-dask-expr python-statsmodels python-scikit-learn python-xgboost
    python-pytorch
    python-pillow python-scikit-image opencv python-ffmpeg-python
-   python-arrow python-glob2
+   python-arrow python-glob2 python-pyqt python-pyqt-builder
    python-requests python-httpx python-beautifulsoup4 python-nltk
    python-fastapi python-websockets python-jinja2 python-markupsafe python-faker python-schedule
    
