@@ -1397,6 +1397,9 @@
   (setq org-todo-keywords
         '((sequence "TODO(t)" "DOING(g)" "HOLD(h)" "DONE(d)")))
 
+  ;; org-clock for alarm
+  (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
+
   ;; org-tempo for structured editing
   (require 'org-tempo)
   

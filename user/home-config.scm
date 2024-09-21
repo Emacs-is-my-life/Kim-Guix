@@ -215,9 +215,9 @@
    python-matplotlib python-matplotlib-inline python-graphviz
    python-seaborn python-plotnine python-plotly
    python-pandas python-dask-expr python-statsmodels python-scikit-learn python-xgboost
-   python-pytorch
+   python-pytorch python-autograd
    python-pillow python-scikit-image opencv python-ffmpeg-python
-   python-arrow python-glob2 python-pyqt python-pyqt-builder
+   python-arrow
    python-requests python-httpx python-beautifulsoup4 python-nltk
    python-fastapi python-websockets python-jinja2 python-markupsafe python-faker python-schedule
    
@@ -268,6 +268,7 @@ export USER_SECRET_DIR=$HOME/Documents/Secrets/
 export USER_LEDGER_DIR=$HOME/Documents/Ledger/
 export USER_MAIL_DIR=$HOME/Documents/Mail/
 export USER_BOOK_DIR=$HOME/Books/
+export USER_MUSIC_DIR=$HOME/Music/
 
 JULIA_VERSION=$(ls $HOME/.julia/environments/ | tail -n 1)
 export USER_JULIA_DIR=$HOME/.julia/environments/${JULIA_VERSION}/
@@ -280,6 +281,7 @@ chmod -R 700 $USER_SECRET_DIR
 mkdir -p $USER_LEDGER_DIR
 mkdir -p $USER_MAIL_DIR
 mkdir -p $USER_BOOK_DIR
+mkdir -p $USER_MUSIC_DIR
 
 mkdir -p $HOME/Desktop
 mkdir -p $HOME/Downloads
