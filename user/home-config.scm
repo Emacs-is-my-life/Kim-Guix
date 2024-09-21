@@ -90,6 +90,7 @@
              (gnu packages python-xyz)
 	           (gnu packages python-web)
 	           (gnu packages python-science)
+             (gnu packages databases)
              (gnu packages time)
              (gnu packages graph)
 	           (gnu packages machine-learning)
@@ -212,6 +213,7 @@
    ;; Dev-Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
+   python-parse python-parse-type
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
    python-numpy python-nptyping python-scipy python-sympy
    python-numba python-tqdm python-h5py
@@ -223,6 +225,7 @@
    python-arrow python-schedule
    python-requests python-types-requests python-httpx python-beautifulsoup4 python-nltk
    python-fastapi python-websockets python-uvicorn python-jinja2 python-markupsafe python-faker
+   python-sql python-sqlalchemy python-sqlalchemy-stubs python-redis
    
    ;; Dev-Julia
    julia
