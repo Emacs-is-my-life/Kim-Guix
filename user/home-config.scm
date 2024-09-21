@@ -40,18 +40,18 @@
              (gnu packages gimp)
              (gnu packages imagemagick)
              (gnu packages inkscape)
-	     (gnu packages image-processing)
+	           (gnu packages image-processing)
              (gnu packages kde)
              (gnu packages graphics)
              (gnu packages ssh)
              (gnu packages linux)
-	     (gnu packages compression)
+	           (gnu packages compression)
              (gnu packages vnc)
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
              (gnu packages base)
              (gnu packages cmake)
-	     (gnu packages autotools)
+	           (gnu packages autotools)
              (gnu packages build-tools)             
              (gnu packages version-control)
              (gnu packages bison)
@@ -85,13 +85,15 @@
              (gnu packages prolog)
              (gnu packages python)
              (gnu packages python-build)
+             (gnu packages check)
+             (gnu packages python-check)
              (gnu packages python-xyz)
-	     (gnu packages python-web)
-	     (gnu packages python-science)
+	           (gnu packages python-web)
+	           (gnu packages python-science)
              (gnu packages time)
              (gnu packages graph)
-	     (gnu packages machine-learning)
-	     (gnu packages qt)
+	           (gnu packages machine-learning)
+	           (gnu packages qt)
              (gnu packages jupyter)
              (gnu packages parallel)
              (gnu packages package-management)
@@ -110,7 +112,7 @@
              (guix channels)
              (guix packages)
              (guix gexp)
-	     (nongnu packages game-client))
+	           (nongnu packages game-client))
 
 (home-environment
  (packages
@@ -209,17 +211,18 @@
 
    ;; Dev-Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
+   python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
-   python-numpy python-scipy python-sympy
+   python-numpy python-nptyping python-scipy python-sympy
    python-numba python-tqdm python-h5py
    python-matplotlib python-matplotlib-inline python-graphviz
    python-seaborn python-plotnine python-plotly
-   python-pandas python-dask-expr python-statsmodels python-scikit-learn python-xgboost
+   python-pandas python-pandas-stubs python-dask-expr python-statsmodels python-scikit-learn python-xgboost
    python-pytorch python-autograd
    python-pillow python-scikit-image opencv python-ffmpeg-python
-   python-arrow
-   python-requests python-httpx python-beautifulsoup4 python-nltk
-   python-fastapi python-websockets python-jinja2 python-markupsafe python-faker python-schedule
+   python-arrow python-schedule
+   python-requests python-types-requests python-httpx python-beautifulsoup4 python-nltk
+   python-fastapi python-websockets python-uvicorn python-jinja2 python-markupsafe python-faker
    
    ;; Dev-Julia
    julia

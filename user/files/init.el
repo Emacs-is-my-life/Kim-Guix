@@ -1043,10 +1043,23 @@
 
 
 ;; <Python>
-;; MANUAL INSTALL REQUIRED: $ sudo pacman -S python-lsp-server
+;; MANUAL INSTALL REQUIRED: $ pip install ruff
 
 (setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
+      python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"
+      lsp-pylsp-plugins-autopep8-enabled nil
+      lsp-pylsp-plugins-black-enabled nil
+      lsp-pylsp-plugins-flake8-enabled nil
+      lsp-pylsp-plugins-isort-enabled nil
+      lsp-pylsp-plugins-jedi-completion-enabled t
+      lsp-pylsp-plugins-mccabe-enabled nil
+      lsp-pylsp-plugins-mypy-enabled t
+      lsp-pylsp-plugins-preload-enabled t
+      lsp-pylsp-plugins-pycodestyle-enabled nil
+      lsp-pylsp-plugins-pydocstyle-enabled nil
+      lsp-pylsp-plugins-pylint-enabled nil
+      lsp-pylsp-plugins-rope-completion-enabled nil
+      lsp-pylsp-plugins-ruff-enabled t)
 
 
 ;; <Julia>
