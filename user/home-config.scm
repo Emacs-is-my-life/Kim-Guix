@@ -89,6 +89,7 @@
              (gnu packages python-check)
              (gnu packages python-xyz)
 	           (gnu packages python-web)
+             (gnu packages xml)
 	           (gnu packages python-science)
              (gnu packages databases)
              (gnu packages time)
@@ -223,7 +224,7 @@
    python-pytorch python-autograd
    python-pillow python-scikit-image opencv python-ffmpeg-python
    python-arrow python-schedule
-   python-requests python-types-requests python-httpx python-beautifulsoup4 python-nltk
+   python-requests python-types-requests python-httpx python-lxml python-beautifulsoup4 python-nltk
    python-fastapi python-websockets python-uvicorn python-jinja2 python-markupsafe python-faker
    python-sql python-sqlalchemy python-sqlalchemy-stubs python-redis
    
