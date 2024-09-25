@@ -1680,6 +1680,7 @@
 ;; mu4e
 (use-package mu4e
   :ensure nil
+  :pin manual
   :defer 20
   :config
   (setq mu4e-change-filenames-when-moving t)
