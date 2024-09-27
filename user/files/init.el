@@ -522,8 +522,12 @@
 ;; Magit
 (use-package magit
   :ensure t)
-(use-package magit-todos)
-(use-package magit-file-icons)
+
+
+
+
+
+
 
 
 ;; * ---- <Convenience>
