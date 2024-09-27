@@ -620,10 +620,6 @@
   (setq helm-ff-skip-boring-files t)
   (customize-set-variable 'helm-boring-file-regexp-list (cons "^\\..+" helm-boring-file-regexp-list)))
 
-(use-package helm-ag
-  :ensure t
-  :after helm)
-
 ;; helm-xref
 (use-package helm-xref
   :ensure t
