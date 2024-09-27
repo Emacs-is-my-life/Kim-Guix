@@ -461,9 +461,9 @@
   :ensure t)
 
 ;; treemacs-magit
-;; (use-package treemacs-magit
-;;  :after (treemacs magit)
-;;  :ensure t)
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
 
 ;; treemacs-all-the-icons
 (use-package treemacs-all-the-icons
@@ -520,10 +520,10 @@
   :after (helm projectile))
 
 ;; Magit
-;; (use-package magit
-;;  :ensure t)
-;; (use-package magit-todos)
-;; (use-package magit-file-icons)
+(use-package magit
+  :ensure t)
+(use-package magit-todos)
+(use-package magit-file-icons)
 
 
 ;; * ---- <Convenience>
