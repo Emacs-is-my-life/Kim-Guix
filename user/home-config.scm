@@ -89,6 +89,7 @@
              (gnu packages python-check)
              (gnu packages python-xyz)
 	           (gnu packages python-web)
+             (gnu packages game-development)
              (gnu packages rpc)
              (gnu packages xml)
 	           (gnu packages python-science)
@@ -107,7 +108,6 @@
              (gnu packages golang)
              (gnu packages java)
              (gnu packages node)
-             (gnu packages python-web)
              (gnu packages web)
              (gnu packages tex)
              (gnu packages password-utils)
@@ -221,7 +221,7 @@
    python-numba python-tqdm python-h5py
    python-matplotlib python-matplotlib-inline python-graphviz
    python-seaborn python-plotnine python-plotly
-   python-pandas python-pandas-stubs python-dask-expr python-statsmodels python-scikit-learn python-xgboost
+   python-pandas python-pandas-stubs python-dask-expr python-statsmodels python-scikit-learn python-xgboost python-pymc
    python-pytorch python-autograd
    python-pillow python-scikit-image opencv python-ffmpeg-python
    python-arrow python-schedule
@@ -229,6 +229,7 @@
    python-fastapi python-websockets python-uvicorn python-jinja2 python-markupsafe python-faker
    python-sql python-sqlalchemy python-sqlalchemy-stubs python-redis
    python-grpcio python-grpc-stubs python-grpcio-tools
+   python-pyxel
    
    ;; Dev-Julia
    julia
