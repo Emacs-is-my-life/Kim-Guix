@@ -89,7 +89,6 @@
              (gnu packages python-check)
              (gnu packages python-xyz)
 	           (gnu packages python-web)
-             (gnu packages game-development)
              (gnu packages rpc)
              (gnu packages xml)
 	           (gnu packages python-science)
@@ -229,7 +228,6 @@
    python-fastapi python-websockets python-uvicorn python-jinja2 python-markupsafe python-faker
    python-sql python-sqlalchemy python-sqlalchemy-stubs python-redis
    python-grpcio python-grpc-stubs python-grpcio-tools
-   python-pyxel
    
    ;; Dev-Julia
    julia
