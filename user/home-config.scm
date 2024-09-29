@@ -242,7 +242,7 @@
    gawk sed
 
    ;; Dev-Golang
-   go gopls
+   go ;; gopls
 
    ;; Dev-Java
    openjdk
@@ -321,6 +321,7 @@ export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc:$XDG_CONFIG_HOME/gtk-2.0/gtk
 export OPAMROOT=$XDG_DATA_HOME/opam
 source $XDG_DATA_HOME/opam/opam-init/variables.sh
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
+export PATH=\"$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH\"
 export PLTUSERHOME=$XDG_DATA_HOME/racket
 export GOPATH=$XDG_DATA_HOME/go
 export GOMODCACHE=$XDG_CACHE_HOME/go/mod
