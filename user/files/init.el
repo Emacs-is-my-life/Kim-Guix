@@ -1061,11 +1061,6 @@
       lsp-pylsp-plugins-rope-completion-enabled nil
       lsp-pylsp-plugins-ruff-enabled t)
 
-;; Python venv support
-(use-package envrc
-  :hook
-  (after-init . envrc-global-mode))
-
 
 ;; <Julia>
 (use-package lsp-julia
