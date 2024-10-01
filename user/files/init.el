@@ -1443,23 +1443,36 @@
 	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
 	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
 	            (prettify-symbols-mode)))
+
+  ;; org-babel language extension
+  (use-package ob-ipython)
+  (use-package ob-go)
+  (use-package ob-prolog)
+  (use-package ob-rust)
   
   ;; org-babel languages support
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((scheme . t)
      (lisp . t)
+     (elisp . t)
      (haskell . t)
      (ocaml . t)
      (C . t)
+     (cpp . t)
+     (rust . t)
      (forth . t)
+     (prolog . t)
      (julia . t)
      (python . t)
+     (ipython . t)
      (R . t)
      (awk . t)
      (sed . t)
      (js . t)
      (java . t)
+     (go . t)
+     (octave . t)
      (makefile . t)
      (org . t)
      (latex . t)
@@ -1469,7 +1482,7 @@
 
   ;; refresh org inline image every execution
   (setq org-image-actual-width '(1024))
-  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
   ;; Blog
   (require 'ox-publish)
