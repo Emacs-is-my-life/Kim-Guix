@@ -1345,10 +1345,14 @@
 
 
 ;; org-babel language extension
-(use-package ob-ipython)
-(use-package ob-go)
-(use-package ob-prolog)
-(use-package ob-rust)
+(use-package ob-ipython
+  :ensure t)
+(use-package ob-go
+  :ensure t)
+(use-package ob-prolog
+  :ensure t)
+(use-package ob-rust
+  :ensure t)
 
 ;; org
 (use-package org
