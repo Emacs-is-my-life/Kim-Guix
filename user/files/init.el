@@ -1344,20 +1344,6 @@
 
 
 
-;; org-babel language extension
-(use-package ob-ipython
-  :ensure t
-  :after org)
-(use-package ob-go
-  :ensure t
-  :after org)
-(use-package ob-prolog
-  :ensure t
-  :after org)
-(use-package ob-rust
-  :ensure t
-  :after org)
-
 ;; org
 (use-package org
   :ensure t
@@ -1458,6 +1444,19 @@
 	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
 	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
 	            (prettify-symbols-mode)))
+  ;; org-babel language extension
+  (use-package ob-go
+    :ensure t
+    :after org)
+  (use-package ob-prolog
+    :ensure t
+    :after org)
+  (use-package ob-rust
+    :ensure t
+    :after org)
+  (use-package jupyter
+    :ensure t
+    :after org)
   
   ;; org-babel languages support
   (org-babel-do-load-languages
@@ -1473,7 +1472,7 @@
      (rust . t)
      (julia . t)
      (python . t)
-     (ipython . t)
+     (jupyter . t)
      (R . t)
      (awk . t)
      (sed . t)
@@ -1487,9 +1486,13 @@
      (sql . t)
      (css . t)))
 
+  ;; org-babel python3
+  (setq org-babel-python-command "python3")
+  (setq org-babel-jupyter-override-src-block "python")
+  
   ;; refresh org inline image every execution
-  (setq org-image-actual-width '(1024))
-  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+  (setq org-image-actual-width '(1024 512 256))
+  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
   ;; Blog
   (require 'ox-publish)
@@ -1583,10 +1586,10 @@
 (use-package ob-async
   :after org
   :config
-  (setq ob-async-no-async-languages-alist '("python"))
+  (setq ob-async-no-async-languages-alist '("python" "jupyter-python"))
   (add-hook 'ob-async-pre-execute-src-block-hook
             #'(lambda ()
-	       (setq inferior-julia-program-name "julia"))))
+	              (setq inferior-julia-program-name "julia"))))
 
 (use-package org-auto-tangle
   :after org
