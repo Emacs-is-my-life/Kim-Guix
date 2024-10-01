@@ -80,6 +80,7 @@
   (auto-package-update-prompt-before-update nil) 
   (auto-package-update-hide-results t)
   :config
+  (setq auto-package-update-excluded-packages '(mu4e))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -1343,6 +1344,12 @@
 
 
 
+;; org-babel language extension
+(use-package ob-ipython)
+(use-package ob-go)
+(use-package ob-prolog)
+(use-package ob-rust)
+
 ;; org
 (use-package org
   :ensure t
@@ -1443,26 +1450,19 @@
 	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
 	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
 	            (prettify-symbols-mode)))
-
-  ;; org-babel language extension
-  (use-package ob-ipython)
-  (use-package ob-go)
-  (use-package ob-prolog)
-  (use-package ob-rust)
   
   ;; org-babel languages support
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((scheme . t)
      (lisp . t)
-     (elisp . t)
      (haskell . t)
      (ocaml . t)
      (C . t)
-     (cpp . t)
-     (rust . t)
      (forth . t)
      (prolog . t)
+     (go . t)
+     (rust . t)
      (julia . t)
      (python . t)
      (ipython . t)
@@ -1471,7 +1471,6 @@
      (sed . t)
      (js . t)
      (java . t)
-     (go . t)
      (octave . t)
      (makefile . t)
      (org . t)
