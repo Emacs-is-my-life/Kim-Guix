@@ -242,7 +242,7 @@
    gawk sed
 
    ;; Dev-Golang
-   go ;; gopls
+   go ;; gopls is bugged. Install latest gopls from go tooling
 
    ;; Dev-Java
    openjdk
