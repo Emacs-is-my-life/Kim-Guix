@@ -1457,6 +1457,11 @@
   (use-package jupyter
     :ensure t
     :after org)
+  (use-package ob-lean4
+    :ensure t
+    :after org
+    :quelpa (ob-lean4 :fetcher github :repo "Maverobot/ob-lean4"
+                      :files ("ob-lean4.el")))
   
   ;; org-babel languages support
   (org-babel-do-load-languages
@@ -1468,6 +1473,7 @@
      (C . t)
      (forth . t)
      (prolog . t)
+     (lean4 . t)
      (go . t)
      (rust . t)
      (julia . t)
