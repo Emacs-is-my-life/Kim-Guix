@@ -871,11 +871,11 @@
 
 ;; <Haskell>
 ;; lsp-haskell (broken for now)
-(use-package lsp-haskell
-  :after lsp-mode
-  :config
-  (add-hook 'haskell-mode-hook #'lsp)
-  (add-hook 'haskell-literate-mode-hook #'lsp))
+;; (use-package lsp-haskell
+;;   :after lsp-mode
+;;   :config
+;;   (add-hook 'haskell-mode-hook #'lsp)
+;;   (add-hook 'haskell-literate-mode-hook #'lsp))
 ;; MANUAL INSTALL REQUIRED: $ ghcup install hls
 
 
