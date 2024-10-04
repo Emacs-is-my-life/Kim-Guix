@@ -871,11 +871,11 @@
 
 ;; <Haskell>
 ;; lsp-haskell (broken for now)
-;; (use-package lsp-haskell
-;;   :after lsp-mode
-;;   :config
-;;   (add-hook 'haskell-mode-hook #'lsp)
-;;   (add-hook 'haskell-literate-mode-hook #'lsp))
+(use-package lsp-haskell
+  :after lsp-mode
+  :config
+  (add-hook 'haskell-mode-hook #'lsp)
+  (add-hook 'haskell-literate-mode-hook #'lsp))
 ;; MANUAL INSTALL REQUIRED: $ ghcup install hls
 
 
@@ -1044,29 +1044,24 @@
 
 
 ;; <Python>
-;; MANUAL INSTALL REQUIRED: $ pip install ruff
+;; Will move to ruff later
+(use-package lsp-pyright
+  :ensure t
+  :custom (lsp-pyright-langserver-command "pyright")
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp))))
 
 (setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"
-      lsp-pylsp-plugins-autopep8-enabled nil
-      lsp-pylsp-plugins-black-enabled nil
-      lsp-pylsp-plugins-flake8-enabled nil
-      lsp-pylsp-plugins-isort-enabled nil
-      lsp-pylsp-plugins-jedi-completion-enabled t
-      lsp-pylsp-plugins-mccabe-enabled nil
-      lsp-pylsp-plugins-mypy-enabled t
-      lsp-pylsp-plugins-preload-enabled t
-      lsp-pylsp-plugins-pycodestyle-enabled nil
-      lsp-pylsp-plugins-pydocstyle-enabled nil
-      lsp-pylsp-plugins-pylint-enabled t
-      lsp-pylsp-plugins-rope-completion-enabled nil
-      lsp-pylsp-plugins-ruff-enabled t)
+      python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
 
 
 ;; <Julia>
+(use-package julia-mode)
+
 (use-package lsp-julia
   :mode ("\\.jl\\'" . julia-mode)
-  :after lsp-mode 
+  :after (lsp-mode julia-mode) 
   :config 
   (setq lsp-julia-default-environment (getenv "USER_JULIA_DIR"))
   (add-hook 'julia-mode-hook #'lsp-mode)
