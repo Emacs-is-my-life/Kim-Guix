@@ -1058,7 +1058,7 @@
       lsp-pylsp-plugins-preload-enabled t
       lsp-pylsp-plugins-pycodestyle-enabled nil
       lsp-pylsp-plugins-pydocstyle-enabled nil
-      lsp-pylsp-plugins-pylint-enabled nil
+      lsp-pylsp-plugins-pylint-enabled t
       lsp-pylsp-plugins-rope-completion-enabled nil
       lsp-pylsp-plugins-ruff-enabled t)
 
