@@ -1102,6 +1102,7 @@
 
 ;; <R>
 ;; MANUAL INSTALL REQUIRED: (R) install.packages("languageserver")
+(use-package ess)
 
 
 
