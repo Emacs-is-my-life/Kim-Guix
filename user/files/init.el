@@ -471,7 +471,6 @@
   :after (treemacs all-the-icons)
   :ensure t)
 
-
 ;; Openwith for external programs
 (use-package openwith
   :init
@@ -491,6 +490,13 @@
                 '("mp4" "mov" "flv" "avi" "wmv" "mkv"))
                "mpv"
                '(file)))))
+
+;; avy for efficient navigation
+(use-package avy
+  :ensure t
+  :config
+  (avy-setup-default)
+  (global-set-key (kbd "C-c C-j") 'avy-resume))
 
 
 
@@ -1216,7 +1222,8 @@
 ;; MANUAL INSTALL REQUIRED: [M-x] lsp-install-server [RET] ts-ls [RET]
 
 ;; Verb
-(use-package verb)
+(use-package verb
+  :after org)
 
 
 
