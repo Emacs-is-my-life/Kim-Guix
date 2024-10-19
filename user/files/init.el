@@ -1900,7 +1900,7 @@
   :ensure t
   :config
   (require 'exwm-xim)
-  (exwm-xim-enable)
+  (exwm-xim-mode 1)
   (push ?\C-\\ exwm-input-prefix-keys)
 
   (add-hook 'exwm-init-hook #'exwm/exwm-init-hook)
@@ -1915,7 +1915,7 @@
         focus-follows-mouse t)
 
   (require 'exwm-randr)
-  (exwm-randr-enable)
+  (exwm-randr-mode 1)
   (add-hook 'exwm-randr-screen-change-hook #'exwm/update-displays)
   (exwm/update-displays)
 
