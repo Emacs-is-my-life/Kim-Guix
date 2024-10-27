@@ -98,6 +98,8 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+;; straight org
+(straight-use-package 'org)
 
 
 ;; * ---- <Garbage collector>

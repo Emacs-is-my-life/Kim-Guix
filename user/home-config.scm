@@ -393,9 +393,9 @@ fi
    
    (service home-batsignal-service-type)
 
-   (service home-unclutter-service-type
-            (home-unclutter-configuration
-             (idle-timeout 2)))
+   ;; (service home-unclutter-service-type
+   ;;          (home-unclutter-configuration
+   ;;           (idle-timeout 2)))
 
    (service home-ssh-agent-service-type
             (home-ssh-agent-configuration
