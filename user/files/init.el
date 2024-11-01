@@ -529,8 +529,8 @@
   :after (helm projectile))
 
 Magit
-(use-package magit
-  :ensure t)
+;; (use-package magit
+;;   :ensure t)
 
 
 
