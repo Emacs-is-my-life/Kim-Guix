@@ -80,7 +80,7 @@
   (auto-package-update-prompt-before-update nil) 
   (auto-package-update-hide-results t)
   :config
-  (setq auto-package-update-excluded-packages '(mu4e))
+  (setq auto-package-update-excluded-packages '(mu4e vterm))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -528,9 +528,9 @@
   :ensure t
   :after (helm projectile))
 
-;; Magit
-;; (use-package magit
-;;   :ensure t)
+Magit
+(use-package magit
+  :ensure t)
 
 
 

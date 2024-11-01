@@ -216,18 +216,17 @@
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
    python-parse python-parse-type
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
-   python-numpy python-nptyping python-scipy python-sympy
+   python-numpy python-numpy-documentation python-nptyping python-scipy python-sympy
    python-numba python-tqdm python-h5py
    python-matplotlib python-matplotlib-inline python-graphviz
    python-seaborn python-plotnine python-plotly
    python-pandas python-pandas-stubs python-dask-expr python-statsmodels python-scikit-learn python-xgboost python-pymc
    python-pytorch python-autograd
-   python-pillow python-scikit-image opencv python-ffmpeg-python
+   python-pillow python-scikit-image
    python-arrow python-schedule
    python-requests python-types-requests python-httpx python-lxml python-beautifulsoup4 python-nltk
    python-fastapi python-websockets python-uvicorn python-jinja2 python-markupsafe python-faker
    python-sql python-sqlalchemy python-sqlalchemy-stubs python-redis
-   python-grpcio python-grpc-stubs python-grpcio-tools
    
    ;; Dev-Julia
    julia
