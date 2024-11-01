@@ -216,7 +216,7 @@
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
    python-parse python-parse-type
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
-   python-numpy python-numpy-documentation python-nptyping python-scipy python-sympy
+   python-numpy python-nptyping python-scipy python-sympy
    python-numba python-tqdm python-h5py
    python-matplotlib python-matplotlib-inline python-graphviz
    python-seaborn python-plotnine python-plotly
