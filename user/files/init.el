@@ -2062,4 +2062,5 @@
 
 
 
-(use-package gptel)
+(use-package gptel
+  :ensure t)
