@@ -404,6 +404,10 @@ fi
 			    pinentry-program ~/.guix-home/profile/bin/pinentry-emacs")))
 
    (service home-syncthing-service-type)
+
+   (service home-redshift-service-type
+            (home-redshift-configuration
+             (location-provider 'geoclue2)))
    
    (simple-service 'guix-channels
                    home-channels-service-type
