@@ -380,6 +380,8 @@ fi
 
    (service home-batsignal-service-type
             (home-batsignal-configuration
+             (warning-level 30)
+             (critical-level 20)
              (danger-level 15)
              (danger-command "loginctl hibernate")
              (poll-delay 60)))
