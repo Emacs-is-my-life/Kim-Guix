@@ -193,14 +193,14 @@
 
    ;; Dev-Scheme
    chicken chicken-compile-file
-   chicken-datatype chicken-iset
+   chicken-datatype chicken-test chicken-iset
    chicken-srfi-1 chicken-srfi-13 chicken-srfi-14 chicken-srfi-18 chicken-srfi-69
 
    ;; Dev-CommonLisp
    sbcl
 
    ;; Dev-Coq
-   coq
+   coq coq-ide
 
    ;; Dev-Lean
    lean
@@ -214,19 +214,7 @@
    ;; Dev-Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
-   python-parse python-parse-type
    python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
-   python-numpy python-nptyping python-scipy python-sympy
-   python-numba python-tqdm python-h5py
-   python-matplotlib python-matplotlib-inline python-graphviz
-   python-seaborn python-plotnine python-plotly
-   python-pandas python-pandas-stubs python-dask-expr python-statsmodels python-scikit-learn python-xgboost python-pymc
-   python-pytorch python-autograd
-   python-pillow python-scikit-image
-   python-arrow python-schedule
-   python-requests python-types-requests python-httpx python-lxml python-beautifulsoup4 python-nltk
-   python-fastapi python-websockets python-uvicorn python-jinja2 python-markupsafe python-faker
-   python-sql python-sqlalchemy python-sqlalchemy-stubs python-redis
    
    ;; Dev-Julia
    julia
