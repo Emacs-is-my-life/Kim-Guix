@@ -377,8 +377,12 @@ fi
                      ("isyncrc" ,(local-file "./.temp/isyncrc"))))
 
    (service home-shepherd-service-type)
-   
-   (service home-batsignal-service-type)
+
+   (service home-batsignal-service-type
+            (home-batsignal-configuration
+             (danger-level 15)
+             (danger-command "loginctl hibernate")
+             (poll-delay 60)))
 
    ;; (service home-unclutter-service-type
    ;;          (home-unclutter-configuration
