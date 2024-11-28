@@ -44,10 +44,21 @@
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (package-initialize)
 
+;; Straight package manager
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 ;; use-package
-(eval-when-compile
-  (require 'use-package))
-;; (package-refresh-contents)
+(straight-use-package 'use-package)
 (setq package-enable-at-startup nil)
 (setq use-package-verbose nil)
 
@@ -59,7 +70,7 @@
     (quelpa-self-upgrade)))
 
 (use-package quelpa
-  :ensure)
+  :ensure t)
 
 (use-package quelpa-use-package
   :demand
@@ -85,21 +96,6 @@
   (auto-package-update-maybe))
 
 
-;; Straight package manager
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-;; straight org
-(straight-use-package 'org)
 
 
 ;; * ---- <Garbage collector>
@@ -1354,6 +1350,7 @@
 
 ;; org
 (use-package org
+  :straight t
   :ensure t
   :bind (:map org-mode-map
 	            ("C-<tab>" . org-cycle))
