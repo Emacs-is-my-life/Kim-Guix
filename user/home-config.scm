@@ -119,8 +119,8 @@
 (home-environment
  (packages
   (list
-   ;; Emacs
-   emacs emacs-vterm pinentry-emacs libtool ncurses dunst scrot brightnessctl playerctl
+   ;; Emacs & EXWM
+   emacs emacs-vterm pinentry-emacs libtool ncurses dunst scrot brightnessctl playerctl redshift
 
    ;; Security
    gnupg paperkey argon2 keepassxc keepassxc-browser/icecat
@@ -131,7 +131,7 @@
    ;; Fonts
    font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-fira-code font-fira-mono 
    
-   ;; Desktop Theme
+   ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
@@ -150,7 +150,7 @@
    viewnior mpv ffmpeg gstreamer
 
    ;; Media Creation
-   xournalpp gimp imagemagick inkscape audacity shotcut blender
+   gimp imagemagick inkscape blender
 
    ;; Remote Tools
    openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
@@ -191,7 +191,7 @@
    ;; Dev-Forth
    gforth
 
-   ;; Dev-Scheme
+   ;; Dev-Scheme-Chicken
    chicken chicken-compile-file
    chicken-datatype chicken-test chicken-iset
    chicken-srfi-1 chicken-srfi-13 chicken-srfi-14 chicken-srfi-18 chicken-srfi-69
@@ -236,6 +236,9 @@
 
    ;; Dev-Web
    node httpie jq
+
+   ;; Dev-Docs
+   pandoc
 
    ;; Gnuplot
    gnuplot
