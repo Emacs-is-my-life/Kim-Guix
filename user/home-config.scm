@@ -18,6 +18,7 @@
              (gnu packages gnome)
              (gnu packages gnome-xyz)
              (gnu packages glib)
+             (gnu packages kde)
              (gnu packages fonts)
              (gnu packages emacs)
              (gnu packages emacs-xyz)
@@ -150,7 +151,7 @@
    viewnior mpv ffmpeg gstreamer
 
    ;; Media Creation
-   gimp imagemagick inkscape blender
+   gimp krita imagemagick inkscape blender
 
    ;; Remote Tools
    openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
