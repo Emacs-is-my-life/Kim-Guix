@@ -142,7 +142,7 @@
    qutebrowser ungoogled-chromium
 
    ;; Document
-   zathura-pdf-mupdf libreoffice evince
+   zathura-pdf-mupdf evince xournalpp libreoffice
 
    ;; Finance
    hledger monero
@@ -151,7 +151,7 @@
    viewnior mpv ffmpeg gstreamer
 
    ;; Media Creation
-   gimp krita imagemagick inkscape blender
+   gimp krita imagemagick inkscape shotcut audacity blender
 
    ;; Remote Tools
    openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
