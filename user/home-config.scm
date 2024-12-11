@@ -86,19 +86,17 @@
              (gnu packages prolog)
              (gnu packages python)
              (gnu packages python-build)
-             (gnu packages check)
              (gnu packages python-check)
              (gnu packages python-xyz)
-	           (gnu packages python-web)
+             (gnu packages python-web)
+             (gnu packages check)
              (gnu packages rpc)
              (gnu packages xml)
-	           (gnu packages python-science)
              (gnu packages databases)
              (gnu packages time)
              (gnu packages graph)
 	           (gnu packages machine-learning)
 	           (gnu packages qt)
-             (gnu packages jupyter)
              (gnu packages parallel)
              (gnu packages package-management)
              (gnu packages julia)
@@ -215,7 +213,6 @@
    ;; Dev-Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
-   python-jupyterlab-server python-jupyterlab-widgets python-jupyterlab-pygments
    
    ;; Dev-Julia
    julia

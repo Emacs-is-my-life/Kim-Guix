@@ -22,6 +22,9 @@ done
 echo "export USER_MAIL_ADDRESS='${USER_GMAIL_ADDRESS}'" > ~/Documents/Secrets/userinfo.env
 echo "export USER_FULL_NAME='${USER_FULL_NAME}'" >> ~/Documents/Secrets/userinfo.env
 
+# Install pip packages
+pip3 install -r ./files/requirements.txt
+
 rm -rf ./.temp
 
 if [ "$(pwd)" != "$HOME/Documents/Guix/user" ]; then
