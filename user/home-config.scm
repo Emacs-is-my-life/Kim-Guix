@@ -101,6 +101,7 @@
              (gnu packages package-management)
              (gnu packages julia)
              (gnu packages statistics)
+             (gnu packages cran)
              (gnu packages maths)
              (gnu packages gawk)
              (gnu packages golang)
@@ -218,7 +219,7 @@
    julia
 
    ;; Dev-R
-   r r-languageserver
+   r r-languageserver r-irkernel
 
    ;; Dev-Octave (MATLAB alternative)
    octave
