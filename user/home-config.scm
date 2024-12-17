@@ -228,13 +228,13 @@
    gawk sed
 
    ;; Dev-Golang
-   go ;; gopls is bugged. Install latest gopls from go tooling
+   go gopls
 
    ;; Dev-Java
    openjdk
 
    ;; Dev-Web
-   node httpie jq
+   node jq
 
    ;; Dev-Docs
    pandoc
