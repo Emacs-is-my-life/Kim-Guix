@@ -77,6 +77,7 @@
              (gnu packages forth)
              (gnu packages scheme)
              (gnu packages guile)
+             (gnu packages guile-xyz)
              (gnu packages chicken)
              (gnu packages racket)
              (gnu packages lisp)
@@ -190,6 +191,12 @@
 
    ;; Dev-Forth
    gforth
+
+   ;; Dev-Scheme-Guile
+   guildhall guile-lib guile-fibers
+   guile-algorithms guile-pfds
+   guile-srfi-133 guile-srfi-146 guile-srfi-189 guile-srfi-235
+   guile-struct-pack guile-machine-code
 
    ;; Dev-Scheme-Chicken
    chicken chicken-compile-file
