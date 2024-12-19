@@ -160,7 +160,7 @@
    openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
 
    ;; Utility
-   zlib gzip unzip 
+   zlib zstd gzip unzip 
 
    ;; Dev-Build
    gnu-make cmake meson git bison flex graphviz
