@@ -10,7 +10,5 @@ transformers
 onnx
 yfinance
 pandas-datareader
-h5py
 vectorbt
-pyqt6
 meshlib

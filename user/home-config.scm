@@ -233,6 +233,7 @@
    python-bcrypt python-arrow python-ratelimiter ;; python-fastapi python-uvicorn
    python-mysqlclient python-sqlalchemy python-redis
    python-h5py python-minio
+   python-pyqt
    
    ;; Dev-Julia
    julia
