@@ -90,6 +90,9 @@
              (gnu packages python-check)
              (gnu packages python-xyz)
              (gnu packages python-web)
+             (gnu packages python-crypto)
+             (gnu packages python-science)
+             (gnu packages image-processing)
              (gnu packages check)
              (gnu packages rpc)
              (gnu packages xml)
@@ -136,7 +139,7 @@
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
-   nautilus gvfs trash-cli
+   nautilus gvfs ;; trash-cli
 
    ;; Web Browser
    qutebrowser ungoogled-chromium
@@ -221,12 +224,21 @@
    ;; Dev-Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
+   python-numpy python-scipy python-autograd python-sympy python-numba
+   python-tqdm python-rich
+   python-statsmodels python-scikit-learn python-xgboost python-pandas python-pandas-stubs
+   python-pillow opencv python-scikit-image python-ffmpeg-python
+   python-matplotlib python-seaborn ;; python-plotnine python-plotly
+   python-requests ;; python-scrapy python-beautifulsoup4
+   python-bcrypt python-arrow python-ratelimiter ;; python-fastapi python-uvicorn
+   python-mysqlclient python-sqlalchemy python-redis
+   python-h5py python-minio
    
    ;; Dev-Julia
    julia
 
    ;; Dev-R
-   r r-languageserver r-irkernel
+   r r-languageserver ;; r-irkernel
 
    ;; Dev-Octave (MATLAB alternative)
    octave
