@@ -25,6 +25,10 @@ echo "export USER_FULL_NAME='${USER_FULL_NAME}'" >> ~/Documents/Secrets/userinfo
 # Install pip packages
 pip3 install -r ./files/requirements.txt
 
+# Directory permission
+chmod -R 711 ~/Documents
+chmod -R 711 ~/Workspace
+
 rm -rf ./.temp
 
 if [ "$(pwd)" != "$HOME/Documents/Guix/user" ]; then

@@ -114,6 +114,7 @@
              (gnu packages web)
              (gnu packages tex)
              (gnu packages password-utils)
+             (gnu packages game-development)
              (gnu packages games)
              (guix channels)
              (guix packages)
@@ -154,13 +155,13 @@
    viewnior mpv ffmpeg gstreamer
 
    ;; Media Creation
-   gimp krita imagemagick inkscape shotcut audacity blender
+   gimp krita imagemagick inkscape shotcut audacity blender godot
 
    ;; Remote Tools
    openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
 
    ;; Utility
-   zlib zstd gzip unzip 
+   gzip unzip zlib zstd
 
    ;; Dev-Build
    gnu-make cmake meson git bison flex graphviz
@@ -227,13 +228,13 @@
    python-numpy python-scipy python-autograd python-sympy python-numba
    python-tqdm python-rich
    python-statsmodels python-scikit-learn python-xgboost python-pandas python-pandas-stubs
-   python-pillow opencv python-scikit-image python-ffmpeg-python
+   python-pillow python-imageio opencv python-scikit-image python-ffmpeg-python
    python-matplotlib python-seaborn ;; python-plotnine python-plotly
    python-requests ;; python-scrapy python-beautifulsoup4
    python-bcrypt python-arrow python-ratelimiter ;; python-fastapi python-uvicorn
    python-mysqlclient python-sqlalchemy python-redis
    python-h5py python-minio
-   python-pyqt
+   python-trimesh
    
    ;; Dev-Julia
    julia
