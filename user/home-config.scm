@@ -161,7 +161,7 @@
    openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
 
    ;; Utility
-   gzip unzip zlib zstd
+   gzip unzip
 
    ;; Dev-Build
    gnu-make cmake meson git bison flex graphviz
@@ -229,9 +229,9 @@
    python-tqdm python-rich
    python-statsmodels python-scikit-learn python-xgboost python-pandas python-pandas-stubs
    python-pillow python-imageio opencv python-scikit-image python-ffmpeg-python
-   python-matplotlib python-seaborn ;; python-plotnine python-plotly
-   python-requests ;; python-scrapy python-beautifulsoup4
-   python-bcrypt python-arrow python-ratelimiter ;; python-fastapi python-uvicorn
+   python-matplotlib python-seaborn python-plotnine python-plotly
+   python-requests python-scrapy python-beautifulsoup4
+   python-bcrypt python-arrow python-ratelimiter python-fastapi python-uvicorn
    python-mysqlclient python-sqlalchemy python-redis
    python-h5py python-minio
    python-trimesh
