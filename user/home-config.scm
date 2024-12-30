@@ -156,7 +156,7 @@
    viewnior mpv ffmpeg gstreamer
 
    ;; Media Creation
-   gimp krita imagemagick inkscape shotcut audacity blender godot
+   gimp krita imagemagick inkscape shotcut audacity blender
 
    ;; Wacom tablet
    wacomtablet
