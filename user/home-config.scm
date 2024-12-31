@@ -233,9 +233,9 @@
    python-tqdm python-rich
    python-statsmodels python-scikit-learn python-xgboost python-pandas python-pandas-stubs
    python-pillow python-imageio opencv python-scikit-image python-ffmpeg-python
-   python-matplotlib python-seaborn ;; python-plotnine python-plotly
-   python-requests ;; python-scrapy python-beautifulsoup4
-   python-bcrypt python-arrow python-ratelimiter ;; python-fastapi python-uvicorn
+   python-matplotlib python-seaborn python-plotly ;; python-plotnine
+   python-requests python-beautifulsoup4 ;; python-scrapy
+   python-bcrypt python-arrow python-ratelimiter python-uvicorn ;; python-fastapi
    python-mysqlclient python-sqlalchemy python-redis
    python-h5py python-minio
    python-trimesh
