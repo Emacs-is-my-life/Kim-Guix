@@ -2,7 +2,7 @@ set terminal x11 enhanced replotonresize
 set encoding utf8
 
 set samples 256
-set isosamples 64
+set isosamples 32
 set grid
 set hidden3d
 set border lw 3 lc rgb '#37474F'
