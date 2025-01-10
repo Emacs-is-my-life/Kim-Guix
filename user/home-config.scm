@@ -231,7 +231,7 @@
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
    python-numpy python-scipy python-autograd python-sympy python-numba
    python-tqdm python-rich
-   python-statsmodels python-scikit-learn python-xgboost python-pandas python-pandas-stubs
+   python-statsmodels python-rpy2 python-scikit-learn python-xgboost python-pandas python-pandas-stubs
    python-pillow python-imageio opencv python-scikit-image python-ffmpeg-python
    python-matplotlib python-seaborn python-plotly ;; python-plotnine
    python-requests python-beautifulsoup4 ;; python-scrapy
