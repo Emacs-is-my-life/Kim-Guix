@@ -150,7 +150,7 @@
    zathura-pdf-mupdf evince xournalpp libreoffice
 
    ;; Finance
-   hledger monero
+   hledger electrum
 
    ;; Media Viewer
    viewnior mpv ffmpeg gstreamer
