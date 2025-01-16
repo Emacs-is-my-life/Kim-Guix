@@ -235,8 +235,8 @@
    python-pillow python-imageio opencv python-scikit-image python-ffmpeg-python
    python-matplotlib python-seaborn python-plotly ;; python-plotnine
    python-requests python-beautifulsoup4 ;; python-scrapy
-   python-bcrypt python-arrow python-ratelimiter python-uvicorn ;; python-fastapi
-   python-mysqlclient python-sqlalchemy python-redis
+   python-bcrypt python-arrow python-ratelimiter python-uvicorn ;; python-celery python-fastapi
+   python-mysqlclient python-sqlalchemy python-redis python-psycopg python-psycopg-pool
    python-h5py python-minio
    python-trimesh
    
