@@ -153,7 +153,7 @@
    hledger electrum
 
    ;; Media Viewer
-   viewnior mpv ffmpeg gstreamer
+   viewnior mpv ffmpeg gstreamer yt-dlp
 
    ;; Media Creation
    gimp krita imagemagick inkscape shotcut audacity blender
