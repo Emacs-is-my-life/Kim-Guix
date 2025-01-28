@@ -1,2 +1,6 @@
 machine imap.gmail.com login my.email.addr@gmail.com port 993 password blahblah123
 machine smtp.gmail.com login my.email.addr@gmail.com port 587 password blahblah123
+machine api.openai.com login apikey password TOKEN
+machine generativelanguage.googleapis.com login apikey password TOKEN
+machine api.anthropic.com login apikey password TOKEN
+machine api.deepseek.com login apikey password TOKEN

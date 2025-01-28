@@ -91,7 +91,7 @@
   (auto-package-update-prompt-before-update t) 
   (auto-package-update-hide-results t)
   :config
-  (setq auto-package-update-excluded-packages '(mu4e vterm))
+  (setq auto-package-update-excluded-packages '(mu4e vterm guix))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -1824,6 +1824,96 @@
 
 
 
+;; # ==== [LLM assistance]
+
+
+
+
+(defun gptel/get-llm-providers ()
+  (progn
+    (setq auth-sources `(,(concat (getenv "USER_SECRET_DIR") "authinfo.gpg")))
+    (let ((service-provider-list '("generativelanguage.googleapis.com" "api.perplexity.ai" "api.anthropic.com" "api.groq.com" "api.deepseek.com" "api.x.ai"))
+	        (providers-list '()))
+      (dolist (provider service-provider-list)
+	      (let ((auth-info (car (auth-source-search :max 1
+						                                      :host provider
+						                                      :user "apikey"
+						                                      :require '(:secret)))))
+	        (if auth-info
+	            (let ((apikey (plist-get auth-info :secret)))
+	              (cond
+		             ((stringp apikey) (push (cons provider apikey) providers-list))
+		             ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
+      providers-list)))
+
+(use-package gptel
+  :ensure t
+  :config
+  (dolist (provider-info (gptel/get-llm-apikeys))
+    (let ((provider (car provider-info))
+	        (apikey (cdr provider-info)))
+	    (cond
+	     ((string= provider "generativelanguage.googleapis.com")
+	      (gptel-make-gemini "Gemini"
+			    :key apikey
+			    :stream t))
+	     ((string= provider "api.perplexity.ai")
+	      (gptel-make-perplexity "Perplexity"
+				                       :key apikey
+				                       :stream t))
+	     ((string= provider "api.anthropic.com")
+	      (gptel-make-anthropic "Claude"
+				  :key apikey
+				  :stream t))
+	     ((string= provider "api.groq.com")
+	      (gptel-make-openai "Groq"
+			    :key apikey
+			    :host "api.groq.com"
+			    :endpoint "/openai/v1/chat/completions"
+			    :stream t
+			    :models '(llama-3.1-70b-versatile
+					          llama-3.1-8b-instant
+					          llama3-70b-8192
+					          llama3-8b-8192
+					          mixtral-8x7b-32768
+					          gemma-7b-it)))
+	     ((string= provider "api.deepseek.com")
+	      (gptel-make-openai "Deepseek"
+			    :key apikey
+			    :host "api.deepseek.com"
+			    :endpoint "/chat/completions"
+			    :stream t
+			    :models '(deepseek-chat deepseek-coder)))
+	     ((string= provider "api.x.ai")
+	      (gptel-make-openai "xAI"
+			    :key apikey
+			    :host "api.x.ai"
+			    :endpoint "/v1/chat/completions"
+			    :stream t
+			    :models '(grok-beta)))))))
+
+
+
+
+
+
+
+;; # ==== [Guix]
+
+
+
+
+(use-package guix
+  :pin manual
+  :ensure nil)
+
+
+
+
+
+
+
+
 ;; # ==== [EXWM]
 
 
@@ -1920,9 +2010,6 @@
 
   (setq exwm-floating-border-width 16)
   (setq exwm-floating-border-color "#37474F")
-
-  ;; Remap CapsLock to Ctrl
-  (start-process-shell-command "xmodmap" nil (concat "xmodmap " (getenv "XDG_CONFIG_HOME") "/X11/xmodmap"))
   
   (setq exwm-input-prefix-keys
         '(?\C-x
@@ -2054,10 +2141,3 @@
 
 
 
-;; # ==== [LLM assistance]
-
-
-
-
-(use-package gptel
-  :ensure t)
