@@ -3,7 +3,6 @@
  '(
    "python-ratelimiter"
    "python-requests"
-   "python-scrapy"
    "python-selenium"
    "python-websockets"
    "python-beautifulsoup4"
