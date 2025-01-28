@@ -434,14 +434,6 @@ fi
                         ("keysym Caps_Lock" . "Control_L")
                         ("add Lock" . "Caps_Lock")
                         ("add Control" . "Control_L")))))
-
-   (service 'font-service
-            home-fontconfig-service-type
-            (list "~/.guix-home/profile/share/fonts"
-                  '(alias
-                    (family "monospace")
-                    (prefer
-                     (family "JuliaMono")))))
    
    (service home-pipewire-service-type)
    
