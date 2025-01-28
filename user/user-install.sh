@@ -40,7 +40,7 @@ done
 
 # Install pip packages
 pip3 install -r ./files/requirements.txt
-pip3 uninstall -y numpy scipy sympy
+pip3 uninstall -y numpy
 
 # Directory permission
 chmod -R 711 ~/Documents
