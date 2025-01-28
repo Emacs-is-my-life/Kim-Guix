@@ -12,7 +12,7 @@ read USER_FULL_NAME
 
 # Keep trying
 while true; do
-	guix pull -C ./files/channels.scm && \
+	# guix pull -C ./files/channels.scm && \
 	guix home reconfigure ./home-config.scm && \
 	break
 

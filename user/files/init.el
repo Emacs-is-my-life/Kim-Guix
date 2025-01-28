@@ -88,7 +88,7 @@
   :ensure t
   :custom 
   (auto-package-update-interval 7) 
-  (auto-package-update-prompt-before-update nil) 
+  (auto-package-update-prompt-before-update t) 
   (auto-package-update-hide-results t)
   :config
   (setq auto-package-update-excluded-packages '(mu4e vterm))

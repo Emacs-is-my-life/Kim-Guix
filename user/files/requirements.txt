@@ -1,14 +1,29 @@
+# Jupyterlab
 jupyterlab
 jupyterlab-lsp
 jupyterlab_widgets
 jupyterlab-spreadsheet-editor
+
+# Data Science
 polars[all]
+pyspark
+
+# Deep Learning
 torch
-pytorch-lightning
+lightning
 torchtext
-transformers
+torchvision
+jax
 onnx
+transformers
+
+# 3D
 bpy
+trimesh
+
+# Finance
+backtrader
+skfolio
 yfinance
 pandas-datareader
-vectorbt
+openbb

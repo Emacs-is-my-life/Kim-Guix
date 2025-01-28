@@ -4,6 +4,7 @@
              (gnu home services ssh)
              (gnu home services gnupg)
              (gnu home services desktop)
+             (gnu home seervices fontutils)
              (gnu home services sound)
              (gnu home services guix)
              (gnu home services shepherd)
@@ -30,6 +31,7 @@
              (gnu packages mail)
              (gnu packages pdf)
              (gnu packages libreoffice)
+	           (gnu packages ghostscript)
              (gnu packages education)
              (gnu packages textutils)
              (gnu packages gawk)
@@ -93,6 +95,7 @@
              (gnu packages python-web)
              (gnu packages python-crypto)
              (gnu packages python-science)
+	           (gnu packages jupyter)
              (gnu packages image-processing)
              (gnu packages check)
              (gnu packages rpc)
@@ -126,7 +129,7 @@
  (packages
   (list
    ;; Emacs & EXWM
-   emacs emacs-vterm pinentry-emacs libtool ncurses dunst scrot brightnessctl playerctl redshift
+   emacs emacs-vterm emacs-guix pinentry-emacs libtool ncurses dunst scrot brightnessctl playerctl redshift
 
    ;; Security
    gnupg paperkey argon2 keepassxc keepassxc-browser/icecat
@@ -135,142 +138,121 @@
    isync mu
    
    ;; Fonts
-   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-fira-code font-fira-mono 
+   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
-   nautilus gvfs ;; trash-cli
+   nautilus gvfs trash-cli
+
+   ;; Compression Utility
+   gzip unzip
+
+   ;; Test Processing Utility
+   gawk sed
 
    ;; Web Browser
    qutebrowser ungoogled-chromium
 
-   ;; Document
-   zathura-pdf-mupdf evince xournalpp libreoffice
-
    ;; Finance
    hledger electrum
+
+   ;; Document Viewer
+   zathura-pdf-mupdf evince
+
+   ;; Document Edit
+   libreoffice ghostscript pandoc
 
    ;; Media Viewer
    viewnior mpv ffmpeg gstreamer yt-dlp
 
-   ;; Media Creation
-   gimp krita imagemagick inkscape shotcut audacity blender
-
-   ;; Wacom tablet
-   wacomtablet
+   ;; Media Edit
+   gimp krita imagemagick inkscape graphviz blender shotcut
 
    ;; Remote Tools
-   openssh sshfs remmina syncthing syncthing-gtk magic-wormhole moonlight-qt
+   openssh sshfs syncthing syncthing-gtk remmina moonlight-qt
 
-   ;; Utility
-   gzip unzip
+   ;; Build Tools
+   gnu-make cmake meson git
 
-   ;; Dev-Build
-   gnu-make cmake meson git bison flex graphviz
-
-   ;; Dev-Debug
+   ;; Debugging Tools
    gdb lldb rr valgrind strace uftrace 
 
-   ;; Dev-Profiling
-   perf perf-tools flamegraph
+   ;; Assembly
+   nasm yasm
 
-   ;; Dev-HPC
-   openblas-ilp64 lapack openmpi
-
-   ;; Dev-ASM
-   nasm yasm lightning
-
-   ;; Dev-C/C++
+   ;; C/C++
    gcc-toolchain clang-toolchain
 
-   ;; Dev-Fortran
+   ;; Fortran
    gfortran-toolchain
 
-   ;; Dev-Rust
+   ;; Rust
    rust rust-cargo rust-analyzer
 
-   ;; Dev-Haskell
+   ;; Haskell
    ghc ghc-rio cabal-install
 
-   ;; Dev-Ocaml
+   ;; Ocaml
    ocaml ocaml-base opam
 
-   ;; Dev-Forth
+   ;; Forth
    gforth
 
-   ;; Dev-Scheme-Guile
-   guildhall guile-lib guile-fibers
-   guile-algorithms guile-pfds
-   guile-srfi-133 guile-srfi-146 guile-srfi-189 guile-srfi-235
-   guile-struct-pack guile-machine-code
+   ;; Guile scheme
+   guildhall guile-lib
 
-   ;; Dev-Scheme-Chicken
-   chicken chicken-compile-file
-   chicken-datatype chicken-test chicken-iset
-   chicken-srfi-1 chicken-srfi-13 chicken-srfi-14 chicken-srfi-18 chicken-srfi-69
+   ;; Chicken scheme
+   chicken
 
-   ;; Dev-CommonLisp
+   ;; Common Lisp
    sbcl
 
-   ;; Dev-Coq
+   ;; Coq
    coq coq-ide
 
-   ;; Dev-Lean
+   ;; Lean
    lean
 
-   ;; Dev-Idris
+   ;; Idris
    idris
 
-   ;; Dev-Prolog
+   ;; Prolog
    swi-prolog
 
-   ;; Dev-Python
+   ;; Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
-   python-numpy python-scipy python-autograd python-sympy python-numba
-   python-tqdm python-rich
-   python-statsmodels python-rpy2 python-scikit-learn python-xgboost python-pandas python-pandas-stubs
-   python-pillow python-imageio opencv python-scikit-image python-ffmpeg-python
-   python-matplotlib python-seaborn python-plotly ;; python-plotnine
-   python-requests python-beautifulsoup4 ;; python-scrapy
-   python-bcrypt python-arrow python-ratelimiter python-uvicorn ;; python-celery python-fastapi
-   python-mysqlclient python-sqlalchemy python-redis python-psycopg python-psycopg-pool
-   python-h5py python-minio
-   python-trimesh
+
+   ;; Jupyter
+   jupyter python-ipykernel python-ipywidgets python-nbconvert
    
-   ;; Dev-Julia
+   ;; Julia
    julia
 
-   ;; Dev-R
-   r r-languageserver ;; r-irkernel
+   ;; R
+   r r-languageserver
 
-   ;; Dev-Octave (MATLAB alternative)
+   ;; GNU Octave
    octave
 
-   ;; Dev-TextProcessing
-   gawk sed
-
-   ;; Dev-Golang
+   ;; Golang
    go gopls
 
-   ;; Dev-Java
+   ;; Java
    openjdk
 
-   ;; Dev-Web
-   node jq
-
-   ;; Dev-Docs
-   pandoc
+   ;; JS
+   node
 
    ;; Gnuplot
    gnuplot
 
    ;; TeX
-   texlive-scheme-basic texlive-listing texlive-hyperref texlive-beamer texlive-pgf texlive-pgfplots texlive-wrapfig texlive-cm-super texlive-amsfonts texlive-roboto texlive-gnuplottex
+   texlive-scheme-basic 
    
-   ;; ETC
+   ;; Game
    steam))
  
  (services
@@ -362,8 +344,15 @@ export TEXMFHOME=$XDG_DATA_HOME/texmf
 export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
 export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
 
-
-
+# Enable all guix profiles
+for i in $GUIX_EXTRA_PROFILES/*; do
+  profile=$i/$(basename "$i")
+  if [ -f "$profile"/etc/profile ]; then
+    GUIX_PROFILE="$profile"
+    . "$GUIX_PROFILE"/etc/profile
+  fi
+  unset profile
+done
 
 # emacs-vterm
 if [[ \"$INSIDE_EMACS\" = 'vterm' ]]; then
@@ -380,7 +369,8 @@ fi
              (aliases `(("shutdown" . "loginctl poweroff")
                         ("ls" . "ls --color=auto")
                         ("grep" . "grep --color=auto")
-                        ("python" . "python3")))))
+                        ("python" . "python3")
+                        ("pp" . "loginctl poweroff")))))
 
    (simple-service 'home-files
                    home-files-service-type
@@ -408,18 +398,15 @@ fi
    (service home-batsignal-service-type
             (home-batsignal-configuration
              (warning-level 30)
-             (critical-level 20)
-             (danger-level 15)
+             (critical-level 25)
+             (danger-level 20)
              (danger-command "loginctl hibernate")
+             (full-level 70)
              (poll-delay 60)))
-
-   ;; (service home-unclutter-service-type
-   ;;          (home-unclutter-configuration
-   ;;           (idle-timeout 2)))
 
    (service home-ssh-agent-service-type
             (home-ssh-agent-configuration
-             (extra-options '("-t" "10m"))))
+             (extra-options '("-t" "32m"))))
    
    (service home-gpg-agent-service-type
             (home-gpg-agent-configuration
@@ -435,6 +422,29 @@ fi
    (service home-redshift-service-type
             (home-redshift-configuration
              (location-provider 'geoclue2)))
+
+   (service home-unclutter-service-type
+            (home-unclutter-configuration
+             (idle-timeout 2)))
+
+   (service home-xmodmap-service-type
+            (home-xmodmap-configuration
+             (key-map '(("remove Lock" . "Caps_Lock")
+                        ("remove Control" . "Control_L")
+                        ("keysym Control_L" . "Caps_Lock")
+                        ("keysym Caps_Lock" . "Control_L")
+                        ("add Lock" . "Caps_Lock")
+                        ("add Control" . "Control_L")))))
+
+   (service 'font-service
+            home-fontconfig-service-type
+            (list "~/.guix-home/profile/share/fonts"
+                  '(alias
+                    (family "monospace")
+                    (prefer
+                     (family "JuliaMono")))))
+   
+   (service home-pipewire-service-type)
    
    (simple-service 'guix-channels
                    home-channels-service-type
