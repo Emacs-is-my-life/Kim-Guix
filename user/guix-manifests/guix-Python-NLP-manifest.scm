@@ -3,5 +3,4 @@
  '(
    "python-spacy"
    "python-nltk"
-   "python-gensim"
 ))
