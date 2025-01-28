@@ -435,8 +435,6 @@ fi
                         ("add Lock" . "Caps_Lock")
                         ("add Control" . "Control_L")))))
    
-   (service home-pipewire-service-type)
-   
    (simple-service 'guix-channels
                    home-channels-service-type
                    (append (list
