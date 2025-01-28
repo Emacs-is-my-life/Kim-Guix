@@ -1849,7 +1849,7 @@
 (use-package gptel
   :ensure t
   :config
-  (dolist (provider-info (gptel/get-llm-apikeys))
+  (dolist (provider-info (gptel/get-llm-providers))
     (let ((provider (car provider-info))
 	        (apikey (cdr provider-info)))
 	    (cond
