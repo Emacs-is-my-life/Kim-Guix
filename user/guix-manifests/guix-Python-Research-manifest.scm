@@ -4,7 +4,6 @@
    "python-numpy"
    "python-scipy"
    "python-sympy"
-   "python-autograd"
    "python-numba"
    "python-tqdm"
    "python-statsmodels"
