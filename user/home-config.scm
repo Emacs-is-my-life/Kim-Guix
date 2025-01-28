@@ -4,7 +4,7 @@
              (gnu home services ssh)
              (gnu home services gnupg)
              (gnu home services desktop)
-             (gnu home seervices fontutils)
+             (gnu home services fontutils)
              (gnu home services sound)
              (gnu home services guix)
              (gnu home services shepherd)
