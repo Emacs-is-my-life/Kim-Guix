@@ -11,5 +11,5 @@
    "python-psycopg"
    "python-psycopg-pool"
    "python-rich"
-   "python-rich-table"
+   "python-rich-tables"
 ))

@@ -4,7 +4,7 @@
    "gsl"
    "lapack"
    "openblas"
-   "opensycl"
+   "adaptivecpp"
    "openmpi"
    "openmpi-c++"
 ))
