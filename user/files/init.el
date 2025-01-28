@@ -2091,6 +2091,7 @@
 
 (use-package gptel
   :ensure t
+  :defer t
   :config
   (dolist (provider-info (gptel/get-llm-providers))
     (let ((provider (car provider-info))
