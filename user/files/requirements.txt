@@ -21,6 +21,7 @@ transformers
 # 3D
 bpy
 trimesh
+open3d
 
 # Finance
 backtrader
