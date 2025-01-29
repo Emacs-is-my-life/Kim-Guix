@@ -177,7 +177,7 @@
    gnu-make cmake meson git
 
    ;; Debugging Tools
-   gdb lldb rr valgrind strace uftrace 
+   gdb lldb rr valgrind strace uftrace ltrace 
 
    ;; Assembly
    nasm yasm
