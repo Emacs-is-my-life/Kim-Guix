@@ -10,6 +10,4 @@
    "python-rpy2"
    "python-psycopg"
    "python-psycopg-pool"
-   "python-rich"
-   "python-rich-tables"
 ))

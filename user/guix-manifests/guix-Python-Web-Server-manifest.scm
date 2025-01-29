@@ -5,6 +5,7 @@
    "python-jsonschema"
    "python-jinja2"
    "python-uvicorn"
+   "python-loguru"
    "python-celery"
    "python-redis"
    "python-sqlalchemy"
