@@ -3,4 +3,5 @@
  '(
    "python-spacy"
    "python-nltk"
-))
+   "python-sentencepiece"
+   ))
