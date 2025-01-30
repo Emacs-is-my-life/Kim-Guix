@@ -54,25 +54,28 @@ then
 	exit
 fi
 
-DISKSIZE=$(lsblk $GUIX_OS_INSTALL_DISK -b | grep disk | awk '{print $4/1024/1024/1024}')
-DISKSIZE_FLOORED=${DISKSIZE%.*}
-ROOTSIZE=$((DISKSIZE_FLOORED - 3))
-
 (
 echo g
 echo n
-echo 1
-echo 4096
+echo
+echo
 echo +2G
 echo n
-echo 2
 echo
-echo +${ROOTSIZE}G
+echo
+echo +${GUIX_OS_SWAP_SIZE_IN_GB}G
+echo n
+echo
+echo
+echo
 echo t
 echo 1
 echo 1
 echo t
 echo 2
+echo 19
+echo t
+echo 3
 echo 20
 echo w
 ) | fdisk $GUIX_OS_INSTALL_DISK && sync
@@ -89,60 +92,31 @@ sync
 export PART_NAME_ESP=$(fdisk -l $GUIX_OS_INSTALL_DISK | grep EFI | awk '{print $1}')
 mkfs.fat -F 32 $PART_NAME_ESP
 
+export PART_NAME_SWAP=$(fdisk -l $GUIX_OS_INSTALL_DISK | grep swap | awk '{print $1}')
+mkswap $PART_NAME_SWAP
+
 export PART_NAME_ROOT=$(fdisk -l $GUIX_OS_INSTALL_DISK | grep filesystem | awk '{print $1}')
-cryptsetup luksFormat --type luks2 \
-	              --pbkdf pbkdf2 \
-		      --cipher aes-xts-plain64 \
-		      --iter-time 3000 \
-		      --hash sha256 \
-		      --key-size 256 \
-		      --sector-size 4096 \
-		      --verify-passphrase \
-		      $PART_NAME_ROOT
-
-ENCRYPT_STATUS=$?
-if [ $ENCRYPT_STATUS -ne 0 ]
-then
-    echo "Failed to encrypt ${PART_NAME_ROOT}. Aborting installation..."
-    exit
-fi
-
-echo "About to open the encrypted partiton for system installation."
-echo "Please type the encryption passphrase you just used."
-echo ""
-
-cryptsetup luksOpen $PART_NAME_ROOT cryptroot
-
-# echo "Wiping the partition for maximum level schizo"
-# echo "It might take a while..."
-# dd if=/dev/zero of=/dev/mapper/cryptroot status=progress
-
-echo "Creating ext4 file system on encrypted partition..."
-mkfs.ext4 -b 4096 /dev/mapper/cryptroot
+mkfs.ext4 $PART_NAME_ROOT
 
 sync
 
 export GUIX_OS_UUID_ESP=$(blkid | grep $PART_NAME_ESP | awk '{print $2}' | cut -d '=' -f 2)
-export GUIX_OS_UUID_ENCRYPTED=$(cryptsetup luksUUID $PART_NAME_ROOT)
+export GUIX_OS_UUID_SWAP=$(blkid | grep $PART_NAME_SWAP | awk '{print $2}' | cut -d '=' -f 2)
+export GUIX_OS_UUID_ROOT=$(blkid | grep $PART_NAME_ROOT | awk '{print $2}' | cut -d '=' -f 2)
 
-mount /dev/mapper/cryptroot /mnt
+mount $PART_NAME_ROOT /mnt
+swapon $PART_NAME_SWAP
 mkdir -p /mnt/efi
 mount $PART_NAME_ESP /mnt/efi
-fallocate -l ${GUIX_OS_SWAP_SIZE_IN_GB}G /mnt/swapfile
-chmod 600 /mnt/swapfile
-mkswap /mnt/swapfile
-swapon /mnt/swapfile
-export GUIX_OS_OFFSET_SWAP=$(filefrag -v /mnt/swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
 
-cat ./files/system-config-template.scm \
+cat ./files/template.scm \
     | sed "s|{{ GUIX_OS_HOSTNAME }}|${GUIX_OS_HOSTNAME}|g" \
     | sed "s|{{ GUIX_OS_KEYBOARD }}|${GUIX_OS_KEYBOARD}|g" \
     | sed "s|{{ GUIX_OS_LOCALE }}|${GUIX_OS_LOCALE}|g" \
     | sed "s|{{ GUIX_OS_TIMEZONE }}|${GUIX_OS_TIMEZONE}|g" \
     | sed "s|{{ GUIX_OS_UUID_ESP }}|${GUIX_OS_UUID_ESP}|g" \
-    | sed "s|{{ GUIX_OS_UUID_SWAP }}|${GUIX_OS_UUID_ENCRYPTED}|g" \
-    | sed "s|{{ GUIX_OS_UUID_ENCRYPTED }}|${GUIX_OS_UUID_ENCRYPTED}|g" \
-    | sed "s|{{ GUIX_OS_OFFSET_SWAP }}|${GUIX_OS_OFFSET_SWAP}|g" \
+    | sed "s|{{ GUIX_OS_UUID_SWAP }}|${GUIX_OS_UUID_SWAP}|g" \
+    | sed "s|{{ GUIX_OS_UUID_ROOT }}|${GUIX_OS_UUID_ROOT}|g" \
     | sed "s|{{ GUIX_OS_NIC_NAME }}|${GUIX_OS_NIC_NAME}|g" \
     | sed "s|{{ GUIX_OS_USER_USERNAME }}|${GUIX_OS_USER_USERNAME}|g" \
     | sed "s|{{ GUIX_OS_USER_COMMENT }}|${GUIX_OS_USER_COMMENT}|g" \
@@ -170,9 +144,8 @@ cp -r ../../Guix /mnt/root/
 
 # clean up
 sync
-swapoff -a
 umount -A --recursive /mnt
-cryptsetup luksClose cryptroot
+swapoff -a
 
 echo "Installation finished. You can reboot to the new system."
 
