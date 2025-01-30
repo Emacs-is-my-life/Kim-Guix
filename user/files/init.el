@@ -125,6 +125,15 @@
 
 
 
+;; # ===== [Secret Management]
+
+
+
+
+(setq auth-sources `(,(concat (getenv "USER_SECRET_DIR") "authinfo.gpg")))
+
+
+
 
 ;; # ===== [Appearance]
 
@@ -1765,7 +1774,6 @@
   (require 'auth-source)
   (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
   (setq smtp-mail-stream-type 'starttls)
-  (setq auth-sources `(,(concat (getenv "USER_SECRET_DIR") "authinfo.gpg")))
   (setq smtpmail-auth-credentials 'auth-source)
   (setq user-mail-address (getenv "USER_MAIL_ADDRESS"))
   (setq user-full-name (getenv "USER_FULL_NAME"))
@@ -2073,21 +2081,19 @@
 
 
 (defun gptel/get-llm-providers ()
-  (progn
-    (setq auth-sources `(,(concat (getenv "USER_SECRET_DIR") "authinfo.gpg")))
-    (let ((service-provider-list '("generativelanguage.googleapis.com" "api.perplexity.ai" "api.anthropic.com" "api.groq.com" "api.deepseek.com" "api.x.ai"))
-	        (providers-list '()))
-      (dolist (provider service-provider-list)
-	      (let ((auth-info (car (auth-source-search :max 1
-						                                      :host provider
-						                                      :user "apikey"
-						                                      :require '(:secret)))))
-	        (if auth-info
-	            (let ((apikey (plist-get auth-info :secret)))
-	              (cond
-		             ((stringp apikey) (push (cons provider apikey) providers-list))
-		             ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
-      providers-list)))
+  (let ((service-provider-list '("generativelanguage.googleapis.com" "api.perplexity.ai" "api.anthropic.com" "api.groq.com" "api.deepseek.com" "api.x.ai"))
+	      (providers-list '()))
+    (dolist (provider service-provider-list)
+	    (let ((auth-info (car (auth-source-search :max 1
+						                                    :host provider
+						                                    :user "apikey"
+						                                    :require '(:secret)))))
+	      (if auth-info
+	          (let ((apikey (plist-get auth-info :secret)))
+	            (cond
+		           ((stringp apikey) (push (cons provider apikey) providers-list))
+		           ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
+    providers-list))
 
 (use-package gptel
   :ensure t

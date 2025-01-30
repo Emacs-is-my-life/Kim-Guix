@@ -9,11 +9,12 @@ polars[all]
 pyspark
 
 # Deep Learning
+jax
 torch
 lightning
 torchtext
 torchvision
-jax
+ultralytics
 triton
 onnx
 transformers
