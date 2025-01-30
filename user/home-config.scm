@@ -287,7 +287,6 @@ mkdir -p $USER_MAIL_DIR
 mkdir -p $USER_BOOK_DIR
 mkdir -p $USER_MUSIC_DIR
 
-mkdir -p $HOME/Desktop
 mkdir -p $HOME/Downloads
 mkdir -p $HOME/Mount
 mkdir -p $HOME/.local/share/Trash
