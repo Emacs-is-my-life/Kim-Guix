@@ -15,9 +15,13 @@ lightning
 torchtext
 torchvision
 ultralytics
+torchrl[atari,dm_control,gym_continuous,rendering,tests,utils,marl,open_spiel,checkpointing]
+stable-baselines3[extra]
+dm-env-rpc
+mcp-agent
+transformers
 triton
 onnx
-transformers
 
 # 3D
 bpy
