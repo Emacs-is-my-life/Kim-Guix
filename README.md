@@ -5,7 +5,7 @@ This repo has configuration files and installation scripts for my Guix linux sys
 # How to install
 ## Prepare installaion medium
 ### Download nonguix iso image
-https://gitlab.com/nonguix/nonguix/-/releases
+https://gitlab.com/nonguix/nonguix/-/releases  
 Download the installation image iso file.
 
 ### Create bootable USB drive
