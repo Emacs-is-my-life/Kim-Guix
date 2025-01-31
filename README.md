@@ -35,7 +35,7 @@ or use Ventoy
   <summary>Wired connection</summary>
   </br>
   ```bash
-  $ dhclient -v *wired-interface-name*
+  $ dhclient -v <wired-interface-name>
   ```
 </details>
 
@@ -48,7 +48,7 @@ or use Ventoy
   network={
     ssid="ssid-name"
     key_mgmt=WPA-PSK
-    psk="*wifi-password*"
+    psk="<wifi-password*"
   }
   ```
 
@@ -56,7 +56,7 @@ or use Ventoy
   ```bash
   $ rfkill unblock all
   $ ifconfig -a
-  $ wpa_supplicant -c wifi.conf -i *wireless-interface-name* -B
+  $ wpa_supplicant -c wifi.conf -i <wireless-interface-name> -B
   ```
 
   #### Get network info using DHCP
