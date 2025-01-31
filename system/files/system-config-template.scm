@@ -96,7 +96,6 @@
  (kernel linux)
  (kernel-arguments (append '("resume=UUID={{ GUIX_OS_UUID_SWAP }}" "resume_offset={{ GUIX_OS_OFFSET_SWAP }}") %default-kernel-arguments))
  (initrd microcode-initrd)
- (initrd-modules (cons "resume" %base-initrd-modules))
  (firmware (list linux-firmware))
  (host-name "{{ GUIX_OS_HOSTNAME }}")
  (keyboard-layout (keyboard-layout "{{ GUIX_OS_KEYBOARD }}"))
