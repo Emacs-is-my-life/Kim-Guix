@@ -64,8 +64,8 @@ $ git clone https://github.com/Emacs-is-my-life/Kim-Guix.git Guix
 
 #### Fill variables in `config.env` and install
 ```bash
-$ cd Guix/system  # Move to system directory
-$ vim config.env      # Fill variables appropriately
+$ cd Guix/system      # Move to system directory
+$ vi config.env       # Fill variables appropriately
 $ ./system-install.sh # Install guix system to target drive
 ```
 
