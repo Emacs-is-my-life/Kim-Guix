@@ -48,7 +48,7 @@ or use Ventoy
   network={
     ssid="ssid-name"
     key_mgmt=WPA-PSK
-    psk="<wifi-password*"
+    psk="<wifi-password>"
   }
   ```
 
@@ -61,7 +61,7 @@ or use Ventoy
 
   #### Get network info using DHCP
   ```bash
-  $ dhclient -v *wireless-interface-name*
+  $ dhclient -v <wireless-interface-name>
   ```
 </details>
 
