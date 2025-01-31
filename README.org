@@ -1,13 +1,18 @@
-* How to install Guix
-** Prepare installation medium
-- Download Guix iso image
-  https://guix.gnu.org/en/download/
-  
-  Consider nonguix installation image if you have non-free hardware: 
-  https://gitlab.com/nonguix/nonguix
-  
-- Create Guix installation USB drive from downloaded iso image
-- Copy this "Kim-Guix" directory into the installation USB
+* What is this?
+
+This repo contains configuration files and installation scripts for my Guix linux system.  
+
+* How to install
+** Prepare installaion medium
+*** Download nonguix iso image
+https://gitlab.com/nonguix/nonguix/-/releases
+Download the installation image iso file.
+
+*** Create USB booting drive
+```
+$ sudo dd if=nonguix-system-install-VERSION.x86_64-linux.iso of=/dev/your-usb-drive bs=4M && sync
+```  
+or use Ventoy
 
 ** Install Guix system on your computer
 - Boot your computer into Guix installation USB in UEFI boot mode
