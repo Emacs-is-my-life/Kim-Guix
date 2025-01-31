@@ -469,9 +469,9 @@
   :ensure t)
 
 ;; treemacs-magit
-;; (use-package treemacs-magit
-;;   :after (treemacs magit)
-;;   :ensure t)
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
 
 ;; treemacs-all-the-icons
 (use-package treemacs-all-the-icons
@@ -533,9 +533,9 @@
   :ensure t
   :after (helm projectile))
 
-;;Magit
-;; (use-package magit
-;;   :ensure t)
+;; Magit
+(use-package magit
+  :ensure t)
 
 
 
@@ -2133,7 +2133,7 @@
 			    :host "api.deepseek.com"
 			    :endpoint "/chat/completions"
 			    :stream t
-			    :models '(deepseek-chat deepseek-coder)))
+			    :models '(deepseek-chat deepseek-coder deepseek-reasoner)))
 	     ((string= provider "api.x.ai")
 	      (gptel-make-openai "xAI"
 			    :key apikey
