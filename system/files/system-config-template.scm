@@ -4,6 +4,7 @@
              (gnu packages firmware)
              (gnu packages bootloaders)
              (gnu packages linux)
+             (gnu packages cryptsetup)
              (gnu packages base)
              (gnu packages bash)
              (gnu packages vim)
@@ -160,7 +161,7 @@
                     cups cups-filters system-config-printer
 
                     ;; security
-                    tpm2-tss tpm2-tools opendoas audit nmap nftables usbguard libfido2 libu2f-host yubikey-manager-qt yubico-piv-tool yubikey-personalization
+                    tpm2-tss tpm2-tools cryptsetup opendoas audit nmap nftables usbguard libfido2 libu2f-host yubikey-manager-qt yubico-piv-tool yubikey-personalization
 
                     ;; virtualization
                     qemu ovmf libvirt virt-manager virt-viewer spice spice-gtk podman distrobox
