@@ -174,8 +174,8 @@
     (service tlp-service-type
              (tlp-configuration
               (tlp-default-mode "BAT")
-              (cpu-scaling-governor-on-ac "performance")
-              (cpu-scaling-governor-on-bat "powersave")
+              (cpu-scaling-governor-on-ac (list "performance"))
+              (cpu-scaling-governor-on-bat (list "powersave"))
               (cpu-boost-on-ac? #t)
               (cpu-boost-on-bat? #f)
               (sched-powersave-on-ac? #f)
