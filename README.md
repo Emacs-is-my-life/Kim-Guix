@@ -24,6 +24,7 @@ or use Ventoy
 <details>
   <summary>Wired connection</summary>
   </br>
+  
   ```bash
   $ dhclient -v <wired-interface-name>
   ```
