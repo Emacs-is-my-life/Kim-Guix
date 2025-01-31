@@ -15,16 +15,6 @@ $ sudo dd if=nonguix-system-install-VERSION.x86_64-linux.iso of=/dev/your-usb-dr
 ```
 or use Ventoy
 
-** Install Guix system on your computer
-- Boot your computer into Guix installation USB in UEFI boot mode
-- When Guix install TUI pops up after boot process, press Ctrl + Alt + F3 to login to shell
-- Connect your booted guix installation system to the internet
-- Move to "Kim-Guix" directory, which you have copied into the installation USB
-- Move to "system" directory
-- Fill "config.env" text file according to your preferences
-- Run "system-install.sh" script to install Guix on your computer
-- Reboot
-
 ## Guix system installation
 ### Booting
 - Boot your computer with prepared USB drive, in UEFI boot mode
@@ -66,6 +56,17 @@ or use Ventoy
 </details>
 
 ### System installation
+#### Copy this repository to booted guix system
+```bash
+$ git clone https://github.com/Emacs-is-my-life/Kim-Guix.git
+```
+
+#### Fill variables in `config.env` and install
+```bash
+$ cd Kim-Guix/system  # Move to system directory
+$ vim config.env      # Fill variables appropriately
+$ ./system-install.sh # Install guix system to target drive
+```
 
 ** Guix home configuration (X11, Emacs, ...)
 - Login as root to your newly installed Guix system
