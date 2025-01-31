@@ -59,31 +59,46 @@ or use Ventoy
 ### System installation
 #### Copy this repository to booted guix system
 ```bash
-$ git clone https://github.com/Emacs-is-my-life/Kim-Guix.git
+$ git clone https://github.com/Emacs-is-my-life/Kim-Guix.git Guix
 ```
 
 #### Fill variables in `config.env` and install
 ```bash
-$ cd Kim-Guix/system  # Move to system directory
+$ cd Guix/system  # Move to system directory
 $ vim config.env      # Fill variables appropriately
 $ ./system-install.sh # Install guix system to target drive
 ```
 
-** Guix home configuration (X11, Emacs, ...)
-- Login as root to your newly installed Guix system
-- Set password for root user
-- Set password for user you have created during installation
-- Configure network for internet connectivity
-  $ nmtui
-  
-- Logout then login as a user which you have created through installation process
-- Copy this "Kim-Guix" directory into logged in user's home
-- Move to "user" directory in "Kim-Guix" directory
-- Run "user-install.sh" script to configure user environment
-- Reboot
-- Login again as the user account
-- Plug all your monitors and do monitor config setup
-  $ arandr                 # This is a gui app for monitor setup configuration
-  $ autorandr --save home  # Save your current monitor setup (you just did with arandr) as "home" profile.
+After the installtion, remove the usb drive and reboot to the installed system.
 
-* Notes
+#### Change password
+Login as root user
+```bash
+$ passwd             # Set root password 
+$ passwd <username>  # Set password of user you created
+```
+
+## User environment setup
+### Network connection
+Login as created user <username>  
+Then configure network connection
+```bash
+$ sudo nmtui
+```
+
+### Guix home installation
+```bash
+$ git clone https://github.com/Emacs-is-my-life/Kim-Guix.git Guix
+$ cd Guix/user
+$ ./user-install.sh
+```
+
+### Monitor setup
+Logout first, then login again to start EXWM  
+Then use following programs to config display setup
+```bash
+$ arandr                           # GUI program for display configuration
+$ autorandr --save <profile-name>  # Saves your current display configuration as a profile
+```
+
+# Notes
