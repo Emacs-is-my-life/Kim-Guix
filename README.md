@@ -34,15 +34,34 @@ or use Ventoy
 <details>
   <summary>Wired connection</summary>
   </br>
-  
-  #### Using DHCP
   ```bash
-  $ dhclient -v *interface-name*
+  $ dhclient -v *wired-interface-name*
   ```
-  
-  #### Using manual connection
+</details>
+
+<details>
+  <summary>Wireless connection</summary>
+  </br>
+
+  #### Create `wifi.conf` text file
+  ```
+  network={
+    ssid="ssid-name"
+    key_mgmt=WPA-PSK
+    psk="*wifi-password*"
+  }
+  ```
+
+  #### Connect to Wifi network
   ```bash
-  $ ip addr 
+  $ rfkill unblock all
+  $ ifconfig -a
+  $ wpa_supplicant -c wifi.conf -i *wireless-interface-name* -B
+  ```
+
+  #### Get network info using DHCP
+  ```bash
+  $ dhclient -v *wireless-interface-name*
   ```
 </details>
 
