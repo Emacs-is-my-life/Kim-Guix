@@ -95,6 +95,7 @@
 
 (operating-system
  (kernel linux)
+ (kernel-loadable-modules (list acpi-call-linux-module))
  (kernel-arguments (append '("resume=UUID={{ GUIX_OS_UUID_SWAP }}" "resume_offset={{ GUIX_OS_OFFSET_SWAP }}") %default-kernel-arguments))
  (initrd microcode-initrd)
  (firmware (list linux-firmware))
@@ -155,7 +156,7 @@
                     elogind xorg-server xinit xinitrc-xsession xhost xterm xf86-input-evdev xf86-input-libinput xf86-input-wacom xrdb xmodmap xsettingsd xrandr arandr autorandr slock xss-lock dbus xdg-dbus-proxy picom
 
                     ;; monitoring
-                    htop lm-sensors tlp thermald fwupd rasdaemon earlyoom mcron procps util-linux sysstat numactl cpuid msr-tools 
+                    htop lm-sensors tlp thermald acpi-call-linux-module fwupd rasdaemon earlyoom mcron procps util-linux sysstat numactl cpuid msr-tools 
 
                     ;; printer
                     cups cups-filters system-config-printer
@@ -182,7 +183,9 @@
               (sched-powersave-on-bat? #t)
               (energy-perf-policy-on-ac "performance")
               (energy-perf-policy-on-bat "powersave")
+              (start-charge-thresh-bat0 40)
               (stop-charge-thresh-bat0 70)
+              (start-charge-thresh-bat1 40)
               (stop-charge-thresh-bat1 70)))
     (service thermald-service-type
              (thermald-configuration
