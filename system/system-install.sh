@@ -93,7 +93,7 @@ export PART_NAME_ROOT=$(fdisk -l $GUIX_OS_INSTALL_DISK | grep filesystem | awk '
 cryptsetup luksFormat --type luks2 \
 	              --pbkdf pbkdf2 \
 		      --cipher aes-xts-plain64 \
-		      --iter-time 1000 \
+		      --iter-time 2000 \
 		      --hash sha256 \
 		      --key-size 256 \
 		      --sector-size 4096 \
