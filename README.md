@@ -101,4 +101,22 @@ $ arandr                           # GUI program for display configuration
 $ autorandr --save <profile-name>  # Saves your current display configuration as a profile
 ```
 
+### (Optional) Mail and LLM service account information
+Create `authinfo` textfile, which has email account info and llm service accounts
+```
+machine imap.gmail.com login my.email.addr@gmail.com port 993 password blahblah123
+machine smtp.gmail.com login my.email.addr@gmail.com port 587 password blahblah123
+machine api.openai.com login apikey password TOKEN
+machine generativelanguage.googleapis.com login apikey password TOKEN
+machine api.anthropic.com login apikey password TOKEN
+machine api.deepseek.com login apikey password TOKEN
+```
+
+Then encrypt `authinfo` textfile with gpg, place it at `~/Documents/Secrets/`
+```bash
+$ gpg --output authinfo.gpg --encrypt authinfo
+$ mv authinfo.gpg ~/Documents/Secrets/
+$ rm authinfo
+```
+
 # Notes
