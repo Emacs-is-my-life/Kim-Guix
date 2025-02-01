@@ -165,7 +165,7 @@
    libreoffice ghostscript pandoc
 
    ;; Media Viewer
-   viewnior mpv ffmpeg gstreamer yt-dlp
+   viewnior strawberry mpv ffmpeg gstreamer yt-dlp
 
    ;; Media Edit
    gimp krita imagemagick inkscape graphviz blender shotcut
