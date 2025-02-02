@@ -10,6 +10,9 @@ cat ./files/isyncrc.template \
 echo "Please enter your full name:"
 read USER_FULL_NAME
 
+mkdir -p ~/.config/guix
+cp ./files.channels.scm ~/.config/guix/
+
 # Keep trying
 while true; do
 	# guix pull -C ./files/channels.scm && \

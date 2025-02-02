@@ -154,6 +154,9 @@ guix archive --authorize < ./files/signing-key.pub
 
 echo "Starting installation..."
 
+mkdir -p /root/.config/guix
+cp ./files/channels.scm /root/.config/guix/
+
 # Keep trying
 while true; do
 	guix pull -C ./files/channels.scm && \
