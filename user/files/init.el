@@ -2078,7 +2078,8 @@
             nil)))))
   (add-hook 'message-send-hook 'sign-or-encrypt-message)
   :init
-  (mu4e t)))
+  ;; (mu4e t)
+  ))
 
 
 
