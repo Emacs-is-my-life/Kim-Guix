@@ -1730,95 +1730,6 @@
 
 
 
-;; # ==== [Email]
-
-
-
-
-;; mu4e
-(if (file-exists-p (car auth-sources))
-    (use-package mu4e
-  :ensure nil
-  :pin manual
-  :defer 20
-  :after exwm
-  :config
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-maildir (getenv "USER_MAIL_DIR"))
-  (setq mu4e-attachment-dir "~/Downloads")
-
-  (defun mu4e/run-mbsync (temp_arg)
-    (with-environment-variables (("MBSYNC_TEMP_ARG" temp_arg))
-      (start-process "mbsync" nil "mbsync" "-a")))
-  
-  (add-hook 'mu4e-update-pre-hook
-            (lambda ()
-              (let ((auth-info (car (auth-source-search :max 1
-                                                        :host "imap.gmail.com"
-                                                        :user (getenv "USER_MAIL_ADDRESS")
-                                                        :require '(:secret)))))
-                (if auth-info
-                    (let ((secret (plist-get auth-info :secret)))
-                      (cond
-                       ((stringp secret) (mu4e/run-mbsync secret))
-                       ((functionp secret) (mu4e/run-mbsync (funcall secret)))
-                       (t (message "[MU4E]: Unexpected secret type: %s" (type-of secret)))))
-                  (message "[MU4E]: No matching auth entry found")))))
-  
-  (setq mu4e-get-mail-command "true")
-  
-  (setq mu4e-drafts-folder "/[Gmail]/Drafts")
-  (setq mu4e-sent-folder "/[Gmail]/Sent Mail")
-  (setq mu4e-refile-folder "/[Gmail]/All Mail")
-  (setq mu4e-trash-folder "/[Gmail]/Trash")
-  
-  (setq mu4e-maildir-shortcuts
-        '((:maildir "/Inbox"    :key ?i)
-          (:maildir "/[Gmail]/Sent Mail" :key ?s)
-          (:maildir "/[Gmail]/Trash"     :key ?t)
-          (:maildir "/[Gmail]/Drafts"    :key ?d)
-          (:maildir "/[Gmail]/All Mail"  :key ?a)))
-
-  (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
-  (setq mu4e-search-include-related t)
-  (setq mu4e-compose-format-flowed t)
-
-  (require 'smtpmail)
-  (require 'auth-source)
-  (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
-  (setq smtp-mail-stream-type 'starttls)
-  (setq smtpmail-auth-credentials 'auth-source)
-  (setq user-mail-address (getenv "USER_MAIL_ADDRESS"))
-  (setq user-full-name (getenv "USER_FULL_NAME"))
-  (setq smtpmail-smtp-server "smtp.gmail.com")
-  (setq smtpmail-smtp-service 587)
-
-  (defun sign-or-encrypt-message ()
-    (let ((answer (read-from-minibuffer "Sign or encrypt?\nEmpty to do nothing.\n[s/e]: ")))
-      (cond
-       ((string-equal answer "s") (progn
-                                    (message "Signing message.")
-                                    (mml-secure-message-sign-pgpmime)))
-       ((string-equal answer "e") (progn
-                                    (message "Encrypt and signing message.")
-                                    (mml-secure-message-encrypt-pgpmime)))
-       (t (progn
-            (message "Dont signing or encrypting message.")
-            nil)))))
-  (add-hook 'message-send-hook 'sign-or-encrypt-message)
-  :init
-  (mu4e t)))
-
-
-
-
-
-
-
-
-
-
-
 ;; # ==== [Utilities]
 
 
@@ -2082,6 +1993,92 @@
   (setq dashboard-week-agenda t)
   (dashboard-setup-startup-hook)
   (dashboard-open))
+
+
+
+
+
+
+
+
+;; # ==== [Email]
+
+
+
+
+;; mu4e
+(if (file-exists-p (car auth-sources))
+    (use-package mu4e
+  :ensure nil
+  :pin manual
+  :defer 20
+  :after exwm
+  :config
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-maildir (getenv "USER_MAIL_DIR"))
+  (setq mu4e-attachment-dir "~/Downloads")
+
+  (defun mu4e/run-mbsync (temp_arg)
+    (with-environment-variables (("MBSYNC_TEMP_ARG" temp_arg))
+      (start-process "mbsync" nil "mbsync" "-a")))
+  
+  (add-hook 'mu4e-update-pre-hook
+            (lambda ()
+              (let ((auth-info (car (auth-source-search :max 1
+                                                        :host "imap.gmail.com"
+                                                        :user (getenv "USER_MAIL_ADDRESS")
+                                                        :require '(:secret)))))
+                (if auth-info
+                    (let ((secret (plist-get auth-info :secret)))
+                      (cond
+                       ((stringp secret) (mu4e/run-mbsync secret))
+                       ((functionp secret) (mu4e/run-mbsync (funcall secret)))
+                       (t (message "[MU4E]: Unexpected secret type: %s" (type-of secret)))))
+                  (message "[MU4E]: No matching auth entry found")))))
+  
+  (setq mu4e-get-mail-command "true")
+  
+  (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+  (setq mu4e-sent-folder "/[Gmail]/Sent Mail")
+  (setq mu4e-refile-folder "/[Gmail]/All Mail")
+  (setq mu4e-trash-folder "/[Gmail]/Trash")
+  
+  (setq mu4e-maildir-shortcuts
+        '((:maildir "/Inbox"    :key ?i)
+          (:maildir "/[Gmail]/Sent Mail" :key ?s)
+          (:maildir "/[Gmail]/Trash"     :key ?t)
+          (:maildir "/[Gmail]/Drafts"    :key ?d)
+          (:maildir "/[Gmail]/All Mail"  :key ?a)))
+
+  (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+  (setq mu4e-search-include-related t)
+  (setq mu4e-compose-format-flowed t)
+
+  (require 'smtpmail)
+  (require 'auth-source)
+  (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
+  (setq smtp-mail-stream-type 'starttls)
+  (setq smtpmail-auth-credentials 'auth-source)
+  (setq user-mail-address (getenv "USER_MAIL_ADDRESS"))
+  (setq user-full-name (getenv "USER_FULL_NAME"))
+  (setq smtpmail-smtp-server "smtp.gmail.com")
+  (setq smtpmail-smtp-service 587)
+
+  (defun sign-or-encrypt-message ()
+    (let ((answer (read-from-minibuffer "Sign or encrypt?\nEmpty to do nothing.\n[s/e]: ")))
+      (cond
+       ((string-equal answer "s") (progn
+                                    (message "Signing message.")
+                                    (mml-secure-message-sign-pgpmime)))
+       ((string-equal answer "e") (progn
+                                    (message "Encrypt and signing message.")
+                                    (mml-secure-message-encrypt-pgpmime)))
+       (t (progn
+            (message "Dont signing or encrypting message.")
+            nil)))))
+  (add-hook 'message-send-hook 'sign-or-encrypt-message)
+  :init
+  (mu4e t)))
 
 
 
