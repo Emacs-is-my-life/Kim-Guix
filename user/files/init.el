@@ -73,7 +73,7 @@
   :ensure t)
 
 (use-package quelpa-use-package
-  :demand
+  :ensure t
   :config
   (quelpa-use-package-activate-advice))
 
@@ -91,7 +91,7 @@
   (auto-package-update-prompt-before-update t) 
   (auto-package-update-hide-results t)
   :config
-  (setq auto-package-update-excluded-packages '(mu4e vterm guix))
+  (setq auto-package-update-excluded-packages '(mu4e vterm guix dash zmq pinentry))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -118,6 +118,25 @@
 		                             (float-time
 		                              (time-subtract after-init-time before-init-time)))
                          gcs-done))))
+
+
+
+
+
+
+;; # ===== [Guix managed emacs libraries]
+
+
+
+
+(use-package dash
+  :ensure nil
+  :pin manual)
+
+(use-package zmq
+  :ensure nil
+  :pin manual)
+
 
 
 
@@ -480,6 +499,7 @@
 
 ;; Openwith for external programs
 (use-package openwith
+  :ensure t
   :init
   (openwith-mode 1)
   :config
@@ -566,14 +586,6 @@
   (lambda (c)
     (or (char-equal c ?\')
         (char-equal c ?\<))))
-
-(use-package rainbow-delimiters
-  :hook
-  ((lisp-mode . rainbow-delimiters-mode)
-   (lisp-interaction-mode . rainbow-delimiters-mode)
-   (scheme-mode . rainbow-delimiters-mode)
-   (common-lisp-mode . rainbow-delimiters-mode)
-   (emacs-lisp-mode . rainbow-delimiters-mode)))
 
 ;; Undo tree
 (use-package undo-tree
@@ -794,7 +806,7 @@
   ;; Prolog
   (require 'dap-swi-prolog)
   ;; Java
-  (require 'dap-java)
+  ;; (require 'dap-java)
   ;; Golang
   (require 'dap-dlv-go)
   ;; Javascript
@@ -1230,7 +1242,7 @@
 
 ;; Verb
 (use-package verb
-  :after org)
+  :ensure t)
 
 
 
@@ -1355,6 +1367,12 @@
 ;; * ---- Org mode
 
 
+(use-package org-auto-tangle
+  :ensure t
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
 
 
 ;; org
@@ -1615,13 +1633,6 @@
             #'(lambda ()
 	              (setq inferior-julia-program-name "julia"))))
 
-(use-package org-auto-tangle
-  :after org
-  :defer t
-  :hook (org-mode . org-auto-tangle-mode)
-  :config
-  (setq org-auto-tangle-default t))
-
 (use-package org-bullets
   :after org 
   :config
@@ -1725,10 +1736,12 @@
 
 
 ;; mu4e
-(use-package mu4e
+(if (file-exists-p (car auth-sources))
+    (use-package mu4e
   :ensure nil
   :pin manual
   :defer 20
+  :after exwm
   :config
   (setq mu4e-change-filenames-when-moving t)
   (setq mu4e-maildir (getenv "USER_MAIL_DIR"))
@@ -1794,7 +1807,10 @@
             nil)))))
   (add-hook 'message-send-hook 'sign-or-encrypt-message)
   :init
-  (mu4e t))
+  (mu4e t)))
+
+
+
 
 
 
@@ -1851,9 +1867,14 @@
 ;; # ==== [EXWM]
 
 
+(use-package pinentry
+  :ensure nil
+  :pin manual)
+
 (use-package epg
   :ensure t
   :config
+  :after pinentry
   (setq epg-pinentry-mode 'loopback)
   :init
   (pinentry-start))
@@ -2095,9 +2116,11 @@
 		           ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
     providers-list))
 
+(if (file-exists-p (car auth-sources))
 (use-package gptel
   :ensure t
   :defer t
+  :after exwm
   :config
   (dolist (provider-info (gptel/get-llm-providers))
     (let ((provider (car provider-info))
@@ -2140,5 +2163,5 @@
 			    :host "api.x.ai"
 			    :endpoint "/v1/chat/completions"
 			    :stream t
-			    :models '(grok-beta)))))))
+			    :models '(grok-beta))))))))
 
