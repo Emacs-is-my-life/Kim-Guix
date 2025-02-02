@@ -91,7 +91,7 @@
   (auto-package-update-prompt-before-update t) 
   (auto-package-update-hide-results t)
   :config
-  (setq auto-package-update-excluded-packages '(mu4e vterm guix dash zmq pinentry))
+  (setq auto-package-update-excluded-packages '(mu4e vterm guix dash zmq))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -1871,9 +1871,7 @@
 (use-package epg
   :ensure t
   :config
-  (setq epg-pinentry-mode 'loopback)
-  :init
-  (pinentry-start))
+  (setq epg-pinentry-mode 'loopback))
 
 (defun exwm/update-class ()
   (exwm-workspace-rename-buffer exwm-class-name))
