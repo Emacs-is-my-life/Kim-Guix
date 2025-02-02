@@ -10,7 +10,7 @@ cat ./files/isyncrc.template \
 export USER_FULL_NAME=$(getent passwd $(whoami) | cut -d':' -f5)
 
 mkdir -p ~/.config/guix
-cp ./files.channels.scm ~/.config/guix/
+cp ./files/channels.scm ~/.config/guix/
 
 # Keep trying
 while true; do
@@ -45,13 +45,13 @@ pip3 install -r ./files/requirements.txt
 pip3 uninstall -y numpy
 
 # Directory permission
-chmod -R 711 ~/Documents
-chmod -R 711 ~/Workspace
+chmod 700 ~/Documents
+chmod 700 ~/Workspace
 
 rm -rf ./.temp
 
 if [ "$(pwd)" != "$HOME/Documents/Guix/user" ]; then
-    cp -r ../../Guix $HOME/Documents/
+    cp -r ../../Guix $HOME/Documents/Guix
 fi
 
 echo "Installation is complete."
