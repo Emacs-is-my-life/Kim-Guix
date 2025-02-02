@@ -113,6 +113,7 @@
              (gnu packages maths)
              (gnu packages gawk)
              (gnu packages golang)
+             (gnu packages golang-xyz)
              (gnu packages java)
              (gnu packages node)
              (gnu packages web)
