@@ -7,15 +7,14 @@ cat ./files/isyncrc.template \
     | sed "s|{{ USER_GMAIL_ADDRESS }}|$USER_GMAIL_ADDRESS|g" \
 > ./.temp/isyncrc
 
-echo "Please enter your full name:"
-read USER_FULL_NAME
+export USER_FULL_NAME=$(getent passwd $(whoami) | cut -d':' -f5)
 
 mkdir -p ~/.config/guix
 cp ./files.channels.scm ~/.config/guix/
 
 # Keep trying
 while true; do
-	# guix pull -C ./files/channels.scm && \
+	guix pull -C ./files/channels.scm && \
 	guix home reconfigure ./home-config.scm && \
 	break
 
