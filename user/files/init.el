@@ -1867,14 +1867,10 @@
 ;; # ==== [EXWM]
 
 
-(use-package pinentry
-  :ensure nil
-  :pin manual)
 
 (use-package epg
   :ensure t
   :config
-  :after pinentry
   (setq epg-pinentry-mode 'loopback)
   :init
   (pinentry-start))
