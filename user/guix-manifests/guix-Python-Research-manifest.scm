@@ -10,5 +10,5 @@
    "python-numba"
    "python-tqdm"
    "python-statsmodels"
-   "python-pymc"
+   ;; "python-pymc"
 ))
