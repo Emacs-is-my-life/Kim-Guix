@@ -31,7 +31,7 @@
              (gnu packages mail)
              (gnu packages pdf)
              (gnu packages libreoffice)
-	           (gnu packages ghostscript)
+	     (gnu packages ghostscript)
              (gnu packages education)
              (gnu packages textutils)
              (gnu packages gawk)
@@ -44,18 +44,18 @@
              (gnu packages gimp)
              (gnu packages imagemagick)
              (gnu packages inkscape)
-	           (gnu packages image-processing)
+	     (gnu packages image-processing)
              (gnu packages kde)
              (gnu packages graphics)
              (gnu packages ssh)
              (gnu packages linux)
-	           (gnu packages compression)
+	     (gnu packages compression)
              (gnu packages vnc)
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
              (gnu packages base)
              (gnu packages cmake)
-	           (gnu packages autotools)
+	     (gnu packages autotools)
              (gnu packages build-tools)             
              (gnu packages version-control)
              (gnu packages bison)
@@ -95,7 +95,7 @@
              (gnu packages python-web)
              (gnu packages python-crypto)
              (gnu packages python-science)
-	           (gnu packages jupyter)
+	     (gnu packages jupyter)
              (gnu packages image-processing)
              (gnu packages check)
              (gnu packages rpc)
@@ -103,8 +103,8 @@
              (gnu packages databases)
              (gnu packages time)
              (gnu packages graph)
-	           (gnu packages machine-learning)
-	           (gnu packages qt)
+	     (gnu packages machine-learning)
+	     (gnu packages qt)
              (gnu packages parallel)
              (gnu packages package-management)
              (gnu packages julia)
@@ -124,7 +124,7 @@
              (guix channels)
              (guix packages)
              (guix gexp)
-	           (nongnu packages game-client))
+	     (nongnu packages game-client))
 
 (home-environment
  (packages
@@ -282,7 +282,7 @@ mkdir -p $USER_PROJECT_DIR
 mkdir -p $USER_ORG_DIR
 mkdir -p $USER_HTML_DIR
 mkdir -p $USER_SECRET_DIR
-chmod -R 700 $USER_SECRET_DIR
+chmod 700 $USER_SECRET_DIR
 mkdir -p $USER_LEDGER_DIR
 mkdir -p $USER_MAIL_DIR
 mkdir -p $USER_BOOK_DIR
@@ -332,7 +332,7 @@ export R_WORK_DIR=$USER_PROJECT_DIR
 
 export GNUPGHOME=\"$USER_SECRET_DIR\"GnuPG
 mkdir -p $GNUPGHOME
-chmod -R 700 $GNUPGHOME
+chmod 700 $GNUPGHOME
 export GPG_TTY=$(tty)
 
 export GNUPG_KEYID_SIGN=$(gpg -K | grep -E -i '\\[S\\]' | awk -F'/0x' '{print $2}' | cut -d ' ' -f 1)
