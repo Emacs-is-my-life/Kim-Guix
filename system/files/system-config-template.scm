@@ -98,7 +98,7 @@
  (kernel-loadable-modules (list acpi-call-linux-module))
  (kernel-arguments (append '("resume=UUID={{ GUIX_OS_UUID_SWAP }}" "resume_offset={{ GUIX_OS_OFFSET_SWAP }}") %default-kernel-arguments))
  (initrd microcode-initrd)
- (firmware (list linux-firmware))
+ (firmware (list sof-firmware linux-firmware))
  (host-name "{{ GUIX_OS_HOSTNAME }}")
  (keyboard-layout (keyboard-layout "{{ GUIX_OS_KEYBOARD }}"))
  (locale "{{ GUIX_OS_LOCALE }}")
