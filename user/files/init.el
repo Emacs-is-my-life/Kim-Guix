@@ -2018,7 +2018,7 @@
 
   (defun mu4e/run-mbsync (temp_arg)
     (with-environment-variables (("MBSYNC_TEMP_ARG" temp_arg))
-      (start-process "mbsync" "*mbsync-output*" "mbsync" "-a")))
+      (start-process "mbsync" nil "mbsync" "-a")))
   
   (add-hook 'mu4e-update-pre-hook
             (lambda ()
@@ -2076,8 +2076,7 @@
             nil)))))
   (add-hook 'message-send-hook 'sign-or-encrypt-message)
   :init
-  ;; (mu4e t)
-  ))
+  (mu4e t)))
 
 
 
