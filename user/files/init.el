@@ -2106,6 +2106,9 @@
 		           ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
     providers-list))
 
+(use-package markdown-mode
+  :ensure t)
+
 (if (file-exists-p (car auth-sources))
 (use-package gptel
   :ensure t
