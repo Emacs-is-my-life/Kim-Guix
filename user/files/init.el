@@ -1367,18 +1367,11 @@
 ;; * ---- Org mode
 
 
-(use-package org-auto-tangle
-  :ensure t
-  :defer t
-  :hook (org-mode . org-auto-tangle-mode)
-  :config
-  (setq org-auto-tangle-default t))
-
-
 ;; org
 (use-package org
   :straight t
   :ensure t
+  :defer t
   :bind (:map org-mode-map
 	            ("C-<tab>" . org-cycle))
   :mode
@@ -1614,6 +1607,16 @@
            :publishing-function org-publish-attachment)
           
           ("blog" :components ("articles" "static" "images")))))
+
+
+;; org-auto-tangle
+(use-package org-auto-tangle
+  :ensure t
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+
 
 ;; org-bullets
 (use-package org-bullets
