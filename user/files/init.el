@@ -1720,9 +1720,6 @@
   (setq org-fc-directories `(,(concat org-directory "roam/")))
   (setq org-fc-review-history-file (concat org-directory "notes/org-fc-reviews.tsv")))
 
-;; Nano Agenda
-(use-package nano-agenda)
-
 
 
 
@@ -1947,6 +1944,7 @@
 ;; (exwm-enable) will be invoked from xinitrc
 
 (use-package desktop-environment
+  :ensure t
   :after exwm
   :config (desktop-environment-mode)
   :custom
