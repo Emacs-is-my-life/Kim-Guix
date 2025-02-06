@@ -43,9 +43,6 @@ do
         fi
 done
 
-# Install pip packages
-pip3 install -r ./files/requirements.txt
-pip3 uninstall -y numpy
 
 # Directory permission
 chmod 700 ~/Documents
