@@ -1439,7 +1439,8 @@
         '((sequence "TODO(t)" "DOING(g)" "HOLD(h)" "DONE(d)")))
 
   ;; org-clock for alarm
-  (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
+  (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
+    (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
 
   ;; org-tempo for structured editing
   (require 'org-tempo)
