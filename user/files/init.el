@@ -348,7 +348,7 @@
 
 ;; recentf
 (use-package recentf
-  :ensure nil
+  :ensure t
   :config
   (setq recentf-max-saved-items 128)
   (setq recentf-filename-handlers
@@ -357,6 +357,7 @@
 
 ;; Better search with transient
 (use-package transient
+  :ensure t
   :config
   (transient-define-prefix cc/isearch-menu ()
     "isearch Menu"
@@ -674,6 +675,7 @@
 
 ;; helpful source code search
 (use-package helpful
+  :ensure t
   :commands
   (helpful-callable
    helpful-variable
@@ -1170,7 +1172,8 @@
 ;; dap-mode for debugging support
 (use-package dap-mode
   :commands dap-debug
-  :after lsp-mode 
+  :after lsp-mode
+  :ensure t
   :config
   (dap-auto-configure-mode)
   (dap-mode 1)
@@ -1202,13 +1205,15 @@
 ;; Prolog: $ swipl -g "pack_install(debug_adapter)" -t halt
 
 ;; posframe is a pop-up tool for dap-mode
-(use-package posframe)
+(use-package posframe
+  :ensure t)
 
 ;; MANUAL INSTALL REQUIRED: mono (pacman)
 ;; "vscode-cpptools" should be installed in Emacs: M-x dap-cpptools-setup
 
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
+  :ensure t
   :init
   (add-hook 'after-init-hook #'global-flycheck-mode)
   :config
@@ -1287,6 +1292,7 @@
 ;; <Ocaml>
 ;; MANUAL INSTALL REQUIRED: $ opam install ocaml-lsp-server
 (use-package tuareg
+  :ensure t
   :config
   (add-hook 'tuareg-mode-hook #'lsp))
 
@@ -1298,12 +1304,14 @@
 ;; <Rust>
 ;; MANUAL INSTALL REQUIRED: rust-analyzer
 (use-package rust-mode
+  :ensure t
   :config
   (add-hook 'rust-mode-hook #'lsp))
 
 
 ;; <Forth>
 (use-package forth-mode
+  :ensure t
   :mode ("\\.fs\\'" . forth-mode)
   :config
   (autoload 'forth-mode "gforth.el")
@@ -1317,6 +1325,7 @@
 
 ;; <LISP family>
 (use-package aggressive-indent
+  :ensure t
   :config
   (add-hook 'lisp-mode-hook             #'aggressive-indent-mode)
   (add-hook 'lisp-interaction-mode-hook #'aggressive-indent-mode)
@@ -1325,6 +1334,7 @@
   (add-hook 'common-lisp-mode-hook      #'aggressive-indent-mode))
 
 (use-package lisp-extra-font-lock
+  :ensure t
   :config
   (lisp-extra-font-lock-global-mode 1)
   (add-hook 'lisp-mode-hook             #'lisp-extra-font-lock-mode)
@@ -1335,6 +1345,7 @@
 
 ;; paredit: structural editing
 (use-package paredit
+  :ensure t
   :config
   (add-hook 'lisp-mode-hook             'enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
@@ -1346,6 +1357,7 @@
 ;; <Scheme>
 ;; Geiser for Scheme family
 (use-package geiser
+  :ensure t
   :mode ("\\.scm\\'" . scheme-mode)
   :commands (geiser run-geiser)
   :config
@@ -1356,20 +1368,24 @@
   (add-hook 'geiser-repl-mode #'smartparens-mode))
 
 (use-package geiser-guile 
-    :after geiser)
+  :after geiser
+  :ensure t)
 
 (use-package geiser-chicken
   :after geiser
+  :ensure t
   :config
   (setq geiser-chicken-binary "csi"))
 
 (use-package geiser-racket
-  :after geiser)
+  :after geiser
+  :ensure t)
 
 
 ;; <Common Lisp>
 ;; Sly for Common Lisp
 (use-package sly
+  :ensure t
   :mode ("\\.lisp\\'" . common-lisp-mode)
   :commands (sly)
   :config
@@ -1384,9 +1400,11 @@
 
 ;; <Coq>
 (use-package proof-general
+  :ensure t
   :mode ("\\.v\\'" . coq-mode))
 
 (use-package company-coq
+  :ensure t
   :after (company proof-general)
   :config
   (add-hook 'coq-mode-hook #'company-coq-mode))
@@ -1394,6 +1412,7 @@
 
 ;; <Lean>
 (use-package lean4-mode
+  :ensure t
   :mode ("\\.lean\\'" . lean4-mode)
   :straight (lean4-mode
 	           :type git
@@ -1407,6 +1426,7 @@
 ;; <Idris>
 ;; MANUAL INSTALL REQUIRED: $ pack install-app idris2-lsp
 (use-package idris-mode
+  :ensure t
   :config
   (add-hook 'idris-mode #'lsp))
 
@@ -1462,9 +1482,11 @@
 
 
 ;; <Julia>
-(use-package julia-mode)
+(use-package julia-mode
+  :ensure t)
 
 (use-package lsp-julia
+  :ensure t
   :mode ("\\.jl\\'" . julia-mode)
   :after (lsp-mode julia-mode) 
   :config 
@@ -1473,7 +1495,8 @@
   (add-hook 'ess-julia-mode-hook #'lsp-mode))
 
 (use-package julia-repl
-  :after vterm 
+  :after vterm
+  :ensure t
   :init
   :hook (julia-mode . julia-repl-mode)
   :config
@@ -1486,6 +1509,7 @@
   (buffer-face-mode))
 
 (use-package gnu-apl-mode
+  :ensure t
   :config
   (add-hook 'gnu-apl-interactive-mode-hook 'em-gnu-apl-init)
   (add-hook 'gnu-apl-mode-hook 'em-gnu-apl-init)
@@ -1507,7 +1531,8 @@
 
 ;; <R>
 ;; MANUAL INSTALL REQUIRED: (R) install.packages("languageserver")
-(use-package ess)
+(use-package ess
+  :ensure t)
 
 
 
@@ -1520,7 +1545,8 @@
 
 
 ;; sed
-(use-package sed-mode)
+(use-package sed-mode
+  :ensure t)
 
 
 
@@ -1530,6 +1556,7 @@
 
 ;; Java
 (use-package lsp-java
+  :ensure t
   :config
   (require 'dap-java)
   (add-hook 'java-mode-hook #'lsp))
@@ -1564,6 +1591,7 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (use-package go-mode
+  :ensure t
   :config
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
   (add-hook 'go-mode-hook #'lsp-deferred))
@@ -1639,6 +1667,7 @@
 ;; <Hledger>
 ;; hledger-mode
 (use-package hledger-mode
+  :ensure t
   :mode ("\\.journal\\'" "\\.hledger\\'")
   :commands hledger-enable-reporting
   :bind (("C-c j" . hledger-run-command)
@@ -1659,6 +1688,7 @@
 
 ;; flycheck-hledger
 (use-package flycheck-hledger
+  :ensure t
   :after (flycheck hledger-mode)
   :demand t)
 
@@ -1706,12 +1736,14 @@
 
 ;; auctex-latexmk
 (use-package auctex-latexmk
+  :ensure t
   :after tex
   :config
   (auctex-latexmk-setup))
 
 ;; render LaTeX in org mode
 (use-package ob-latex-as-png
+  :ensure t
   :after tex)
 
 (with-eval-after-load 'org
@@ -1727,6 +1759,7 @@
 
 ;; <GNUPlot>
 (use-package gnuplot
+  :ensure t
   :mode ("\\.gpi\\'" . gnuplot-mode)
   :config
   (autoload 'gnuplot-mode "gnuplot" "Gnuplot major mode" t)
