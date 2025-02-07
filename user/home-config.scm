@@ -129,7 +129,7 @@
  (packages
   (list
    ;; Emacs & EXWM
-   emacs emacs-vterm emacs-guix pinentry-emacs emacs-dash emacs-zmq libtool ncurses dunst scrot brightnessctl playerctl redshift
+   emacs emacs-vterm emacs-guix pinentry-emacs emacs-dash emacs-zmq emacs-magit-popup libtool ncurses dunst scrot brightnessctl playerctl redshift
 
    ;; Security
    gnupg paperkey argon2 keepassxc keepassxc-browser/icecat

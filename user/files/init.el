@@ -91,7 +91,7 @@
   (auto-package-update-prompt-before-update t) 
   (auto-package-update-hide-results t)
   :config
-  (setq auto-package-update-excluded-packages '(mu4e vterm guix dash zmq))
+  (setq auto-package-update-excluded-packages '(mu4e vterm guix dash zmq magit-popup))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -134,6 +134,10 @@
   :pin manual)
 
 (use-package zmq
+  :ensure nil
+  :pin manual)
+
+(use-package magit-popup
   :ensure nil
   :pin manual)
 
