@@ -27,7 +27,7 @@ echo "export USER_FULL_NAME='${USER_FULL_NAME}'" >> ~/Documents/Secrets/userinfo
 
 # Initialize mu mail utility
 mkdir -p ~/Documents/Mail
-mu init --maildir ~/Documents/Mail
+mu init --maildir ~/Documents/Mail --my-address="$USER_GMAIL_ADDRESS"
 
 # Install Guix profiles
 export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
