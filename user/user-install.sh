@@ -7,7 +7,7 @@ cat ./files/isyncrc.template \
     | sed "s|{{ USER_GMAIL_ADDRESS }}|$USER_GMAIL_ADDRESS|g" \
 > ./.temp/isyncrc
 
-export USER_FULL_NAME=$(getent passwd $(whoami) | cut -d':' -f5)
+export USER_FULL_NAME=$(cat /etc/passwd | grep $(whoami) | cut -d':' -f5)
 
 mkdir -p ~/.config/guix
 cp ./files/channels.scm ~/.config/guix/
@@ -21,10 +21,12 @@ while true; do
 	sleep 60
 done
 
+mkdir -p ~/Documents/Secrets
 echo "export USER_MAIL_ADDRESS='${USER_GMAIL_ADDRESS}'" > ~/Documents/Secrets/userinfo.env
 echo "export USER_FULL_NAME='${USER_FULL_NAME}'" >> ~/Documents/Secrets/userinfo.env
 
 # Initialize mu mail utility
+mkdir -p ~/Documents/Mail
 mu init --maildir ~/Documents/Mail
 
 # Install Guix profiles
@@ -45,8 +47,19 @@ done
 
 
 # Directory permission
+mkdir -p ~/Documents
+mkdir -p ~/Workspace
 chmod 700 ~/Documents
 chmod 700 ~/Workspace
+
+# Org
+mkdir -p ~/Documents/Org/notes
+touch ~/Documents/Org/notes/default.org
+
+# PIP
+hash guix
+pip3 install -r ./files/requirements.txt
+pip3 uninstall numpy
 
 rm -rf ./.temp
 
