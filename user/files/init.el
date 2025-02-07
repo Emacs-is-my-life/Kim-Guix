@@ -1732,7 +1732,8 @@
   (add-hook 'LaTeX-mode-hook #'smartparens-mode)
   (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
   (add-hook 'LaTeX-mode-hook #'display-line-numbers-mode)
-  (use-package smartparens))
+  (use-package smartparens
+	       :ensure t))
 
 ;; auctex-latexmk
 (use-package auctex-latexmk
