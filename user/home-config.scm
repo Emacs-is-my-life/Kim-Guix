@@ -123,8 +123,7 @@
              (gnu packages games)
              (guix channels)
              (guix packages)
-             (guix gexp)
-	     (nongnu packages game-client))
+             (guix gexp))
 
 (home-environment
  (packages
@@ -251,10 +250,7 @@
    gnuplot
 
    ;; TeX
-   texlive-scheme-basic 
-   
-   ;; Game
-   steam))
+   texlive-scheme-basic))
  
  (services
   (list
