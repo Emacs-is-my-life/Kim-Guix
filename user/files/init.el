@@ -693,6 +693,382 @@
 
 
 
+;; # ==== [Org Mode]
+
+
+
+
+;; * ---- Org mode
+
+
+;; org
+(use-package org
+  :straight t
+  :ensure t
+  :defer t
+  :bind (:map org-mode-map
+	            ("C-<tab>" . org-cycle))
+  :mode
+  ("\\.org'" . org-mode)
+  :config
+  (setq org-startup-indented t
+        ;; org-bullets-bullet-list '(" ")
+        org-ellipsis "  " ;; folding symbol
+        org-pretty-entities t
+        org-hide-emphasis-markers t
+        ;; show actually italicized text instead of /italicized text/
+        org-agenda-block-separator ""
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t)
+
+  (setq calender-week-start-day 1)
+  (setq org-agenda-start-on-weekday 1)
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+  
+  (setq org-directory (getenv "USER_ORG_DIR"))
+  (make-directory org-directory t)
+
+  (make-directory (concat org-directory "notes") t)
+  (make-directory (concat org-directory "agenda") t)
+  (make-directory (concat org-directory "roam") t)
+  (make-directory (concat org-directory "blog") t)
+  (make-directory (concat org-directory ".archive") t)
+  (setq org-archive-location (concat org-directory ".archive/"))
+  (make-directory (concat org-directory ".files") t)
+  (make-directory (concat org-directory ".files/images") t)
+  (make-directory (concat org-directory ".files/static") t)
+
+  (make-directory (concat (getenv "USER_HTML_DIR") "images") t)
+  (make-directory (concat (getenv "USER_HTML_DIR") "static") t)
+
+  (setq org-default-notes-file (concat (concat org-directory "notes/") "default.org")
+	      org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$"))
+	      
+	      org-capture-templates
+	      '(("t" "Todo" entry (file+headline org-default-notes-file "TODO")
+	         "* TODO %?\n%u\n%i\n%a" :clock-in t :clock-resume t)
+	        ("s" "Schedule" entry (file+headline org-default-notes-file "Schedule")
+	         "* Schedule with %? :SCHEDULE:\non %T" :time-prompt t)
+	        ("i" "Idea" entry (file+headline org-default-notes-file "Idea")
+	         "* IDEA %? :IDEA:\n%t" :clock-in t :clock-resume t)
+	        ("j" "Journal" entry (file+headline org-default-notes-file "Journal")
+	         "* Journal %?\n%U\n" :clock-in t :clock-resume t)))
+
+  (defun refresh-org-agenda-files ()
+    "Refresh 'org-agenda-files' variable if tue current buffer is an .org file."
+    (when (and (buffer-file-name)
+               (string-equal "org" (file-name-extension (buffer-file-name)))
+               (or (string-equal (concat org-directory "agenda/") (file-name-directory (buffer-file-name)))
+                   (string-equal (concat (getenv "USER_ORG_SHORTCUT_DIR") "agenda/") (file-name-directory (buffer-file-name)))))
+      (progn
+        (org-agenda-file-to-front)
+        (let ((return-buffer-name (buffer-name)))
+          (dashboard-refresh-buffer)
+          (switch-to-buffer return-buffer-name)))))
+
+  (add-hook 'after-save-hook 'refresh-org-agenda-files)
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "DOING(g)" "HOLD(h)" "DONE(d)")))
+
+  ;; org-clock for alarm
+  (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
+    (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
+
+  ;; org-tempo for structured editing
+  (require 'org-tempo)
+  
+  (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+				                           (org-agenda-files :maxlevel . 9))))
+  
+  (global-set-key (kbd "C-c l") #'org-store-link)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c c") #'org-capture)
+
+  (add-hook 'org-mode-hook
+	          (lambda ()
+	            "Beautify Org Checkbox Symbol"
+	            (push '("[ ]" .  "☐") prettify-symbols-alist)
+	            (push '("[X]" . "☑" ) prettify-symbols-alist)
+	            (push '("[-]" . "❍" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+	            (prettify-symbols-mode)))
+  ;; org-babel language extension
+  (use-package ob-go
+    :ensure t
+    :after org)
+  (use-package ob-prolog
+    :ensure t
+    :after org)
+  (use-package ob-rust
+    :ensure t
+    :after org)
+  (use-package jupyter
+    :ensure t
+    :after org)
+  (use-package ob-lean4
+    :ensure t
+    :after org
+    :quelpa (ob-lean4 :fetcher github :repo "Maverobot/ob-lean4"
+                      :files ("ob-lean4.el")))
+
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
+  
+  ;; org-babel languages support
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((scheme . t)
+     (lisp . t)
+     (haskell . t)
+     (ocaml . t)
+     (C . t)
+     (forth . t)
+     (prolog . t)
+     (lean4 . t)
+     (go . t)
+     (rust . t)
+     (julia . t)
+     (python . t)
+     (jupyter . t)
+     (R . t)
+     (awk . t)
+     (sed . t)
+     (js . t)
+     (java . t)
+     (octave . t)
+     (makefile . t)
+     (org . t)
+     (latex . t)
+     (gnuplot . t)
+     (sql . t)
+     (css . t)))
+
+  ;; org-babel python3
+  (setq org-babel-python-command "python3")
+  (setq org-babel-jupyter-override-src-block "python")
+  
+  ;; refresh org inline image every execution
+  (setq org-image-actual-width '(1024 512 256))
+  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+
+  ;; Blog
+  (require 'ox-publish)
+  (require 'ox-html)
+
+  (setq org-html-validation-link nil)
+  (setq org-html-head-include-scripts nil)
+  (setq org-html-head-include-default-style nil)
+  (setq org-html-head
+        ""        )   
+
+  (setq org-publish-project-alist
+        `(("articles"
+           :base-directory ,(concat org-directory "blog/")
+           :base-extension "org"
+           :publishing-directory ,(getenv "USER_HTML_DIR")
+           :publishing-function org-html-publish-to-html
+           :recursive t
+
+           :auto-sitemap t
+           :sitemap-filename "sitemap.org"
+           :sitemap-title "Sitemap"
+
+           :with-author nil
+           :with-creator nil
+           :with-toc t
+           :with-title t
+           :with-date t
+           :section-numbers nil
+           :time-stamp-file nil
+           :with-fixed-width t
+           :with-latex t
+           :with-tables t
+           :auto-preamble t
+           
+           :html-doctype "html5"
+           :html-html5-fancy t
+           :html-head-include-default-style nil
+           :html-head-include-scripts nil
+           :html-preamble
+           "<nav>
+               <a href=\"/\">&lt; Home</a>
+           </nav>"
+           :html-postamble
+           "<hr/>
+           <footer>
+               <div class=\"copyright-container\">
+                   <div class=\"copyright\">
+                       Copyright &copy; 1996-2077 Emacs is my life rights reserved<br/>
+                       Content is available under
+                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
+                           CC-BY-SA 4.0
+                       </a> unless otherwise noted
+                   </div>
+                   <div class=\"cc-badge\">
+                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
+                           <img alt=\"Creative Commons License\"
+                                src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\"/>
+                       </a>
+                   </div>
+               </div>
+           </footer>"
+           :htmlized-source t)
+          
+          ("static"
+           :base-directory ,(concat org-directory ".files/static/")
+           :base-extension "css\\|js\\|txt\\|png\\|jpg\\|jpeg\\|gif"
+           :publishing-directory ,(concat (getenv "USER_HTML_DIR") "static/")
+           :recursive t
+           :publishing-function org-publish-attachment)
+          
+          ("images"
+           :base-directory ,(concat org-directory ".files/images/")
+           :base-extension "png\\|jpg\\|jpeg\\|gif\\|webp\\|webm"
+           :publishing-directory ,(concat (getenv "USER_HTML_DIR") "images/")
+           :recursive t
+           :publishing-function org-publish-attachment)
+          
+          ("blog" :components ("articles" "static" "images")))))
+
+
+;; org-auto-tangle
+(use-package org-auto-tangle
+  :ensure t
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+
+
+;; org-bullets
+(use-package org-bullets
+  :after org
+  :ensure t
+  :init
+  (setq org-bullets-bullet-list
+	      '("■" "□" "◆" "◇" "▲" "△" "●" "○"))
+  :hook (org-mode . org-bullets-mode))
+
+;; Asynchronous src block execution for org-babel
+(use-package ob-async
+  :after org
+  :ensure t
+  :config
+  (setq ob-async-no-async-languages-alist '("python" "jupyter-python"))
+  (add-hook 'ob-async-pre-execute-src-block-hook
+            #'(lambda ()
+	              (setq inferior-julia-program-name "julia"))))
+
+;; org-roam
+(use-package org-roam
+  :ensure t
+  :after org 
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory (concat org-directory "roam/"))
+  (org-roam-completion-everywhere t)
+  (org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)))
+  :bind
+  (("C-c n l" . org-roam-buffer-toggle)
+   ("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert)
+   :map org-mode-map
+   ("C-M-i" . completion-at-point))
+  :config
+  (org-roam-setup))
+
+(use-package websocket
+  :ensure t
+  :after org-roam)
+
+(use-package org-roam-ui
+  :ensure t
+  :after org-roam ;; or :after org
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+
+(use-package org-ref
+  :ensure t
+  :after org-roam)
+
+(use-package org-roam-bibtex
+  :ensure t
+  :after org-roam
+  :config
+  (require 'org-ref))
+
+;; org-download
+(use-package org-download
+  :ensure t
+  :after org 
+  :init
+  (setq-default org-download-image-dir (concat org-directory ".files/images/"))
+  :config
+  (add-hook 'dired-mode-hook 'org-download-enable)
+  (setq-default org-download-timestamp t))
+
+;; org-ql for searching
+(use-package org-ql
+  :ensure t
+  :after org
+  :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
+		  :files (:defaults (:exclude "helm-org-ql.el"))))
+
+(use-package helm-org-ql
+  :ensure t
+  :after (helm org-ql)
+  :quelpa (helm-org-ql :fetcher github :repo "alphapapa/org-ql"
+                       :files ("helm-org-ql.el")))
+
+;; org-fc for spaced repetition
+(use-package hydra
+  :ensure t)
+(use-package org-fc
+  :ensure t
+  :straight
+  (org-fc :type git
+          :host github
+          :repo "l3kn/org-fc"
+          :files (:defaults "awk" "demo.org"))
+  :after org-roam
+  :config
+  (require 'org-fc-keymap-hint)
+  (require 'org-fc-hydra)
+  (global-set-key (kbd "C-c f") 'org-fc-hydra/body)
+  (setq org-fc-directories `(,(concat org-directory "roam/")))
+  (setq org-fc-review-history-file (concat org-directory "notes/org-fc-reviews.tsv")))
+
+
+
+
+
+
+
 
 ;; * ---- <Language Server>
 
@@ -1355,378 +1731,6 @@
   :config
   (autoload 'gnuplot-mode "gnuplot" "Gnuplot major mode" t)
   (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot-mode" t))
-
-
-
-
-
-
-
-
-;; # ==== [Org Mode]
-
-
-
-
-;; * ---- Org mode
-
-
-;; org
-(use-package org
-  :straight t
-  :ensure t
-  :defer t
-  :bind (:map org-mode-map
-	            ("C-<tab>" . org-cycle))
-  :mode
-  ("\\.org'" . org-mode)
-  :config
-  (setq org-startup-indented t
-        ;; org-bullets-bullet-list '(" ")
-        org-ellipsis "  " ;; folding symbol
-        org-pretty-entities t
-        org-hide-emphasis-markers t
-        ;; show actually italicized text instead of /italicized text/
-        org-agenda-block-separator ""
-        org-fontify-whole-heading-line t
-        org-fontify-done-headline t
-        org-fontify-quote-and-verse-blocks t)
-
-  (setq calender-week-start-day 1)
-  (setq org-agenda-start-on-weekday 1)
-  (setq org-clock-persist 'history)
-  (org-clock-persistence-insinuate)
-  
-  (setq org-directory (getenv "USER_ORG_DIR"))
-  (make-directory org-directory t)
-
-  (make-directory (concat org-directory "notes") t)
-  (make-directory (concat org-directory "agenda") t)
-  (make-directory (concat org-directory "roam") t)
-  (make-directory (concat org-directory "blog") t)
-  (make-directory (concat org-directory ".archive") t)
-  (setq org-archive-location (concat org-directory ".archive/"))
-  (make-directory (concat org-directory ".files") t)
-  (make-directory (concat org-directory ".files/images") t)
-  (make-directory (concat org-directory ".files/static") t)
-
-  (make-directory (concat (getenv "USER_HTML_DIR") "images") t)
-  (make-directory (concat (getenv "USER_HTML_DIR") "static") t)
-
-  (setq org-default-notes-file (concat (concat org-directory "notes/") "default.org")
-	      org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$"))
-	      
-	      org-capture-templates
-	      '(("t" "Todo" entry (file+headline org-default-notes-file "TODO")
-	         "* TODO %?\n%u\n%i\n%a" :clock-in t :clock-resume t)
-	        ("s" "Schedule" entry (file+headline org-default-notes-file "Schedule")
-	         "* Schedule with %? :SCHEDULE:\non %T" :time-prompt t)
-	        ("i" "Idea" entry (file+headline org-default-notes-file "Idea")
-	         "* IDEA %? :IDEA:\n%t" :clock-in t :clock-resume t)
-	        ("j" "Journal" entry (file+headline org-default-notes-file "Journal")
-	         "* Journal %?\n%U\n" :clock-in t :clock-resume t)))
-
-  (defun refresh-org-agenda-files ()
-    "Refresh 'org-agenda-files' variable if tue current buffer is an .org file."
-    (when (and (buffer-file-name)
-               (string-equal "org" (file-name-extension (buffer-file-name)))
-               (or (string-equal (concat org-directory "agenda/") (file-name-directory (buffer-file-name)))
-                   (string-equal (concat (getenv "USER_ORG_SHORTCUT_DIR") "agenda/") (file-name-directory (buffer-file-name)))))
-      (progn
-        (org-agenda-file-to-front)
-        (let ((return-buffer-name (buffer-name)))
-          (dashboard-refresh-buffer)
-          (switch-to-buffer return-buffer-name)))))
-
-  (add-hook 'after-save-hook 'refresh-org-agenda-files)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "DOING(g)" "HOLD(h)" "DONE(d)")))
-
-  ;; org-clock for alarm
-  (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
-    (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
-
-  ;; org-tempo for structured editing
-  (require 'org-tempo)
-  
-  (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				                           (org-agenda-files :maxlevel . 9))))
-  
-  (global-set-key (kbd "C-c l") #'org-store-link)
-  (global-set-key (kbd "C-c a") #'org-agenda)
-  (global-set-key (kbd "C-c c") #'org-capture)
-
-  (add-hook 'org-mode-hook
-	          (lambda ()
-	            "Beautify Org Checkbox Symbol"
-	            (push '("[ ]" .  "☐") prettify-symbols-alist)
-	            (push '("[X]" . "☑" ) prettify-symbols-alist)
-	            (push '("[-]" . "❍" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
-	            (prettify-symbols-mode)))
-  ;; org-babel language extension
-  (use-package ob-go
-    :ensure t
-    :after org)
-  (use-package ob-prolog
-    :ensure t
-    :after org)
-  (use-package ob-rust
-    :ensure t
-    :after org)
-  (use-package jupyter
-    :ensure t
-    :after org)
-  (use-package ob-lean4
-    :ensure t
-    :after org
-    :quelpa (ob-lean4 :fetcher github :repo "Maverobot/ob-lean4"
-                      :files ("ob-lean4.el")))
-
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
-  
-  ;; org-babel languages support
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((scheme . t)
-     (lisp . t)
-     (haskell . t)
-     (ocaml . t)
-     (C . t)
-     (forth . t)
-     (prolog . t)
-     (lean4 . t)
-     (go . t)
-     (rust . t)
-     (julia . t)
-     (python . t)
-     (jupyter . t)
-     (R . t)
-     (awk . t)
-     (sed . t)
-     (js . t)
-     (java . t)
-     (octave . t)
-     (makefile . t)
-     (org . t)
-     (latex . t)
-     (gnuplot . t)
-     (sql . t)
-     (css . t)))
-
-  ;; org-babel python3
-  (setq org-babel-python-command "python3")
-  (setq org-babel-jupyter-override-src-block "python")
-  
-  ;; refresh org inline image every execution
-  (setq org-image-actual-width '(1024 512 256))
-  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
-
-  ;; Blog
-  (require 'ox-publish)
-  (require 'ox-html)
-
-  (setq org-html-validation-link nil)
-  (setq org-html-head-include-scripts nil)
-  (setq org-html-head-include-default-style nil)
-  (setq org-html-head
-        ""        )   
-
-  (setq org-publish-project-alist
-        `(("articles"
-           :base-directory ,(concat org-directory "blog/")
-           :base-extension "org"
-           :publishing-directory ,(getenv "USER_HTML_DIR")
-           :publishing-function org-html-publish-to-html
-           :recursive t
-
-           :auto-sitemap t
-           :sitemap-filename "sitemap.org"
-           :sitemap-title "Sitemap"
-
-           :with-author nil
-           :with-creator nil
-           :with-toc t
-           :with-title t
-           :with-date t
-           :section-numbers nil
-           :time-stamp-file nil
-           :with-fixed-width t
-           :with-latex t
-           :with-tables t
-           :auto-preamble t
-           
-           :html-doctype "html5"
-           :html-html5-fancy t
-           :html-head-include-default-style nil
-           :html-head-include-scripts nil
-           :html-preamble
-           "<nav>
-               <a href=\"/\">&lt; Home</a>
-           </nav>"
-           :html-postamble
-           "<hr/>
-           <footer>
-               <div class=\"copyright-container\">
-                   <div class=\"copyright\">
-                       Copyright &copy; 1996-2077 Emacs is my life rights reserved<br/>
-                       Content is available under
-                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
-                           CC-BY-SA 4.0
-                       </a> unless otherwise noted
-                   </div>
-                   <div class=\"cc-badge\">
-                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
-                           <img alt=\"Creative Commons License\"
-                                src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\"/>
-                       </a>
-                   </div>
-               </div>
-           </footer>"
-           :htmlized-source t)
-          
-          ("static"
-           :base-directory ,(concat org-directory ".files/static/")
-           :base-extension "css\\|js\\|txt\\|png\\|jpg\\|jpeg\\|gif"
-           :publishing-directory ,(concat (getenv "USER_HTML_DIR") "static/")
-           :recursive t
-           :publishing-function org-publish-attachment)
-          
-          ("images"
-           :base-directory ,(concat org-directory ".files/images/")
-           :base-extension "png\\|jpg\\|jpeg\\|gif\\|webp\\|webm"
-           :publishing-directory ,(concat (getenv "USER_HTML_DIR") "images/")
-           :recursive t
-           :publishing-function org-publish-attachment)
-          
-          ("blog" :components ("articles" "static" "images")))))
-
-
-;; org-auto-tangle
-(use-package org-auto-tangle
-  :ensure t
-  :defer t
-  :hook (org-mode . org-auto-tangle-mode)
-  :config
-  (setq org-auto-tangle-default t))
-
-
-;; org-bullets
-(use-package org-bullets
-  :after org
-  :ensure t
-  :init
-  (setq org-bullets-bullet-list
-	      '("■" "□" "◆" "◇" "▲" "△" "●" "○"))
-  :hook (org-mode . org-bullets-mode))
-
-;; Asynchronous src block execution for org-babel
-(use-package ob-async
-  :after org
-  :config
-  (setq ob-async-no-async-languages-alist '("python" "jupyter-python"))
-  (add-hook 'ob-async-pre-execute-src-block-hook
-            #'(lambda ()
-	              (setq inferior-julia-program-name "julia"))))
-
-(use-package org-bullets
-  :after org 
-  :config
-  (add-hook 'org-mode-hook #'(lambda () (org-bullets-mode))))
-
-;; org-roam
-(use-package org-roam
-  :ensure t
-  :after org 
-  :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory (concat org-directory "roam/"))
-  (org-roam-completion-everywhere t)
-  (org-roam-capture-templates
-   '(("d" "default" plain
-      "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-      :unnarrowed t)))
-  :bind
-  (("C-c n l" . org-roam-buffer-toggle)
-   ("C-c n f" . org-roam-node-find)
-   ("C-c n i" . org-roam-node-insert)
-   :map org-mode-map
-   ("C-M-i" . completion-at-point))
-  :config
-  (org-roam-setup))
-
-(use-package websocket
-  :after org-roam)
-
-(use-package org-roam-ui
-  :after org-roam ;; or :after org
-  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-  ;;         a hookable mode anymore, you're advised to pick something yourself
-  ;;         if you don't care about startup time, use
-  ;;  :hook (after-init . org-roam-ui-mode)
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
-
-(use-package org-ref
-  :after org-roam)
-
-(use-package org-roam-bibtex
-  :after org-roam
-  :config
-  (require 'org-ref))
-
-;; org-download
-(use-package org-download
-  :after org 
-  :init
-  (setq-default org-download-image-dir (concat org-directory ".files/images/"))
-  :config
-  (add-hook 'dired-mode-hook 'org-download-enable)
-  (setq-default org-download-timestamp t))
-
-;; org-ql for searching
-(use-package org-ql
-  :after org
-  :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
-		  :files (:defaults (:exclude "helm-org-ql.el"))))
-
-(use-package helm-org-ql
-  :after (helm org-ql)
-  :quelpa (helm-org-ql :fetcher github :repo "alphapapa/org-ql"
-                       :files ("helm-org-ql.el")))
-
-;; org-fc for spaced repetition
-(use-package hydra)
-(use-package org-fc
-  :straight
-  (org-fc :type git
-          :host github
-          :repo "l3kn/org-fc"
-          :files (:defaults "awk" "demo.org"))
-  :after org-roam
-  :config
-  (require 'org-fc-keymap-hint)
-  (require 'org-fc-hydra)
-  (global-set-key (kbd "C-c f") 'org-fc-hydra/body)
-  (setq org-fc-directories `(,(concat org-directory "roam/")))
-  (setq org-fc-review-history-file (concat org-directory "notes/org-fc-reviews.tsv")))
 
 
 
