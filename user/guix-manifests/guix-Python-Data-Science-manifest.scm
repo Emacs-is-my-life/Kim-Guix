@@ -8,6 +8,6 @@
    "python-openpyxl"
    "python-h5py"
    "python-rpy2"
-   "python-psycopg"
-   "python-psycopg-pool"
+   ;; "python-psycopg"
+   ;; "python-psycopg-pool"
 ))

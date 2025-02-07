@@ -4,6 +4,6 @@
    "python-rich"
    "python-rich-click"
    "python-rich-tables"
-   "python-rich-toolkit"
+   ;; "python-rich-toolkit"
    "python-pyqt"
 ))

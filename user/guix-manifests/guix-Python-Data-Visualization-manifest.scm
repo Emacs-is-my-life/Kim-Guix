@@ -3,6 +3,6 @@
  '(
    "python-matplotlib"
    "python-seaborn"
-   "python-plotnine"
+   ;; "python-plotnine"
    "python-plotly"
 ))
