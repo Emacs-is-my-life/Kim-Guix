@@ -144,7 +144,7 @@
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
-   nautilus gvfs trash-cli
+   nautilus gvfs ;; trash-cli
 
    ;; Compression Utility
    gzip unzip
@@ -226,7 +226,7 @@
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
 
    ;; Jupyter
-   jupyter python-ipykernel python-ipywidgets python-nbconvert
+   ;; jupyter python-ipykernel python-ipywidgets python-nbconvert
    
    ;; Julia
    julia
@@ -241,7 +241,7 @@
    go gopls
 
    ;; Java
-   openjdk
+   ;; openjdk
 
    ;; JS
    node
