@@ -59,7 +59,7 @@ touch ~/Documents/Org/notes/default.org
 # PIP
 hash guix
 pip3 install -r ./files/requirements.txt
-pip3 uninstall numpy
+pip3 uninstall -y numpy
 
 rm -rf ./.temp
 
