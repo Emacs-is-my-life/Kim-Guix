@@ -1353,6 +1353,9 @@
   (add-hook 'emacs-lisp-mode-hook       'enable-paredit-mode)
   (add-hook 'common-lisp-mode-hook      'enable-paredit-mode))
 
+;; smartparens
+(use-package smartparens
+  :ensure t)
 
 ;; <Scheme>
 ;; Geiser for Scheme family
@@ -1717,8 +1720,8 @@
     (assoc-delete-all "---" tex--prettify-symbols-alist))
   (add-hook 'LaTeX-mode-hook
 	          #'(lambda ()
-	            (TeX-fold-mode 1)
-	            (outline-minor-mode)))
+                (TeX-fold-mode 1)
+                (outline-minor-mode)))
   (add-to-list 'TeX-view-program-selection
 	             '(output-pdf "Zathura"))
   ;; Do not run lsp within templated TeX files
@@ -1731,9 +1734,7 @@
   (add-hook 'LaTeX-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'LaTeX-mode-hook #'smartparens-mode)
   (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
-  (add-hook 'LaTeX-mode-hook #'display-line-numbers-mode)
-  (use-package smartparens
-	       :ensure t))
+  (add-hook 'LaTeX-mode-hook #'display-line-numbers-mode))
 
 ;; auctex-latexmk
 (use-package auctex-latexmk
