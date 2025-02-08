@@ -1,4 +1,4 @@
-set terminal x11 font "APL2741,16" enhanced replotonresize
+set terminal x11 enhanced replotonresize
 set encoding utf8
 
 set samples 256

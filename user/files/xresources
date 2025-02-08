@@ -41,3 +41,6 @@ Xft.dpi: 120    # Large number means bigger text
 ! White (dark/light)
 *.color7: #FFFFFF
 *.color15: #FCFBF9
+
+! gnuplot
+gnuplot*font: APL2741-16
