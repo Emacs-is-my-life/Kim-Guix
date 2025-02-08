@@ -31,7 +31,7 @@
              (gnu packages mail)
              (gnu packages pdf)
              (gnu packages libreoffice)
-	     (gnu packages ghostscript)
+	           (gnu packages ghostscript)
              (gnu packages education)
              (gnu packages textutils)
              (gnu packages gawk)
@@ -44,18 +44,18 @@
              (gnu packages gimp)
              (gnu packages imagemagick)
              (gnu packages inkscape)
-	     (gnu packages image-processing)
+	           (gnu packages image-processing)
              (gnu packages kde)
              (gnu packages graphics)
              (gnu packages ssh)
              (gnu packages linux)
-	     (gnu packages compression)
+	           (gnu packages compression)
              (gnu packages vnc)
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
              (gnu packages base)
              (gnu packages cmake)
-	     (gnu packages autotools)
+	           (gnu packages autotools)
              (gnu packages build-tools)             
              (gnu packages version-control)
              (gnu packages bison)
@@ -95,7 +95,8 @@
              (gnu packages python-web)
              (gnu packages python-crypto)
              (gnu packages python-science)
-	     (gnu packages jupyter)
+	           (gnu packages jupyter)
+             (gnu packages apl)             
              (gnu packages image-processing)
              (gnu packages check)
              (gnu packages rpc)
@@ -103,8 +104,8 @@
              (gnu packages databases)
              (gnu packages time)
              (gnu packages graph)
-	     (gnu packages machine-learning)
-	     (gnu packages qt)
+	           (gnu packages machine-learning)
+	           (gnu packages qt)
              (gnu packages parallel)
              (gnu packages package-management)
              (gnu packages julia)
@@ -138,7 +139,7 @@
    isync mu
    
    ;; Fonts
-   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono
+   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-apl2741-unicode
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
