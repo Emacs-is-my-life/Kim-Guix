@@ -2166,7 +2166,7 @@
 	            (apikey (cdr provider-info)))
 	        (cond
 	         ((string= provider "generativelanguage.googleapis.com")
-	          (setq gptel-model 'gemini-pro
+	          (setq gptel-model 'gemini-2.0-flash-exp
                   gptel-backend (gptel-make-gemini "Gemini"
 			                            :key apikey
 			                            :stream t)))
