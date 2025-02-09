@@ -706,11 +706,6 @@
 ;; * ---- Org mode
 
 
-;; Verb
-(use-package verb
-  :ensure t)
-
-
 ;; org
 (use-package org
   :straight t
@@ -835,8 +830,6 @@
     :quelpa (ob-lean4 :fetcher github :repo "Maverobot/ob-lean4"
                       :files ("ob-lean4.el")))
 
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
-  
   ;; org-babel languages support
   (org-babel-do-load-languages
    'org-babel-load-languages
