@@ -141,7 +141,7 @@
                     coreutils binutils findutils diffutils iputils sysfsutils efibootmgr tar zip unzip bash-completion vim git
 
                     ;; video
-                    mesa mesa-utils libva libva-utils intel-vaapi-driver
+                    mesa mesa-utils libva libva-utils intel-vaapi-driver libvdpau-va-gl
 
                     ;; autio
                     alsa-lib alsa-utils alsa-plugins pulseaudio pavucontrol
