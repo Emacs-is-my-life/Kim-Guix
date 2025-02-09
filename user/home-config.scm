@@ -311,7 +311,6 @@ mkdir -p $GUIX_EXTRA_PROFILES
 export GTK_RC_FILES=$XDG_CONFIG_HOME/gtk-1.0/gtkrc
 export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc:$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine
 
-export LSP_USE_PLISTS=true
 export OPAMROOT=$XDG_DATA_HOME/opam
 source $XDG_DATA_HOME/opam/opam-init/variables.sh
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup

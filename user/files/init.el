@@ -1126,8 +1126,6 @@
   (setq lsp-completion-provider :company-mode)
   (setq lsp-completion-show-detail t)
   (setq lsp-completion-show-kind t)
-  ;; lsp-mode use plists for deserialization
-  (setq lsp-use-plists t)
   ;; lsp garbage collection setting
   (setq gc-cons-threshold (* 128 1024 1024)
 	      read-process-output-max (* 16 1024 1024)
