@@ -1476,7 +1476,9 @@
 
 
 ;; <Python>
-(setq lsp-pylsp-plugins-mypy-enabled t)
+(setq lsp-pylsp-plugins-mypy-enabled t
+      lsp-pylsp-plugins-ruff-enabled nil
+      lsp-pylsp-server-command "pylsp")
 
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
