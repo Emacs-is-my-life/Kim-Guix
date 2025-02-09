@@ -6,8 +6,6 @@
 ;; * ---- <Start up>
 
 
-;; lsp-mode optimization
-(setenv "LSP_USE_PLISTS" "true")
 ;; Garbage collection
 (setq gc-cons-percentage 0.6)
 
