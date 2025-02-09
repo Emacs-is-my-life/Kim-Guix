@@ -1,3 +1,6 @@
+# LSP
+pyright
+
 # Jupyterlab
 jupyterlab
 jupyterlab-lsp
