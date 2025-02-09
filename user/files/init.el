@@ -40,9 +40,8 @@
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(setq package-archive-priorities '(("org" . 3) ("elpa" . 2) ("melpa-stable" . 1) ("melpa" . 0)))
+(setq package-archive-priorities '(("elpa" . 2) ("org" . 1) ("melpa" . 0)))
 (package-initialize)
 
 ;; Straight package manager
