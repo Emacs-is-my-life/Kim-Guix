@@ -703,6 +703,11 @@
 ;; * ---- Org mode
 
 
+;; Verb
+(use-package verb
+  :ensure t)
+
+
 ;; org
 (use-package org
   :straight t
@@ -1648,10 +1653,6 @@
 
 ;; <Javascript>
 ;; MANUAL INSTALL REQUIRED: [M-x] lsp-install-server [RET] ts-ls [RET]
-
-;; Verb
-(use-package verb
-  :ensure t)
 
 
 
