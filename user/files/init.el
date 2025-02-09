@@ -2154,6 +2154,7 @@
       :defer t
       :after exwm
       :config
+      (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (dolist (provider-info (gptel/get-llm-providers))
         (let ((provider (car provider-info))
 	            (apikey (cdr provider-info)))
