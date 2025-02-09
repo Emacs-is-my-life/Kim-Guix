@@ -41,7 +41,7 @@
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(setq package-archive-priorities '(("elpa" . 2) ("org" . 1) ("melpa" . 0)))
+(setq package-archive-priorities '(("org" . 2) ("elpa" . 1) ("melpa" . 0)))
 (package-initialize)
 
 ;; Straight package manager
