@@ -2146,7 +2146,11 @@
     providers-list))
 
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq markdown-enable-wiki-links t
+        markdown-enable-math t
+        markdown-fontify-code-blocks-natively t))
 
 (if (file-exists-p (car auth-sources))
     (use-package gptel
