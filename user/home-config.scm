@@ -233,7 +233,7 @@
    julia
 
    ;; R
-   r r-languageserver
+   r r-languageserver r-irkernel
 
    ;; GNU Octave
    octave
