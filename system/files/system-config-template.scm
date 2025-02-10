@@ -54,7 +54,8 @@
              (gnu services security-token)
              (guix)
              (nongnu packages linux)
-             (nongnu system linux-initrd))
+             (nongnu system linux-initrd)
+	     (nongnu packages video))
 
 (define %XORG-LIBINPUT-M575
   "Section \"InputClass\"
@@ -98,7 +99,7 @@
  (kernel-loadable-modules (list acpi-call-linux-module))
  (kernel-arguments (append '("resume=UUID={{ GUIX_OS_UUID_SWAP }}" "resume_offset={{ GUIX_OS_OFFSET_SWAP }}") %default-kernel-arguments))
  (initrd microcode-initrd)
- (firmware (list linux-firmware))
+ (firmware (list sof-firmware linux-firmware))
  (host-name "{{ GUIX_OS_HOSTNAME }}")
  (keyboard-layout (keyboard-layout "{{ GUIX_OS_KEYBOARD }}"))
  (locale "{{ GUIX_OS_LOCALE }}")
@@ -141,7 +142,7 @@
                     coreutils binutils findutils diffutils iputils sysfsutils efibootmgr tar zip unzip bash-completion vim git
 
                     ;; video
-                    mesa mesa-utils libva libva-utils intel-vaapi-driver libvdpau-va-gl
+                    mesa mesa-utils libva libva-utils intel-vaapi-driver libvdpau-va-gl intel-media-driver/nonfree
 
                     ;; autio
                     alsa-lib alsa-utils alsa-plugins pulseaudio pavucontrol
