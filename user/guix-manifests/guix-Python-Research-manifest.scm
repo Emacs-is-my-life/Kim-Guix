@@ -11,4 +11,5 @@
    "python-tqdm"
    "python-statsmodels"
    ;; "python-pymc"
+   "python-networkx"
 ))
