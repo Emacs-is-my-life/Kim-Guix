@@ -122,6 +122,7 @@
              (gnu packages password-utils)
              (gnu packages game-development)
              (gnu packages games)
+             (nongnu packages game-client)
              (guix channels)
              (guix packages)
              (guix gexp))
@@ -173,6 +174,9 @@
 
    ;; Remote Tools
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt
+
+   ;; Game
+   steam-client
 
    ;; Build Tools
    gnu-make cmake meson git
