@@ -176,7 +176,7 @@
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt
 
    ;; Game
-   steam-client
+   steam
 
    ;; Build Tools
    gnu-make cmake meson git
