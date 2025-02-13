@@ -173,7 +173,7 @@
    gimp krita imagemagick inkscape graphviz blender shotcut
 
    ;; Remote Tools
-   openssh sshfs syncthing syncthing-gtk remmina moonlight-qt
+   openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
 
    ;; Game
    steam
