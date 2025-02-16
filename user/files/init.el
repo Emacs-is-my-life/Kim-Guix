@@ -1757,20 +1757,21 @@
   :config
   (auctex-latexmk-setup))
 
-;; render LaTeX in org mode
+;; Preview LaTeX in Org mode as you edit
 (use-package org-fragtog
   :ensure t
   :after org
   :config
-  (add-hook 'org-mode-hook 'org-fragtog-mode))
-
-(with-eval-after-load 'org
+  (setq org-preview-latex-image-directory (concat (getenv "XDG_CACHE_HOME") "/texlive/ltximg"))
   (setq org-latex-packages-alist
 	      '(("" "tikz" t)))
   (setq my-org-latex-preview-scale 1.0)
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (eval-after-load "preview"
-    '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t)))
+    '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+  (add-hook 'org-mode-hook 'org-fragtog-mode))
+
+
 
 
 ;; <GNUPlot>
