@@ -1746,7 +1746,6 @@
 		            (lsp))
 	            (setq-local lsp-diagnostic-package :none)
 	            (setq-local flycheck-checker 'tex-chktex)))
-  (add-hook 'LaTeX-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'LaTeX-mode-hook #'smartparens-mode)
   (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
   (add-hook 'LaTeX-mode-hook #'display-line-numbers-mode))
@@ -1759,9 +1758,11 @@
   (auctex-latexmk-setup))
 
 ;; render LaTeX in org mode
-(use-package ob-latex-as-png
+(use-package org-fragtog
   :ensure t
-  :after tex)
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'org-fragtog-mode))
 
 (with-eval-after-load 'org
   (setq org-latex-create-formula-image-program 'dvisvgm)
