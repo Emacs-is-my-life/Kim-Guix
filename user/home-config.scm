@@ -131,7 +131,11 @@
  (packages
   (list
    ;; Emacs & EXWM
-   emacs emacs-vterm emacs-guix pinentry-emacs emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql libtool ncurses dunst scrot brightnessctl playerctl redshift
+   emacs emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl redshift
+
+   ;; Emacs dependencies
+   emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
+   emacs-geiser emacs-geiser-guile
 
    ;; Security
    gnupg paperkey argon2 keepassxc keepassxc-browser/icecat

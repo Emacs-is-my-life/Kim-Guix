@@ -91,7 +91,9 @@
   (auto-package-update-prompt-before-update t) 
   (auto-package-update-hide-results t)
   :config
-  (setq auto-package-update-excluded-packages '(mu4e vterm guix dash zmq magit-popup emacsql))
+  (setq auto-package-update-excluded-packages '(mu4e vterm guix 
+						     dash zmq magit-popup emacsql pg edit-indirect bui
+						     geiser geiser-guile))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -145,8 +147,17 @@
   :ensure nil
   :pin manual)
 
+(use-package pg
+  :ensure nil
+  :pin manual)
 
+(use-package edit-indirect
+  :ensure nil
+  :pin manual)
 
+(use-package bui
+  :ensure nil
+  :pin manual)
 
 
 
@@ -1361,7 +1372,8 @@
 ;; <Scheme>
 ;; Geiser for Scheme family
 (use-package geiser
-  :ensure t
+  :ensure nil
+  :pin manual
   :mode ("\\.scm\\'" . scheme-mode)
   :commands (geiser run-geiser)
   :config
@@ -1373,7 +1385,8 @@
 
 (use-package geiser-guile 
   :after geiser
-  :ensure t)
+  :ensure nil
+  :pin manual)
 
 (use-package geiser-chicken
   :after geiser
