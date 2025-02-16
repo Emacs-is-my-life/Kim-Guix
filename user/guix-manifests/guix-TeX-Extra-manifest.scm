@@ -30,4 +30,7 @@
    "texlive-algorithms"
    "texlive-pseudocode"
    "texlive-program"
+   "texlive-xetex"
+   "texlive-xetex-bin"
+   "texlive-collection-xetex"
    ))
