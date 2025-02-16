@@ -260,7 +260,7 @@
    gnuplot
 
    ;; TeX
-   texlive-scheme-basic dvisvgm))
+   texlive-scheme-basic))
  
  (services
   (list
