@@ -1762,7 +1762,8 @@
   :ensure t
   :after org
   :config
-  (setq org-preview-latex-image-directory (concat (getenv "XDG_CACHE_HOME") "/texlive/ltximg"))
+  (setq org-preview-latex-image-directory (concat (getenv "XDG_CACHE_HOME") "/texlive/ltximg/"))
+  (make-directory org-preview-latex-image-directory t)
   (setq org-latex-packages-alist
 	      '(("" "tikz" t)))
   (setq my-org-latex-preview-scale 1.0)
