@@ -1742,15 +1742,18 @@
   :after tex)
 
 (with-eval-after-load 'org
-  (setq org-latex-create-formula-image-program 'imagemagick)
+  (setq org-latex-create-formula-image-program 'dvisvgm)
   (setq org-latex-packages-alist
-	'(("" "minted" t)
-	  ("" "tikz" t)
-	  ("" "tikz-cd" t)))
+	      '(("" "minted" t)
+          ("" "amsmath" t)
+          ("" "amsfonts" t)
+	        ("" "tikz" t)
+	        ("" "tikz-cd" t)))
   (setq my-org-latex-preview-scale 1.0)
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (eval-after-load "preview"
     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t)))
+
 
 ;; <GNUPlot>
 (use-package gnuplot

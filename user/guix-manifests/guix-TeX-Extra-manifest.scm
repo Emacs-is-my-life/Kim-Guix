@@ -11,6 +11,9 @@
    "texlive-pgfplots"
    "texlive-gnuplottex"
    "texlive-beamer"
+   "texlive-amsmath"
    "texlive-amsfonts"
    "texlive-roboto"
-))
+   "texlive-dvisvgm"
+   "texlive-dvisvgm-bin"
+   ))
