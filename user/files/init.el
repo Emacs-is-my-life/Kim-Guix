@@ -1808,8 +1808,7 @@
                        ("convert -density %D -trim -antialias %f -quality 100 %O"))))
   
   (setq org-latex-packages-alist
-	      '(("" "minted" t)
-	        ("" "tikz" t)))
+	      '(("" "tikz" t)))
   (setq my-org-latex-preview-scale 1.0)
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (eval-after-load "preview"
