@@ -33,4 +33,5 @@
    "texlive-xetex"
    "texlive-xetex-bin"
    "texlive-collection-xetex"
+   "texlive-collection-plaingeneric"
    ))

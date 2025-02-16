@@ -1809,10 +1809,7 @@
   
   (setq org-latex-packages-alist
 	      '(("" "minted" t)
-          ("" "amsmath" t)
-          ("" "amsfonts" t)
-	        ("" "tikz" t)
-	        ("" "tikz-cd" t)))
+	        ("" "tikz" t)))
   (setq my-org-latex-preview-scale 1.0)
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (eval-after-load "preview"
