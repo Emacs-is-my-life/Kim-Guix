@@ -93,6 +93,7 @@
   :config
   (setq auto-package-update-excluded-packages '(mu4e vterm guix 
 						     dash zmq magit-popup emacsql pg edit-indirect bui
+						     finalize subdirs peg minimal
 						     geiser geiser-guile))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
@@ -156,6 +157,22 @@
   :pin manual)
 
 (use-package bui
+  :ensure nil
+  :pin manual)
+
+(use-package finalize
+  :ensure nil
+  :pin manual)
+
+(use-package subdirs
+  :ensure nil
+  :pin manual)
+
+(use-package peg
+  :ensure nil
+  :pin manual)
+
+(use-package minimal
   :ensure nil
   :pin manual)
 
