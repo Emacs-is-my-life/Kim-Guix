@@ -9,7 +9,7 @@
    "python-xarray-dataclasses"
    "python-numba"
    "python-tqdm"
-   "python-statsmodels"
+   ;; "python-statsmodels"
    ;; "python-pymc"
    "python-networkx"
 ))
