@@ -26,6 +26,7 @@
    "texlive-booktabs"
    "texlive-flowchart"
    "texlive-memorygraphs"
+   "texlive-tikz-cd"
    "texlive-tikz-ext"
    "texlive-tikz-3dplot"
    "texlive-tikz-nef"

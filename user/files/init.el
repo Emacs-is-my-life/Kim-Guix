@@ -1766,7 +1766,7 @@
   (make-directory org-preview-latex-image-directory t)
   (setq org-latex-packages-alist
 	      '(("" "amsmath" t)
-          ("" "tikz" t)
+          ("" "tikz-cd" t)
           ("" "algorithmicx" t)
           ("" "algpseudocode" t)
           ("" "bytefield" t)))
