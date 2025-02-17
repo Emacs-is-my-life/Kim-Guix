@@ -1766,7 +1766,6 @@
   (make-directory org-preview-latex-image-directory t)
   (setq org-latex-packages-alist
 	      '(("" "amsmath" t)
-          ("" "physics" t)
           ("" "tikz" t)
           ("" "pgfplots" t)
           ("" "flowchart" t)
