@@ -1765,7 +1765,11 @@
   (setq org-preview-latex-image-directory (concat (getenv "XDG_CACHE_HOME") "/texlive/ltximg/"))
   (make-directory org-preview-latex-image-directory t)
   (setq org-latex-packages-alist
-	      '(("" "tikz" t)))
+	      '(("" "tikz" t)
+          ("" "amsmath" t)
+          ("" "algorithmicx" t)
+          ("" "algpseudocode" t)
+          ("" "bytefield" t)))
   (setq my-org-latex-preview-scale 1.0)
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (eval-after-load "preview"
