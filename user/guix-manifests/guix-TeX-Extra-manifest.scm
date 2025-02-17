@@ -35,8 +35,4 @@
    "texlive-algpseudocodex"
    "texlive-program"
    "texlive-bytefield"
-   "texlive-xetex"
-   "texlive-xetex-bin"
-   "texlive-collection-xetex"
-   "texlive-collection-plaingeneric"
    ))
