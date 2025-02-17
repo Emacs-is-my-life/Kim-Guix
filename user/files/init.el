@@ -1765,8 +1765,11 @@
   (setq org-preview-latex-image-directory (concat (getenv "XDG_CACHE_HOME") "/texlive/ltximg/"))
   (make-directory org-preview-latex-image-directory t)
   (setq org-latex-packages-alist
-	      '(("" "tikz" t)
-          ("" "amsmath" t)
+	      '(("" "amsmath" t)
+          ("" "physics" t)
+          ("" "tikz" t)
+          ("" "pgfplots" t)
+          ("" "flowchart" t)
           ("" "algorithmicx" t)
           ("" "algpseudocode" t)
           ("" "bytefield" t)))
