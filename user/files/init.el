@@ -1796,7 +1796,7 @@
 
 
 ;; Terminal
-(define vterm/rename-buffer ()
+(defun vterm/rename-buffer ()
         (interactive)
         (let ((n 0)
               (new-name nil))
