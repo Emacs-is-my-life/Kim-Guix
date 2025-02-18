@@ -1796,6 +1796,15 @@
 
 
 ;; Terminal
+(define vterm/rename-buffer ()
+        (interactive)
+        (let ((n 0)
+              (new-name nil))
+          (while (get-buffer (format "*vterm-%d*" n))
+            (setq n (1+ n)))
+          (setq new-name (format "*vterm-%d*" n))
+          (rename-buffer new-name)))
+
 (use-package vterm
   :pin manual
   :ensure nil ;; guix will handle this (emacs-vterm package)
@@ -1804,7 +1813,8 @@
   (setq vterm-ignore-blink-cursor nil)
   (add-hook 'vterm-mode-hook
             #'(lambda ()
-                (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))))
+                (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix)))
+  (add-hook 'vterm-mode-hook 'vterm/rename-buffer))
 
 (use-package eterm-256color
   :ensure t
