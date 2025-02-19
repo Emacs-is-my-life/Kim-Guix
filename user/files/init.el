@@ -773,8 +773,8 @@
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
   
-  (setq org-default-notes-file (concat (concat org-directory "notes/") "note-scratch.org"))
-  (setq org-agenda-default-notes-file (concat (concat org-directory "agenda/") "agenda-scratch.org"))
+  (setq org-default-notes-file (concat (concat org-directory "notes/") "journal.org"))
+  (setq org-agenda-default-notes-file (concat (concat org-directory "agenda/") "tasks.org"))
   
   (setq org-capture-templates
 	      '(("t" "TODO" entry (file+headline org-agenda-default-notes-file "TODO")
