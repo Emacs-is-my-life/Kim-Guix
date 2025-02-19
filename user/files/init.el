@@ -785,6 +785,9 @@
 	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
 	            (prettify-symbols-mode)))
 
+  ;; org-tempo for structured editing
+  (require 'org-tempo)
+
   ;; Org Agenda setup  
   (setq org-default-notes-file (concat (concat org-directory "notes/") "journal.org"))
   (setq org-contacts-default-notes-file (concat (concat org-directory "notes/") "contacts.org"))
@@ -813,53 +816,76 @@
   
   (setq org-capture-templates
 	      '(("t" "TODO" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
 
           ("w" "TODO Work" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: WORK\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: WORK\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
 
           ("m" "TODO Meeting" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: MEETING\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: MEETING\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
 
           ("c" "TODO Chores" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: CHORES\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: CHORES\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
 
           ("p" "TODO Personal" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: PERSONAL\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: PERSONAL\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
 
           ("s" "TODO with Schedule" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: \n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
 
           ("d" "TODO with Deadline" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1 :kill-buffer t)
 
           ("b" "TODO with Both Schedule and Deadline" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1 :kill-buffer t)
 
 	        ("n" "Note" entry (file+headline org-default-notes-file "Note")
-	         "* %?\nWritten at: %T\n%i" :empty-lines 1)))
+	         "* %?\nWritten at: %T\n%i" :empty-lines 1 :kill-buffer t)))
   
   (setq org-agenda-custom-commands
-        '(("d" "Daily Agenda"
-           ((agenda "" ((org-agenda-span 'day)
-                        (org-deadline-warning-days 7)))))
+        '(("d" "Daily Overview"
+           ((agenda "" ((org-agenda-overriding-header "Today's Tasks")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$"))
+                        (org-agenda-span 'day)
+                        (org-deadline-warning-days 3)))))
           
-          ("w" "Weekly Agenda"
+          ("w" "Weekly Overview"
            ((agenda ""
                     ((org-agenda-overriding-header "Completed Tasks")
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo 'done))
-                     (org-agenda-span 'week)))
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$"))
+                     (org-agenda-span 'week)
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo 'done))))
 
             (agenda ""
                     ((org-agenda-overriding-header "Incomplete Tasks")
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                     (org-agenda-span 'week)))))
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$"))
+                     (org-agenda-span 'week)
+                     (org-deadline-warning-days 7)
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))))))
           
-          ("i" "Incomplete Tasks"
-           ((agenda "" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))))))
-          
-          ("u" "Unscheduled Tasks"
-           ((agenda "" ((org-agenda-tag-filter "-SCHEDULED")))))))
+          ("u" "Unassigned Tasks"
+           ((todo "TODO"
+                  ((org-agenda-overriding-header "Unassigned Tasks")
+                   (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^[ ]*SCHEDULED:[ ]*$"))))))
+
+          ("a" "Active Tasks"
+           ((todo "ACTIVE"
+                  ((org-agenda-overriding-header "Active Tasks")))))
+
+          ("c" "Chores"
+           ((tags-todo "+CATEGORY=\"CHORES\""
+                       ((org-agenda-overriding-header "Simple Chores")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))))))
+
+          ("h" "On Hold Tasks"
+           ((todo "ONHOLD"
+                  ((org-agenda-overriding-header "On Hold Tasks")))))
+
+          ("o" "Overdue Tasks"
+           ((todo "TODO|ACTIVE|ONHOLD"
+                  ((org-agenda-overriding-header "Overdue Tasks")
+                   (org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'notdeadline 'deadline-up-to-now))))))))
 
   (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
@@ -883,9 +909,6 @@
   ;; org-clock for alarm
   (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
       (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
-
-  ;; org-tempo for structured editing
-  (require 'org-tempo)
 
   
   ;; org-babel language extension
@@ -1029,10 +1052,11 @@
   :ensure t
   :after org
   :config
+  (setq org-contacts-files (list org-contacts-default-notes-file))
   (setq org-capture-templates
         (append org-capture-templates
                 '(("C" "Contacts" entry (file org-contacts-default-notes-file)
-                   "* %(org-contacts-template-name)\n:PROPERTIES:\n:EMAIL: %(org-contacts-template-email)\n:PHONE: \n:AFFILIATION: \n:END:\n%i" :empty-lines 1)))))
+                   "* %(org-contacts-template-name)\n:PROPERTIES:\n:EMAIL: %(org-contacts-template-email)\n:PHONE: \n:AFFILIATION: \n:END:\n%i" :empty-lines 1 :kill-buffer t)))))
 
 ;; org-auto-tangle
 (use-package org-auto-tangle
@@ -1041,7 +1065,6 @@
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
-
 
 ;; org-bullets
 (use-package org-bullets
