@@ -868,10 +868,6 @@
                   ((org-agenda-overriding-header "Unassigned Tasks")
                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^[ ]*SCHEDULED:[ ]*$"))))))
 
-          ("a" "Active Tasks"
-           ((todo "ACTIVE"
-                  ((org-agenda-overriding-header "Active Tasks")))))
-
           ("c" "Chores"
            ((tags-todo "+CATEGORY=\"CHORES\""
                        ((org-agenda-overriding-header "Simple Chores")
@@ -882,10 +878,10 @@
                   ((org-agenda-overriding-header "On Hold Tasks")))))
 
           ("o" "Overdue Tasks"
-           ((todo "TODO|ACTIVE|ONHOLD"
-                  ((org-agenda-overriding-header "Overdue Tasks")
-                   (org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'notdeadline 'deadline-up-to-now))))))))
+           ((tags-todo "DEADLINE<\"<now>\""
+                       ((org-agenda-overriding-header "Overdue Tasks")
+                        (org-agenda-skip-function
+                         '(org-agenda-skip-entry-if 'todo 'done))))))))
 
   (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
@@ -972,12 +968,6 @@
   (require 'ox-publish)
   (require 'ox-html)
 
-  (setq org-html-validation-link nil)
-  (setq org-html-head-include-scripts nil)
-  (setq org-html-head-include-default-style nil)
-  (setq org-html-head
-        ""        )   
-
   (setq org-publish-project-alist
         `(("articles"
            :base-directory ,(concat org-directory "blog/")
@@ -986,57 +976,34 @@
            :publishing-function org-html-publish-to-html
            :recursive t
 
-           :auto-sitemap t
-           :sitemap-filename "sitemap.org"
-           :sitemap-title "Sitemap"
-
            :with-author nil
            :with-creator nil
-           :with-toc t
            :with-title t
            :with-date t
-           :section-numbers nil
-           :time-stamp-file nil
+           :with-toc t
            :with-fixed-width t
            :with-latex t
            :with-tables t
+           :with-tasks nil
+           :with-todo-keywords nil
            :auto-preamble t
-           
+
+           :auto-sitemap t
+           :html-link-home "/"
            :html-doctype "html5"
            :html-html5-fancy t
-           :html-head-include-default-style nil
-           :html-head-include-scripts nil
-           :html-preamble
-           "<nav>
-               <a href=\"/\">&lt; Home</a>
-           </nav>"
-           :html-postamble
-           "<hr/>
-           <footer>
-               <div class=\"copyright-container\">
-                   <div class=\"copyright\">
-                       Copyright &copy; 1996-2077 Emacs is my life rights reserved<br/>
-                       Content is available under
-                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
-                           CC-BY-SA 4.0
-                       </a> unless otherwise noted
-                   </div>
-                   <div class=\"cc-badge\">
-                       <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">
-                           <img alt=\"Creative Commons License\"
-                                src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\"/>
-                       </a>
-                   </div>
-               </div>
-           </footer>"
-           :htmlized-source t)
-          
-          ("static"
-           :base-directory ,(concat org-directory ".files/static/")
-           :base-extension "css\\|js\\|txt\\|png\\|jpg\\|jpeg\\|gif"
-           :publishing-directory ,(concat (getenv "USER_HTML_DIR") "static/")
-           :recursive t
-           :publishing-function org-publish-attachment)
+           :html-head-include-default-style t
+           :html-head-include-scripts t
+           :html-head
+           "<style>
+                p { font-weight: normal; color: gray; }
+                h1 { color: black; }
+                .title { text-align: center; }
+                .todo, .timestamp-kwd { color: red; }
+                .done { color: green; }
+            </style>"
+           :html-preamble t
+           :html-postamble t)
           
           ("images"
            :base-directory ,(concat org-directory ".files/images/")
@@ -1045,7 +1012,7 @@
            :recursive t
            :publishing-function org-publish-attachment)
           
-          ("blog" :components ("articles" "static" "images")))))
+          ("blog" :components ("articles" "images")))))
 
 ;; org-contacts
 (use-package org-contacts
