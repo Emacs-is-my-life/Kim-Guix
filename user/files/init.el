@@ -736,22 +736,7 @@
   :mode
   ("\\.org'" . org-mode)
   :config
-  (setq org-startup-indented t
-        ;; org-bullets-bullet-list '(" ")
-        org-ellipsis "  " ;; folding symbol
-        org-pretty-entities t
-        org-hide-emphasis-markers t
-        ;; show actually italicized text instead of /italicized text/
-        org-agenda-block-separator ""
-        org-fontify-whole-heading-line t
-        org-fontify-done-headline t
-        org-fontify-quote-and-verse-blocks t)
-
-  (setq calender-week-start-day 1)
-  (setq org-agenda-start-on-weekday 1)
-  (setq org-clock-persist 'history)
-  (org-clock-persistence-insinuate)
-  
+  ;; Org directory setup
   (setq org-directory (getenv "USER_ORG_DIR"))
   (make-directory org-directory t)
 
@@ -768,41 +753,55 @@
   (make-directory (concat (getenv "USER_HTML_DIR") "images") t)
   (make-directory (concat (getenv "USER_HTML_DIR") "static") t)
 
+  ;; Org symbols and font-lock setup
+  (setq org-startup-indented t
+        ;; org-bullets-bullet-list '(" ")
+        org-ellipsis "  " ;; folding symbol
+        org-pretty-entities t
+        org-hide-emphasis-markers t
+        ;; show actually italicized text instead of /italicized text/
+        org-agenda-block-separator ""
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t)
+
+  (add-hook 'org-mode-hook
+	          (lambda ()
+	            "Beautify Org Checkbox Symbol"
+	            (push '("[ ]" . "☐") prettify-symbols-alist)
+	            (push '("[X]" . "☑" ) prettify-symbols-alist)
+	            (push '("[-]" . "❍" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+	            (prettify-symbols-mode)))
+
+  ;; Org Agenda setup  
+  (setq org-default-notes-file (concat (concat org-directory "notes/") "journal.org"))
+  (setq org-contacts-default-notes-file (concat (concat org-directory "notes/") "contacts.org"))
+  (setq org-agenda-default-notes-file (concat (concat org-directory "agenda/") "tasks.org"))
 
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
   
-  (setq org-default-notes-file (concat (concat org-directory "notes/") "journal.org"))
-  (setq org-agenda-default-notes-file (concat (concat org-directory "agenda/") "tasks.org"))
-  
-  (setq org-capture-templates
-	      '(("t" "TODO" entry (file+headline org-agenda-default-notes-file "TODO")
-	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: %^{CATEGORY|WORK|MEETING|CHORES|PERSONAL}p\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
+  (setq calender-week-start-day 1)
+  (setq org-agenda-start-on-weekday 1)
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+  (setq org-log-done 'time)
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$")))
 
-          ("s" "TODO with Schedule" entry (file+headline org-agenda-default-notes-file "TODO")
-	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: %^{CATEGORY|WORK|MEETING|CHORES|PERSONAL}p\nSCHEDULED: %T\nDEADLINE: \n%i" :clock-in t :clock-resume t :time-prompt t)
-
-          ("d" "TODO with Deadline" entry (file+headline org-agenda-default-notes-file "TODO")
-	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: %^{CATEGORY|WORK|MEETING|CHORES|PERSONAL}p\nSCHEDULED: \nDEADLINE: %T\n%i" :clock-in t :clock-resume t :time-prompt t)
-
-          ("w" "TODO Work" entry (file+headline org-agenda-default-notes-file "TODO")
-	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: WORK\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
-          
-          ("m" "TODO Meeting" entry (file+headline org-agenda-default-notes-file "TODO")
-	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: MEETING\nSCHEDULED: %T\nDEADLINE: \n%i" :clock-in t :clock-resume t :time-prompt t)
-
-          ("c" "TODO Chores" entry (file+headline org-agenda-default-notes-file "TODO")
-	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: CHORES\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
-
-          ("p" "TODO Personal" entry (file+headline org-agenda-default-notes-file "TODO")
-	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: PERSONAL\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
-
-	        ("i" "Idea" entry (file+headline org-default-notes-file "IDEA")
-	         "* IDEA %? :IDEA:\n%t" :clock-in t :clock-resume t)
-	        ("j" "Journal" entry (file+headline org-default-notes-file "Journal")
-	         "* Journal %?\n%U\n" :clock-in t :clock-resume t)))
-  
   (setq org-todo-keywords
         '((sequence "TODO(t)" "ACTIVE(a)" "ONHOLD(h)" "DONE(d)")))
   
@@ -812,9 +811,34 @@
           ("ONHOLD" . (:foreground "gray"))
           ("DONE" . (:foreground "green" :weight bold))))
   
-  (setq org-log-done 'time)
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$")))
+  (setq org-capture-templates
+	      '(("t" "TODO" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+
+          ("w" "TODO Work" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: WORK\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+
+          ("m" "TODO Meeting" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: MEETING\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+
+          ("c" "TODO Chores" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: CHORES\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+
+          ("p" "TODO Personal" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: PERSONAL\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1)
+
+          ("s" "TODO with Schedule" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: \n%i" :empty-lines 1)
+
+          ("d" "TODO with Deadline" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1)
+
+          ("b" "TODO with Both Schedule and Deadline" entry (file org-agenda-default-notes-file)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1)
+
+	        ("n" "Note" entry (file+headline org-default-notes-file "Note")
+	         "* %?\nWritten at: %T\n%i" :empty-lines 1)))
+  
   (setq org-agenda-custom-commands
         '(("d" "Daily Agenda"
            ((agenda "" ((org-agenda-span 'day)
@@ -837,6 +861,10 @@
           ("u" "Unscheduled Tasks"
            ((agenda "" ((org-agenda-tag-filter "-SCHEDULED")))))))
 
+  (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+				                           (org-agenda-files :maxlevel . 9))))
+  
   (defun refresh-org-agenda-files ()
     "Refresh 'org-agenda-files' variable if tue current buffer is an .org file."
     (when (and (buffer-file-name)
@@ -850,38 +878,16 @@
           (switch-to-buffer return-buffer-name)))))
 
   (add-hook 'after-save-hook 'refresh-org-agenda-files)
-  
 
+  
   ;; org-clock for alarm
   (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
       (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
 
   ;; org-tempo for structured editing
   (require 'org-tempo)
-  
-  (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				                           (org-agenda-files :maxlevel . 9))))
 
-  (add-hook 'org-mode-hook
-	          (lambda ()
-	            "Beautify Org Checkbox Symbol"
-	            (push '("[ ]" .  "☐") prettify-symbols-alist)
-	            (push '("[X]" . "☑" ) prettify-symbols-alist)
-	            (push '("[-]" . "❍" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
-	            (prettify-symbols-mode)))
+  
   ;; org-babel language extension
   (use-package ob-go
     :ensure t
@@ -938,6 +944,7 @@
   (setq org-image-actual-width '(1024 512 256))
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
+  
   ;; Blog
   (require 'ox-publish)
   (require 'ox-html)
@@ -1017,6 +1024,15 @@
           
           ("blog" :components ("articles" "static" "images")))))
 
+;; org-contacts
+(use-package org-contacts
+  :ensure t
+  :after org
+  :config
+  (setq org-capture-templates
+        (append org-capture-templates
+                '(("C" "Contacts" entry (file org-contacts-default-notes-file)
+                   "* %(org-contacts-template-name)\n:PROPERTIES:\n:EMAIL: %(org-contacts-template-email)\n:PHONE: \n:AFFILIATION: \n:END:\n%i" :empty-lines 1)))))
 
 ;; org-auto-tangle
 (use-package org-auto-tangle
