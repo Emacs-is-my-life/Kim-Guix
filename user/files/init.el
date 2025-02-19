@@ -768,18 +768,74 @@
   (make-directory (concat (getenv "USER_HTML_DIR") "images") t)
   (make-directory (concat (getenv "USER_HTML_DIR") "static") t)
 
-  (setq org-default-notes-file (concat (concat org-directory "notes/") "default.org")
-	      org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$"))
-	      
-	      org-capture-templates
-	      '(("t" "Todo" entry (file+headline org-default-notes-file "TODO")
-	         "* TODO %?\n%u\n%i\n%a" :clock-in t :clock-resume t)
-	        ("s" "Schedule" entry (file+headline org-default-notes-file "Schedule")
-	         "* Schedule with %? :SCHEDULE:\non %T" :time-prompt t)
-	        ("i" "Idea" entry (file+headline org-default-notes-file "Idea")
+
+  (global-set-key (kbd "C-c l") #'org-store-link)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c c") #'org-capture)
+  
+  (setq org-default-notes-file (concat (concat org-directory "notes/") "note-scratch.org"))
+  (setq org-agenda-default-notes-file (concat (concat org-directory "agenda/") "agenda-scratch.org"))
+  
+  (setq org-capture-templates
+	      '(("t" "TODO" entry (file+headline org-agenda-default-notes-file "TODO")
+	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: %^{CATEGORY|WORK|MEETING|CHORES|PERSONAL}p\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
+
+          ("s" "TODO with Schedule" entry (file+headline org-agenda-default-notes-file "TODO")
+	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: %^{CATEGORY|WORK|MEETING|CHORES|PERSONAL}p\nSCHEDULED: %T\nDEADLINE: \n%i" :clock-in t :clock-resume t :time-prompt t)
+
+          ("d" "TODO with Deadline" entry (file+headline org-agenda-default-notes-file "TODO")
+	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: %^{CATEGORY|WORK|MEETING|CHORES|PERSONAL}p\nSCHEDULED: \nDEADLINE: %T\n%i" :clock-in t :clock-resume t :time-prompt t)
+
+          ("w" "TODO Work" entry (file+headline org-agenda-default-notes-file "TODO")
+	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: WORK\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
+          
+          ("m" "TODO Meeting" entry (file+headline org-agenda-default-notes-file "TODO")
+	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: MEETING\nSCHEDULED: %T\nDEADLINE: \n%i" :clock-in t :clock-resume t :time-prompt t)
+
+          ("c" "TODO Chores" entry (file+headline org-agenda-default-notes-file "TODO")
+	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: CHORES\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
+
+          ("p" "TODO Personal" entry (file+headline org-agenda-default-notes-file "TODO")
+	         "* TODO [#%^{PRIORITY|B|A|C}p] %?\nFILE: %a\nCATEGORY: PERSONAL\nSCHEDULED: \nDEADLINE: \n%i" :clock-in t :clock-resume t)
+
+	        ("i" "Idea" entry (file+headline org-default-notes-file "IDEA")
 	         "* IDEA %? :IDEA:\n%t" :clock-in t :clock-resume t)
 	        ("j" "Journal" entry (file+headline org-default-notes-file "Journal")
 	         "* Journal %?\n%U\n" :clock-in t :clock-resume t)))
+  
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "ACTIVE(a)" "ONHOLD(h)" "DONE(d)")))
+  
+  (setq org-todo-keyword-faces
+        '(("TODO" . (:foreground "orange" :weight bold))
+          ("ACTIVE" . (:foreground "blue" :weight bold))
+          ("ONHOLD" . (:foreground "gray"))
+          ("DONE" . (:foreground "green" :weight bold))))
+  
+  (setq org-log-done 'time)
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$")))
+  (setq org-agenda-custom-commands
+        '(("d" "Daily Agenda"
+           ((agenda "" ((org-agenda-span 'day)
+                        (org-deadline-warning-days 7)))))
+          
+          ("w" "Weekly Agenda"
+           ((agenda ""
+                    ((org-agenda-overriding-header "Completed Tasks")
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo 'done))
+                     (org-agenda-span 'week)))
+
+            (agenda ""
+                    ((org-agenda-overriding-header "Incomplete Tasks")
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                     (org-agenda-span 'week)))))
+          
+          ("i" "Incomplete Tasks"
+           ((agenda "" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))))))
+          
+          ("u" "Unscheduled Tasks"
+           ((agenda "" ((org-agenda-tag-filter "-SCHEDULED")))))))
 
   (defun refresh-org-agenda-files ()
     "Refresh 'org-agenda-files' variable if tue current buffer is an .org file."
@@ -794,12 +850,11 @@
           (switch-to-buffer return-buffer-name)))))
 
   (add-hook 'after-save-hook 'refresh-org-agenda-files)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "DOING(g)" "HOLD(h)" "DONE(d)")))
+  
 
   ;; org-clock for alarm
   (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
-    (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
+      (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
 
   ;; org-tempo for structured editing
   (require 'org-tempo)
@@ -807,10 +862,6 @@
   (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
 				                           (org-agenda-files :maxlevel . 9))))
-  
-  (global-set-key (kbd "C-c l") #'org-store-link)
-  (global-set-key (kbd "C-c a") #'org-agenda)
-  (global-set-key (kbd "C-c c") #'org-capture)
 
   (add-hook 'org-mode-hook
 	          (lambda ()
