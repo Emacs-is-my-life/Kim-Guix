@@ -825,7 +825,7 @@
           ("CHORES",(list (all-the-icons-faicon "home")) nil nil :ascent center)
           ("PERSONAL" ,(list (all-the-icons-faicon "heart")) nil nil :ascent center)))
 
-  (setq org-cycle-hide-drawers t) ;; Hide properties, its too verbose.
+  (setq org-cycle-hide-drawer-startup t) ;; Hide properties, its too verbose.
   (setq org-capture-templates
 	      '(("t" "TODO" entry (file org-agenda-default-notes-file)
 	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\n:END:\nSCHEDULED: \nDEADLINE: \n%a\n%i" :empty-lines 1 :kill-buffer t)
