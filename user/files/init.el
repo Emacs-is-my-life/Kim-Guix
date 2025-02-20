@@ -851,6 +851,9 @@
           ("b" "TODO with Both Schedule and Deadline" entry (file org-agenda-default-notes-file)
 	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\n:END:\nSCHEDULED: %^{Schedule}t\nDEADLINE: %^{Deadline}t\n%a\n%i" :empty-lines 1 :kill-buffer t)
 
+          ("P" "Plan" entry (file+headline org-default-notes-file "Plan")
+           "* %?\n:PROPERTIES:\n:FROM: %^{From}t\n:TO: %^{To}t\n:END:\n%i" empty-lines:1 :kill-buffer t)
+
 	        ("n" "Note" entry (file+headline org-default-notes-file "Note")
 	         "* %?\nWritten at: %T\n%i" :empty-lines 1 :kill-buffer t)))
 
