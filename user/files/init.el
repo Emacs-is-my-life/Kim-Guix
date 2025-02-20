@@ -809,79 +809,105 @@
         '((sequence "TODO(t)" "ACTIVE(a)" "ONHOLD(h)" "DONE(d)")))
   
   (setq org-todo-keyword-faces
-        '(("TODO" . (:foreground "orange" :weight bold))
+        '(("TODO" . (:foreground "skyblue" :weight bold))
           ("ACTIVE" . (:foreground "blue" :weight bold))
           ("ONHOLD" . (:foreground "gray"))
-          ("DONE" . (:foreground "green" :weight bold))))
-  
+          ("DONE" . (:foreground "green"))))
+
+  (setq org-agenda-deadline-faces
+        '((1.0 . (:foreground "red" :weight bold))
+          (3.0 . (:foreground "orange" :weight bold))
+          (7.0 . (:foreground "yellow" :weight bold))))
+
+  (setq org-agenda-category-icon-alist
+        `(("WORK" ,(list (all-the-icons-faicon "briefcase")) nil nil :ascent center)
+          ("MEETING" ,(list (all-the-icons-faicon "comments")) nil nil :ascent center)
+          ("CHORES",(list (all-the-icons-faicon "home")) nil nil :ascent center)
+          ("PERSONAL" ,(list (all-the-icons-faicon "heart")) nil nil :ascent center)))
+
+  (setq org-cycle-hide-drawers t) ;; Hide properties, its too verbose.
   (setq org-capture-templates
 	      '(("t" "TODO" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\n:END:\nSCHEDULED: \nDEADLINE: \n%a\n%i" :empty-lines 1 :kill-buffer t)
 
           ("w" "TODO Work" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: WORK\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: WORK\n:END:\nSCHEDULED: \nDEADLINE: \n%a\n%i" :empty-lines 1 :kill-buffer t)
 
           ("m" "TODO Meeting" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: MEETING\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: MEETING\n:END:\nSCHEDULED: %^{Schedule}t\nDEADLINE: \n%a\n%i" :empty-lines 1 :kill-buffer t)
 
           ("c" "TODO Chores" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: CHORES\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: CHORES\n:END:\nSCHEDULED: \nDEADLINE: \n%a\n%i" :empty-lines 1 :kill-buffer t)
 
           ("p" "TODO Personal" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: PERSONAL\nSCHEDULED: \nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: PERSONAL\n:END:\nSCHEDULED: \nDEADLINE: \n%a\n%i" :empty-lines 1 :kill-buffer t)
 
           ("s" "TODO with Schedule" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: \n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\n:END:\nSCHEDULED: %^{Schedule}t\nDEADLINE: \n%a\n%i" :empty-lines 1 :kill-buffer t)
 
           ("d" "TODO with Deadline" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: \nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\n:END:\nSCHEDULED: \nDEADLINE: %^{Deadline}t\n%a\n%i" :empty-lines 1 :kill-buffer t)
 
           ("b" "TODO with Both Schedule and Deadline" entry (file org-agenda-default-notes-file)
-	         "* TODO %^{PRIORITY|B|A|C}p%?\n%a\nCATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\nSCHEDULED: %^{Schedule}t\nDEADLINE: %^{Deadline}t\n%i" :empty-lines 1 :kill-buffer t)
+	         "* TODO %^{PRIORITY|B|A|C}p%?\n:PROPERTIES:\n:CATEGORY: %^{Category|WORK|MEETING|CHORES|PERSONAL}\n:END:\nSCHEDULED: %^{Schedule}t\nDEADLINE: %^{Deadline}t\n%a\n%i" :empty-lines 1 :kill-buffer t)
 
 	        ("n" "Note" entry (file+headline org-default-notes-file "Note")
 	         "* %?\nWritten at: %T\n%i" :empty-lines 1 :kill-buffer t)))
+
+  (setq org-agenda-prefix-format
+        '((agenda  . "%-12t %i ")
+          (todo    . "%-12s %i ")
+          (tags    . "%-12s %i ")
+          (search  . "%-12s %i ")))
   
   (setq org-agenda-custom-commands
         '(("d" "Daily Overview"
            ((agenda "" ((org-agenda-overriding-header "Today's Tasks")
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$"))
                         (org-agenda-span 'day)
-                        (org-deadline-warning-days 3)))))
+                        (org-deadline-warning-days 3)
+                        (org-agenda-skip-function
+                         '(or
+                           (org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$")
+                           (org-agenda-skip-entry-if 'todo '("ONHOLD" "DONE"))))))))
           
           ("w" "Weekly Overview"
            ((agenda ""
-                    ((org-agenda-overriding-header "Completed Tasks")
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$"))
-                     (org-agenda-span 'week)
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo 'done))))
-
-            (agenda ""
-                    ((org-agenda-overriding-header "Incomplete Tasks")
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$"))
+                    ((org-agenda-overriding-header "This Week")
                      (org-agenda-span 'week)
                      (org-deadline-warning-days 7)
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))))))
+                     (org-agenda-skip-function
+                      '(or
+                        (org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$")
+                        (org-agenda-skip-entry-if 'todo '("ONHOLD" "DONE"))))))))
           
           ("u" "Unassigned Tasks"
            ((todo "TODO"
                   ((org-agenda-overriding-header "Unassigned Tasks")
                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^[ ]*SCHEDULED:[ ]*$"))))))
 
-          ("c" "Chores"
-           ((tags-todo "+CATEGORY=\"CHORES\""
-                       ((org-agenda-overriding-header "Simple Chores")
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))))))
+          ("o" "Ongoing Tasks"
+           ((todo "ACTIVE"
+                  ((org-agenda-overriding-header "Active Now")))))
 
-          ("h" "On Hold Tasks"
+          ("h" "on Hold Tasks"
            ((todo "ONHOLD"
                   ((org-agenda-overriding-header "On Hold Tasks")))))
 
-          ("o" "Overdue Tasks"
-           ((tags-todo "DEADLINE<\"<now>\""
-                       ((org-agenda-overriding-header "Overdue Tasks")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'todo 'done))))))))
+          ("D" "Missed Deadlines"
+           ((todo "TODO|ACTIVE"
+                  ((org-agenda-overriding-header "Missed Deadlines")
+                   (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "^[ ]*DEADLINE:[ ]*$"))
+                   (org-agenda-deadline-warning-days -1)))))
+
+          ("c" "Chores"
+           ((tags-todo "+CATEGORY=\"CHORES\""
+                       ((org-agenda-overriding-header "Simple Chores")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("ONHOLD" "DONE")))))))
+
+          ("p" "Personal"
+           ((tags-todo "+CATEGORY=\"PERSONAL\""
+                       ((org-agenda-overriding-header "Personal Matters")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("ONHOLD" "DONE")))))))))
 
   (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA")
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
