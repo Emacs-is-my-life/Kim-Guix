@@ -2281,9 +2281,7 @@
       (setq gptel-default-mode 'org-mode)
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
-      (defun org-latex-preview-wholepage (lambda ()
-                                           (org-latex-preview '(16))))
-      (add-hook 'gptel-post-response-functions #'org-latex-preview-wholepage)
+      (add-hook 'gptel-post-response-functions (apply-partially #'org-latex-preview '(16)))
       (setq gptel-directives
             '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
               (survey . "You are a large language model and a research assistant for my literature survey. Please provide reliable references with your answer.")
