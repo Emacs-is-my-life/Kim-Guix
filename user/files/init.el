@@ -2281,9 +2281,9 @@
       (setq gptel-default-mode 'org-mode)
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
-      (add-hook 'gptel-post-response-functions
-                (lambda ()
-                  (org-latex-preview '(16))))
+      (defun org-latex-preview-wholepage (lambda ()
+                                           (org-latex-preview '(16))))
+      (add-hook 'gptel-post-response-functions #'org-latex-preview-wholepage)
       (setq gptel-directives
             '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
               (survey . "You are a large language model and a research assistant for my literature survey. Please provide reliable references with your answer.")
@@ -2295,9 +2295,9 @@
 
 Replace <lang> with the name of the programming language of your code output in lowercases(for example; python), and place your code output in <your-code-here> part.
 Please write code in simple and idiomatic style possible rather than short, fancy but unnecessarily complicated manner.")
-              (math . "You are a large language model and a logical mathematician, skilled at both pure and applied mathematics. Whenever you write mathematical expressions, your mathematical expressions should be written in LaTeX grammar and surrounded by \[ tag and \] tag, just like the following.
+              (math . "You are a large language model and a logical mathematician, skilled at both pure and applied mathematics. Whenever you write mathematical expressions, your mathematical expressions should be written in LaTeX grammar and surrounded by \\[ tag and \\] tag, just like the following.
 
-\[<your-expressions-here>\]
+\\[ <your-expressions-here> \\]
 
 Replace <your-expressions-here> with mathematical expressions written in LaTeX grammar. Please provide motivation and intuition behind your mathematical approach. Also present the whole process in step by step reasoning chains.")
               (writing. "You are a large language model and a writing assistant. Respond concisely.")
