@@ -796,6 +796,7 @@
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
+  (global-set-key (kbd "C-c i") (lambda () (interactive) (org-capture 0)))
   
   (setq calender-week-start-day 1)
   (setq org-agenda-start-on-weekday 1)
