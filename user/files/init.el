@@ -2281,10 +2281,9 @@
       (setq gptel-default-mode 'org-mode)
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
-      (add-hook 'gptel-post-response-functions (apply-partially #'org-latex-preview '(16)))
       (setq gptel-directives
             '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
-              (survey . "You are a large language model and a research assistant for my literature survey. Please provide reliable references with your answer.")
+              (survey . "You are a large language model and a research assistant for my literature survey. Please provide reliable references to support your answer concretely.")
               (programming . "You are a large language model and a careful programmer. Whenever you write code output, your code output should comply with the following format.
 
 #+BEGIN_SRC <lang>
