@@ -193,9 +193,9 @@
               (energy-perf-policy-on-ac "performance")
               (energy-perf-policy-on-bat "powersave")
               (start-charge-thresh-bat0 40)
-              (stop-charge-thresh-bat0 70)
+              (stop-charge-thresh-bat0 80)
               (start-charge-thresh-bat1 40)
-              (stop-charge-thresh-bat1 70)))
+              (stop-charge-thresh-bat1 80)))
     (service thermald-service-type
              (thermald-configuration
               (adaptive? #t)))
