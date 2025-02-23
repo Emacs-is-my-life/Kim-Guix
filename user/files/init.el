@@ -1853,7 +1853,7 @@
   (setq org-latex-packages-alist
 	      '(("" "amsmath" t)))
   (setq my-org-latex-preview-scale 1.0)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6))
   (eval-after-load "preview"
     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
   (add-hook 'org-mode-hook 'org-fragtog-mode))
@@ -2277,8 +2277,12 @@
       :defer t
       :after exwm
       :config
+      (setq gptel-default-mode 'org-mode)
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+      (add-hook 'gptel-post-response-functions
+                (lambda ()
+                  (org-latex-preview '(16))))
       (dolist (provider-info (gptel/get-llm-providers))
         (let ((provider (car provider-info))
 	            (apikey (cdr provider-info)))

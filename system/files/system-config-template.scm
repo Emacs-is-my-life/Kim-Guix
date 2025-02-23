@@ -73,6 +73,14 @@
       Option \"AccelerationThreshold\" \"16\"
   EndSection")
 
+(define %XORG-INTEL-GRAPHICS
+  "Section \"Device\"
+      Identifier \"Intel Graphics\"
+      Driver \"modesetting\"
+      Option \"TearFree\" \"true\"
+      option \"TripleBuffer\" \"true\"
+  EndSection")
+
 ;; Allow members of the "video" group to change the screen brightness.
 (define %backlight-udev-rule
   (udev-rule
@@ -293,7 +301,7 @@
     (service xorg-server-service-type
              (xorg-configuration
               (keyboard-layout keyboard-layout)
-              (extra-config (list %XORG-LIBINPUT-M575))))
+              (extra-config (list %XORG-INTEL-GRAPHICS %XORG-LIBINPUT-M575))))
 
     (service inputattach-service-type)
     (service fprintd-service-type)
