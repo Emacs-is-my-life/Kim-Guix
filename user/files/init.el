@@ -726,7 +726,57 @@
 ;; * ---- Capture templates for Org mode
 
 
-;; Org Agenda Capture Templates
+(setq org-capture-template/agenda/todo
+      "TODO %^{PRIORITY|B|A|C}p%?
+:PROPERTIES:
+:CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
+:EFFORT: %(my/org-agenda-capture-prompt-effort)
+:REFERENCE: %a
+:END:
+SCHEDULED: 
+DEADLINE: 
+
+%i")
+
+(setq org-capture-template/agenda/todo-scheduled
+      "TODO %^{PRIORITY|B|A|C}p%?
+:PROPERTIES:
+:CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
+:EFFORT: %(my/org-agenda-capture-prompt-effort)
+:REFERENCE: %a
+:END:
+SCHEDULED: %^{Schedule}T
+DEADLINE: 
+
+%i")
+
+(setq org-capture-template/agenda/todo-deadlined
+      "TODO %^{PRIORITY|B|A|C}p%?
+:PROPERTIES:
+:CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
+:EFFORT: %(my-org-agenda-capture-prompt-effort)
+:REFERENCE: %a
+:END:
+SCHEDULED: 
+DEADLINE: %^{Deadline}t
+
+%i")
+
+(setq org-capture-template/agenda/project
+      "#+PROJECT: %^{Enter project name}\n#+STATUS: ACTIVE\n#+PROJECT_PROGRESS: 0\%\n\n* Overview\n%?\n\n* Capture\n** Note\n\n\n** Todo\n\n\n* Plan\n\n")
+
+;; Org Roam Capture Templates
+(setq org-capture-template/roam/fleeting "")
+
+(setq org-capture-template/roam/knowledge "")
+
+(setq org-capture-template/roam/research "")
+
+(setq org-capture-template/roam/index "")
+
+
+
+;; Org Capture helper functions
 (defun my/org-agenda-capture-prompt-effort ()
   "Prompt for effort value in HH:MM format with validation."
   (let* ((effort-options '("Unknown" "0:05" "0:10" "0:30" "1:00" "1:30" "3:00" "6:00"))
@@ -746,27 +796,29 @@
         input))
      (t choice))))
 
-(setq org-agenda-directory (concat org-directory "agenda/"))
-
 (defun my/org-agenda-project-destination (target-directory)
   "Prompt for a filename and create an org file in target-directory."
   (let* ((org-files (directory-files target-directory nil "\\.org$"))
-         (existing-org-files-str (if org-files
-                                     (format "Existing projects: %s\n"
-                                             (mapconcat 'identity org-files "\n"))))
          (not-chosen t)
-         (filename nil))
+         (filename nil)
+         (fullpath nil))
     (while not-chosen
-      (setq filename (read-string (format "Existing project files: \n%s\nEnter filename for the new project file: " existing-org-files-str)))
-      (setq filename (if (file-name-extension "org" filename)
+      (setq filename (read-string "Enter filename for the new project file: "))
+      (setq filename (if (string-equal "org" (file-name-extension filename))
                          filename
                        (concat filename ".org")))
       (if (member filename org-files)
           (progn
-            (message "Project org file with the same name already exists!"))
+            (message "Project file with the given name already exists!")
+            (sit-for 1))
         (setq not-chosen nil)))
-    ;; Create the file and open it in a buffer
-    (find-file (expand-file-name filename target-directory))))
+
+    (setq fullpath (expand-file-name filename target-directory))
+    
+    ;; Create the new file
+    (find-file fullpath)
+    (goto-char (point-min))
+    (point)))
 
 (defun my/org-agenda-capture-destination (target-directory level-1-heading level-2-heading)
   "Function for designating the destination(both file and location) of org agenda capture."
@@ -849,73 +901,6 @@
               (widen)
               ;; Place the marker
               (point-marker))))))))
-
-
-(setq org-capture-template/agenda/todo
-      "TODO %^{PRIORITY|B|A|C}p%?
-:PROPERTIES:
-:CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
-:EFFORT: %(my/org-agenda-capture-prompt-effort)
-:REFERENCE: %a
-:END:
-SCHEDULED: 
-DEADLINE: 
-
-%i")
-
-(setq org-capture-template/agenda/todo-scheduled
-      "TODO %^{PRIORITY|B|A|C}p%?
-:PROPERTIES:
-:CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
-:EFFORT: %(my/org-agenda-capture-prompt-effort)
-:REFERENCE: %a
-:END:
-SCHEDULED: %^{Schedule}T
-DEADLINE: 
-
-%i")
-
-(setq org-capture-template/agenda/todo-deadlined
-      "TODO %^{PRIORITY|B|A|C}p%?
-:PROPERTIES:
-:CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
-:EFFORT: %(my-org-agenda-capture-prompt-effort)
-:REFERENCE: %a
-:END:
-SCHEDULED: 
-DEADLINE: %^{Deadline}t
-
-%i")
-
-(setq org-capture-template/agenda/project
-      "#+PROJECT_NAME: %^{Enter project name}p
-#+PROJECT_STATUS: %^{Project status|ACTIVE|INACTIVE}
-#+PROJECT_PROGRESS: 0%
-
-* Overview
-
-
-* Capture
-** Note
-
-
-** Todo
-
-
-* Plan
-
-
-")
-
-
-;; Org Roam Capture Templates
-(setq org-capture-template/roam/fleeting "")
-
-(setq org-capture-template/roam/knowledge "")
-
-(setq org-capture-template/roam/research "")
-
-(setq org-capture-template/roam/index "")
 
 
 
@@ -1002,7 +987,7 @@ DEADLINE: %^{Deadline}t
   (setq org-log-done 'time)
   (setq org-agenda-start-with-log-mode t)
 
-  (setq org-agenda-directory (cons org-directory "agenda/"))
+  (setq org-agenda-directory (concat org-directory "agenda/"))
   (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$")))
 
   (setq org-todo-keywords
