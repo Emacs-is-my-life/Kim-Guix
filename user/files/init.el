@@ -724,10 +724,8 @@
 
 
 ;; * ---- Capture templates for Org mode
-
-
 (setq org-capture-template/agenda/todo
-      "TODO %^{PRIORITY|B|A|C}p%?
+      "TODO \[#%^{PRIORITY|B|A|C}\] %?
 :PROPERTIES:
 :CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
 :EFFORT: %(my/org-agenda-capture-prompt-effort)
@@ -739,7 +737,7 @@ DEADLINE:
 %i")
 
 (setq org-capture-template/agenda/todo-scheduled
-      "TODO %^{PRIORITY|B|A|C}p%?
+      "TODO \[#%^{PRIORITY|B|A|C}\] %?
 :PROPERTIES:
 :CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
 :EFFORT: %(my/org-agenda-capture-prompt-effort)
@@ -751,7 +749,7 @@ DEADLINE:
 %i")
 
 (setq org-capture-template/agenda/todo-deadlined
-      "TODO %^{PRIORITY|B|A|C}p%?
+      "TODO \[#%^{PRIORITY|B|A|C}\] %?
 :PROPERTIES:
 :CATEGORY: %^{Category|TASK|MEETING|CHORES|ROUTINE}
 :EFFORT: %(my-org-agenda-capture-prompt-effort)
@@ -762,8 +760,38 @@ DEADLINE: %^{Deadline}t
 
 %i")
 
+(setq org-capture-template/agenda/note
+      "NOTE written at: %u
+
+%?")
+
 (setq org-capture-template/agenda/project
-      "#+PROJECT: %^{Enter project name}\n#+STATUS: ACTIVE\n#+PROJECT_PROGRESS: 0\%\n\n* Overview\n%?\n\n* Capture\n** Note\n\n\n** Todo\n\n\n* Plan\n\n")
+      "#+PROJECT_NAME: %^{Enter the project name}
+#+PROJECT_STATUS: %^{Project status|ACTIVE|INACTIVE}
+#+PROJECT_PROGRESS: 0\%
+
+* Overview
+%?
+
+
+
+* Capture
+** Note
+
+
+
+
+** Todo
+
+
+
+
+* Plan
+
+
+
+
+")
 
 ;; Org Roam Capture Templates
 (setq org-capture-template/roam/fleeting "")
@@ -777,6 +805,21 @@ DEADLINE: %^{Deadline}t
 
 
 ;; Org Capture helper functions
+(defun my/org-agenda-capture-insert-template (target-directory template-string)
+  (if (and (buffer-file-name)
+           (string-equal "org" (file-name-extension (buffer-file-name)))
+           (string-prefix-p (expand-file-name target-directory)
+                            (expand-file-name (buffer-file-name))))
+      (let ((level (or (org-current-level)
+                       0))
+            (heading-prefix ""))
+        ;; Calculate the new heading level
+        (setq level (+ level 1))
+        ;; Create the heading prefix with the appropriate number of asterisks
+        (setq heading-prefix (make-string level ?*))
+        (concat heading-prefix " " template-string))
+    (concat "*** " template-string)))
+
 (defun my/org-agenda-capture-prompt-effort ()
   "Prompt for effort value in HH:MM format with validation."
   (let* ((effort-options '("Unknown" "0:05" "0:10" "0:30" "1:00" "1:30" "3:00" "6:00"))
@@ -801,7 +844,8 @@ DEADLINE: %^{Deadline}t
   (let* ((org-files (directory-files target-directory nil "\\.org$"))
          (not-chosen t)
          (filename nil)
-         (fullpath nil))
+         (fullpath nil)
+         (buf nil))
     (while not-chosen
       (setq filename (read-string "Enter filename for the new project file: "))
       (setq filename (if (string-equal "org" (file-name-extension filename))
@@ -815,10 +859,9 @@ DEADLINE: %^{Deadline}t
 
     (setq fullpath (expand-file-name filename target-directory))
     
-    ;; Create the new file
-    (find-file fullpath)
-    (goto-char (point-min))
-    (point)))
+    ;; Open the file and move cursor to the very start
+    (set-buffer (org-capture-target-buffer fullpath))
+    (goto-char (point-min))))
 
 (defun my/org-agenda-capture-destination (target-directory level-1-heading level-2-heading)
   "Function for designating the destination(both file and location) of org agenda capture."
@@ -854,53 +897,52 @@ DEADLINE: %^{Deadline}t
                                              nil t))
         ;; Find the full path of the selected file
         (setq selected-file (expand-file-name selected-file target-directory))
-        ;; Open the selected file without changing the current window
-        (with-current-buffer (find-file-noselect selected-file)
-          ;; Try to find the level 1 heading
-          (goto-char (point-min))
-          (let ((found-level-1 (org-find-exact-headline-in-buffer level-1-heading)))
-            ;; If level 1 heading doesn't exist, create one
-            (unless found-level-1
+        ;; Open the selected
+        ;; (find-file selected-file)
+        (set-buffer (org-capture-target-buffer selected-file))
+        ;; Try to find the level 1 heading
+        (goto-char (point-min))
+        (let ((found-level-1 (org-find-exact-headline-in-buffer level-1-heading)))
+          ;; If level 1 heading doesn't exist, create one
+          (unless found-level-1
+            (goto-char (point-max))
+            ;; Make sure that we are at the beginning of an empty line
+            (unless (bolp) (insert "\n"))
+            (insert (format "* %s" level-1-heading))
+            ;; Move to the heading we just created
+            (goto-char (point-max))
+            (search-backward (format "* %s" level-1-heading)))
+
+          ;; If it exists, go to level 1 heading
+          (when found-level-1
+            (goto-char found-level-1))
+
+          ;; Now at level 1 heading, narrow to its subtree to search for level 2 heading
+          (org-narrow-to-subtree)
+
+          ;; Search for level 2 heading
+          (let ((found-level-2 (org-find-exact-headline-in-buffer level-2-heading)))
+            ;; If level 2 heading doesn't exist, create one
+            (unless found-level-2
               (goto-char (point-max))
-              ;; Make sure that we are at the beginning of an empty line
+              ;; Ensure that we are at the beginning of an empty line
               (unless (bolp) (insert "\n"))
-              (insert (format "* %s" level-1-heading))
+              (insert (format "** %s\n" level-2-heading))
               ;; Move to the heading we just created
               (goto-char (point-max))
-              (search-backward (format "* %s" level-1-heading)))
+              (search-backward (format "** %s" level-2-heading)))
 
-            ;; If it exists, go to level 1 heading
-            (when found-level-1
-              (goto-char found-level-1))
+            ;; If it exists, go to it
+            (when found-level-2
+              (goto-char found-level-2))
+            
+            ;; Ensure there's a newline for the new entry
+            (end-of-line)
+            (unless (bolp) (insert "\n"))
 
-            ;; Now at level 1 heading, narrow to its subtree to search for level 2 heading
-            (org-narrow-to-subtree)
-
-            ;; Search for level 2 heading
-            (let ((found-level-2 (org-find-exact-headline-in-buffer level-2-heading t)))
-              ;; If level 2 heading doesn't exist, create one
-              (unless found-level-2
-                (goto-char (point-max))
-                ;; Ensure that we are at the beginning of an empty line
-                (unless (bolp) (insert "\n"))
-                (insert (format "** %s\n" level-2-heading))
-                ;; Move to the heading we just created
-                (goto-char (point-max))
-                (search-backward (format "** %s" level-2-heading)))
-
-              ;; If it exists, go to it
-              (when found-level-2
-                (goto-char found-level-2))
-
-              ;; Position at the end of the level 2 heading content
-              (org-end-of-subtree)
-              ;; Ensure there's a newline for the new entry
-              (unless (bolp) (insert "\n"))
-
-              ;; Remove the org narrowing before the return
-              (widen)
-              ;; Place the marker
-              (point-marker))))))))
+            ;; Remove the org narrowing before the return
+            (widen)
+            (point-marker)))))))
 
 
 
@@ -988,7 +1030,7 @@ DEADLINE: %^{Deadline}t
   (setq org-agenda-start-with-log-mode t)
 
   (setq org-agenda-directory (concat org-directory "agenda/"))
-  (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively (concat org-directory "agenda/") "\\.org$")))
+  (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively org-agenda-directory "\\.org$")))
 
   (setq org-todo-keywords
         '((sequence "TODO(t)" "ACTIVE(a)" "ONHOLD(h)" "DONE(d)")))
@@ -1012,12 +1054,34 @@ DEADLINE: %^{Deadline}t
 
   (setq org-cycle-hide-drawer-startup t) ;; Hide properties, its too verbose.
   (setq org-capture-templates
-	      '(("t" "TODO" entry (function (lambda () (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
-	         org-capture-template/agenda/todo :empty-lines 1 :kill-buffer t)
+	      '(("t" "TODO" plain (function (lambda ()
+                                        (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
+           (function (lambda ()
+                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo)))
+           :empty-lines 1 :clock-in t :clock-resume t)
 
-          ("P" "New Project" entry (function (lambda () (my/org-agenda-project-destination org-agenda-directory)))
-           org-capture-template/agenda/project :kill-buffer t)))
+          ("s" "TODO Scheduled" plain (function (lambda ()
+                                                  (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
+           (function (lambda ()
+                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-scheduled)))
+           :empty-lines 1 :clock-in t :clock-resume t)
 
+          ("d" "TODO Deadlined" plain (function (lambda ()
+                                                  (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
+           (function (lambda ()
+                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-deadlined)))
+           :empty-lines 1 :clock-in t :clock-resume t)
+
+          ("n" "Note" plain (function (lambda ()
+                                        (my/org-agenda-capture-destination org-agenda-directory "Capture" "Note")))
+           (function (lambda ()
+                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/note)))
+           :empty-lines 1)
+
+          ("p" "New Project" plain (function (lambda () (my/org-agenda-project-destination org-agenda-directory)))
+           (function (lambda ()
+                       org-capture-template/agenda/project)))))
+  
   (setq org-agenda-prefix-format
         '((agenda  . "%-12t %i ")
           (todo    . "%-12s %i ")
@@ -1078,18 +1142,29 @@ DEADLINE: %^{Deadline}t
 				                           (org-agenda-files :maxlevel . 9))))
   
   (defun refresh-org-agenda-files ()
-    "Refresh 'org-agenda-files' variable if tue current buffer is an .org file."
+    "Refresh 'org-agenda-files' variable if the current buffer is an .org file."
     (when (and (buffer-file-name)
                (string-equal "org" (file-name-extension (buffer-file-name)))
-               (or (string-equal (concat org-directory "agenda/") (file-name-directory (buffer-file-name)))
+               (or (string-equal org-agenda-directory (file-name-directory (buffer-file-name)))
                    (string-equal (concat (getenv "USER_ORG_SHORTCUT_DIR") "agenda/") (file-name-directory (buffer-file-name)))))
       (progn
         (org-agenda-file-to-front)
         (let ((return-buffer-name (buffer-name)))
           (dashboard-refresh-buffer)
           (switch-to-buffer return-buffer-name)))))
-
   (add-hook 'after-save-hook 'refresh-org-agenda-files)
+
+  (defun clean-org-agenda-files ()
+    "Remove non-existent files from org-agenda-files"
+    (interactive)
+    (let ((existing-files nil))
+      ;; Get the current list of agenda files
+      (dolist (org-file (org-agenda-files))
+        (if (file-exists-p org-file)
+            (push org-file existing-files)))
+
+      (org-store-new-agenda-file-list (nreverse existing-files))))
+  (advice-add 'org-agenda :before #'clean-org-agenda-files)
 
   
   ;; org-clock for alarm
@@ -1212,7 +1287,7 @@ DEADLINE: %^{Deadline}t
   (setq org-contacts-files (list org-contacts-default-notes-file))
   (setq org-capture-templates
         (append org-capture-templates
-                '(("C" "Contacts" entry (file org-contacts-default-notes-file)
+                '(("c" "Contacts" entry (file org-contacts-default-notes-file)
                    "* %(org-contacts-template-name)\n:PROPERTIES:\n:ALIAS:\n:EMAIL: %(org-contacts-template-email)\n:PHONE: \n:AFFILIATION: \n:END:\n%i" :empty-lines 1 :kill-buffer t)))))
 
 ;; org-auto-tangle
