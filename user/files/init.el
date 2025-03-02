@@ -1235,7 +1235,7 @@ DEADLINE: %^{Deadline}t
                                              ". . . ."
                                              "- - - - - - - - - - - - - - - - - - - - - - - "))                     
                      (org-agenda-entry-types '(:timestamp :deadline :scheduled))
-                     (org-agenda-category-filter-preset "+TASK+MEETING-CHORE-ROUTINE")
+                     (org-agenda-category-filter-preset "+TASK+MEETING-CHORES-ROUTINE")
                      (org-agenda-sorting-strategy '((agenda time-up timestamp-up scheduled-up urgency-down effort-down)))))))
 
           ("P" "Project View"
