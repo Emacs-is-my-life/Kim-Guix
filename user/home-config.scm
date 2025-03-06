@@ -408,7 +408,7 @@ fi
              (critical-level 25)
              (danger-level 20)
              (danger-command "loginctl hibernate")
-             (full-level 70)
+             (full-level 80)
              (poll-delay 60)))
 
    (service home-ssh-agent-service-type
