@@ -2511,7 +2511,6 @@ DEADLINE: %^{Deadline}t
   (setq dashboard-icon-types 'all-the-icons)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-week-agenda t)
   (dashboard-setup-startup-hook)
   (dashboard-open))
 
