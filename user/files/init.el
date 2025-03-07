@@ -790,7 +790,7 @@
   (require 'org-tempo)
 
   ;; Org Agenda  Basic Setup  
-  (setq org-default-notes-file (concat (concat org-directory "notes/") "journal.org"))
+  (setq org-default-notes-file (concat (concat org-directory "notes/") "default.org"))
   (setq org-contacts-default-notes-file (concat (concat org-directory "notes/") "contacts.org"))
   
   ;; Org Agenda Capture Setup

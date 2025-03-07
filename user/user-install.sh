@@ -55,9 +55,8 @@ chmod 700 ~/Workspace
 # Org
 mkdir -p ~/Documents/Org/notes
 mkdir -p ~/Documents/Org/agenda
-touch ~/Documents/Org/notes/journal.org
+touch ~/Documents/Org/notes/default.org
 touch ~/Documents/Org/notes/contacts.org
-touch ~/Documents/Org/agenda/tasks.org
 
 # PIP
 hash guix
