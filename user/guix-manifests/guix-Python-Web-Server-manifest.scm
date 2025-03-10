@@ -7,6 +7,7 @@
    "python-uvicorn"
    "python-loguru"
    "python-celery"
+   "python-filelock"
    "python-redis"
    "python-sqlalchemy"
    "python-mysqlclient"

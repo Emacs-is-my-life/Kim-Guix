@@ -1,3 +1,6 @@
+# Algorithm
+algorithms
+
 # Jupyterlab
 jupyterlab
 jupyterlab-lsp
@@ -24,14 +27,12 @@ transformers
 triton
 onnx
 
-# 3D
-bpy
-trimesh
-open3d
-
 # Finance
 backtrader
 skfolio
 yfinance
 pandas-datareader
 openbb
+ccxt
+fredapi
+opendartreader
