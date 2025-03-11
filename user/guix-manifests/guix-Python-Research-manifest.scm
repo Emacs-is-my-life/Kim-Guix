@@ -7,9 +7,10 @@
    "python-sympy"
    "python-xarray"
    "python-xarray-dataclasses"
+   "python-kiwisolver"
    "python-numba"
    "python-tqdm"
    "python-statsmodels"
    "python-pymc"
    "python-networkx"
-))
+   ))

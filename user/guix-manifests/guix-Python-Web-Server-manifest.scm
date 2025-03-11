@@ -2,6 +2,8 @@
 (specifications->manifest
  '(
    "python-fastapi"
+   "python-websockets"
+   "python-socketio"
    "python-jsonschema"
    "python-jinja2"
    "python-uvicorn"
