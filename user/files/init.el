@@ -1112,7 +1112,7 @@ DEADLINE: %^{Deadline}t
   (defun my-org-agenda-project-view (parm)
     "Generate a project report based on org agenda files."
 
-    (let ((report-text (concat (propertize "Project Reports" 'face 'bold ) "\n\n---------------------------------------\n")))
+    (let ((report-text (concat (propertize "Project Reports" 'face 'bold ) "\n\n---------------------------------------\n\n")))
       ;; Loop over org agenda files
       (dolist (file (org-agenda-files))
         (with-current-buffer (find-file-noselect file)
@@ -1152,7 +1152,7 @@ DEADLINE: %^{Deadline}t
                                               (format "%s: %s\n" (propertize "    Time Spent" 'face 'bold) total-time)
                                               "\n"
                                               overview-text
-                                              "\n\n---------------------------------------\n")))))))))
+                                              "\n\n---------------------------------------\n\n")))))))))
       (insert (propertize report-text 'read-only t))))
 
   (setq org-agenda-custom-commands
