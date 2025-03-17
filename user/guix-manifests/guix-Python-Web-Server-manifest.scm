@@ -13,7 +13,6 @@
    "python-redis"
    "python-sqlalchemy"
    "python-mysqlclient"
-   "python-psycopg2"
    "python-minio"
    "python-arrow"
    "python-bcrypt"

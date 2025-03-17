@@ -7,6 +7,9 @@ jupyterlab-lsp
 jupyterlab_widgets
 jupyterlab-spreadsheet-editor
 
+# Web
+sqlmodel
+
 # Data Science
 polars[all]
 pyspark
