@@ -9,6 +9,8 @@ jupyterlab-spreadsheet-editor
 
 # Web
 sqlmodel
+nicegui
+playwright
 
 # Data Science
 polars[all]
@@ -36,6 +38,7 @@ skfolio
 yfinance
 pandas-datareader
 openbb
+openbb-cli
 ccxt
 fredapi
 opendartreader
