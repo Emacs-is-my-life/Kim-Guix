@@ -2666,7 +2666,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	            (apikey (cdr provider-info)))
 	        (cond
 	         ((string= provider "generativelanguage.googleapis.com")
-	          (setq gptel-model 'gemini-2.0-flash-exp
+	          (setq gptel-model 'gemini-2.0-flash-thinking-exp-01-21
                   gptel-backend (gptel-make-gemini "Gemini"
 			                            :key apikey
 			                            :stream t)))
