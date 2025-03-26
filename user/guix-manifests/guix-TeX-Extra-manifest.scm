@@ -36,4 +36,7 @@
    "texlive-algpseudocodex"
    "texlive-program"
    "texlive-bytefield"
+   "texlive-pgf-umlcd"
+   "texlive-pgf-umlsd"
+   "texlive-plantuml"
    ))
