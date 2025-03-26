@@ -2161,6 +2161,12 @@ DEADLINE: %^{Deadline}t
   :demand t)
 
 
+;; <UML>
+;; PlantUML
+(use-package plantuml-mode
+  :ensure t
+  :mode ("\\.puml\\'" . plantuml-mode))
+
 ;; <LaTeX>
 ;; AUCTeX
 (use-package tex
