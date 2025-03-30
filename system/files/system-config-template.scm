@@ -156,7 +156,7 @@
                     alsa-lib alsa-utils alsa-plugins pulseaudio pavucontrol
 
                     ;; network
-                    network-manager network-manager-applet libnma wpa-supplicant wireguard-tools bridge-utils
+                    network-manager network-manager-applet libnma wpa-supplicant wireguard-tools bridge-utils net-tools
 
                     ;; bluetooth
                     bluez bluez-alsa blueman
