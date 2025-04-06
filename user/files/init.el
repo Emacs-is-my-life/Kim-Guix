@@ -2650,7 +2650,7 @@ DEADLINE: %^{Deadline}t
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
       (setq gptel-directives
-            '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
+            '((default . "You are a large language model living in Emacs and a helpful assistant. Respond with correct information, in structured manner following the grammar of Emacs Org document.")
               (survey . "You are a large language model and a research assistant for my literature survey. Please provide reliable references to support your answer concretely.")
               (programming . "You are a large language model and a careful programmer. Whenever you write code output, your code output should comply with the following format.
 
