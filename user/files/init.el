@@ -92,9 +92,9 @@
   (auto-package-update-hide-results t)
   :config
   (setq auto-package-update-excluded-packages '(mu4e vterm guix 
-						     dash zmq magit-popup emacsql pg edit-indirect bui
-						     finalize peg
-						     geiser geiser-guile))
+						                                         dash zmq magit-popup emacsql pg edit-indirect bui
+						                                         finalize peg
+						                                         geiser geiser-guile geiser-racket))
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
@@ -1855,7 +1855,8 @@ DEADLINE: %^{Deadline}t
 
 (use-package geiser-racket
   :after geiser
-  :ensure t)
+  :ensure nil
+  :pin manual)
 
 
 ;; <Common Lisp>

@@ -136,7 +136,7 @@
    ;; Emacs dependencies
    emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
    emacs-finalize emacs-peg
-   emacs-geiser emacs-geiser-guile
+   emacs-geiser emacs-geiser-guile emacs-geiser-racket
 
    ;; Security
    gnupg paperkey argon2 keepassxc keepassxc-browser/icecat
@@ -215,6 +215,9 @@
 
    ;; Chicken scheme
    chicken
+
+   ;; Racket
+   racket
 
    ;; Common Lisp
    sbcl
