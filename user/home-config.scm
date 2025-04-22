@@ -31,6 +31,7 @@
              (gnu packages mail)
              (gnu packages pdf)
              (gnu packages libreoffice)
+             (gnu packages uml)
 	           (gnu packages ghostscript)
              (gnu packages education)
              (gnu packages textutils)
@@ -169,7 +170,7 @@
    zathura-pdf-mupdf evince
 
    ;; Document Edit
-   libreoffice ghostscript pandoc
+   libreoffice ghostscript pandoc plantuml
 
    ;; Media Viewer
    viewnior strawberry mpv ffmpeg gstreamer yt-dlp
