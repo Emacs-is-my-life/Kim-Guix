@@ -1283,7 +1283,7 @@ DEADLINE: %^{Deadline}t
 
 
   ;; org-babel language extension
-  (use-package
+  (use-package jupyter
     :ensure t
     :after org)
   (use-package ob-go
