@@ -240,7 +240,7 @@
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
 
    ;; Jupyter
-   ;; jupyter python-ipykernel python-ipywidgets python-nbconvert
+   jupyter python-ipykernel python-ipywidgets python-nbconvert
    
    ;; Julia
    julia
