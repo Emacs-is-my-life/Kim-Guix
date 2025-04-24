@@ -1292,9 +1292,6 @@ DEADLINE: %^{Deadline}t
   (use-package ob-rust
     :ensure t
     :after org)
-  (use-package jupyter
-    :ensure t
-    :after org)
   (use-package ob-lean4
     :ensure t
     :after org
@@ -1316,7 +1313,6 @@ DEADLINE: %^{Deadline}t
      (rust . t)
      (julia . t)
      (python . t)
-     (jupyter . t)
      (R . t)
      (awk . t)
      (sed . t)
@@ -1332,7 +1328,6 @@ DEADLINE: %^{Deadline}t
 
   ;; org-babel python3
   (setq org-babel-python-command "python3")
-  (setq org-babel-jupyter-override-src-block "python")
 
   ;; refresh org inline image every execution
   (setq org-image-actual-width '(1024 512 256))
