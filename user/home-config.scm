@@ -173,7 +173,7 @@
    libreoffice ghostscript pandoc plantuml
 
    ;; Media Viewer
-   viewnior strawberry mpv ffmpeg gstreamer yt-dlp
+   viewnior strawberry mpv ffmpeg gstreamer yt-dlp gallery-dl
 
    ;; Media Edit
    gimp krita imagemagick inkscape graphviz blender shotcut
