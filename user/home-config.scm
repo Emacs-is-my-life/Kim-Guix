@@ -285,6 +285,7 @@ export USER_SECRET_DIR=$HOME/Documents/Secrets/
 export USER_LEDGER_DIR=$HOME/Documents/Ledger/
 export USER_MAIL_DIR=$HOME/Documents/Mail/
 export USER_BOOK_DIR=$HOME/Books/
+export USER_BIBTEX_DIR=$HOME/Documents/BibTeX/
 export USER_MUSIC_DIR=$HOME/Music/
 
 JULIA_VERSION=$(ls $HOME/.julia/environments/ | tail -n 1)
@@ -298,6 +299,7 @@ chmod 700 $USER_SECRET_DIR
 mkdir -p $USER_LEDGER_DIR
 mkdir -p $USER_MAIL_DIR
 mkdir -p $USER_BOOK_DIR
+mkdir -p $USER_BIBTEX_DIR
 mkdir -p $USER_MUSIC_DIR
 
 mkdir -p $HOME/Downloads

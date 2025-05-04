@@ -696,6 +696,18 @@
   :config
   (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
 
+;; helm-bibtex
+(use-package helm-bibtex
+  :ensure t
+  :config
+  (setq bibtex-completion-bibliography (getenv "USER_BIBTEX_DIR")
+        bibtex-completion-library-path (getenv "USER_BOOK_DIR")
+        bibtex-completion-pdf-field "File"
+        bibtex-completion-notes-path (getenv "USER_ORG_DIR")
+        bibtex-completion-additional-search-fields '(keywords))
+  :bind
+  (("C-x B" . helm-bibtex)))
+
 ;; helpful source code search
 (use-package helpful
   :ensure t
@@ -1454,11 +1466,15 @@ DEADLINE: %^{Deadline}t
       "%?"
       :if-new (file+head "${slug}-%<%Y%m%d%H%M%S>-R.org" "#+TITLE: ${title}\n#+FILETAGS: RESEARCH\n\n")
       :unarrowed t)))
+  (setq org-roam-node-display-template
+        (concat (propertize "${tags:10}" 'face 'org-tag) "${title:*}"))
   :bind
   (("C-c r l" . org-roam-buffer-toggle)
    ("C-c r f" . org-roam-node-find)
    ("C-c r i" . org-roam-node-insert)
    ("C-c r c" . org-roam-capture)
+   ("C-c r g" . org-id-get-create)
+   ("c-c r t" . org-roam-tag-add)
    :map org-mode-map
    ("C-M-i" . completion-at-point))
   :config
@@ -1487,9 +1503,12 @@ DEADLINE: %^{Deadline}t
 
 (use-package org-roam-bibtex
   :ensure t
-  :after org-roam
+  :after (org-roam helm-bibtex)
+  :bind
+  (:map org-mode-map ("C-c n B" . orb-note-actions-default))
   :config
-  (require 'org-ref))
+  (require 'org-ref)
+  (org-roam-bibtex-mode))
 
 ;; org-download
 (use-package org-download
@@ -2650,6 +2669,8 @@ DEADLINE: %^{Deadline}t
       :after exwm
       :config
       (setq gptel-default-mode 'org-mode)
+      (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@USER\n")
+      (setf (alist-get 'org-mode gptel-response-prefix-alist) "@LLM\n")
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
       (setq gptel-directives
