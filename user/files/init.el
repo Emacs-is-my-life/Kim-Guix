@@ -1474,7 +1474,6 @@ DEADLINE: %^{Deadline}t
    ("C-c r i" . org-roam-node-insert)
    ("C-c r c" . org-roam-capture)
    ("C-c r g" . org-id-get-create)
-   ("c-c r t" . org-roam-tag-add)
    :map org-mode-map
    ("C-M-i" . completion-at-point))
   :config
