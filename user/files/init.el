@@ -2668,8 +2668,12 @@ DEADLINE: %^{Deadline}t
       :after exwm
       :config
       (setq gptel-default-mode 'org-mode)
-      (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@USER\n")
-      (setf (alist-get 'org-mode gptel-response-prefix-alist) "@LLM\n")
+      (setf (alist-get 'org-mode gptel-prompt-prefix-alist)
+            (propertize "@User\n"
+                        'face '(:weight bold :foreground "blue")))
+      (setf (alist-get 'org-mode gptel-response-prefix-alist)
+            (propertize "@LLM\n"
+                        'face '(:weight bold :foreground "green")))
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
       (setq gptel-directives
