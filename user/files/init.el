@@ -752,6 +752,8 @@
   (setq org-directory (getenv "USER_ORG_DIR"))
   (make-directory org-directory t)
 
+  (setq org-journal-directory (concat org-directory "journal"))
+  (make-directory org-journal-directory t)
   (make-directory (concat org-directory "notes") t)
   (make-directory (concat org-directory "agenda") t)
   (make-directory (concat org-directory "agenda/.archive") t)
@@ -1052,7 +1054,7 @@ DEADLINE: %^{Deadline}t
               (point-marker)))))))
 
   (setq org-capture-templates
-	      '(("t" "TODO" plain (function (lambda ()
+	      `(("t" "TODO" plain (function (lambda ()
                                         (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo)))
@@ -1075,6 +1077,13 @@ DEADLINE: %^{Deadline}t
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/note)))
            :empty-lines 1)
+
+          ("j" "Journal" entry (file ,(expand-file-name (concat (format-time-string "%Y-%m-%d" (current-time)) "-journal.org") org-journal-directory))
+           (function (lambda ()
+                       (let ((template-file-name (expand-file-name "journal-template.org" (concat org-directory "notes"))))
+                         (if (file-exists-p template-file-name)
+                             (org-file-contents template-file-name)
+                           "")))))
 
           ("P" "New Project" plain (function (lambda () (my/org-agenda-project-destination org-agenda-directory)))
            (function (lambda ()
