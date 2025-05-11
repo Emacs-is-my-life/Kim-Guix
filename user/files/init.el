@@ -1078,7 +1078,7 @@ DEADLINE: %^{Deadline}t
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/note)))
            :empty-lines 1)
 
-          ("j" "Journal" entry (file ,(expand-file-name (concat (format-time-string "%Y-%m-%d" (current-time)) "-journal.org") org-journal-directory))
+          ("j" "Journal for tomorrow" entry (file ,(expand-file-name (concat (format-time-string "%Y-%m-%d-%a" (time-add (current-time) (days-to-time 1))) ".org") org-journal-directory))
            (function (lambda ()
                        (let ((template-file-name (expand-file-name "journal-template.org" (concat org-directory "notes"))))
                          (if (file-exists-p template-file-name)
