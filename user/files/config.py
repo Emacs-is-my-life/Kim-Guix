@@ -1043,7 +1043,7 @@ c.content.webgl = True
 ##   - default-public-and-private-interfaces: WebRTC should only use the default route used by http. This also exposes the associated default private address. Default route is the route chosen by the OS on a multi-homed endpoint.
 ##   - default-public-interface-only: WebRTC should only use the default route used by http. This doesn't expose any local addresses.
 ##   - disable-non-proxied-udp: WebRTC should only use TCP to contact peers or servers unless the proxy server supports UDP. This doesn't expose any local addresses either.
-c.content.webrtc_ip_handling_policy = 'disable-non-proxied-udp'
+c.content.webrtc_ip_handling_policy = 'default-public-interface-only'
 
 ## Monitor load requests for cross-site scripting attempts. Suspicious
 ## scripts will be blocked and reported in the devtools JavaScript
