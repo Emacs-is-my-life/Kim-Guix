@@ -2695,7 +2695,8 @@ DEADLINE: %^{Deadline}t
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
       (defun my/gptel-post-response ()
         (when (derived-mode-p 'org-mode)
-          (org-latex-preview)))
+          (org-latex-preview))
+        (goto-char (point-max)))
       (add-hook 'gptel-post-response-functions #'my/gptel-post-response)
 
       (defun my/gptel-clear ()
