@@ -2707,7 +2707,7 @@ DEADLINE: %^{Deadline}t
         (interactive)
         (let ((inhibit-read-only t))
           (delete-region (point-min) (point-max))
-          (insert "@User\n")
+          (insert "* @User\n")
           (goto-char (point-max))))
       (define-key gptel-mode-map (kbd "C-c C-r") #'my/gptel-clear)
       
