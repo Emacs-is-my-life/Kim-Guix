@@ -2685,19 +2685,23 @@ DEADLINE: %^{Deadline}t
       :config
       (setq gptel-default-mode 'org-mode)
       (setf (alist-get 'org-mode gptel-prompt-prefix-alist)
-            (propertize "@User\n"
+            (propertize "* @User\n"
                         'face '(:weight bold :foreground "blue")))
       (setf (alist-get 'org-mode gptel-response-prefix-alist)
-            (propertize "@LLM\n"
+            (propertize "* @LLM\n"
                         'face '(:weight bold :foreground "green")))
-      (add-hook 'gptel-mode-hook (lambda () (setq-local truncate-lines t)))
+      (add-hook 'gptel-mode-hook (lambda () (toggle-truncate-lines 0)))
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-      (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
-      (defun my/gptel-post-response ()
+
+      (defun my/gptel-post-response (begin end)
         (when (derived-mode-p 'org-mode)
-          (org-latex-preview))
+          (set-mark begin)
+          (goto-char end)
+          (activate-mark)
+          (org-latex-preview)
+          (deactivate-mark))
         (goto-char (point-max)))
-      (add-hook 'gptel-post-response-functions #'my/gptel-post-response)
+      (add-hook 'gptel-post-response-functions 'my/gptel-post-response)
 
       (defun my/gptel-clear ()
         (interactive)
