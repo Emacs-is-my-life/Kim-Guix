@@ -1306,7 +1306,7 @@ DEADLINE: %^{Deadline}t
   (defun my/org-insert-src-block (lang)
     "Insert an org source block."
     (interactive "sLanguage: ")
-    (insert "#+BEGIN_SRC %s\n\n#+END_SRC" lang)
+    (insert "#+BEGIN_SRC " lang "\n\n#+END_SRC")
     (forward-line -1))
   (define-key org-mode-map (kbd "C-c s") 'my/org-insert-src-block)
 
@@ -2690,12 +2690,12 @@ DEADLINE: %^{Deadline}t
       (setf (alist-get 'org-mode gptel-response-prefix-alist)
             (propertize "@LLM\n"
                         'face '(:weight bold :foreground "green")))
-      (add-hook 'gptel-mode-hook (lambda () (setq truncate-lines t)))
+      (add-hook 'gptel-mode-hook (lambda () (setq-local truncate-lines t)))
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
       (defun my/gptel-post-response ()
         (when (derived-mode-p 'org-mode)
-          (org-latex-preview '(16))))
+          (org-latex-preview)))
       (add-hook 'gptel-post-response-functions #'my/gptel-post-response)
 
       (defun my/gptel-clear ()
