@@ -2690,15 +2690,20 @@ DEADLINE: %^{Deadline}t
       (setf (alist-get 'org-mode gptel-response-prefix-alist)
             (propertize "@LLM\n"
                         'face '(:weight bold :foreground "green")))
+      (add-hook 'gptel-mode-hook (lambda () (setq truncate-lines t)))
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+      (defun my/gptel-post-response ()
+        (when (derived-mode-p 'org-mode)
+          (org-latex-preview '(16))))
+      (add-hook 'gptel-post-response-functions #'my/gptel-post-response)
 
       (defun my/gptel-clear ()
         (interactive)
         (let ((inhibit-read-only t))
           (delete-region (point-min) (point-max))
           (insert "@User\n")
-          (forward-line -1)))
+          (goto-char (point-max))))
       (define-key gptel-mode-map (kbd "C-c C-r") #'my/gptel-clear)
       
       (setq gptel-directives
