@@ -2,6 +2,7 @@
 (specifications->manifest
  '(
    "python-pyxel"
-   "python-tmx"
    "libresprite"
+   "python-pytmx"
+   "tiled"
    ))
