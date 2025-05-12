@@ -2692,6 +2692,15 @@ DEADLINE: %^{Deadline}t
                         'face '(:weight bold :foreground "green")))
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
       (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+
+      (defun my/gptel-clear ()
+        (interactive)
+        (let ((inhibit-read-only t))
+          (delete-region (point-min) (point-max))
+          (insert "@User\n")
+          (forward-line -1)))
+      (define-key gptel-mode-map (kbd "C-c C-r") #'my/gptel-clear)
+      
       (setq gptel-directives
             '((default . "You are a large language model living in Emacs and a helpful assistant. Respond with correct information, in structured manner following the grammar of Emacs Org document.")
               (survey . "You are a large language model and a research assistant for my literature survey. Please provide reliable references to support your answer concretely.")
