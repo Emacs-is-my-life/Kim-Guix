@@ -37,3 +37,6 @@ openbb-cli
 ccxt
 fredapi
 opendartreader
+
+# Game
+arcade
