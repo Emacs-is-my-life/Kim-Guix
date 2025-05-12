@@ -27,14 +27,14 @@ transformers
 triton
 onnx
 
+# Reinforcement Learning
+stable-baselines3
+gymnasium
+
 # Finance
 backtrader
-skfolio
 yfinance
 pandas-datareader
-openbb
-openbb-cli
-ccxt
 fredapi
 opendartreader
 
