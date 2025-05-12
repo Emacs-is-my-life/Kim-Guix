@@ -1302,6 +1302,13 @@ DEADLINE: %^{Deadline}t
   (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
       (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
 
+  ;; Insert source code block with shortcut
+  (defun my/org-insert-src-block (lang)
+    "Insert an org source block."
+    (interactive "sLanguage: ")
+    (insert "#+BEGIN_SRC %s\n\n#+END_SRC" lang)
+    (forward-line -1))
+  (define-key org-mode-map (kbd "C-c s") 'my/org-insert-src-block)
 
   ;; org-babel language extension
   (use-package jupyter
