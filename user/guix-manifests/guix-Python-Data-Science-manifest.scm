@@ -7,5 +7,5 @@
    "python-pyarrow"
    "python-openpyxl"
    "python-h5py"
-   "python-psycopg2"
+   "python-psycopg"
    ))
