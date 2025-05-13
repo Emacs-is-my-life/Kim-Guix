@@ -8,7 +8,6 @@ jupyterlab_widgets
 jupyterlab-spreadsheet-editor
 
 # Web
-sqlmodel
 nicegui
 playwright
 

@@ -3,6 +3,5 @@
  '(
    "python-openpyxl"
    "python-docx"
-   "python-reportlab"
    "python-pypdf3"
    ))

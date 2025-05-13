@@ -4,8 +4,7 @@
    "python-ratelimiter"
    "python-tenacity"
    "python-schedule"
-   "python-httpx"
-   "python-websocket-client"
-   "python-selenium"
+   "python-requests"
+   "python-websocket-client"   
    "python-beautifulsoup4"
    ))
