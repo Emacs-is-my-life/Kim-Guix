@@ -3,6 +3,8 @@
  '(
    "python-fastapi"
    "python-uvicorn"
+   "python-dotenv"
+   "python-pydantic-settings"
    "python-websockets"
    "python-socketio"
    "python-jsonschema"
