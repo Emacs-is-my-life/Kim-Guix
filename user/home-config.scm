@@ -40,6 +40,7 @@
              (gnu packages gawk)
              (gnu packages finance)
              (gnu packages image-viewers)
+             (gnu packages photo)
              (gnu packages video)
              (gnu packages audio)
              (gnu packages music)
@@ -154,7 +155,7 @@
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
-   nautilus gvfs trash-cli fdupes findimagedupes
+   nautilus gvfs trash-cli fdupes findimagedupes perl-image-exiftool
 
    ;; Compression Utility
    gzip unzip
