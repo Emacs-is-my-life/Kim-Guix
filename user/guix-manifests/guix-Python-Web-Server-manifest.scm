@@ -24,4 +24,6 @@
    "python-bcrypt"
    "python-bleach"
    "python-ratelimiter"
+   "httpie"
+   "jq"
    ))
