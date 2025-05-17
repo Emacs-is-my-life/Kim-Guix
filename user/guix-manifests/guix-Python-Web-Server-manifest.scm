@@ -27,4 +27,5 @@
    "httpie"
    "jq"
    "python-faker"
+   "python-httpx"
    ))
