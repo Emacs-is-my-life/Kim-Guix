@@ -26,4 +26,5 @@
    "python-ratelimiter"
    "httpie"
    "jq"
+   "python-faker"
    ))
