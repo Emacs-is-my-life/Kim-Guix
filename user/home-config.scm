@@ -18,6 +18,8 @@
              (gnu packages wm)
              (gnu packages gnome)
              (gnu packages gnome-xyz)
+             (gnu packages admin)
+             (gnu packages disk)
              (gnu packages glib)
              (gnu packages kde)
              (gnu packages kde-utils)
@@ -152,7 +154,7 @@
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
-   nautilus gvfs ;; trash-cli
+   nautilus gvfs trash-cli fdupes findimagedupes
 
    ;; Compression Utility
    gzip unzip
