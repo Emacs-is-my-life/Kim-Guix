@@ -1375,6 +1375,17 @@ DEADLINE: %^{Deadline}t
 	      '("■" "□" "◆" "◇" "▲" "△" "●" "○"))
   :hook (org-mode . org-bullets-mode))
 
+;; org-side-tree
+(use-package org-side-tree
+  :after org
+  :ensure t
+  :bind (:map org-mode-map
+	            ("C-c t" . org-side-tree))
+  :config
+  (setq org-side-tree-persistent nil
+        org-side-tree-fontify t
+        org-side-tree-enable-folding t))
+
 ;; Asynchronous src block execution for org-babel
 (use-package ob-async
   :after org
