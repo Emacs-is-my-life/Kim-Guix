@@ -2,6 +2,7 @@
 (specifications->manifest
  '(
    "python-fastapi"
+   "python-multipart"
    "python-uvicorn"
    "python-httpx"
    "python-dotenv"
@@ -28,6 +29,7 @@
    "python-psycopg-pool"
    "python-arrow"
    "python-zstandard"
+   "python-pyjwt"
    "python-bcrypt"
    "python-bleach"
    "python-ratelimiter"
