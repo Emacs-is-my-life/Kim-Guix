@@ -2088,12 +2088,6 @@ DEADLINE: %^{Deadline}t
 ;; * ---- Web
 
 
-;; <Web Mode>
-(use-package web-mode
-  :ensure t
-  :mode "\\.html?\\'"
-  :mode "\\.djhtml\\'"
-  :mode "\\.css\\'")
 
 
 ;; <HTML>
