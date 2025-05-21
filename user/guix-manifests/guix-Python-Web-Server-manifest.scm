@@ -30,6 +30,7 @@
    "python-arrow"
    "python-zstandard"
    "python-pyjwt"
+   "python-passlib"
    "python-bcrypt"
    "python-bleach"
    "python-ratelimiter"
