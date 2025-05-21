@@ -1258,6 +1258,8 @@ DEADLINE: %^{Deadline}t
     :after org
     :quelpa (ob-lean4 :fetcher github :repo "Maverobot/ob-lean4"
                       :files ("ob-lean4.el")))
+  (use-package ob-restclient
+    :ensure t)
 
   ;; org-babel languages support
   (org-babel-do-load-languages
@@ -1286,7 +1288,8 @@ DEADLINE: %^{Deadline}t
      (latex . t)
      (gnuplot . t)
      (sql . t)
-     (css . t)))
+     (css . t)
+     (restclient . t)))
 
   ;; org-babel python3
   (setq org-babel-python-command "python3")
@@ -2083,6 +2086,14 @@ DEADLINE: %^{Deadline}t
 
 
 ;; * ---- Web
+
+
+;; <Web Mode>
+(use-package web-mode
+  :ensure t
+  :mode "\\.html?\\'"
+  :mode "\\.djhtml\\'"
+  :mode "\\.css\\'")
 
 
 ;; <HTML>

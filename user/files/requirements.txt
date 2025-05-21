@@ -8,7 +8,8 @@ jupyterlab_widgets
 jupyterlab-spreadsheet-editor
 
 # Web
-nicegui
+sqlmodel
+pillow-avif-plugin
 playwright
 
 # Data Science
@@ -37,6 +38,3 @@ yfinance
 pandas-datareader
 fredapi
 opendartreader
-
-# Game
-arcade
