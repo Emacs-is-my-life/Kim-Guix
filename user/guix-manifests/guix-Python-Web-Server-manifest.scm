@@ -2,7 +2,9 @@
 (specifications->manifest
  '(
    "python-fastapi"
+   "python-slowapi"
    "python-multipart"
+   "python-fastapi-pagination"
    "python-uvicorn"
    "python-httpx"
    "python-dotenv"
@@ -33,6 +35,5 @@
    "python-passlib"
    "python-bcrypt"
    "python-bleach"
-   "python-ratelimiter"
    "python-faker"
    ))
