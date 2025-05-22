@@ -16,6 +16,7 @@ playwright
 polars[all]
 pyspark
 itables
+pydantic-ai
 
 # Deep Learning
 jax
