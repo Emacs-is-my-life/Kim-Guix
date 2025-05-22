@@ -19,7 +19,6 @@
    "python-sqlalchemy"
    "python-sqlalchemy-stubs"
    "python-sqlalchemy-utils"
-   "python-databases"
    "python-aioitertools"
    "python-aiosignal"
    "python-aiofiles"
