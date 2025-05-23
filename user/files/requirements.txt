@@ -6,6 +6,7 @@ jupyterlab
 jupyterlab-lsp
 jupyterlab_widgets
 jupyterlab-spreadsheet-editor
+jupyternotify
 
 # Web
 sqlmodel
