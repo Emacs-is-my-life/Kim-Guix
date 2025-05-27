@@ -30,6 +30,7 @@
    "python-pyjwt"
    "python-passlib"
    "python-bcrypt"
+   "python-xxhash"
    "python-nh3"
    "python-faker"
    ))
