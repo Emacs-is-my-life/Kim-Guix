@@ -29,6 +29,7 @@ ultralytics
 transformers
 triton
 onnx
+pytesseract
 
 # Reinforcement Learning
 stable-baselines3

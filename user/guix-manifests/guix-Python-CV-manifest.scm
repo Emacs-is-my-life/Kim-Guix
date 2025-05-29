@@ -6,4 +6,5 @@
    "opencv"
    "python-scikit-image"
    "python-ffmpeg-python"
+   "tesseract-ocr"
    ))
