@@ -33,4 +33,6 @@
    "python-xxhash"
    "python-nh3"
    "python-faker"
+   "python-aiosmtpd"
+   "python-email-validator"
    ))
