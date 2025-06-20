@@ -26,6 +26,7 @@
              (gnu packages fonts)
              (gnu packages emacs)
              (gnu packages emacs-xyz)
+             (gnu packages emacs-build)
              (gnu packages gnupg)
              (gnu packages web-browsers)
              (gnu packages chromium)
