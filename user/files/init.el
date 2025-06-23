@@ -1483,18 +1483,6 @@ DEADLINE: %^{Deadline}t
   (add-hook 'dired-mode-hook 'org-download-enable)
   (setq-default org-download-timestamp t))
 
-;; org-ql for searching
-(use-package org-ql
-  :ensure t
-  :after org
-  :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql"
-		  :files (:defaults (:exclude "helm-org-ql.el"))))
-
-(use-package helm-org-ql
-  :ensure t
-  :after (helm org-ql)
-  :quelpa (helm-org-ql :fetcher github :repo "alphapapa/org-ql"
-                       :files ("helm-org-ql.el")))
 
 ;; org-fc for spaced repetition
 (use-package hydra
