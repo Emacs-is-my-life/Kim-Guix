@@ -1456,6 +1456,22 @@ DEADLINE: %^{Deadline}t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
+;; org-roam-ql for query
+(use-package org-roam-ql
+  ;; If using straight
+  :straight (org-roam-ql :type git :host github :repo "ahmed-shariff/org-roam-ql"
+                         :files (:defaults (:exclude "org-roam-ql-ql.el")))
+  ;; Simple configuration
+  :after (org-roam)
+  :bind ((:map org-roam-mode-map
+               ;; Have org-roam-ql's transient available in org-roam-mode buffers
+               ("v" . org-roam-ql-buffer-dispatch)
+               :map minibuffer-mode-map
+               ;; Be able to add titles in queries while in minibuffer.
+               ;; This is similar to `org-roam-node-insert', but adds
+               ;; only title as a string.
+               ("C-c n i" . org-roam-ql-insert-node-title))))
+
 (use-package org-ref
   :ensure t
   :after org-roam)
@@ -1482,7 +1498,6 @@ DEADLINE: %^{Deadline}t
   :config
   (add-hook 'dired-mode-hook 'org-download-enable)
   (setq-default org-download-timestamp t))
-
 
 ;; org-fc for spaced repetition
 (use-package hydra
@@ -2401,7 +2416,7 @@ DEADLINE: %^{Deadline}t
                        (exwm-layout-toggle-mode-line)
                        (exwm-workspace-toggle-minibuffer)))
           ([?\s-i] . exwm-input-toggle-keyboard)
-          ([?\s-q] . kill-this-buffer)
+          ([?\s-q] . kill-current-buffer)
 
           ([?\s-d] . helm-run-external-command)
           ([?\s-&] . (lambda (command)
