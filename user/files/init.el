@@ -455,6 +455,11 @@
   :after (treemacs all-the-icons)
   :ensure t)
 
+;; TRAMP for remote access
+(setq remote-file-name-inhibit-locks t
+      tramp-use-scp-direct-remote-copying t
+      remote-file-name-inhibit-auto-save-visited t)
+
 ;; Openwith for external programs
 (use-package openwith
   :ensure t
