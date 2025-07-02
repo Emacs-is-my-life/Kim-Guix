@@ -259,7 +259,6 @@
            :repo "rougier/nano-theme")
   :config
   (setq nano-fonts-use nil)
-  (load-theme 'nano-light t)
   (add-hook 'after-make-frame-functions
 	          #'(lambda (frame)
 	              (select-frame frame)
@@ -269,6 +268,7 @@
 		              (nano-mode)
 		              (set-face-attribute 'default nil :font "JuliaMono 12")
 		              (set-frame-font "JuliaMono 12" nil t))))
+  (load-theme 'nano-light t)
   (nano-mode))
 
 ;; Nano Modeline
