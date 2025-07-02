@@ -2380,7 +2380,7 @@ DEADLINE: %^{Deadline}t
   (add-hook 'exwm-randr-screen-change-hook #'exwm/update-displays)
   (exwm/update-displays)
 
-  (setq exwm-floating-border-width 16)
+  (setq exwm-floating-border-width 12)
   (setq exwm-floating-border-color "#37474F")
   
   (setq exwm-input-prefix-keys
