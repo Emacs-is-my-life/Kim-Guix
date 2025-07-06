@@ -1665,13 +1665,15 @@ DEADLINE: %^{Deadline}t
   (prog-mode . company-mode)
   :bind
   (:map company-active-map
-    ("<tab>" . company-complete-selection))
+        ("<tab>" . company-complete-selection))
   (:map lsp-mode-map
-    ("<tab>" . company-indent-or-complete-common))
+        ("<tab>" . company-indent-or-complete-common))
   :config
   (setq company-idle-delay 0.05)
   (setq company-minimum-prefix-length 1)
-  (setq lsp-completion-provider :capf))
+  (setq lsp-completion-provider :capf)
+  (set-face-background 'company-tooltip-selection "#37474F")
+  (set-face-background 'company-tooltip-common-selection "#FC996E"))
 
 (with-eval-after-load 'company
   (add-hook 'prog-mode-hook 'company-mode)
