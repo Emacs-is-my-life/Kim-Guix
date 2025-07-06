@@ -260,6 +260,7 @@
 ;; Nano Emacs
 (use-package nano-theme
   :ensure t
+  :after exwm
   :quelpa (nano-emacs
            :fetcher github
            :repo "rougier/nano-emacs")
@@ -2348,7 +2349,6 @@ DEADLINE: %^{Deadline}t
 
 (use-package exwm
   :ensure t
-  :after nano-theme
   :config
   (require 'exwm-xim)
   (exwm-xim-mode 1)
