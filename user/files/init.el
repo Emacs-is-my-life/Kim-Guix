@@ -188,28 +188,6 @@
 
 ;; * ---- <Emacs appearance settings>
 
-;; Frame inhibit implied resize
-(setq frame-inhibit-implied-resize t)
-
-;; Don't show splash screen
-(setq inhibit-startup-message t)
-
-;; Prevent using UI dialogs for prompts
-(setq use-dialog-box nil)
-
-;; Minimal UI
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(setq visible-bell 0)
-(setq make-pointer-invisible t)
-
-;; Show matching parenthesis
-(show-paren-mode 1)
-(setq show-paren-delay 0)
-
-;; Show selected region
-(transient-mark-mode t)
 
 ;; Encoding & Characters
 (use-package emacs
@@ -226,57 +204,70 @@
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 2))
 
-;; Better scrolling
-(setq scroll-step 1)
-(setq scroll-margin 1)
-(setq scroll-conservatively 101)
-(setq scroll-up-aggressively 0.01)
-(setq scroll-down-aggressively 0.01)
-(setq auto-window-vscroll nil)
-(setq fast-but-imprecise-scrolling nil)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-(setq mouse-wheel-progressive-speed nil)
-(setq pixel-scroll-precision-mode t)
 
-;; Horizontal Scroll
-(setq hscroll-step 1)
-(setq hscroll-margin 1)
-
-;; Follow focus
-(setq focus-follows-mouse t)
-(setq mouse-autoselect-window-window t)
 
 
 ;; * ---- <Themes>
 
 
-;; Nano Theme
+
+
+(defun my/nano-theme ()
+  (progn
+    ;; UI
+    ;; Frame inhibit implied resize
+    (setq frame-inhibit-implied-resize t)
+    ;; Don't show splash screen
+    (setq inhibit-startup-message t)
+    ;; Prevent using UI dialogs for prompts
+    (setq use-dialog-box nil)
+    ;; Minimal UI
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    (menu-bar-mode -1)
+    (setq visible-bell 0)
+    (setq make-pointer-invisible t)
+    ;; Show matching parenthesis
+    (show-paren-mode 1)
+    (setq show-paren-delay 0)
+    ;; Show selected region
+    (transient-mark-mode t)
+    ;; Better scrolling
+    (setq scroll-step 1)
+    (setq scroll-margin 1)
+    (setq scroll-conservatively 101)
+    (setq scroll-up-aggressively 0.01)
+    (setq scroll-down-aggressively 0.01)
+    (setq auto-window-vscroll nil)
+    (setq fast-but-imprecise-scrolling nil)
+    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+    (setq mouse-wheel-progressive-speed nil)
+    (setq pixel-scroll-precision-mode t)
+    ;; Horizontal Scroll
+    (setq hscroll-step 1)
+    (setq hscroll-margin 1)
+    ;; Follow focus
+    (setq focus-follows-mouse t)
+    (setq mouse-autoselect-window-window t)
+
+    ;; Font
+    (setq nano-font-family-monospaced "JuliaMono")
+    (setq nano-font-size 12)
+
+    ;; Nano theme
+    (nano-toggle-theme)))
+
+;; Nano Emacs
 (use-package nano-theme
   :ensure t
-  :after exwm
-  :quelpa (nano-theme
+  :quelpa (nano-emacs
            :fetcher github
-           :repo "rougier/nano-theme")
+           :repo "rougier/nano-emacs")
   :config
-  (setq nano-fonts-use nil)
-  (add-hook 'after-make-frame-functions
-	          #'(lambda (frame)
-	              (select-frame frame)
-	              (when (display-graphic-p frame)
-		              (setq nano-fonts-use nil)
-		              (load-theme 'nano-light t)
-		              (nano-mode)
-		              (set-face-attribute 'default nil :font "JuliaMono 12")
-		              (set-frame-font "JuliaMono 12" nil t))))
-  (load-theme 'nano-light t)
-  (nano-mode))
-
-;; Nano Modeline
-(use-package nano-modeline
-  :ensure t
-  :after nano-theme
-  :init
-  ;; Only show the major mode
+  ;; Font
+  (add-to-list 'default-frame-alist '(font . "JuliaMono 12"))
+  (set-face-attribute 'default t :font "JuliaMono 12" :height 120 :weight 'regular)
+  ;; Modeline
   (setq-default mode-line-format
 		            `((:propertize " %@%Z  [%b]  L%l (%p)    ")
 		              (:propertize (vc-mode vc-mode) face (:weight normal))
@@ -286,26 +277,27 @@
                                 mouse-2: Show help for major mode\n\
                                 mouse-3: Toggle minor modes"
 			                         mouse-face mode-line-highlight
-			                         local-map ,mode-line-major-mode-keymap)))
-  :config
-  (add-hook 'prog-mode-hook            #'nano-modeline-prog-mode)
-  (add-hook 'text-mode-hook            #'nano-modeline-text-mode)
-  (add-hook 'org-mode-hook             #'nano-modeline-org-mode)
-  (add-hook 'pdf-view-mode-hook        #'nano-modeline-pdf-mode)
-  (add-hook 'mu4e-headers-mode-hook    #'nano-modeline-mu4e-headers-mode)
-  (add-hook 'mu4e-view-mode-hook       #'nano-modeline-mu4e-message-mode)
-  (add-hook 'elfeed-show-mode-hook     #'nano-modeline-elfeed-entry-mode)
-  (add-hook 'elfeed-search-mode-hook   #'nano-modeline-elfeed-search-mode)
-  (add-hook 'term-mode-hook            #'nano-modeline-term-mode)
-  (add-hook 'xwidget-webkit-mode-hook  #'nano-modeline-xwidget-mode)
-  (add-hook 'messages-buffer-mode-hook #'nano-modeline-message-mode)
-  (add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode)
-  (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode))
+			                         local-map ,mode-line-major-mode-keymap)))  
 
+  ;; Load packages
+  (require 'nano-base-colors)
+  (require 'nano-colors)
+  (require 'nano-faces)
+  (require 'nano-theme-light)
+  (require 'nano-modeline)
+  (require 'nano-layout)
 
-;; Font
-(add-to-list 'default-frame-alist '(font . "JuliaMono 12"))
-(set-face-attribute 'default t :font "JuliaMono 12" :height 120 :weight 'regular)
+  ;; Nano-theme
+  (my/nano-theme)
+
+  ;; EXWM Hook
+  (add-hook 'after-make-frame-functions
+            #'(lambda (frame)
+  	            (select-frame frame)
+  	            (when (display-graphic-p frame)
+                  (set-frame-parameter exwm--frame 'internal-border-width 24)
+                  (redraw-frame)
+                  (my/nano-theme)))))
 
 ;; Icon pack
 (use-package all-the-icons
@@ -679,7 +671,7 @@
   :ensure t
   :defer t
   :bind (:map org-mode-map
-	            ("C-<tab>" . org-cycle))
+	          ("C-<tab>" . org-cycle))
   :mode
   ("\\.org'" . org-mode)
   :config
@@ -716,24 +708,24 @@
         org-fontify-quote-and-verse-blocks t)
 
   (add-hook 'org-mode-hook
-	          (lambda ()
-	            "Beautify Org Checkbox Symbol"
-	            (push '("[ ]" . "☐") prettify-symbols-alist)
-	            (push '("[X]" . "☑" ) prettify-symbols-alist)
-	            (push '("[-]" . "❍" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
-	            (prettify-symbols-mode)))
+	        (lambda ()
+	          "Beautify Org Checkbox Symbol"
+	          (push '("[ ]" . "☐") prettify-symbols-alist)
+	          (push '("[X]" . "☑" ) prettify-symbols-alist)
+	          (push '("[-]" . "❍" ) prettify-symbols-alist)
+	          (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+	          (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+	          (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+	          (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+	          (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+	          (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+	          (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+	          (prettify-symbols-mode)))
 
   ;; org-tempo for structured editing
   (require 'org-tempo)
@@ -989,7 +981,7 @@ DEADLINE: %^{Deadline}t
               (point-marker)))))))
 
   (setq org-capture-templates
-	      `(("t" "TODO" plain (function (lambda ()
+	    `(("t" "TODO" plain (function (lambda ()
                                         (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo)))
@@ -1206,7 +1198,7 @@ DEADLINE: %^{Deadline}t
 
 
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				                           (org-agenda-files :maxlevel . 9))))
+				                   (org-agenda-files :maxlevel . 9))))
 
   (defun refresh-org-agenda-files ()
     "Refresh 'org-agenda-files' variable if the current buffer is an .org file."
@@ -1246,13 +1238,7 @@ DEADLINE: %^{Deadline}t
   (define-key org-mode-map (kbd "C-c s") 'my/org-insert-src-block)
 
   ;; org-babel language extension
-  (use-package ob-go
-    :ensure t
-    :after org)
   (use-package ob-prolog
-    :ensure t
-    :after org)
-  (use-package ob-rust
     :ensure t
     :after org)
   (use-package ob-lean4
@@ -1274,8 +1260,6 @@ DEADLINE: %^{Deadline}t
      (forth . t)
      (prolog . t)
      (lean4 . t)
-     (go . t)
-     (rust . t)
      (julia . t)
      (python . t)
      (R . t)
@@ -1394,7 +1378,7 @@ DEADLINE: %^{Deadline}t
   :after org
   :ensure t
   :config
-  (setq ob-async-no-async-languages-alist '("python" "jupyter-python"))
+  (setq ob-async-no-async-languages-alist '("python"))
   (add-hook 'ob-async-pre-execute-src-block-hook
             #'(lambda ()
 	              (setq inferior-julia-program-name "julia"))))
@@ -1530,8 +1514,8 @@ DEADLINE: %^{Deadline}t
 
 
 ;; lsp install
-(setq package-selected-packages '(lsp-mode lsp-ui lsp-treemacs helm-lsp
-					                                 projectile hydra flycheck company avy which-key helm-xref dap-mode))
+(setq package-selected-packages '(lsp-mode lsp-ui lsp-treemacs helm-lsp which-key
+					                                 projectile hydra flycheck company avy helm-xref dap-mode))
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
@@ -1543,7 +1527,7 @@ DEADLINE: %^{Deadline}t
   :bind-keymap ("C-l" . lsp-command-map)
   :commands lsp
   :ensure t
-  :after (treemacs which-key)
+  :after treemacs
   :hook
   ((verilog-mode . lsp)
    (vhdl-mode . lsp)
@@ -1612,7 +1596,7 @@ DEADLINE: %^{Deadline}t
   (setq lsp-ui-sideline-show-code-actions nil)
   (setq lsp-ui-sideline-delay 0.05)
   (setq lsp-ui-lens-enable nil)
-  (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-headerline-breadcrumb-enable nil)
   (setq lsp-modeline-code-actions-enable t))
 
 ;; lsp-treemacs
@@ -2359,6 +2343,7 @@ DEADLINE: %^{Deadline}t
 
 (use-package exwm
   :ensure t
+  :after nano-theme
   :config
   (require 'exwm-xim)
   (exwm-xim-mode 1)
@@ -2496,7 +2481,6 @@ DEADLINE: %^{Deadline}t
   (setq dashboard-footer-messages '(""))
   (setq dashboard-center-content t)
   (setq dashboard-vertically-center-content nil)
-  (setq dashboard-show-shortcuts t)
   (setq dashboard-items '((agenda . 16)))
   (setq dashboard-week-agenda nil)
   (setq dashboard-agenda-sort-strategy '(time-up priority-down))

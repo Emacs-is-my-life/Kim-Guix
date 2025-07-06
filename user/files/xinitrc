@@ -27,4 +27,5 @@ export EDITOR="$VISUAL"
 #exec xterm
 
 # Start EXWM
-exec dbus-launch --exit-with-session emacs -mm --debug-init -f exwm-enable
+# exec dbus-launch --exit-with-session emacs -mm --debug-init -f exwm-enable
+exec dbus-launch --exit-with-session emacs -mm -f exwm-wm-mode

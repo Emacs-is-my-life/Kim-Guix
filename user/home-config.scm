@@ -453,6 +453,14 @@ fi
                         ("keysym Caps_Lock" . "Control_L")
                         ("add Lock" . "Caps_Lock")
                         ("add Control" . "Control_L")))))
+
+   (simple-service 'additional-font-config
+                   home-fontconfig-service-type
+                   (list "~/.fontconfig/fonts.conf"
+                         '(alias
+                           (family "Roboto Mono Nerd")
+                           (prefer
+                            (family "JuliaMono")))))
    
    (simple-service 'guix-channels
                    home-channels-service-type
