@@ -1661,7 +1661,7 @@ DEADLINE: %^{Deadline}t
 ;; company
 (use-package company
   :ensure t
-  :after (lsp-mode nano-theme)
+  :after lsp-mode
   :hook 
   (prog-mode . company-mode)
   :bind
@@ -1673,10 +1673,13 @@ DEADLINE: %^{Deadline}t
   (setq company-idle-delay 0.05)
   (setq company-minimum-prefix-length 1)
   (setq lsp-completion-provider :capf)
+
   ;; Company color scheme
-  (set-face-foreground 'company-tooltip-selection "white")
-  (set-face-background 'company-tooltip-selection "#37474F")
-  (set-face-background 'company-tooltip-common-selection "#FC996E"))
+  (add-hook 'company-mode-hook
+            (lambda ()
+              (set-face-foreground 'company-tooltip-selection "white")
+              (set-face-background 'company-tooltip-selection "#37474F")
+              (set-face-background 'company-tooltip-common-selection "#FC996E"))))
 
 (with-eval-after-load 'company
   (add-hook 'prog-mode-hook 'company-mode)
