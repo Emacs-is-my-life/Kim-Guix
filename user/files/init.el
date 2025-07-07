@@ -624,13 +624,6 @@
   :config
   (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
 
-;; helm-ag
-(use-package helm-ag
-  :ensure t
-  :after helm
-  :bind
-  ("C-x C-a C-g" . 'helm-ag-project-root))
-
 ;; helm-bibtex
 (use-package helm-bibtex
   :ensure t
