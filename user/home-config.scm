@@ -59,6 +59,7 @@
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
              (gnu packages base)
+             (gnu packages code)
              (gnu packages cmake)
 	           (gnu packages autotools)
              (gnu packages build-tools)             
@@ -163,7 +164,7 @@
    gzip unzip
 
    ;; Test Processing Utility
-   gawk sed
+   gawk sed the-silver-searcher
 
    ;; Web Browser
    qutebrowser ungoogled-chromium
