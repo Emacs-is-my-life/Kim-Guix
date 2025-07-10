@@ -62,7 +62,8 @@
              (gnu packages code)
              (gnu packages cmake)
 	           (gnu packages autotools)
-             (gnu packages build-tools)             
+             (gnu packages build-tools)
+             (gnu packages ninja)
              (gnu packages version-control)
              (gnu packages bison)
              (gnu packages flex)
@@ -192,7 +193,7 @@
    steam
 
    ;; Build Tools
-   gnu-make cmake meson git
+   gnu-make cmake meson ninja git
 
    ;; Debugging Tools
    gdb lldb rr valgrind strace uftrace ltrace 
