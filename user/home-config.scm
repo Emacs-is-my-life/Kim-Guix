@@ -123,6 +123,7 @@
              (gnu packages golang-xyz)
              (gnu packages golang-apps)
              (gnu packages java)
+             (gnu packages dotnet)
              (gnu packages node)
              (gnu packages web)
              (gnu packages tex)
@@ -261,7 +262,10 @@
    go gopls
 
    ;; Java
-   ;; openjdk
+   openjdk
+
+   ;; C#
+   mono
 
    ;; JS
    node
