@@ -2707,7 +2707,7 @@ DEADLINE: %^{Deadline}t
             (let ((filename (my/capture-region-screenshot)))
               (with-current-buffer gptel-buf
                 (goto-char (point-max))
-                (insert (format "[[file:%s]]" filename)))))))
+                (insert (format "[[file:%s]]\n" filename)))))))
       (global-set-key (kbd "C-c g s") 'my/gptel-insert-screenshot)
 
       (defun my/gptel-insert-text ()
@@ -2718,7 +2718,8 @@ DEADLINE: %^{Deadline}t
                   (let ((region-text (buffer-substring-no-properties (region-beginning) (region-end))))
                     (with-current-buffer gptel-buf
                       (goto-char (point-max))
-                      (insert region-text)))
+                      (insert region-text)
+                      (insert "\n")))
                 (message "There is no opened gptel buffer.")))
           (message "No region selected.")))
       (global-set-key (kbd "C-c g t") 'my/gptel-insert-text)      

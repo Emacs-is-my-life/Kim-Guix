@@ -80,6 +80,7 @@
              (gnu packages gcc)
              (gnu packages rust)
              (gnu packages rust-apps)
+             (gnu packages crates-io)
              (gnu packages haskell)
              (gnu packages haskell-xyz)
              (gnu packages haskell-apps)
