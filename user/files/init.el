@@ -2700,14 +2700,15 @@ DEADLINE: %^{Deadline}t
           filename))
 
       (defun my/gptel-insert-screenshot ()
-        "Capture screenshot and insert file link in the gptel buffer."
+        (interactive)
         (let ((gptel-buf (my/gptel-locate-buffer)))
           (if (not gptel-buf)
               (message "There is no opened gptel buffer.")
             (let ((filename (my/capture-region-screenshot)))
               (with-current-buffer gptel-buf
                 (goto-char (point-max))
-                (insert (format "[[file:%s]]\n" filename)))))))
+                (insert (format "[[file:%s]]\n" filename))
+                (forward-line))))))
       (global-set-key (kbd "C-c g s") 'my/gptel-insert-screenshot)
 
       (defun my/gptel-insert-text ()
@@ -2719,7 +2720,8 @@ DEADLINE: %^{Deadline}t
                     (with-current-buffer gptel-buf
                       (goto-char (point-max))
                       (insert region-text)
-                      (insert "\n")))
+                      (insert "\n")
+                      (forward-line)))
                 (message "There is no opened gptel buffer.")))
           (message "No region selected.")))
       (global-set-key (kbd "C-c g t") 'my/gptel-insert-text)      
