@@ -80,7 +80,6 @@
              (gnu packages gcc)
              (gnu packages rust)
              (gnu packages rust-apps)
-             (gnu packages crates-io)
              (gnu packages haskell)
              (gnu packages haskell-xyz)
              (gnu packages haskell-apps)
@@ -209,7 +208,7 @@
    gfortran-toolchain
 
    ;; Rust
-   rust rust-cargo rust-analyzer rust-clippy
+   rust rust-cargo rust-analyzer
 
    ;; Haskell
    ghc ghc-rio cabal-install
