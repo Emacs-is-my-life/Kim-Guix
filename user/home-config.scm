@@ -208,7 +208,7 @@
    gfortran-toolchain
 
    ;; Rust
-   rust rust-cargo rust-analyzer
+   rust rust-cargo rust-analyzer rust-clippy
 
    ;; Haskell
    ghc ghc-rio cabal-install

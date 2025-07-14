@@ -2110,6 +2110,27 @@ DEADLINE: %^{Deadline}t
 
 
 
+;; <DevDocs>
+(use-package devdocs
+  :ensure t
+  :config
+  (global-set-key (kbd "C-h D") 'devdocs-lookup)
+  :hook
+  ((c-mode-hook . (lambda () (setq-local devdocs-current-docs '("C"))))
+   (c++-mode-hook . (lambda () (setq-local devdocs-current-docs '("C++" "Eigen3"))))
+   (haskell-mode-hook . (lambda () (setq-local devdocs-current-docs '("Haskell"))))
+   (ocaml-mode-hook . (lambda () (setq-local devdocs-current-docs '("OCaml"))))
+   (fortran-mode-hook . (lambda () (setq-local devdocs-current-docs '("GNU Fortran"))))
+   (go-mode-hook . (lambda () (setq-local devdocs-current-docs '("Go"))))
+   (julia-mode-hook . (lambda () (setq-local devdocs-current-docs '("Julia"))))
+   (python-mode-hook . (lambda () (setq-local devdocs-current-docs '("Python" "Numpy" "Matplotlib" "pytorch" "scikit-learn" "Statsmodels" "FastAPI"))))
+   (r-mode-hook . (lambda () (setq-local devdocs-current-docs '("R"))))
+   (octave-mode-hook . (lambda () (setq-local devdocs-current-docs '("Octave"))))
+   (js-mode-hook . (lambda () (setq-local devdocs-current-docs '("JSDoc"))))
+   (gnuplot-mode-hook . (lambda () (setq-local devdocs-current-docs '("Gnuplot"))))
+   (vterm-mode-hook . (lambda () (setq-local devdocs-current-docs '("Bash" "Linux man pages"))))))
+
+
 ;; <Hledger>
 ;; hledger-mode
 (use-package hledger-mode
@@ -2626,6 +2647,7 @@ DEADLINE: %^{Deadline}t
       :after exwm
       :config
       (setq gptel-default-mode 'org-mode)
+      (setq gptel-track-media t)
       (setf (alist-get 'org-mode gptel-prompt-prefix-alist)
             (propertize "* @User\n"
                         'face '(:weight bold :foreground "blue")))
@@ -2652,7 +2674,55 @@ DEADLINE: %^{Deadline}t
           (insert "* @User\n")
           (goto-char (point-max))))
       (define-key gptel-mode-map (kbd "C-c C-r") #'my/gptel-clear)
-      
+
+      (defun my/gptel-locate-buffer ()
+        "Find and return the first buffer with gptel minor mode active."
+        (catch 'found
+          (dolist (buf (buffer-list))
+            (with-current-buffer buf
+              (when (bound-and-true-p gptel-mode)
+                (throw 'found buf))))
+          nil))
+
+      (setq my/gptel-screenshot-dir "/tmp/gptel-screenshots/")
+      (mapc #'delete-file
+            (directory-files my/gptel-screenshot-dir t "^[^.]"))
+
+      (defun my/capture-region-screenshot ()
+        (interactive)
+        (let* ((dir my/gptel-screenshot-dir)
+               (filename (format "%s%s-region-screenshot.png"
+                                 dir
+                                 (format-time-string "%Y%m%d-%H%M%S")))
+               (command (format "import %s" filename)))
+          (make-directory dir t)
+          (shell-command command)
+          filename))
+
+      (defun my/gptel-insert-screenshot ()
+        "Capture screenshot and insert file link in the gptel buffer."
+        (let ((gptel-buf (my/gptel-locate-buffer)))
+          (if (not gptel-buf)
+              (message "There is no opened gptel buffer.")
+            (let ((filename (my/capture-region-screenshot)))
+              (with-current-buffer gptel-buf
+                (goto-char (point-max))
+                (insert (format "[[file:%s]]" filename)))))))
+      (global-set-key (kbd "C-c g s") 'my/gptel-insert-screenshot)
+
+      (defun my/gptel-insert-text ()
+        (interactive)
+        (if (use-region-p)
+            (let ((gptel-buf (my/gptel-locate-buffer)))
+              (if gptel-buf
+                  (let ((region-text (buffer-substring-no-properties (region-beginning) (region-end))))
+                    (with-current-buffer gptel-buf
+                      (goto-char (point-max))
+                      (insert region-text)))
+                (message "There is no opened gptel buffer.")))
+          (message "No region selected.")))
+      (global-set-key (kbd "C-c g t") 'my/gptel-insert-text)      
+
       (setq gptel-directives
             '((default . "You are a large language model living in Emacs and a helpful assistant. Respond with correct information, in structured manner following the grammar of Emacs Org document.")
               (survey . "You are a large language model and a research assistant for my literature survey. Please provide reliable references to support your answer concretely.")
