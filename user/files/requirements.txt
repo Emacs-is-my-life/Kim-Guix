@@ -18,6 +18,7 @@ polars[all]
 pyspark
 itables
 pydantic-ai
+plotnine
 
 # Deep Learning
 jax

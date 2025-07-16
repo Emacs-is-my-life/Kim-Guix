@@ -5,4 +5,4 @@
    "python-seaborn"
    ;; "python-plotnine"
    "python-plotly"
-))
+   ))

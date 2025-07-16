@@ -58,7 +58,7 @@ mkdir -p ~/Documents/Org/agenda
 touch ~/Documents/Org/notes/default.org
 touch ~/Documents/Org/notes/contacts.org
 
-# PIP
+# python-pip
 hash guix
 pip3 install -r ./files/requirements.txt
 pip3 uninstall -y numpy ruff
