@@ -331,6 +331,10 @@
 (setq default-input-method "korean-hangul")
 (global-set-key (kbd "<Hangul>") 'toggle-input-method)
 
+;; IEdit
+(use-package iedit
+  :ensure t)
+
 
 ;; * ---- <Formatting>
 
