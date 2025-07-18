@@ -2691,6 +2691,7 @@ DEADLINE: %^{Deadline}t
       (setq my/gptel-screenshot-dir "/tmp/gptel-screenshots/")
       (mapc #'delete-file
             (directory-files my/gptel-screenshot-dir t "^[^.]"))
+      (make-directory my/gptel-screenshot-dir t)
 
       (defun my/capture-region-screenshot ()
         (interactive)
