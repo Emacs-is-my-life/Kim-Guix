@@ -235,7 +235,7 @@
    coq coq-ide
 
    ;; Lean
-   lean
+   lean4
 
    ;; Idris
    idris
