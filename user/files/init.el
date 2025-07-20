@@ -2514,7 +2514,7 @@ DEADLINE: %^{Deadline}t
   (setq dashboard-center-content t)
   (setq dashboard-vertically-center-content nil)
   (setq dashboard-items '((agenda . 16)))
-  (setq dashboard-week-agenda nil)
+  (setq dashboard-week-agenda t)
   (setq dashboard-agenda-sort-strategy '(time-up priority-down))
   (setq dashboard-agenda-release-buffers t)
   (setq dashboard-navigation-cycle t)
