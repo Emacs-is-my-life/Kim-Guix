@@ -676,7 +676,7 @@
   :ensure t
   :defer t
   :bind (:map org-mode-map
-	          ("C-<tab>" . org-cycle))
+	            ("C-<tab>" . org-cycle))
   :mode
   ("\\.org'" . org-mode)
   :config
@@ -713,24 +713,24 @@
         org-fontify-quote-and-verse-blocks t)
 
   (add-hook 'org-mode-hook
-	        (lambda ()
-	          "Beautify Org Checkbox Symbol"
-	          (push '("[ ]" . "☐") prettify-symbols-alist)
-	          (push '("[X]" . "☑" ) prettify-symbols-alist)
-	          (push '("[-]" . "❍" ) prettify-symbols-alist)
-	          (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
-	          (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
-	          (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
-	          (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
-	          (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
-	          (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-	          (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-	          (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
-	          (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
-	          (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
-	          (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
-	          (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
-	          (prettify-symbols-mode)))
+	          (lambda ()
+	            "Beautify Org Checkbox Symbol"
+	            (push '("[ ]" . "☐") prettify-symbols-alist)
+	            (push '("[X]" . "☑" ) prettify-symbols-alist)
+	            (push '("[-]" . "❍" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+	            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+	            (prettify-symbols-mode)))
 
   ;; org-tempo for structured editing
   (require 'org-tempo)
@@ -880,6 +880,18 @@ DEADLINE: %^{Deadline}t
           input))
        (t choice))))
 
+  (defun my/org-agenda-open-project ()
+    (interactive)
+    (let ((org-files (directory-files org-agenda-directory))
+          (selected-file nil))
+      ;; Prompt user to select an agenda org file
+      (setq selected-file (completing-read "Select the project org file: "
+                                           (mapcar #'file-name-nondirectory org-files)
+                                           nil t))
+      ;; Find the full path of the selected file
+      (setq selected-file (expand-file-name selected-file org-agenda-directory))
+      (find-file selected-file)))
+
   (defun my/org-agenda-project-destination (target-directory)
     "Prompt for a filename and create an org file in target-directory."
     (let* ((org-files (directory-files target-directory nil "\\.org$"))
@@ -986,7 +998,7 @@ DEADLINE: %^{Deadline}t
               (point-marker)))))))
 
   (setq org-capture-templates
-	    `(("t" "TODO" plain (function (lambda ()
+	      `(("t" "TODO" plain (function (lambda ()
                                         (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo)))
@@ -1186,6 +1198,9 @@ DEADLINE: %^{Deadline}t
           ("P" "Project View"
            ((my-org-agenda-project-view nil)))
 
+          ("o" "Open Project File"
+           ((my/org-agenda-open-project)))
+
           ("c" "Chores"
            ((tags-todo "+PROJECT_STATUS=\"ACTIVE\"+CATEGORY=\"CHORES\""
                        ((org-agenda-overriding-header "Simple Chores")
@@ -1203,7 +1218,7 @@ DEADLINE: %^{Deadline}t
 
 
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				                   (org-agenda-files :maxlevel . 9))))
+				                           (org-agenda-files :maxlevel . 9))))
 
   (defun refresh-org-agenda-files ()
     "Refresh 'org-agenda-files' variable if the current buffer is an .org file."
