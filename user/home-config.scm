@@ -178,19 +178,16 @@
    zathura-pdf-mupdf evince
 
    ;; Document Edit
-   libreoffice ghostscript pandoc plantuml
+   libreoffice ghostscript
 
    ;; Media Viewer
-   viewnior strawberry mpv ffmpeg gstreamer yt-dlp gallery-dl
+   viewnior strawberry mpv
 
    ;; Media Edit
-   gimp krita imagemagick inkscape graphviz blender shotcut
+   gimp imagemagick inkscape graphviz
 
    ;; Remote Tools
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
-
-   ;; Game
-   steam
 
    ;; Build Tools
    gnu-make cmake meson ninja git
