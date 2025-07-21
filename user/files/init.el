@@ -880,8 +880,7 @@ DEADLINE: %^{Deadline}t
           input))
        (t choice))))
 
-  (defun my/org-agenda-open-project ()
-    (interactive)
+  (defun my/org-agenda-open-project (&optional _arg)
     (let ((org-files (directory-files org-agenda-directory))
           (selected-file nil))
       ;; Prompt user to select an agenda org file
@@ -1043,6 +1042,7 @@ DEADLINE: %^{Deadline}t
   (setq org-agenda-log-mode-items '(closed clock))
   (setq org-agenda-entry-types '(:deadline :scheduled :timestamp :sexp))
   (setq org-agenda-start-with-log-mode nil)
+  (setq org-agenda-include-inactive-timestamps t)
   (setq org-read-date-prefer-future nil)
   (setq org-read-date-force-compatible-dates t)
   (org-clock-persistence-insinuate)
@@ -1196,7 +1196,7 @@ DEADLINE: %^{Deadline}t
                      (org-agenda-sorting-strategy '((agenda time-up timestamp-up scheduled-up urgency-down effort-down)))))))
 
           ("o" "Open Project File"
-           ((lambda () (my/org-agenda-open-project))))
+           my/org-agenda-open-project)
           
           ("P" "Project View"
            ((my-org-agenda-project-view nil)))
