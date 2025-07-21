@@ -2704,6 +2704,7 @@ DEADLINE: %^{Deadline}t
           nil))
 
       (setq my/gptel-screenshot-dir "/tmp/gptel-screenshots/")
+      (make-directory my/gptel-screenshot-dir t)
       (mapc #'delete-file
             (directory-files my/gptel-screenshot-dir t "^[^.]"))
       (make-directory my/gptel-screenshot-dir t)
