@@ -193,7 +193,7 @@
    gnu-make cmake meson ninja git
 
    ;; Debugging Tools
-   gdb lldb rr valgrind strace uftrace ltrace 
+   gdb lldb valgrind strace uftrace ltrace rr
 
    ;; Assembly
    nasm yasm
