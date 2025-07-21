@@ -1195,11 +1195,11 @@ DEADLINE: %^{Deadline}t
                         (org-agenda-skip-entry-if 'regexp ":CATEGORY: ROUTINE")))
                      (org-agenda-sorting-strategy '((agenda time-up timestamp-up scheduled-up urgency-down effort-down)))))))
 
+          ("o" "Open Project File"
+           ((lambda () (my/org-agenda-open-project))))
+          
           ("P" "Project View"
            ((my-org-agenda-project-view nil)))
-
-          ("o" "Open Project File"
-           ((my/org-agenda-open-project)))
 
           ("c" "Chores"
            ((tags-todo "+PROJECT_STATUS=\"ACTIVE\"+CATEGORY=\"CHORES\""
