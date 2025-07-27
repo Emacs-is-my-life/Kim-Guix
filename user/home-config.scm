@@ -140,7 +140,7 @@
  (packages
   (list
    ;; Emacs & EXWM
-   emacs emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl redshift
+   emacs emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl ;; redshift
 
    ;; Emacs dependencies
    emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
@@ -193,7 +193,7 @@
    gnu-make cmake meson ninja git
 
    ;; Debugging Tools
-   gdb lldb valgrind strace uftrace ltrace rr
+   gdb lldb valgrind strace uftrace ltrace ;; rr
 
    ;; Assembly
    nasm yasm
@@ -441,9 +441,9 @@ fi
 
    (service home-syncthing-service-type)
 
-   (service home-redshift-service-type
-            (home-redshift-configuration
-             (location-provider 'geoclue2)))
+   ;; (service home-redshift-service-type
+   ;;          (home-redshift-configuration
+   ;;           (location-provider 'geoclue2)))
 
    (service home-unclutter-service-type
             (home-unclutter-configuration
