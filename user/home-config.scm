@@ -211,7 +211,7 @@
    ghc ghc-rio cabal-install
 
    ;; Ocaml
-   ocaml ocaml-base opam
+   ocaml opam ocaml-base ocaml-stdio 
 
    ;; Forth
    gforth
