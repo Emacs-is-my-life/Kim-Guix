@@ -263,7 +263,7 @@
    openjdk
 
    ;; C#
-   mono
+   ;; mono
 
    ;; JS
    node
