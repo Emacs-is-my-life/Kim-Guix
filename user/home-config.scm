@@ -170,7 +170,7 @@
    gawk sed the-silver-searcher
 
    ;; Web Browser
-   qutebrowser icecat keepassxc-browser-icecat ublock-origin-icecat
+   qutebrowser librewolf
 
    ;; Finance
    hledger electrum
