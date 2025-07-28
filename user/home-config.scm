@@ -29,6 +29,7 @@
              (gnu packages emacs-build)
              (gnu packages gnupg)
              (gnu packages web-browsers)
+             (gnu packages gnuzilla)
              (gnu packages chromium)
              (gnu packages browser-extensions)
              (gnu packages mail)
@@ -140,7 +141,7 @@
  (packages
   (list
    ;; Emacs & EXWM
-   emacs emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl ;; redshift
+   emacs emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl redshift
 
    ;; Emacs dependencies
    emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
@@ -148,7 +149,7 @@
    emacs-geiser emacs-geiser-guile emacs-geiser-racket
 
    ;; Security
-   gnupg paperkey argon2 keepassxc keepassxc-browser/icecat
+   gnupg paperkey argon2 keepassxc
    
    ;; Email
    isync mu
@@ -160,7 +161,7 @@
    glib materia-theme flat-remix-icon-theme
 
    ;; File Browser
-   nautilus gvfs trash-cli fdupes findimagedupes perl-image-exiftool
+   nautilus gvfs trash-cli
 
    ;; Compression Utility
    gzip unzip
@@ -169,7 +170,7 @@
    gawk sed the-silver-searcher
 
    ;; Web Browser
-   qutebrowser ungoogled-chromium
+   qutebrowser icecat keepassxc-browser-icecat ublock-origin-icecat
 
    ;; Finance
    hledger electrum
@@ -211,7 +212,7 @@
    ghc ghc-rio cabal-install
 
    ;; Ocaml
-   ocaml opam ocaml-base ocaml-stdio 
+   ocaml opam
 
    ;; Forth
    gforth
@@ -441,9 +442,9 @@ fi
 
    (service home-syncthing-service-type)
 
-   ;; (service home-redshift-service-type
-   ;;          (home-redshift-configuration
-   ;;           (location-provider 'geoclue2)))
+   (service home-redshift-service-type
+            (home-redshift-configuration
+             (location-provider 'geoclue2)))
 
    (service home-unclutter-service-type
             (home-unclutter-configuration
