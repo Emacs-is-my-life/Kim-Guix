@@ -624,14 +624,6 @@
   (define-key global-map [remap execute-extended-command] #'helm-M-x)
   (define-key global-map [remap switch-to-buffer] #'helm-mini))
 
-;; helm-lsp
-(use-package helm-lsp 
-  :ensure t
-  :after (helm lsp-mode)
-  :commands helm-lsp-workspace-symbol
-  :config
-  (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
-
 ;; helm-bibtex
 (use-package helm-bibtex
   :ensure t
@@ -1535,144 +1527,18 @@ DEADLINE: %^{Deadline}t
 ;; * ---- <Language Server>
 
 
+;; eglot
+(use-package eglot
+  :after (flycheck company))
 
-
-;; lsp install
-(setq package-selected-packages '(lsp-mode lsp-ui lsp-treemacs helm-lsp which-key
-					                                 projectile hydra flycheck company avy helm-xref dap-mode))
-(when (cl-find-if-not #'package-installed-p package-selected-packages)
-  (package-refresh-contents)
-  (mapc #'package-install package-selected-packages))
-
-;; lsp-mode
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-l")
-  :bind-keymap ("C-l" . lsp-command-map)
-  :commands lsp
+(use-package eglot-inactive-regions
   :ensure t
-  :after treemacs
-  :hook
-  ((verilog-mode . lsp)
-   (vhdl-mode . lsp)
-   (asm-mode . lsp)
-   (haskell-mode . lsp)
-   (haskell-literate-mode . lsp)
-   (tuareg-mode . lsp)
-   (c-mode . lsp)
-   (c++-mode . lsp)
-   (prolog-mode . lsp)
-   (python-mode . lsp)
-   (julia-mode . lsp)
-   (awk-mode . lsp)
-   (java-mode . lsp)
-   (scala-mode . lsp)
-   (cmake-mode . lsp)
-   (sh-mode . lsp)
-   (html-mode . lsp)
-   (css-mode . lsp)
-   (javascript-mode . lsp)
-   (lsp-mode . lsp-lens-mode)
-   (lsp-mode . lsp-enable-which-key-integration))
-  :config
-  (lsp-enable-which-key-integration t)
-  (setq lsp-log-io nil)
-  (setq lsp-print-io nil)
-  (setq lsp-enable-snippet t)
-  (setq lsp-enable-semantic-highlighting t)
-  (setq lsp-prefer-flymake nil) 
-  (setq lsp-keep-workspace-alive nil)
-  (setq lsp-diagnostics-provider :flycheck)
-  (setq lsp-completion-provider :company-mode)
-  (setq lsp-completion-show-detail t)
-  (setq lsp-completion-show-kind t)
-  ;; lsp garbage collection setting
-  (setq gc-cons-threshold (* 128 1024 1024)
-	      read-process-output-max (* 16 1024 1024)
-	      treemacs-space-between-root-nodes nil
-	      company-idle-delay 0.05
-	      company-minimum-prefix-length 1
-	      lsp-idle-delay 0.05))
+  :after eglot)
 
-;; Attach lsp to which-key-mode
-(with-eval-after-load 'lsp-mode
-  (which-key-mode)
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (require 'dap-cpptools))
+(use-package eglot-signature-eldoc-talkative
+  :ensure
+  :after eglot)
 
-;; lsp-ui
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode 
-  :commands lsp-ui-mode
-  :config
-  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  (setq lsp-enable-symbol-highlighting t)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-header t)
-  (setq lsp-ui-doc-position 'at-point)
-  (setq lsp-ui-doc-include-signature t)
-  (setq lsp-ui-doc-border "orange")
-  (setq lsp-ui-doc-delay 2)
-  (setq lsp-ui-doc-show-with-cursor t)
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-sideline-show-hover nil)
-  (setq lsp-ui-sideline-show-code-actions nil)
-  (setq lsp-ui-sideline-delay 0.05)
-  (setq lsp-ui-lens-enable nil)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-modeline-code-actions-enable t))
-
-;; lsp-treemacs
-(use-package lsp-treemacs
-  :ensure t
-  :after (lsp-mode treemacs)
-  :commands lsp-treemacs-errors-list
-  :config
-  (lsp-treemacs-sync-mode 1))
-
-;; dap-mode for debugging support
-(use-package dap-mode
-  :commands dap-debug
-  :after lsp-mode
-  :ensure t
-  :config
-  (dap-auto-configure-mode)
-  (dap-mode 1)
-  (dap-ui-mode 1)
-  (dap-tooltip-mode 1)
-  (tooltip-mode 1)
-  (dap-ui-controls-mode 1)
-  ;; python
-  (require 'dap-python)
-  (setq dap-python-debugger 'debugpy)
-  ;; C/C++
-  (require 'dap-gdb-lldb)
-  ;; Prolog
-  (require 'dap-swi-prolog)
-  ;; Java
-  ;; (require 'dap-java)
-  ;; Golang
-  (require 'dap-dlv-go)
-  ;; Javascript
-  (require 'dap-chrome)
-  ;; MANUAL INSTALL REQUIRED
-  ;; (emacs) [M-x] dap-chrome-setup
-  :hook 
-  (lsp-mode . dap-mode)
-  (lsp-mode . dap-ui-mode))
-;; MANUAL INSTALL REQUIRED for dap-mode
-;; python: $ pip install debugpy
-;; C/C++: (emacs) dap-gdb-lldb-setup
-;; Prolog: $ swipl -g "pack_install(debug_adapter)" -t halt
-
-;; posframe is a pop-up tool for dap-mode
-(use-package posframe
-  :ensure t)
-
-;; MANUAL INSTALL REQUIRED: mono (pacman)
-;; "vscode-cpptools" should be installed in Emacs: M-x dap-cpptools-setup
 
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
@@ -1682,21 +1548,28 @@ DEADLINE: %^{Deadline}t
   :config
   (setq flycheck-scheme-chicken-executable "chicken-csc"))
 
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+
 ;; company
 (use-package company
   :ensure t
-  :after lsp-mode
   :hook 
   (prog-mode . company-mode)
   :bind
   (:map company-active-map
         ("<tab>" . company-complete-selection))
-  (:map lsp-mode-map
-        ("<tab>" . company-indent-or-complete-common))
   :config
   (setq company-idle-delay 0.05)
   (setq company-minimum-prefix-length 1)
-  (setq lsp-completion-provider :capf)
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous)
+  (define-key company-active-map (kbd "<tab>") #'company-abort)
 
   ;; Company color scheme
   (add-hook 'company-mode-hook
@@ -1704,15 +1577,6 @@ DEADLINE: %^{Deadline}t
               (set-face-foreground 'company-tooltip-selection "white")
               (set-face-background 'company-tooltip-selection "#37474F")
               (set-face-background 'company-tooltip-common-selection "#FC996E"))))
-
-(with-eval-after-load 'company
-  (add-hook 'prog-mode-hook 'company-mode)
-  (define-key company-active-map (kbd "M-n") nil)
-  (define-key company-active-map (kbd "M-p") nil)
-  (define-key company-active-map (kbd "C-n") #'company-select-next)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous)
-  (define-key company-active-map (kbd "<tab>") #'company-abort)
-  (add-hook 'after-init-hook 'global-company-mode))
 
 ;; company-box
 (use-package company-box
@@ -1727,70 +1591,29 @@ DEADLINE: %^{Deadline}t
 
 
 
-;; # ==== [Language Support]
+;; # ==== [Other Languages Support]
 
 
 
 
-;; * ---- Hardware
-
-
-;; <Verilog/VHDL>
-;; MANUAL INSTALL REQUIRED: pip3 install hdl-checker --user --upgrade
-
-
-
-
-;; * ---- Hard Languages
-
-
-;; <Assembly>
-;; MANUAL INSTALL REQUIRED: cargo install asm-lsp
-;; [M-x] lsp-install-server [RET] asm-lsp [RET]
-
-
-;; <Haskell>
-;; lsp-haskell (broken for now)
-;; (use-package lsp-haskell
-;;   :after lsp-mode
-;;   :config
-;;   (add-hook 'haskell-mode-hook #'lsp)
-;;   (add-hook 'haskell-literate-mode-hook #'lsp))
-;; MANUAL INSTALL REQUIRED: $ ghcup install hls
-
-
-;; <Ocaml>
-;; MANUAL INSTALL REQUIRED: $ opam install ocaml-lsp-server
+;; [Ocaml]
 (use-package tuareg
-  :ensure t
-  :config
-  (add-hook 'tuareg-mode-hook #'lsp))
+  :ensure t)
 
+(use-package ocaml-eglot
+  :ensure t)
 
-;; <C/C++>
-;; MANUAL INSTALL REQUIRED: clangd
-
-
-;; <Rust>
-;; MANUAL INSTALL REQUIRED: rust-analyzer
+;; [Rust]
 (use-package rust-mode
-  :ensure t
-  :config
-  (add-hook 'rust-mode-hook #'lsp))
+  :ensure t)
 
-
-;; <Forth>
+;; [Forth]
 (use-package forth-mode
   :ensure t
   :mode ("\\.fs\\'" . forth-mode)
   :config
   (autoload 'forth-mode "gforth.el")
   (autoload 'forth-block-mode "gforth.el"))
-
-
-
-
-;; * ---- Soft Languages
 
 
 ;; <LISP family>
@@ -1827,8 +1650,7 @@ DEADLINE: %^{Deadline}t
 (use-package smartparens
   :ensure t)
 
-;; <Scheme>
-;; Geiser for Scheme family
+;; [Scheme]
 (use-package geiser
   :ensure nil
   :pin manual
@@ -1858,8 +1680,7 @@ DEADLINE: %^{Deadline}t
   :pin manual)
 
 
-;; <Common Lisp>
-;; Sly for Common Lisp
+;; [Common Lisp]
 (use-package sly
   :ensure t
   :mode ("\\.lisp\\'" . common-lisp-mode)
@@ -1869,12 +1690,7 @@ DEADLINE: %^{Deadline}t
   (add-hook 'sly-repl-mode #'smartparens-mode))
 
 
-
-
-;; * ---- Dependent Type Programming
-
-
-;; <Coq>
+;; [Coq]
 (use-package proof-general
   :ensure t
   :mode ("\\.v\\'" . coq-mode))
@@ -1886,7 +1702,7 @@ DEADLINE: %^{Deadline}t
   (add-hook 'coq-mode-hook #'company-coq-mode))
 
 
-;; <Lean>
+;; [Lean]
 (use-package lean4-mode
   :ensure t
   :mode ("\\.lean\\'" . lean4-mode)
@@ -1899,72 +1715,14 @@ DEADLINE: %^{Deadline}t
   :commands (lean4-mode))
 
 
-;; <Idris>
-;; MANUAL INSTALL REQUIRED: $ pack install-app idris2-lsp
-(use-package idris-mode
-  :ensure t
-  :config
-  (add-hook 'idris-mode #'lsp))
-
-
-
-;; * ---- Logical Programming
-
-
-;; <Prolog>
-(with-eval-after-load 'lsp-mode
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection
-    (lsp-stdio-connection (list "swipl"
-                                "-g" "use_module(library(lsp_server))."
-                                "-g" "lsp_server:main"
-                                "-t" "halt"
-                                "--" "stdio"))
-    :major-modes '(prolog-mode)
-    :priority 1
-    :multi-root t
-    :server-id 'prolog-ls))
-  (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode)))
-;; MANUAL INSTALL REQUIRED: swipl -g 'pack_install(lsp_server)'
-
-
-
-
-;; * ---- SQL
-
-
-;; MANUAL INSTALL REQUIRED: go install github.com/lighttiger2505/sqls@latest
-(add-hook 'sql-mode-hook 'lsp)
-(setq lsp-sqls-workspace-config-path nil)
-
-
-
-
-;; * ---- Numerical Analysis
-
-
-;; <Python>
-(setq lsp-pylsp-plugins-mypy-enabled t
-      lsp-pylsp-plugins-ruff-enabled nil
-      lsp-pylsp-server-command "pylsp")
-
+;; [Python]
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
 
 
-;; <Julia>
+;; [Julia]
 (use-package julia-mode
   :ensure t)
-
-(use-package lsp-julia
-  :ensure t
-  :mode ("\\.jl\\'" . julia-mode)
-  :after (lsp-mode julia-mode) 
-  :config 
-  (setq lsp-julia-default-environment (getenv "USER_JULIA_DIR"))
-  (add-hook 'julia-mode-hook #'lsp-mode)
-  (add-hook 'ess-julia-mode-hook #'lsp-mode))
 
 (use-package julia-repl
   :after vterm
@@ -1974,153 +1732,18 @@ DEADLINE: %^{Deadline}t
   :config
   (julia-repl-set-terminal-backend 'vterm))
 
-
-;; <APL>
-(defun em-gnu-apl-init ()
-  (setq buffer-face-mode-face 'gnu-apl-default)
-  (buffer-face-mode))
-
-(use-package gnu-apl-mode
-  :ensure t
-  :config
-  (add-hook 'gnu-apl-interactive-mode-hook 'em-gnu-apl-init)
-  (add-hook 'gnu-apl-mode-hook 'em-gnu-apl-init)
-  (setq gnu-apl-keymap-template"
-╔════╦════╦════╦════╦════╦════╦════╦════╦════╦════╦════╦════╦════╦═════════╗
-║ ±∇ ║ !∇ ║ @∇ ║ #∇ ║ $∇ ║ %∇ ║ ^∇ ║ &∇ ║ *∇ ║ (∇ ║ )∇ ║ _∇ ║ +∇ ║         ║
-║ §∇ ║ 1∇ ║ 2∇ ║ 3∇ ║ 4∇ ║ 5∇ ║ 6∇ ║ 7∇ ║ 8∇ ║ 9∇ ║ 0∇ ║ -∇ ║ =∇ ║ BACKSP  ║
-╠════╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦═╩══╦══════╣
-║       ║ \"∇ ║ <∇ ║ >∇ ║ P∇ ║ Y∇ ║ F∇ ║ G∇ ║ C∇ ║ R∇ ║ L∇ ║ ?∇ ║ +∇ ║ RET  ║
-║  TAB  ║ '∇ ║ ,∇ ║ .∇ ║ p∇ ║ y∇ ║ f∇ ║ g∇ ║ c∇ ║ r∇ ║ l∇ ║ /∇ ║ =∇ ║      ║
-╠═══════╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╦══╩═╗    ║
-║ (CAPS   ║ A∇ ║ O∇ ║ E∇ ║ U∇ ║ I∇ ║ D∇ ║ H∇ ║ T∇ ║ N∇ ║ S∇ ║ _∇ ║ |∇ ║    ║
-║  LOCK)  ║ a∇ ║ o∇ ║ e∇ ║ u∇ ║ i∇ ║ d∇ ║ h∇ ║ t∇ ║ n∇ ║ s∇ ║ -∇ ║ \\∇ ║    ║
-╠════════╦╩═══╦╩═══╦╩═══╦╩═══╦╩═══╦╩═══╦╩═══╦╩═══╦╩═══╦╩═══╦╩═══╦╩════╩════╣
-║        ║ ~∇ ║ Z∇ ║ X∇ ║ C∇ ║ V∇ ║ B∇ ║ N∇ ║ M∇ ║ <∇ ║ >∇ ║ ?∇ ║          ║
-║  SHIFT ║ `∇ ║ z∇ ║ x∇ ║ c∇ ║ v∇ ║ b∇ ║ n∇ ║ m∇ ║ ,∇ ║ .∇ ║ /∇ ║  SHIFT   ║
-╚════════╩════╩════╩════╩════╩════╩════╩════╩════╩════╩════╩════╩══════════╝"))
-
-
-;; <R>
-;; MANUAL INSTALL REQUIRED: (R) install.packages("languageserver")
-(use-package ess
+(use-package eglot-jl
   :ensure t)
 
 
-
-
-;; * ---- Text Processing
-
-
-;; AWK
-;; Nothing to do
-
-
-;; sed
-(use-package sed-mode
-  :ensure t)
-
-
-
-
-;; * ---- Server Backend
-
-
-;; Java
-(use-package lsp-java
-  :ensure t
-  :config
-  (require 'dap-java)
-  (add-hook 'java-mode-hook #'lsp))
-
-
-;; Scala
-(use-package lsp-metals
-  :ensure t
-  :custom
-  ;; You might set metals server options via -J arguments. This might not always work, for instance when
-  ;; metals is installed using nix. In this case you can use JAVA_TOOL_OPTIONS environment variable.
-  (lsp-metals-server-args '(;; Metals claims to support range formatting by default but it supports range
-                            ;; formatting of multiline strings only. You might want to disable it so that
-                            ;; emacs can use indentation provided by scala-mode.
-                            "-J-Dmetals.allow-multiline-string-formatting=off"
-                            ;; Enable unicode icons. But be warned that emacs might not render unicode
-                            ;; correctly in all cases.
-                            "-J-Dmetals.icons=unicode"))
-  ;; In case you want semantic highlighting. This also has to be enabled in lsp-mode using
-  ;; `lsp-semantic-tokens-enable' variable. Also you might want to disable highlighting of modifiers
-  ;; setting `lsp-semantic-tokens-apply-modifiers' to `nil' because metals sends `abstract' modifier
-  ;; which is mapped to `keyword' face.
-  (lsp-metals-enable-semantic-highlighting t)
-  :hook (scala-mode . lsp))
-
-
-;; Golang
-;; MANUAL INSTALL REQUIRED
-;; $ go install golang.org/x/tools/gopls@latest
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
+;; [Golang]
 (use-package go-mode
-  :ensure t
-  :config
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-  (add-hook 'go-mode-hook #'lsp-deferred))
-
-(with-eval-after-load 'lsp-mode
-  (lsp-register-custom-settings
-   '(("golangci-lint.command"
-      ["golangci-lint" "run" "--enable-all" "--disable" "lll" "--out-format" "json" "--issues-exit-code=1"])))
-
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection
-                                     '("golangci-lint-langserver"))
-                    :activation-fn (lsp-activate-on "go")
-                    :language-id "go"
-                    :priority 0
-                    :server-id 'golangci-lint
-                    :add-on? t
-                    :library-folders-fn #'lsp-go--library-default-directories
-                    :initialization-options (lambda ()
-                                              (gethash "golangci-lint"
-                                                       (lsp-configuration-section "golangci-lint"))))))
+  :ensure t)
 
 
-
-
-
-
-
-
-;; * ---- Infrastructure
-
-
-;; <CMake>
-;; MANUAL INSTALL REQUIRED: cmake-language server (pip)
-
-
-;; <Bash>
-;; MANUAL INSTALL REQUIRED: [M-x] lsp-install-server [RET] bash-ls [RET]
-
-
-
-
-;; * ---- Web
-
-
-
-
-;; <HTML>
-;; MANUAL INSTALL REQUIRED: [M-x] lsp-install-server [RET] html-ls [RET]
-
-
-;; <CSS>
-;; MANUAL INSTALL REQUIRED: [M-x] lsp-install-server [RET] css-ls [RET]
-
-
-;; <Javascript>
-;; MANUAL INSTALL REQUIRED: [M-x] lsp-install-server [RET] ts-ls [RET]
+;; [Java]
+(use-package eglot-java
+  :ensure t)
 
 
 
@@ -2132,27 +1755,6 @@ DEADLINE: %^{Deadline}t
 ;; * ---- Documentation
 
 
-
-
-;; <DevDocs>
-(use-package devdocs
-  :ensure t
-  :config
-  (global-set-key (kbd "C-h D") 'devdocs-lookup)
-  :hook
-  ((c-mode-hook . (lambda () (setq-local devdocs-current-docs '("C"))))
-   (c++-mode-hook . (lambda () (setq-local devdocs-current-docs '("C++" "Eigen3"))))
-   (haskell-mode-hook . (lambda () (setq-local devdocs-current-docs '("Haskell"))))
-   (ocaml-mode-hook . (lambda () (setq-local devdocs-current-docs '("OCaml"))))
-   (fortran-mode-hook . (lambda () (setq-local devdocs-current-docs '("GNU Fortran"))))
-   (go-mode-hook . (lambda () (setq-local devdocs-current-docs '("Go"))))
-   (julia-mode-hook . (lambda () (setq-local devdocs-current-docs '("Julia"))))
-   (python-mode-hook . (lambda () (setq-local devdocs-current-docs '("Python" "Numpy" "Matplotlib" "pytorch" "scikit-learn" "Statsmodels" "FastAPI"))))
-   (r-mode-hook . (lambda () (setq-local devdocs-current-docs '("R"))))
-   (octave-mode-hook . (lambda () (setq-local devdocs-current-docs '("Octave"))))
-   (js-mode-hook . (lambda () (setq-local devdocs-current-docs '("JSDoc"))))
-   (gnuplot-mode-hook . (lambda () (setq-local devdocs-current-docs '("Gnuplot"))))
-   (vterm-mode-hook . (lambda () (setq-local devdocs-current-docs '("Bash" "Linux man pages"))))))
 
 
 ;; <Hledger>
@@ -2218,12 +1820,11 @@ DEADLINE: %^{Deadline}t
                 (outline-minor-mode)))
   (add-to-list 'TeX-view-program-selection
 	             '(output-pdf "evince"))
-  ;; Do not run lsp within templated TeX files
+  ;; Do not run eglot within templated TeX files
   (add-hook 'LaTeX-mode-hook
 	          (lambda ()
 	            (unless (string-match "\.hogan\.tex$" (buffer-name))
-		            (lsp))
-	            (setq-local lsp-diagnostic-package :none)
+		            (eglot))
 	            (setq-local flycheck-checker 'tex-chktex)))
   (add-hook 'LaTeX-mode-hook #'smartparens-mode)
   (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
