@@ -262,6 +262,7 @@
    gnuplot
 
    ;; TeX
+   texlive-digestif
    texlive-scheme-basic texlive-collection-plaingeneric
    texlive-xetex texlive-xetex-bin texlive-collection-xetex
    texlive-dvipng texlive-dvipng-bin))

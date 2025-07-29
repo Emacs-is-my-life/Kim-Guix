@@ -1548,7 +1548,8 @@ DEADLINE: %^{Deadline}t
    (shell-mode . eglot-ensure)
    (html-mode . eglot-ensure)
    (css-mode . eglot-ensure)
-   (js-mode . eglot-ensure)))
+   (js-mode . eglot-ensure)
+   (LaTeX-mode . eglot-ensure)))
 
 (use-package eglot-inactive-regions
   :ensure t
