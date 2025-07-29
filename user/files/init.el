@@ -1529,7 +1529,26 @@ DEADLINE: %^{Deadline}t
 
 ;; eglot
 (use-package eglot
-  :after (flycheck company))
+  :after
+  (flycheck company yasnippet)
+  :hook
+  ((haskell-mode . eglot-ensure)
+   (tuareg-mode . eglot-ensure)
+   (c-mode . eglot-ensure)
+   (c++-mode . eglot-ensure)
+   (rust-mode . eglot-ensure)
+   (python-mode . eglot-ensure)
+   (julia-mode . eglot-ensure)
+   (r-mode . eglot-ensure)
+   (java-mode . eglot-ensure)
+   (scala-mode . eglot-ensure)
+   (csharp-mode . eglot-ensure)
+   (go-mode . eglot-ensure)
+   (cmake-mode . eglot-ensure)
+   (shell-mode . eglot-ensure)
+   (html-mode . eglot-ensure)
+   (css-mode . eglot-ensure)
+   (js-mode . eglot-ensure)))
 
 (use-package eglot-inactive-regions
   :ensure t
@@ -1583,6 +1602,11 @@ DEADLINE: %^{Deadline}t
   :ensure t
   :after company
   :hook (company-mode . company-box-mode))
+
+
+;; yasnippet
+(use-package yasnippet
+  :ensure t)
 
 
 
