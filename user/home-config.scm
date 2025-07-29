@@ -33,6 +33,7 @@
              (gnu packages browser-extensions)
              (gnu packages mail)
              (gnu packages pdf)
+             (gnu packages ebook)
              (gnu packages libreoffice)
              (gnu packages uml)
 	           (gnu packages ghostscript)
@@ -175,7 +176,7 @@
    hledger electrum
 
    ;; Document Viewer
-   zathura-pdf-mupdf evince
+   zathura-pdf-mupdf evince inkbox
 
    ;; Document Edit
    libreoffice ghostscript

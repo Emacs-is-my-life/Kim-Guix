@@ -470,6 +470,10 @@
                "evince"
                '(file))
          (list (openwith-make-extension-regexp
+                '("epub"))
+               "inkbox"
+               '(file))
+         (list (openwith-make-extension-regexp
                 '("doc" "xls" "xlsx" "ppt" "pptx" "odt" "ods" "odg" "odp"))
                "libreoffice"
                '(file))
