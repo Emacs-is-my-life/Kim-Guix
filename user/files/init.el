@@ -471,7 +471,7 @@
                '(file))
          (list (openwith-make-extension-regexp
                 '("epub"))
-               "fbreader"
+               "FBReader"
                '(file))
          (list (openwith-make-extension-regexp
                 '("doc" "xls" "xlsx" "ppt" "pptx" "odt" "ods" "odg" "odp"))
