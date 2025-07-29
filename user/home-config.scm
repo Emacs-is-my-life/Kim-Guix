@@ -211,7 +211,7 @@
    ghc ghc-rio cabal-install
 
    ;; Ocaml
-   ocaml opam
+   ocaml ocaml-lsp-server ocaml-batteries
 
    ;; Forth
    gforth
@@ -336,9 +336,6 @@ mkdir -p $GUIX_EXTRA_PROFILES
 export GTK_RC_FILES=$XDG_CONFIG_HOME/gtk-1.0/gtkrc
 export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc:$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine
 
-export OPAMROOT=$XDG_DATA_HOME/opam
-source $XDG_DATA_HOME/opam/opam-init/variables.sh
-test -r $HOME/.local/share/opam/opam-init/init.sh && . $HOME/.local/share/opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 export PATH=\"$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH\"
 export PLTUSERHOME=$XDG_DATA_HOME/racket
