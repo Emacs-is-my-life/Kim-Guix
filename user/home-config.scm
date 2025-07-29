@@ -193,10 +193,10 @@
    gnu-make cmake meson ninja git
 
    ;; Debugging Tools
-   gdb lldb valgrind strace uftrace ltrace ;; rr
+   gdb-multiarch ddd lldb valgrind strace uftrace ltrace ;; rr
 
    ;; Working with binary
-   radare2 patchelf
+   radare2 cutter patchelf
 
    ;; Assembly
    nasm yasm
