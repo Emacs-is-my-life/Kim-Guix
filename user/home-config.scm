@@ -66,6 +66,7 @@
              (gnu packages build-tools)
              (gnu packages ninja)
              (gnu packages elf)
+             (gnu packages engineering)
              (gnu packages version-control)
              (gnu packages bison)
              (gnu packages flex)
@@ -82,7 +83,6 @@
              (gnu packages gcc)
              (gnu packages rust)
              (gnu packages rust-apps)
-             (gnu packages crates-io)
              (gnu packages haskell)
              (gnu packages haskell-xyz)
              (gnu packages haskell-apps)
@@ -190,10 +190,13 @@
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
 
    ;; Build Tools
-   gnu-make cmake meson ninja git patchelf
+   gnu-make cmake meson ninja git
 
    ;; Debugging Tools
    gdb lldb valgrind strace uftrace ltrace ;; rr
+
+   ;; Working with binary
+   radare2 patchelf
 
    ;; Assembly
    nasm yasm
@@ -202,7 +205,7 @@
    gcc-toolchain clang-toolchain
 
    ;; Rust
-   rust rust-cargo rust-analyzer rust-rustup-toolchain
+   rust rust-cargo rust-analyzer
 
    ;; Haskell
    ghc ghc-rio cabal-install
