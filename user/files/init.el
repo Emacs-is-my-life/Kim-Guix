@@ -471,7 +471,7 @@
                '(file))
          (list (openwith-make-extension-regexp
                 '("epub"))
-               "inkbox"
+               "fbreader"
                '(file))
          (list (openwith-make-extension-regexp
                 '("doc" "xls" "xlsx" "ppt" "pptx" "odt" "ods" "odg" "odp"))
@@ -1558,6 +1558,7 @@ DEADLINE: %^{Deadline}t
    (asm-mode . lsp)
    (haskell-mode . lsp)
    (haskell-literate-mode . lsp)
+   (tuareg-mode . lsp)
    (c-mode . lsp)
    (c++-mode . lsp)
    (prolog-mode . lsp)

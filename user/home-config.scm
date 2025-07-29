@@ -94,8 +94,6 @@
              (gnu packages lisp)
              (gnu packages coq)
              (gnu packages lean)
-             (gnu packages idris)
-             (gnu packages prolog)
              (gnu packages python)
              (gnu packages python-build)
              (gnu packages python-check)
@@ -104,7 +102,6 @@
              (gnu packages python-crypto)
              (gnu packages python-science)
 	           (gnu packages jupyter)
-             (gnu packages apl)             
              (gnu packages image-processing)
              (gnu packages check)
              (gnu packages rpc)
@@ -155,7 +152,7 @@
    isync mu
    
    ;; Fonts
-   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-apl2741-unicode
+   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
@@ -176,7 +173,7 @@
    hledger electrum
 
    ;; Document Viewer
-   zathura-pdf-mupdf evince inkbox
+   zathura-pdf-mupdf evince fbreader
 
    ;; Document Edit
    libreoffice ghostscript
@@ -202,9 +199,6 @@
    ;; C/C++
    gcc-toolchain clang-toolchain
 
-   ;; Fortran
-   gfortran-toolchain
-
    ;; Rust
    rust rust-cargo rust-analyzer
 
@@ -212,7 +206,8 @@
    ghc ghc-rio cabal-install
 
    ;; Ocaml
-   ocaml ocaml-lsp-server ocaml-batteries
+   ocaml ocaml-lsp-server ocamlformat ocamlformat-rpc-lib
+   ocaml-batteries
 
    ;; Forth
    gforth
@@ -235,12 +230,6 @@
    ;; Lean
    lean4
 
-   ;; Idris
-   idris
-
-   ;; Prolog
-   swi-prolog
-
    ;; Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
@@ -254,7 +243,7 @@
    ;; R
    r r-languageserver r-irkernel
 
-   ;; GNU Octave
+   ;; Octave
    octave
 
    ;; Golang
