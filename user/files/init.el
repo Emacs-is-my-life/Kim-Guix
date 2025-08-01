@@ -1621,6 +1621,12 @@ DEADLINE: %^{Deadline}t
 
 
 
+;; [x86 Assembly]
+(use-package nasm-mode
+  :ensure t
+  :config
+  (add-hook 'asm-mode-hook 'nasm-mode))
+
 ;; [Ocaml]
 (use-package tuareg
   :ensure t)

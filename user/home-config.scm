@@ -129,6 +129,7 @@
              (gnu packages web)
              (gnu packages tex)
              (gnu packages password-utils)
+             (gnu packages virtualization)
              (gnu packages game-development)
              (gnu packages games)
              (nongnu packages game-client)
@@ -193,7 +194,7 @@
    gnu-make cmake meson ninja git
 
    ;; Debugging Tools
-   gdb ddd lldb valgrind strace uftrace ltrace ;; rr
+   gdb ddd lldb valgrind strace uftrace ltrace rr
 
    ;; Working with binary
    radare2 cutter patchelf
@@ -236,7 +237,7 @@
    lean4
 
    ;; Python
-   python python-pip python-virtualenv python-lsp-server python-debugpy
+   python python-pip python-virtualenv python-lsp-server python-debugpy python-pudb
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
 
    ;; Jupyter
@@ -265,6 +266,9 @@
 
    ;; Gnuplot
    gnuplot
+
+   ;; QEMU for Emulation
+   python-qemu-qmp
 
    ;; TeX
    texlive-digestif
