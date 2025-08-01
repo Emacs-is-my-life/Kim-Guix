@@ -129,7 +129,6 @@
              (gnu packages web)
              (gnu packages tex)
              (gnu packages password-utils)
-             (gnu packages virtualization)
              (gnu packages game-development)
              (gnu packages games)
              (nongnu packages game-client)
@@ -266,9 +265,6 @@
 
    ;; Gnuplot
    gnuplot
-
-   ;; QEMU for Emulation
-   python-qemu-qmp
 
    ;; TeX
    texlive-digestif
