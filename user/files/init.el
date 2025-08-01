@@ -1621,10 +1621,6 @@ DEADLINE: %^{Deadline}t
 
 
 
-;; [RISC-V Assembly]
-(use-package riscv-mode
-  :ensure t)
-
 ;; [Ocaml]
 (use-package tuareg
   :ensure t)
