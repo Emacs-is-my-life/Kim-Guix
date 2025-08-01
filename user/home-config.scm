@@ -178,7 +178,7 @@
    zathura-pdf-mupdf evince fbreader
 
    ;; Document Edit
-   libreoffice ghostscript
+   libreoffice ghostscript pandoc
 
    ;; Media Viewer
    viewnior strawberry mpv
