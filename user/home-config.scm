@@ -193,7 +193,7 @@
    gnu-make cmake meson ninja git
 
    ;; Debugging Tools
-   gdb ddd lldb valgrind strace uftrace ltrace rr
+   gdb ddd lldb valgrind strace uftrace ltrace ;; rr
 
    ;; Working with binary
    radare2 cutter patchelf
