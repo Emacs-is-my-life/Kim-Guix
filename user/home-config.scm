@@ -372,9 +372,6 @@ for i in $GUIX_EXTRA_PROFILES/*; do
   unset profile
 done
 
-# Extend LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=\"$HOME/.guix-home/profile/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"
-
 # emacs-vterm
 if [[ \"$INSIDE_EMACS\" = 'vterm' ]]; then
     VTERM_DIR=$(ls $HOME/.guix-home/profile/share/emacs/site-lisp/ | grep vterm)
