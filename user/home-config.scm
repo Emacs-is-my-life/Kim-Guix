@@ -211,8 +211,8 @@
    ghc ghc-rio cabal-install
 
    ;; Ocaml
-   ocaml ocaml-lsp-server ocamlformat ocamlformat-rpc-lib
-   ocaml-batteries
+   ocaml ocaml-utop ocaml-lsp-server ocamlformat ocamlformat-rpc-lib
+   opam dune
 
    ;; Forth
    gforth
