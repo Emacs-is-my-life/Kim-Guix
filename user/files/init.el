@@ -1634,6 +1634,10 @@ DEADLINE: %^{Deadline}t
 (use-package ocaml-eglot
   :ensure t)
 
+;; [Haskell]
+(use-package haskell-mode
+  :ensure t)
+
 ;; [Rust]
 (use-package rust-mode
   :ensure t)
