@@ -84,6 +84,7 @@
              (gnu packages rust)
              (gnu packages rust-apps)
              (gnu packages haskell)
+             (gnu packages multiprecision)
              (gnu packages haskell-xyz)
              (gnu packages haskell-apps)
              (gnu packages ocaml)
@@ -209,6 +210,7 @@
 
    ;; Haskell
    ghc ghc-rio cabal-install
+   zlib gmp ;; Needed for haskell-language-server binary
 
    ;; Ocaml
    ocaml ocaml-utop ocaml-lsp-server ocamlformat ocamlformat-rpc-lib
