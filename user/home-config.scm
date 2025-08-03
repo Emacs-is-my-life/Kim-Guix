@@ -191,7 +191,7 @@
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
 
    ;; Build Tools
-   gnu-make cmake meson ninja git
+   gnu-make cmake meson ninja git shellcheck
 
    ;; Debugging Tools
    gdb ddd lldb valgrind strace uftrace ltrace ;; rr
@@ -334,7 +334,7 @@ export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 
 export GHC_PACKAGE_PATH=$(guix build ghc | sed -n '2p')/lib/ghc-$(ghc --numeric-version)/package.conf.d
 export CABAL_DIR=$XDG_DATA_HOME/cabal
-export PATH=\"$CABAL_DIR/bin:$PATH\"
+export PATH=$CABAL_DIR/bin:$PATH
 
 export PLTUSERHOME=$XDG_DATA_HOME/racket
 
