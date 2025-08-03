@@ -210,7 +210,6 @@
 
    ;; Haskell
    ghc ghc-rio cabal-install
-   zlib gmp ;; Needed for haskell-language-server binary
 
    ;; Ocaml
    ocaml ocaml-utop ocaml-lsp-server ocamlformat ocamlformat-rpc-lib
@@ -335,7 +334,9 @@ export GTK_RC_FILES=$XDG_CONFIG_HOME/gtk-1.0/gtkrc
 export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc:$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine
 
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
-export PATH=\"$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH\"
+export GHC_PACKAGE_PATH=$(guix build ghc | sed -n '2p')/lib/ghc-$(ghc --numeric-version)/package.conf.d
+export CABAL_DIR=$XDG_DATA_HOME/cabal
+export PATH=\"$CABAL_DIR/bin:$PATH\"
 export PLTUSERHOME=$XDG_DATA_HOME/racket
 export GOPATH=$XDG_DATA_HOME/go
 export GOMODCACHE=$XDG_CACHE_HOME/go/mod
