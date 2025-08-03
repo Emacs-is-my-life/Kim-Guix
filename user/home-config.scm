@@ -84,7 +84,7 @@
              (gnu packages rust)
              (gnu packages rust-apps)
              (gnu packages haskell)
-             (gnu packages multiprecision)
+             (gnu packages pkg-config)
              (gnu packages haskell-xyz)
              (gnu packages haskell-apps)
              (gnu packages ocaml)
@@ -209,7 +209,7 @@
    rust rust-cargo rust-analyzer
 
    ;; Haskell
-   ghc ghc-rio cabal-install
+   ghc ghc-rio cabal-install pkg-config
 
    ;; Ocaml
    ocaml ocaml-utop ocaml-lsp-server ocamlformat ocamlformat-rpc-lib
@@ -293,9 +293,6 @@ export USER_BOOK_DIR=$HOME/Books/
 export USER_BIBTEX_DIR=$HOME/Documents/BibTeX/
 export USER_MUSIC_DIR=$HOME/Music/
 
-JULIA_VERSION=$(ls $HOME/.julia/environments/ | tail -n 1)
-export USER_JULIA_DIR=$HOME/.julia/environments/${JULIA_VERSION}/
-
 mkdir -p $USER_PROJECT_DIR
 mkdir -p $USER_ORG_DIR
 mkdir -p $USER_HTML_DIR
@@ -334,18 +331,27 @@ export GTK_RC_FILES=$XDG_CONFIG_HOME/gtk-1.0/gtkrc
 export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc:$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine
 
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
+
 export GHC_PACKAGE_PATH=$(guix build ghc | sed -n '2p')/lib/ghc-$(ghc --numeric-version)/package.conf.d
 export CABAL_DIR=$XDG_DATA_HOME/cabal
 export PATH=\"$CABAL_DIR/bin:$PATH\"
+
 export PLTUSERHOME=$XDG_DATA_HOME/racket
+
 export GOPATH=$XDG_DATA_HOME/go
 export GOMODCACHE=$XDG_CACHE_HOME/go/mod
 export PATH=$PATH:$GOPATH/bin
+
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\"
+
 alias python='python3'
 export IPYTHONDIR=$XDG_CONFIG_HOME/ipython
+
+JULIA_VERSION=$(ls $HOME/.julia/environments/ | tail -n 1)
+export USER_JULIA_DIR=$HOME/.julia/environments/${JULIA_VERSION}/
 export JULIA_DEPOT_PATH=$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH
 export JULIAUP_DEPOT_PATH=$XDG_DATA_HOME/julia
+
 export R_ENVIRON=$XDG_CONFIG_HOME/R/Renviron
 export R_WORK_DIR=$USER_PROJECT_DIR
 
