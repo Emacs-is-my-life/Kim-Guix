@@ -266,7 +266,7 @@
            :repo "rougier/nano-emacs")
   :config
   ;; Font
-  (add-to-list 'default-frame-alist '(font . "JuliaMono 12"))
+  (add-to-list 'default-frame-alist '(font . "JuliaMono"))
   (set-face-attribute 'default nil :font "JuliaMono" :height 120 :weight 'medium)
   (set-face-attribute 'bold nil :font "JuliaMono" :height 120 :weight 'extra-bold)
   ;; Modeline
