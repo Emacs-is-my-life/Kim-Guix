@@ -202,7 +202,7 @@
   (prefer-coding-system 'utf-8)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
   (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 2))
+  (setq-default tab-width 4))
 
 
 
@@ -267,7 +267,8 @@
   :config
   ;; Font
   (add-to-list 'default-frame-alist '(font . "JuliaMono 12"))
-  (set-face-attribute 'default t :font "JuliaMono 12" :height 120 :weight 'regular)
+  (set-face-attribute 'default nil :font "JuliaMono" :height 120 :weight 'medium)
+  (set-face-attribute 'bold nil :font "JuliaMono" :height 120 :weight 'extra-bold)
   ;; Modeline
   (setq-default mode-line-format
 		            `((:propertize " %@%Z  [%b]  L%l (%p)    ")
