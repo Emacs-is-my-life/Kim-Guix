@@ -613,7 +613,12 @@
   :config
   (helm-autoresize-mode 1)
   (setq helm-ff-skip-boring-files t)
-  (customize-set-variable 'helm-boring-file-regexp-list (cons "^\\..+" helm-boring-file-regexp-list)))
+  (customize-set-variable 'helm-boring-file-regexp-list (cons "^\\..+" helm-boring-file-regexp-list))
+  (with-eval-after-load 'helm-mode
+    (when (boundp 'helm-external-commands-list)
+      (setq (helm-external-commands-list
+             (cl-remove-if (lambda (cmd) (string-prefix-p "." cmd))
+                           helm-external-commands-list))))))
 
 ;; helm-xref
 (use-package helm-xref
