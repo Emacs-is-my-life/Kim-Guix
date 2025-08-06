@@ -466,7 +466,7 @@ fi
                          '(alias
                            (family "Roboto Mono Nerd")
                            (prefer
-                            (family "JuliaMono")))))
+                            (family "Fira Code")))))
    
    (simple-service 'guix-channels
                    home-channels-service-type
