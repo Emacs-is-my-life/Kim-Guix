@@ -251,7 +251,7 @@
     (setq mouse-autoselect-window-window t)
 
     ;; Font
-    (setq nano-font-family-monospaced "Fira Code Medium")
+    (setq nano-font-family-monospaced "JuliaMono")
     (setq nano-font-size 12)
 
     ;; Nano theme
@@ -266,9 +266,9 @@
            :repo "rougier/nano-emacs")
   :config
   ;; Font
-  (add-to-list 'default-frame-alist '(font . "Fira Code Medium"))
-  (set-face-attribute 'default nil :font "Fira Code" :height 120 :weight 'medium)
-  (set-face-attribute 'bold nil :font "Fira Code" :height 120 :weight 'semibold)
+  (add-to-list 'default-frame-alist '(font . "JuliaMono"))
+  (set-face-attribute 'default nil :font "JuliaMono" :height 120 :weight 'regular)
+  (set-face-attribute 'bold nil :font "JuliaMono" :height 120 :weight 'bold)
   ;; Modeline
   (setq-default mode-line-format
 		        `((:propertize " %@%Z  [%b]  L%l (%p)    ")

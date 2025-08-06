@@ -24,7 +24,6 @@
              (gnu packages kde)
              (gnu packages kde-utils)
              (gnu packages fonts)
-             (gnu packages apl)
              (gnu packages emacs)
              (gnu packages emacs-xyz)
              (gnu packages emacs-build)
@@ -156,7 +155,7 @@
    isync mu
    
    ;; Fonts
-   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-fira-code font-apl2741-unicode
+   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
