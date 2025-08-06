@@ -251,7 +251,7 @@
     (setq mouse-autoselect-window-window t)
 
     ;; Font
-    (setq nano-font-family-monospaced "JuliaMono")
+    (setq nano-font-family-monospaced "Fira Code")
     (setq nano-font-size 12)
 
     ;; Nano theme
@@ -266,20 +266,20 @@
            :repo "rougier/nano-emacs")
   :config
   ;; Font
-  (add-to-list 'default-frame-alist '(font . "JuliaMono"))
-  (set-face-attribute 'default nil :font "JuliaMono" :height 120 :weight 'medium)
-  (set-face-attribute 'bold nil :font "JuliaMono" :height 120 :weight 'extra-bold)
+  (add-to-list 'default-frame-alist '(font . "Fira Code"))
+  (set-face-attribute 'default nil :font "Fira Code" :height 120 :weight 'medium)
+  (set-face-attribute 'bold nil :font "Fira Code" :height 120 :weight 'bold)
   ;; Modeline
   (setq-default mode-line-format
-		            `((:propertize " %@%Z  [%b]  L%l (%p)    ")
-		              (:propertize (vc-mode vc-mode) face (:weight normal))
-		              (:propertize ("  %M  " mode-name)
-			                         help-echo "Major mode\n\
+		        `((:propertize " %@%Z  [%b]  L%l (%p)    ")
+		          (:propertize (vc-mode vc-mode) face (:weight normal))
+		          (:propertize ("  %M  " mode-name)
+			                   help-echo "Major mode\n\
                                 mouse-1: Display major mode menu\n\
                                 mouse-2: Show help for major mode\n\
                                 mouse-3: Toggle minor modes"
-			                         mouse-face mode-line-highlight
-			                         local-map ,mode-line-major-mode-keymap)))  
+			                   mouse-face mode-line-highlight
+			                   local-map ,mode-line-major-mode-keymap)))  
 
   ;; Load packages
   (require 'nano-base-colors)
@@ -1376,7 +1376,7 @@ DEADLINE: %^{Deadline}t
   :ensure t
   :init
   (setq org-bullets-bullet-list
-	      '("■" "□" "◆" "◇" "▲" "△" "●" "○"))
+	    '("■" "◆" "▲" "●"))
   :hook (org-mode . org-bullets-mode))
 
 ;; org-side-tree
@@ -1503,6 +1503,7 @@ DEADLINE: %^{Deadline}t
 ;; org-fc for spaced repetition
 (use-package hydra
   :ensure t)
+
 (use-package org-fc
   :ensure t
   :straight

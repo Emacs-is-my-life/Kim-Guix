@@ -155,7 +155,7 @@
    isync mu
    
    ;; Fonts
-   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono
+   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-fira-code font-apl2741-unicode
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
@@ -437,7 +437,7 @@ fi
              (pinentry-program
               (file-append pinentry-emacs "~/.guix-home/profile/bin/pinentry-emacs"))
              (ssh-support? #f)
-	           (extra-content "allow-emacs-pinentry
+	         (extra-content "allow-emacs-pinentry
 			    allow-loopback-pinentry
 			    pinentry-program ~/.guix-home/profile/bin/pinentry-emacs")))
 
