@@ -185,7 +185,7 @@
    viewnior strawberry mpv
 
    ;; Media Edit
-   gimp imagemagick inkscape graphviz
+   gimp imagemagick inkscape graphviz blender
 
    ;; Remote Tools
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
