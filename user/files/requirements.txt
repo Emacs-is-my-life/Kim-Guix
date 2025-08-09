@@ -1,16 +1,11 @@
 # Algorithm
 algorithms
 
-# Jupyterlab
-jupyterlab
-jupyterlab-lsp
-jupyterlab_widgets
-jupyterlab-spreadsheet-editor
-jupyternotify
+# Interactive Development
+marimo[recommended]
 
 # Web
 sqlmodel
-pillow-avif-plugin
 playwright
 
 # Data Science
@@ -26,11 +21,9 @@ torch
 lightning
 torchtext
 torchvision
-ultralytics
 transformers
 triton
 onnx
-pytesseract
 
 # Reinforcement Learning
 stable-baselines3

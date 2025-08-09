@@ -241,9 +241,6 @@
    ;; Python
    python python-pip python-virtualenv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
-
-   ;; Jupyter
-   jupyter python-ipykernel python-ipywidgets python-nbconvert
    
    ;; Julia
    julia
