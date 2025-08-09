@@ -129,6 +129,8 @@
              (gnu packages node)
              (gnu packages web)
              (gnu packages tex)
+             (gnu packages virtualization)
+             (gnu packages engineering)
              (gnu packages password-utils)
              (gnu packages game-development)
              (gnu packages games)
@@ -271,7 +273,13 @@
    texlive-digestif
    texlive-scheme-basic texlive-collection-plaingeneric
    texlive-xetex texlive-xetex-bin texlive-collection-xetex
-   texlive-dvipng texlive-dvipng-bin))
+   texlive-dvipng texlive-dvipng-bin
+
+   ;; Virtualization
+   spike
+
+   ;; Serial
+   minicom))
  
  (services
   (list

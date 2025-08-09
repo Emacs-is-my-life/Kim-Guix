@@ -1629,6 +1629,10 @@ DEADLINE: %^{Deadline}t
   :config
   (add-hook 'asm-mode-hook 'nasm-mode))
 
+;; [RISC-V Assembly]
+(use-package riscv-mode
+  :ensure t)
+
 ;; [Ocaml]
 (use-package tuareg
   :ensure t)
