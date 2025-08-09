@@ -179,13 +179,13 @@
    zathura-pdf-mupdf evince fbreader
 
    ;; Document Edit
-   libreoffice ghostscript pandoc
+   libreoffice xournalpp ghostscript pandoc
 
    ;; Media Viewer
    viewnior strawberry mpv
 
    ;; Media Edit
-   gimp imagemagick inkscape graphviz igraph blender
+   gimp imagemagick inkscape graphviz blender
 
    ;; Remote Tools
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
