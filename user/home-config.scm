@@ -208,7 +208,7 @@
    gcc-toolchain clang-toolchain
 
    ;; Rust
-   rust rust-cargo rust-analyzer
+   rust rust-analyzer
 
    ;; Haskell
    ghc ghc-rio cabal-install pkg-config
