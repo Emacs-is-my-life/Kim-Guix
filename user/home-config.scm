@@ -263,8 +263,8 @@
    ;; JS
    node
 
-   ;; Gnuplot
-   gnuplot
+   ;; Scientific Visualization
+   gnuplot labplot
 
    ;; TeX
    texlive-digestif
