@@ -202,7 +202,9 @@
   (prefer-coding-system 'utf-8)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
   (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 4))
+  (setq-default tab-width 4)
+  (setq initial-major-mode 'text-mode)
+  (setq initial-scratch-message ""))
 
 
 
