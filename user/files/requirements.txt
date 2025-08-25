@@ -22,6 +22,7 @@ lightning[extra]
 torchvision
 triton
 onnx
+safetensors
 
 # LLM
 torchao
