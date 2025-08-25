@@ -1,7 +1,7 @@
 # Algorithm
 algorithms
 
-# Interactive Development
+# Notebook
 marimo[recommended]
 
 # Web
@@ -18,12 +18,24 @@ plotnine
 # Deep Learning
 jax
 torch
-lightning
-torchtext
+lightning['extra']
 torchvision
-transformers
 triton
 onnx
+
+# LLM
+torchao
+torchtune
+torchtext
+xformers
+transformers[torch]
+bitsandbytes
+diffusers
+accelerate
+tiktoken
+einops
+transformers_stream_generator
+huggingface_hub[cli]
 
 # Reinforcement Learning
 stable-baselines3
