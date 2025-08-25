@@ -143,7 +143,7 @@
  (packages
   (list
    ;; Emacs & EXWM
-   emacs emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl redshift
+   emacs-next emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl redshift
 
    ;; Emacs dependencies
    emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
