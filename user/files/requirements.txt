@@ -18,7 +18,7 @@ plotnine
 # Deep Learning
 jax
 torch
-lightning['extra']
+lightning[extra]
 torchvision
 triton
 onnx
