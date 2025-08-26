@@ -20,6 +20,8 @@ jax
 torch
 lightning[extra]
 torchvision
+tensorboard
+torch-tb-profiler
 triton
 onnx
 safetensors
