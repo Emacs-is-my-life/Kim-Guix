@@ -141,7 +141,7 @@
     (dependencies file-systems))))
  
  (bootloader (bootloader-configuration
-						  (bootloader grub-efi-bootloader)
+			  (bootloader grub-efi-bootloader)
               (targets '("/efi"))
               (keyboard-layout keyboard-layout)))
 
@@ -171,7 +171,7 @@
                     cups cups-filters system-config-printer
 
                     ;; security
-                    tpm2-tss tpm2-tools cryptsetup opendoas audit nmap nftables usbguard libfido2 libu2f-host yubikey-manager-qt yubico-piv-tool yubikey-personalization
+                    tpm2-tss tpm2-tools cryptsetup opendoas audit nmap nftables libfido2 libu2f-host yubikey-manager-qt yubico-piv-tool yubikey-personalization ;; usbguard
 
                     ;; virtualization
                     qemu ovmf libvirt virt-manager virt-viewer spice spice-gtk podman distrobox
@@ -193,9 +193,9 @@
               (energy-perf-policy-on-ac "performance")
               (energy-perf-policy-on-bat "powersave")
               (start-charge-thresh-bat0 40)
-              (stop-charge-thresh-bat0 80)
+              (stop-charge-thresh-bat0 90)
               (start-charge-thresh-bat1 40)
-              (stop-charge-thresh-bat1 80)))
+              (stop-charge-thresh-bat1 90)))
     (service thermald-service-type
              (thermald-configuration
               (adaptive? #t)))

@@ -426,11 +426,11 @@ fi
 
    (service home-batsignal-service-type
             (home-batsignal-configuration
-             (warning-level 30)
-             (critical-level 25)
-             (danger-level 20)
+             (warning-level 20)
+             (critical-level 15)
+             (danger-level 10)
              (danger-command "loginctl hibernate")
-             (full-level 80)
+             (full-level 90)
              (poll-delay 60)))
 
    (service home-ssh-agent-service-type
