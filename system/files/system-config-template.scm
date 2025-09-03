@@ -192,9 +192,9 @@
               (sched-powersave-on-bat? #t)
               (energy-perf-policy-on-ac "performance")
               (energy-perf-policy-on-bat "powersave")
-              (start-charge-thresh-bat0 40)
+              (start-charge-thresh-bat0 80)
               (stop-charge-thresh-bat0 90)
-              (start-charge-thresh-bat1 40)
+              (start-charge-thresh-bat1 80)
               (stop-charge-thresh-bat1 90)))
     (service thermald-service-type
              (thermald-configuration
