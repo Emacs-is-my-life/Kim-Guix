@@ -1181,7 +1181,7 @@ c.fonts.default_family = []
 ## either a float value with a "pt" suffix, or an integer value with a
 ## "px" suffix.
 ## Type: String
-c.fonts.default_size = '16pt'
+c.fonts.default_size = '14pt'
 
 ## Font used for the downloadbar.
 ## Type: Font
@@ -1253,11 +1253,11 @@ c.fonts.web.family.standard = ''
 
 ## Default font size (in pixels) for regular text.
 ## Type: Int
-c.fonts.web.size.default = 16
+c.fonts.web.size.default = 18
 
 ## Default font size (in pixels) for fixed-pitch text.
 ## Type: Int
-c.fonts.web.size.default_fixed = 14
+c.fonts.web.size.default_fixed = 16
 
 ## Hard minimum font size (in pixels).
 ## Type: Int
