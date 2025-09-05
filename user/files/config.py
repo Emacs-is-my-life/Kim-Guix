@@ -1253,11 +1253,11 @@ c.fonts.web.family.standard = ''
 
 ## Default font size (in pixels) for regular text.
 ## Type: Int
-c.fonts.web.size.default = 18
+c.fonts.web.size.default = 14
 
 ## Default font size (in pixels) for fixed-pitch text.
 ## Type: Int
-c.fonts.web.size.default_fixed = 16
+c.fonts.web.size.default_fixed = 12
 
 ## Hard minimum font size (in pixels).
 ## Type: Int
@@ -2071,7 +2071,7 @@ c.window.transparent = False
 
 ## Default zoom level.
 ## Type: Perc
-c.zoom.default = '100%'
+c.zoom.default = '120%'
 
 ## Available zoom levels.
 ## Type: List of Perc
