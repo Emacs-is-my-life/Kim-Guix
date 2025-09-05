@@ -254,7 +254,7 @@
 
     ;; Font
     (setq nano-font-family-monospaced "JuliaMono")
-    (setq nano-font-size 14)
+    (setq nano-font-size 12)
 
     ;; Nano theme
     (nano-toggle-theme)))
@@ -269,8 +269,8 @@
   :config
   ;; Font
   (add-to-list 'default-frame-alist '(font . "JuliaMono"))
-  (set-face-attribute 'default nil :font "JuliaMono" :height 140 :weight 'regular)
-  (set-face-attribute 'bold nil :font "JuliaMono" :height 140 :weight 'bold)
+  (set-face-attribute 'default nil :font "JuliaMono" :height 120 :weight 'regular)
+  (set-face-attribute 'bold nil :font "JuliaMono" :height 120 :weight 'bold)
   ;; Modeline
   (setq-default mode-line-format
 		        `((:propertize " %@%Z  [%b]  L%l (%p)    ")
