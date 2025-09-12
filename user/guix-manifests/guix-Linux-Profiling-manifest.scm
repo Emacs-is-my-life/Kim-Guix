@@ -3,6 +3,7 @@
  '(
    "perf"
    "perf-tools"
+   "tracy"
    "flamegraph"
    "wireshark"
-))
+   ))
