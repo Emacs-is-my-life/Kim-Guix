@@ -2316,6 +2316,7 @@ DEADLINE: %^{Deadline}t
       :config
       (setq gptel-default-mode 'org-mode)
       (setq gptel-track-media t)
+      (setq gptel-include-reasoning nil)
       (setf (alist-get 'org-mode gptel-prompt-prefix-alist)
             (propertize "* @User\n"
                         'face '(:weight bold :foreground "blue")))
@@ -2416,50 +2417,50 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
               (chat . "You are a large language model and a conversation partner. Respond concisely.")))
       (dolist (provider-info (gptel/get-llm-providers))
         (let ((provider (car provider-info))
-	            (apikey (cdr provider-info)))
-	        (cond
-	         ((string= provider "generativelanguage.googleapis.com")
-	          (setq gptel-model 'gemini-2.0-flash-thinking-exp-01-21
+	          (apikey (cdr provider-info)))
+	      (cond
+	       ((string= provider "generativelanguage.googleapis.com")
+	        (setq gptel-model 'gemini-2.5-pro
                   gptel-backend (gptel-make-gemini "Gemini"
-			                            :key apikey
-			                            :stream t)))
-	         ((string= provider "api.perplexity.ai")
-	          (setq gptel-model 'sonar
+			                      :key apikey
+			                      :stream t)))
+	       ((string= provider "api.perplexity.ai")
+	        (setq gptel-model 'sonar
                   gptel-backend (gptel-make-perplexity "Perplexity"
-				                          :key apikey
-				                          :stream t)))
-	         ((string= provider "api.anthropic.com")
-	          (setq gptel-model 'claude-3-sonnet-20240229
+				                  :key apikey
+				                  :stream t)))
+	       ((string= provider "api.anthropic.com")
+	        (setq gptel-model 'claude-3-sonnet-20240229
                   gptel-backend (gptel-make-anthropic "Claude"
-				                          :key apikey
-				                          :stream t)))
-	         ((string= provider "api.groq.com")
-	          (setq gptel-model 'mixtral-8x7b-32768
+				                  :key apikey
+				                  :stream t)))
+	       ((string= provider "api.groq.com")
+	        (setq gptel-model 'mixtral-8x7b-32768
                   gptel-backend (gptel-make-openai "Groq"
-			                            :key apikey
-			                            :host "api.groq.com"
-			                            :endpoint "/openai/v1/chat/completions"
-			                            :stream t
-			                            :models '(llama-3.1-70b-versatile
-					                                  llama-3.1-8b-instant
-					                                  llama3-70b-8192
-					                                  llama3-8b-8192
-					                                  mixtral-8x7b-32768
-					                                  gemma-7b-it))))
-	         ((string= provider "api.deepseek.com")
-	          (setq gptel-model 'deepseek-chat
+			                      :key apikey
+			                      :host "api.groq.com"
+			                      :endpoint "/openai/v1/chat/completions"
+			                      :stream t
+			                      :models '(llama-3.1-70b-versatile
+					                        llama-3.1-8b-instant
+					                        llama3-70b-8192
+					                        llama3-8b-8192
+					                        mixtral-8x7b-32768
+					                        gemma-7b-it))))
+	       ((string= provider "api.deepseek.com")
+	        (setq gptel-model 'deepseek-chat
                   gptel-backend (gptel-make-openai "Deepseek"
-			                            :key apikey
-			                            :host "api.deepseek.com"
-			                            :endpoint "/chat/completions"
-			                            :stream t
-			                            :models '(deepseek-chat deepseek-coder deepseek-reasoner))))
-	         ((string= provider "api.x.ai")
-	          (setq gptel-model 'grok-beta
+			                      :key apikey
+			                      :host "api.deepseek.com"
+			                      :endpoint "/chat/completions"
+			                      :stream t
+			                      :models '(deepseek-chat deepseek-coder deepseek-reasoner))))
+	       ((string= provider "api.x.ai")
+	        (setq gptel-model 'grok-beta
                   gptel-backend (gptel-make-openai "xAI"
-			                            :key apikey
-			                            :host "api.x.ai"
-			                            :endpoint "/v1/chat/completions"
-			                            :stream t
-			                            :models '(grok-beta)))))))))
+			                      :key apikey
+			                      :host "api.x.ai"
+			                      :endpoint "/v1/chat/completions"
+			                      :stream t
+			                      :models '(grok-beta)))))))))
 
