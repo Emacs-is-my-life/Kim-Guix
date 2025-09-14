@@ -13,6 +13,7 @@ polars[all]
 pyspark
 itables
 pydantic-ai
+ultraplot
 plotnine
 
 # Deep Learning
