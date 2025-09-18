@@ -34,6 +34,7 @@
              (gnu packages mail)
              (gnu packages pdf)
              (gnu packages ebook)
+             (gnu packages education)
              (gnu packages libreoffice)
              (gnu packages uml)
 	         (gnu packages ghostscript)
@@ -181,7 +182,7 @@
    zathura-pdf-mupdf evince fbreader
 
    ;; Document Edit
-   libreoffice xournalpp ghostscript pandoc
+   libreoffice ghostscript pandoc
 
    ;; Media Viewer
    viewnior strawberry mpv
@@ -191,6 +192,9 @@
 
    ;; Remote Tools
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
+
+   ;; Study
+   anki openboard exercism cf-tool
 
    ;; Build Tools
    gnu-make cmake meson ninja git shellcheck
