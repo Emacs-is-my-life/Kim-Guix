@@ -273,7 +273,7 @@
    texlive-dvipng texlive-dvipng-bin
 
    ;; Virtualization
-   spike
+   spike bochs
 
    ;; Serial
    minicom))
