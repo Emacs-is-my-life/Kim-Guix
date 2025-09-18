@@ -1,6 +1,9 @@
 # Algorithm
 algorithms
 
+# Debugging
+gdbgui
+
 # Notebook
 marimo[recommended]
 
