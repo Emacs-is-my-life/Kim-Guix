@@ -355,6 +355,9 @@ export _JAVA_OPTIONS=-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\"
 
 alias python='python3'
 export IPYTHONDIR=$XDG_CONFIG_HOME/ipython
+marimo-local() {
+    marimo --host localhost --port 8000 --no-token \"$@\"
+}
 
 JULIA_VERSION=$(ls $HOME/.julia/environments/ | tail -n 1)
 export USER_JULIA_DIR=$HOME/.julia/environments/${JULIA_VERSION}/
