@@ -378,7 +378,7 @@ export TEXMFHOME=$XDG_DATA_HOME/texmf
 export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
 export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
 
-export ANKI_BASE="$HOME/Documents/Anki"
+export ANKI_BASE=\"$HOME/Documents/Anki\"
 mkdir -p $ANKI_BASE
 
 # Enable all guix profiles
