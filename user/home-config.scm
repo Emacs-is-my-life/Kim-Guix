@@ -373,15 +373,15 @@ export GNUPG_KEYID_SIGN=$(gpg -K | grep -E -i '\\[S\\]' | awk -F'/0x' '{print $2
 export GNUPG_KEYID_ENCRYPT=$(gpg -K | grep -E -i '\\[E\\]' | awk -F'/0x' '{print $2}' | cut -d ' ' -f 1)
 source \"$USER_SECRET_DIR\"userinfo.env
 
-export LEDGER_FILE=$USER_LEDGER_DIR/hledger.journal
-export TEXMFHOME=$XDG_DATA_HOME/texmf
-export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
-export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
-
 # Load custom shell commands
 if [ -f $HOME/.bash_custom ]; then
     source $HOME/.bash_custom
 fi
+
+export LEDGER_FILE=$USER_LEDGER_DIR/hledger.journal
+export TEXMFHOME=$XDG_DATA_HOME/texmf
+export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
+export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
 
 # Enable all guix profiles
 for i in $GUIX_EXTRA_PROFILES/*; do

@@ -39,6 +39,7 @@ transformers[torch]
 bitsandbytes
 diffusers
 accelerate
+vllm
 tiktoken
 einops
 transformers_stream_generator
