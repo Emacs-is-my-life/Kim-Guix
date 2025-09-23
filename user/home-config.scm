@@ -378,6 +378,11 @@ export TEXMFHOME=$XDG_DATA_HOME/texmf
 export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
 export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
 
+# Load custom shell commands
+if [ -f $HOME/.bash_custom ]; then
+    source $HOME/.bash_custom
+fi
+
 # Enable all guix profiles
 for i in $GUIX_EXTRA_PROFILES/*; do
   profile=$i/$(basename \"$i\")
