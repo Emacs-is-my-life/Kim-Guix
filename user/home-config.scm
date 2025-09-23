@@ -194,7 +194,7 @@
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
 
    ;; Study
-   anki openboard exercism cf-tool
+   openboard exercism cf-tool
 
    ;; Build Tools
    gnu-make cmake meson ninja git shellcheck
@@ -377,9 +377,6 @@ export LEDGER_FILE=$USER_LEDGER_DIR/hledger.journal
 export TEXMFHOME=$XDG_DATA_HOME/texmf
 export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
 export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
-
-export ANKI_BASE=\"$HOME/Documents/Anki\"
-mkdir -p $ANKI_BASE
 
 # Enable all guix profiles
 for i in $GUIX_EXTRA_PROFILES/*; do
