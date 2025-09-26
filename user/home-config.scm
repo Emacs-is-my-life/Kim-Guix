@@ -16,6 +16,7 @@
              (gnu packages ncurses)
              (gnu packages xdisorg)
              (gnu packages wm)
+             (gnu packages networking)
              (gnu packages gnome)
              (gnu packages gnome-xyz)
              (gnu packages admin)
@@ -200,7 +201,7 @@
    gnu-make cmake meson ninja git shellcheck
 
    ;; Debugging Tools
-   gdb ddd lldb valgrind strace uftrace ltrace ;; rr
+   gdb ddd lldb valgrind strace uftrace ltrace wireshark ;; rr
 
    ;; Working with binary
    radare2 cutter patchelf
