@@ -177,7 +177,7 @@
    qutebrowser librewolf
 
    ;; Finance
-   hledger electrum
+   hledger ;; electrum
 
    ;; Document Viewer
    zathura-pdf-mupdf evince fbreader
@@ -195,7 +195,7 @@
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
 
    ;; Study
-   openboard exercism cf-tool
+   exercism cf-tool ;; openboard
 
    ;; Build Tools
    gnu-make cmake meson ninja git shellcheck
