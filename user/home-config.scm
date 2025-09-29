@@ -180,7 +180,7 @@
    hledger ;; electrum
 
    ;; Document Viewer
-   zathura-pdf-mupdf evince fbreader
+   zathura-pdf-mupdf evince fbreader sioyek
 
    ;; Document Edit
    libreoffice ghostscript pandoc

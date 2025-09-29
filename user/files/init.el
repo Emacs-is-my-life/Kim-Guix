@@ -470,7 +470,7 @@
         (list
          (list (openwith-make-extension-regexp
                 '("pdf" "ps" "ps.gz" "dvi"))
-               "evince"
+               "sioyek"
                '(file))
          (list (openwith-make-extension-regexp
                 '("epub"))
@@ -1862,7 +1862,7 @@ DEADLINE: %^{Deadline}t
                 (TeX-fold-mode 1)
                 (outline-minor-mode)))
   (add-to-list 'TeX-view-program-selection
-	             '(output-pdf "evince"))
+	             '(output-pdf "sioyek"))
   ;; Do not run eglot within templated TeX files
   (add-hook 'LaTeX-mode-hook
 	          (lambda ()
