@@ -1886,9 +1886,7 @@ DEADLINE: %^{Deadline}t
   :after org
   :config
   (setq org-latex-packages-alist
-	    '(("" "amsmath" t)
-          ("" "mathtools" t)
-          ("" "mathrsfs" t)))
+	    '(("" "amsmath" t)))
   (setq xenops-math-image-scale-factor 1.7)
   (setq xenops-reveal-on-entry t)
   (add-hook 'org-mode-hook #'xenops-mode)
