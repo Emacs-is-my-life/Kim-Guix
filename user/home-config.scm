@@ -275,7 +275,7 @@
    texlive-digestif
    texlive-scheme-basic texlive-collection-plaingeneric
    texlive-xetex texlive-xetex-bin texlive-collection-xetex
-   texlive-dvipng texlive-dvipng-bin
+   texlive-dvipng texlive-dvipng-bin texlive-dvisvgm texlive-dvisvgm-bin
 
    ;; Virtualization
    spike bochs

@@ -1880,20 +1880,21 @@ DEADLINE: %^{Deadline}t
   :config
   (auctex-latexmk-setup))
 
-;; Preview LaTeX in Org mode as you edit
-(use-package org-fragtog
+;; Preview LaTeX in Org mode
+(use-package xenops
   :ensure t
   :after org
   :config
-  (setq org-preview-latex-image-directory (concat (getenv "XDG_CACHE_HOME") "/texlive/ltximg/"))
-  (make-directory org-preview-latex-image-directory t)
   (setq org-latex-packages-alist
-	      '(("" "amsmath" t)))
-  (setq my-org-latex-preview-scale 1.0)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
-  (eval-after-load "preview"
-    '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
-  (add-hook 'org-mode-hook 'org-fragtog-mode))
+	    '(("" "amsmath" t)
+          ("" "amssymb" t)
+          ("" "mathtools" t)
+          ("" "mathrsfs" t)))
+  (setq xenops-math-image-scale-factor 1.7)
+  (setq xenops-reveal-on-entry t)
+  (add-hook 'org-mode-hook #'xenops-mode)
+  (add-hook 'latex-mode-hook #'xenops-mode)
+  (add-hook 'Latex-mode-hook #'xenops-mode))
 
 
 
