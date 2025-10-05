@@ -1887,7 +1887,6 @@ DEADLINE: %^{Deadline}t
   :config
   (setq org-latex-packages-alist
 	    '(("" "amsmath" t)
-          ("" "amssymb" t)
           ("" "mathtools" t)
           ("" "mathrsfs" t)))
   (setq xenops-math-image-scale-factor 1.7)

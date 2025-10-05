@@ -19,6 +19,8 @@
    "texlive-gnuplottex"
    "texlive-beamer"
    "texlive-amsmath"
+   "texlive-mathtools"
+   "texlive-rsfs"
    "texlive-physics"
    "texlive-amsfonts"
    "texlive-roboto"
