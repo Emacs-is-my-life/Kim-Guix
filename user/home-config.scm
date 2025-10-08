@@ -177,7 +177,7 @@
    qutebrowser librewolf
 
    ;; Finance
-   hledger ;; electrum
+   hledger electrum monero-gui
 
    ;; Document Viewer
    zathura-pdf-mupdf evince fbreader sioyek
