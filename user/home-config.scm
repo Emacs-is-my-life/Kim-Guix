@@ -83,6 +83,8 @@
              (gnu packages assembly)
              (gnu packages commencement)
              (gnu packages gcc)
+             (gnu packages boost)
+             (gnu packages tbb)
              (gnu packages rust)
              (gnu packages rust-apps)
              (gnu packages haskell)
@@ -210,7 +212,7 @@
    nasm yasm
 
    ;; C/C++
-   gcc-toolchain clang-toolchain
+   gcc-toolchain clang-toolchain boost tbb
 
    ;; Rust
    rust rust-analyzer
