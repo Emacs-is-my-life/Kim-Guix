@@ -1881,6 +1881,18 @@ DEADLINE: %^{Deadline}t
   (auctex-latexmk-setup))
 
 ;; Preview LaTeX in Org mode
+;; Helper function that fix org source block conflict with xenops
+(defun fn/xenops-src-parse-at-point ()
+  (-if-let* ((element (xenops-parse-element-at-point 'src))
+             (org-babel-info
+              (xenops-src-do-in-org-mode
+               (org-babel-get-src-block-info 'light (org-element-context)))))
+      (xenops-util-plist-update
+       element
+       :type 'src
+       :language (nth 0 org-babel-info)
+       :org-babel-info org-babel-info)))
+
 (use-package xenops
   :ensure t
   :after org
@@ -1889,6 +1901,7 @@ DEADLINE: %^{Deadline}t
 	    '(("" "amsmath" t)))
   (setq xenops-math-image-scale-factor 1.7)
   (setq xenops-reveal-on-entry t)
+  (advice-add 'xenops-src-parse-at-point :override 'fn/xenops-src-parse-at-point)
   (add-hook 'org-mode-hook #'xenops-mode)
   (add-hook 'latex-mode-hook #'xenops-mode)
   (add-hook 'Latex-mode-hook #'xenops-mode))
