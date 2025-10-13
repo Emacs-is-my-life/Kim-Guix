@@ -209,7 +209,7 @@
    radare2 cutter patchelf
 
    ;; Assembly
-   nasm yasm
+   nasm yasm capstone linasm
 
    ;; C/C++
    gcc-toolchain clang-toolchain boost tbb
