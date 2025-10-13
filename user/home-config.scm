@@ -176,7 +176,7 @@
    gawk sed the-silver-searcher
 
    ;; Web Browser
-   qutebrowser librewolf
+   qutebrowser librewolf lagrange
 
    ;; Finance
    hledger electrum monero-gui
