@@ -675,7 +675,7 @@
   :ensure t
   :defer t
   :bind (:map org-mode-map
-	            ("C-<tab>" . org-cycle))
+	          ("C-<tab>" . org-cycle))
   :mode
   ("\\.org'" . org-mode)
   :config
@@ -689,7 +689,6 @@
   (make-directory (concat org-directory "agenda") t)
   (make-directory (concat org-directory "agenda/.archive") t)
   (make-directory (concat org-directory "roam") t)
-  (make-directory (concat org-directory "blog") t)
   (make-directory (concat org-directory ".archive") t)
   (setq org-archive-location (concat org-directory ".archive/"))
   (make-directory (concat org-directory ".files") t)
@@ -712,24 +711,24 @@
         org-fontify-quote-and-verse-blocks t)
 
   (add-hook 'org-mode-hook
-	          (lambda ()
-	            "Beautify Org Checkbox Symbol"
-	            (push '("[ ]" . "☐") prettify-symbols-alist)
-	            (push '("[X]" . "☑" ) prettify-symbols-alist)
-	            (push '("[-]" . "❍" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
-	            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
-	            (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
-	            (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
-	            (prettify-symbols-mode)))
+	        (lambda ()
+	          "Beautify Org Checkbox Symbol"
+	          (push '("[ ]" . "☐") prettify-symbols-alist)
+	          (push '("[X]" . "☑" ) prettify-symbols-alist)
+	          (push '("[-]" . "❍" ) prettify-symbols-alist)
+	          (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+	          (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+	          (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+	          (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+	          (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+	          (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+	          (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+	          (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+	          (prettify-symbols-mode)))
 
   ;; org-tempo for structured editing
   (require 'org-tempo)
@@ -996,7 +995,7 @@ DEADLINE: %^{Deadline}t
               (point-marker)))))))
 
   (setq org-capture-templates
-	      `(("t" "TODO" plain (function (lambda ()
+	    `(("t" "TODO" plain (function (lambda ()
                                         (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo)))
@@ -1217,7 +1216,7 @@ DEADLINE: %^{Deadline}t
 
 
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				                           (org-agenda-files :maxlevel . 9))))
+				                   (org-agenda-files :maxlevel . 9))))
 
   (defun refresh-org-agenda-files ()
     "Refresh 'org-agenda-files' variable if the current buffer is an .org file."
@@ -1300,58 +1299,7 @@ DEADLINE: %^{Deadline}t
 
   ;; refresh org inline image every execution
   (setq org-image-actual-width '(1024 512 256))
-  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
-
-
-  ;; Blog
-  (require 'ox-publish)
-  (require 'ox-html)
-
-  (setq org-publish-project-alist
-        `(("articles"
-           :base-directory ,(concat org-directory "blog/")
-           :base-extension "org"
-           :publishing-directory ,(getenv "USER_HTML_DIR")
-           :publishing-function org-html-publish-to-html
-           :recursive t
-
-           :with-author nil
-           :with-creator nil
-           :with-title t
-           :with-date t
-           :with-toc t
-           :with-fixed-width t
-           :with-latex t
-           :with-tables t
-           :with-tasks nil
-           :with-todo-keywords nil
-           :auto-preamble t
-
-           :auto-sitemap t
-           :html-link-home "/"
-           :html-doctype "html5"
-           :html-html5-fancy t
-           :html-head-include-default-style t
-           :html-head-include-scripts t
-           :html-head
-           "<style>
-                p { font-weight: normal; color: gray; }
-                h1 { color: black; }
-                .title { text-align: center; }
-                .todo, .timestamp-kwd { color: red; }
-                .done { color: green; }
-            </style>"
-           :html-preamble t
-           :html-postamble t)
-          
-          ("images"
-           :base-directory ,(concat org-directory ".files/images/")
-           :base-extension "png\\|jpg\\|jpeg\\|gif\\|webp\\|webm"
-           :publishing-directory ,(concat (getenv "USER_HTML_DIR") "images/")
-           :recursive t
-           :publishing-function org-publish-attachment)
-          
-          ("blog" :components ("articles" "images")))))
+  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images))
 
 ;; org-contacts
 (use-package org-contacts
