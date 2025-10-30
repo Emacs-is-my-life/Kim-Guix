@@ -22,7 +22,6 @@
              (gnu packages admin)
              (gnu packages disk)
              (gnu packages glib)
-             (gnu packages kde)
              (gnu packages kde-utils)
              (gnu packages fonts)
              (gnu packages emacs)
@@ -53,7 +52,6 @@
              (gnu packages imagemagick)
              (gnu packages inkscape)
 	         (gnu packages image-processing)
-             (gnu packages kde)
              (gnu packages graphics)
              (gnu packages ssh)
              (gnu packages linux)
@@ -271,7 +269,7 @@
    node
 
    ;; Scientific Visualization
-   gnuplot labplot
+   gnuplot
 
    ;; TeX
    texlive-digestif

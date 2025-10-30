@@ -2162,76 +2162,76 @@ DEADLINE: %^{Deadline}t
 ;; mu4e
 (if (file-exists-p (car auth-sources))
     (use-package mu4e
-  :ensure nil
-  :pin manual
-  :defer 20
-  :after exwm
-  :config
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-maildir (getenv "USER_MAIL_DIR"))
-  (setq mu4e-attachment-dir "~/Downloads")
+      :ensure nil
+      :pin manual
+      :defer 20
+      :after exwm
+      :config
+      (setq mu4e-change-filenames-when-moving t)
+      (setq mu4e-maildir (getenv "USER_MAIL_DIR"))
+      (setq mu4e-attachment-dir "~/Downloads")
 
-  (defun mu4e/run-mbsync (temp_arg)
-    (with-environment-variables (("MBSYNC_TEMP_ARG" temp_arg))
-      (start-process "mbsync" nil "mbsync" "-a")))
-  
-  (add-hook 'mu4e-update-pre-hook
-            (lambda ()
-              (let ((auth-info (car (auth-source-search :max 1
-                                                        :host "imap.gmail.com"
-                                                        :user (getenv "USER_MAIL_ADDRESS")
-                                                        :require '(:secret)))))
-                (if auth-info
-                    (let ((secret (plist-get auth-info :secret)))
-                      (cond
-                       ((stringp secret) (mu4e/run-mbsync secret))
-                       ((functionp secret) (mu4e/run-mbsync (funcall secret)))
-                       (t (message "[MU4E]: Unexpected secret type: %s" (type-of secret)))))
-                  (message "[MU4E]: No matching auth entry found")))))
-  
-  (setq mu4e-get-mail-command "true")
-  
-  (setq mu4e-drafts-folder "/[Gmail]/Drafts")
-  (setq mu4e-sent-folder "/[Gmail]/Sent Mail")
-  (setq mu4e-refile-folder "/[Gmail]/All Mail")
-  (setq mu4e-trash-folder "/[Gmail]/Trash")
-  
-  (setq mu4e-maildir-shortcuts
-        '((:maildir "/Inbox"    :key ?i)
-          (:maildir "/[Gmail]/Sent Mail" :key ?s)
-          (:maildir "/[Gmail]/Trash"     :key ?t)
-          (:maildir "/[Gmail]/Drafts"    :key ?d)
-          (:maildir "/[Gmail]/All Mail"  :key ?a)))
+      (defun mu4e/run-mbsync (temp_arg)
+        (with-environment-variables (("MBSYNC_TEMP_ARG" temp_arg))
+          (start-process "mbsync" nil "mbsync" "-a")))
+      
+      (add-hook 'mu4e-update-pre-hook
+                (lambda ()
+                  (let ((auth-info (car (auth-source-search :max 1
+                                                            :host "imap.gmail.com"
+                                                            :user (getenv "USER_MAIL_ADDRESS")
+                                                            :require '(:secret)))))
+                    (if auth-info
+                        (let ((secret (plist-get auth-info :secret)))
+                          (cond
+                           ((stringp secret) (mu4e/run-mbsync secret))
+                           ((functionp secret) (mu4e/run-mbsync (funcall secret)))
+                           (t (message "[MU4E]: Unexpected secret type: %s" (type-of secret)))))
+                      (message "[MU4E]: No matching auth entry found")))))
+      
+      (setq mu4e-get-mail-command "true")
+      
+      (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+      (setq mu4e-sent-folder "/[Gmail]/Sent Mail")
+      (setq mu4e-refile-folder "/[Gmail]/All Mail")
+      (setq mu4e-trash-folder "/[Gmail]/Trash")
+      
+      (setq mu4e-maildir-shortcuts
+            '((:maildir "/Inbox"    :key ?i)
+              (:maildir "/[Gmail]/Sent Mail" :key ?s)
+              (:maildir "/[Gmail]/Trash"     :key ?t)
+              (:maildir "/[Gmail]/Drafts"    :key ?d)
+              (:maildir "/[Gmail]/All Mail"  :key ?a)))
 
-  (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
-  (setq mu4e-search-include-related t)
-  (setq mu4e-compose-format-flowed t)
+      (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+      (setq mu4e-search-include-related t)
+      (setq mu4e-compose-format-flowed t)
 
-  (require 'smtpmail)
-  (require 'auth-source)
-  (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
-  (setq smtp-mail-stream-type 'starttls)
-  (setq smtpmail-auth-credentials 'auth-source)
-  (setq user-mail-address (getenv "USER_MAIL_ADDRESS"))
-  (setq user-full-name (getenv "USER_FULL_NAME"))
-  (setq smtpmail-smtp-server "smtp.gmail.com")
-  (setq smtpmail-smtp-service 587)
+      (require 'smtpmail)
+      (require 'auth-source)
+      (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
+      (setq smtp-mail-stream-type 'starttls)
+      (setq smtpmail-auth-credentials 'auth-source)
+      (setq user-mail-address (getenv "USER_MAIL_ADDRESS"))
+      (setq user-full-name (getenv "USER_FULL_NAME"))
+      (setq smtpmail-smtp-server "smtp.gmail.com")
+      (setq smtpmail-smtp-service 587)
 
-  (defun sign-or-encrypt-message ()
-    (let ((answer (read-from-minibuffer "Sign or encrypt?\nEmpty to do nothing.\n[s/e]: ")))
-      (cond
-       ((string-equal answer "s") (progn
-                                    (message "Signing message.")
-                                    (mml-secure-message-sign-pgpmime)))
-       ((string-equal answer "e") (progn
-                                    (message "Encrypt and signing message.")
-                                    (mml-secure-message-encrypt-pgpmime)))
-       (t (progn
-            (message "Dont signing or encrypting message.")
-            nil)))))
-  (add-hook 'message-send-hook 'sign-or-encrypt-message)
-  :init
-  (mu4e t)))
+      (defun sign-or-encrypt-message ()
+        (let ((answer (read-from-minibuffer "Sign or encrypt?\nEmpty to do nothing.\n[s/e]: ")))
+          (cond
+           ((string-equal answer "s") (progn
+                                        (message "Signing message.")
+                                        (mml-secure-message-sign-pgpmime)))
+           ((string-equal answer "e") (progn
+                                        (message "Encrypt and signing message.")
+                                        (mml-secure-message-encrypt-pgpmime)))
+           (t (progn
+                (message "Dont signing or encrypting message.")
+                nil)))))
+      (add-hook 'message-send-hook 'sign-or-encrypt-message)
+      :init
+      (mu4e t)))
 
 
 
@@ -2245,19 +2245,20 @@ DEADLINE: %^{Deadline}t
 
 
 
+;; GPTel
 (defun gptel/get-llm-providers ()
   (let ((service-provider-list '("generativelanguage.googleapis.com" "api.perplexity.ai" "api.anthropic.com" "api.groq.com" "api.deepseek.com" "api.x.ai"))
-	      (providers-list '()))
+	    (providers-list '()))
     (dolist (provider service-provider-list)
-	    (let ((auth-info (car (auth-source-search :max 1
-						                                    :host provider
-						                                    :user "apikey"
-						                                    :require '(:secret)))))
-	      (if auth-info
-	          (let ((apikey (plist-get auth-info :secret)))
-	            (cond
-		           ((stringp apikey) (push (cons provider apikey) providers-list))
-		           ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
+	  (let ((auth-info (car (auth-source-search :max 1
+						                        :host provider
+						                        :user "apikey"
+						                        :require '(:secret)))))
+	    (if auth-info
+	        (let ((apikey (plist-get auth-info :secret)))
+	          (cond
+		       ((stringp apikey) (push (cons provider apikey) providers-list))
+		       ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
     providers-list))
 
 (use-package markdown-mode
@@ -2378,6 +2379,8 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
         (let ((provider (car provider-info))
 	          (apikey (cdr provider-info)))
 	      (cond
+           ((string= provider "api.openai.com")
+	        (setq gptel-api-key apikey))
 	       ((string= provider "generativelanguage.googleapis.com")
 	        (setq gptel-model 'gemini-2.5-pro
                   gptel-backend (gptel-make-gemini "Gemini"
@@ -2423,3 +2426,47 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 			                      :stream t
 			                      :models '(grok-beta)))))))))
 
+
+
+;; agent-shell
+(use-package shell-maker
+  :ensure t)
+
+(use-package acp
+  :ensure t
+  :vc (:url "https://github.com/xenodium/acp.el"))
+
+(defun agent-shell/get-llm-providers ()
+  (let ((service-provider-list '("generativelanguage.googleapis.com" "api.anthropic.com" "api.openai.com"))
+	    (providers-list '()))
+    (dolist (provider service-provider-list)
+	  (let ((auth-info (car (auth-source-search :max 1
+						                        :host provider
+						                        :user "apikey"
+						                        :require '(:secret)))))
+	    (if auth-info
+	        (let ((apikey (plist-get auth-info :secret)))
+	          (cond
+		       ((stringp apikey) (push (cons provider apikey) providers-list))
+		       ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
+    providers-list))
+
+(if (file-exists-p (car auth-sources))
+    (use-package agent-shell
+      :defer t
+      :after (shell-maker acp exwm)
+      :vc (:url "https://github.com/xenodium/agent-shell")
+      :config
+      (dolist (provider-info (agent-shell/get-llm-providers))
+        (let ((provider (car provider-info))
+	          (apikey (cdr provider-info)))
+	      (cond
+	       ((string= provider "api.openai.com")
+            (setq agent-shell-openai-authentication
+                  (agent-shell-openai-make-authentication :api-key apikey)))
+           ((string= provider "generativelanguage.googleapis.com")
+            (setq agent-shell-google-authentication
+                  (agent-shell-google-make-authentication :api-key apikey)))
+	       ((string= provider "api.anthropic.com")
+            (setq agent-shell-anthropic-authentication
+                  (agent-shell-anthropic-make-authentication :api-key apikey))))))))
