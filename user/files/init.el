@@ -2429,13 +2429,6 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 
 
 ;; agent-shell
-(use-package shell-maker
-  :ensure t)
-
-(use-package acp
-  :ensure t
-  :vc (:url "https://github.com/xenodium/acp.el"))
-
 (defun agent-shell/get-llm-providers ()
   (let ((service-provider-list '("generativelanguage.googleapis.com" "api.anthropic.com" "api.openai.com"))
 	    (providers-list '()))
@@ -2454,8 +2447,8 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 (if (file-exists-p (car auth-sources))
     (use-package agent-shell
       :defer t
-      :after (shell-maker acp exwm)
-      :vc (:url "https://github.com/xenodium/agent-shell")
+      :ensure t
+      :after exwm
       :config
       (dolist (provider-info (agent-shell/get-llm-providers))
         (let ((provider (car provider-info))
