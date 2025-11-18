@@ -1501,7 +1501,9 @@ DEADLINE: %^{Deadline}t
    (html-mode . eglot-ensure)
    (css-mode . eglot-ensure)
    (js-mode . eglot-ensure)
-   (LaTeX-mode . eglot-ensure)))
+   (LaTeX-mode . eglot-ensure))
+  :config
+  (define-key eglot-mode-map (kbd "C-l r") 'eglot-rename))
 
 (use-package eglot-inactive-regions
   :ensure t
