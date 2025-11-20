@@ -251,7 +251,7 @@
    julia
 
    ;; R
-   r r-languageserver r-irkernel
+   ;; r r-languageserver r-irkernel
 
    ;; Octave
    octave
