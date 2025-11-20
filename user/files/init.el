@@ -1881,13 +1881,18 @@ DEADLINE: %^{Deadline}t
 
 ;; Terminal
 (defun vterm/rename-buffer ()
-        (interactive)
-        (let ((n 0)
-              (new-name nil))
-          (while (get-buffer (format "*vterm-%d*" n))
-            (setq n (1+ n)))
-          (setq new-name (format "*vterm-%d*" n))
-          (rename-buffer new-name)))
+  (interactive)
+  (let ((n 0)
+        (new-name nil))
+    (while (get-buffer (format "*vterm-%d*" n))
+      (setq n (1+ n)))
+    (setq new-name (format "*vterm-%d*" n))
+    (rename-buffer new-name)))
+
+(defun vterm/source-bashrc ()
+  (interactive)
+  (if (file-exists-p "~/.bash_custom")
+      (vterm-send-string "source ~/.bash_custom")))
 
 (use-package vterm
   :pin manual
@@ -1898,7 +1903,8 @@ DEADLINE: %^{Deadline}t
   (add-hook 'vterm-mode-hook
             #'(lambda ()
                 (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix)))
-  (add-hook 'vterm-mode-hook 'vterm/rename-buffer))
+  (add-hook 'vterm-mode-hook 'vterm/rename-buffer)
+  (add-hook 'vterm-mode-hook 'vterm/source-bashrc ))
 
 (use-package eterm-256color
   :ensure t

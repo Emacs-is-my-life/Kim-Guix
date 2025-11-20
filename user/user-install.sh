@@ -58,6 +58,9 @@ mkdir -p ~/Documents/Org/agenda
 touch ~/Documents/Org/notes/default.org
 touch ~/Documents/Org/notes/contacts.org
 
+# .bash_custom file
+cp ./files/bash_custom $HOME/.bash_custom
+
 # Install Python Packages to Default Environment
 hash guix
 export PYTHON_DEFAULT_DIR=$HOME/.python-venv/Default

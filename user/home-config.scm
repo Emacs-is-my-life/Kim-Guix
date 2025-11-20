@@ -400,9 +400,6 @@ done
 if [[ \"$INSIDE_EMACS\" = 'vterm' ]]; then
     VTERM_DIR=$(ls $HOME/.guix-home/profile/share/emacs/site-lisp/ | grep vterm)
     source $HOME/.guix-home/profile/share/emacs/site-lisp/$VTERM_DIR/etc/emacs-vterm-bash.sh
-
-    # Enable \"Default\" Python VENV
-    source $USER_PYTHON_ENV_DIR/Default/bin/activate
 fi
 
 # EXWM

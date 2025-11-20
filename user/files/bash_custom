@@ -1,0 +1,12 @@
+# Enable Python UV: Default Profile
+source $USER_PYTHON_ENV_DIR/Default/bin/activate
+
+# Marimo
+marimo() {
+	if [[ "$1" == "edit" ]]; then
+        	shift
+        	command marimo edit --host localhost --port 8000 --no-token "$@"
+	else
+		command marimo "$@"
+	fi
+}
