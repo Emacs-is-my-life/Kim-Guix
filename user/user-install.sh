@@ -58,10 +58,15 @@ mkdir -p ~/Documents/Org/agenda
 touch ~/Documents/Org/notes/default.org
 touch ~/Documents/Org/notes/contacts.org
 
-# python-pip
+# Install Python Packages to Default Environment
 hash guix
-pip3 install -r ./files/requirements.txt
-pip3 uninstall -y numpy ruff
+export PYTHON_DEFAULT_DIR=$HOME/.python-venv/Default
+if [ ! -d $PYTHON_DEFAULT_DIR ]; then
+    uv venv $PYTHON_DEFAULT_DIR
+fi
+source $PYTHON_DEFAULT_DIR/bin/activate
+uv pip install -r ./files/requirements.txt
+
 
 rm -rf ./.temp
 

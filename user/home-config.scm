@@ -302,6 +302,7 @@ export USER_MAIL_DIR=$HOME/Documents/Mail/
 export USER_BOOK_DIR=$HOME/Books/
 export USER_BIBTEX_DIR=$HOME/Documents/BibTeX/
 export USER_MUSIC_DIR=$HOME/Music/
+export USER_PYTHON_ENV_DIR=$HOME/.python-venv/
 
 mkdir -p $USER_PROJECT_DIR
 mkdir -p $USER_ORG_DIR
@@ -313,6 +314,7 @@ mkdir -p $USER_MAIL_DIR
 mkdir -p $USER_BOOK_DIR
 mkdir -p $USER_BIBTEX_DIR
 mkdir -p $USER_MUSIC_DIR
+mkdir -p $USER_PYTHON_ENV_DIR
 
 mkdir -p $HOME/Downloads
 mkdir -p $HOME/Mount
@@ -398,6 +400,9 @@ done
 if [[ \"$INSIDE_EMACS\" = 'vterm' ]]; then
     VTERM_DIR=$(ls $HOME/.guix-home/profile/share/emacs/site-lisp/ | grep vterm)
     source $HOME/.guix-home/profile/share/emacs/site-lisp/$VTERM_DIR/etc/emacs-vterm-bash.sh
+
+    # Enable \"Default\" Python VENV
+    source $USER_PYTHON_ENV_DIR/Default/bin/activate
 fi
 
 # EXWM

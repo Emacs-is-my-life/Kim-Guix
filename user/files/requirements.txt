@@ -3,6 +3,7 @@ algorithms
 
 # Debugging
 gdbgui
+frida-tools
 
 # Notebook
 marimo[recommended]
@@ -13,33 +14,29 @@ playwright
 
 # Data Science
 polars[all]
-pyspark
 itables
 pydantic-ai
-ultraplot
-plotnine
 
 # Deep Learning
-jax
 torch
 lightning[extra]
 torchvision
 tensorboard
 torch-tb-profiler
 triton
-onnx
-safetensors
 
 # LLM
 torchao
 torchtune
 torchtext
+safetensors
 xformers
 transformers[torch]
 bitsandbytes
 diffusers
 accelerate
 vllm
+sglang
 tiktoken
 einops
 transformers_stream_generator
@@ -55,3 +52,4 @@ yfinance
 pandas-datareader
 fredapi
 opendartreader
+
