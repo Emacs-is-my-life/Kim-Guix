@@ -65,7 +65,7 @@ if [ ! -d $PYTHON_DEFAULT_DIR ]; then
     uv venv $PYTHON_DEFAULT_DIR
 fi
 source $PYTHON_DEFAULT_DIR/bin/activate
-uv pip install -r ./files/requirements.txt
+uv pip install -r ./python-vev/Default.txt
 
 
 rm -rf ./.temp
