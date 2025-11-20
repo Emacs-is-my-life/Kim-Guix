@@ -1,0 +1,27 @@
+# LLM
+safetensors
+torchao
+bitsandbytes
+einops
+torchtext
+tiktoken
+huggingface_hub[cli]
+xformers
+transformers[torch]
+transformers_stream_generator
+accelerate
+vllm
+sglang
+unsloth
+
+# LLM-Finetune
+torchtune
+peft
+trl
+
+# LLM RAG
+langchain
+llamaindex
+
+# Diffusion Model
+diffusers

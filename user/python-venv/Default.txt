@@ -1,0 +1,34 @@
+# Algorithm
+algorithms
+
+# Debugging
+gdbgui
+frida
+colorama
+prompt-toolkit
+pygments
+frida-tools
+
+# Notebook
+marimo[recommended]
+
+# Web
+sqlmodel
+playwright
+
+# Data Science
+polars[all]
+itables
+pydantic-ai
+
+# Deep Learning
+torch
+lightning[extra]
+torchvision
+tensorboard
+torch-tb-profiler
+triton
+
+# Reinforcement Learning
+stable-baselines3
+gymnasium

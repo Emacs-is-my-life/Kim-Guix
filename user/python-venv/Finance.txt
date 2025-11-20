@@ -1,0 +1,6 @@
+# Finance
+backtrader
+yfinance
+pandas-datareader
+fredapi
+opendartreader
