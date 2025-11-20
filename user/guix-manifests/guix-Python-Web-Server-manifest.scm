@@ -25,7 +25,6 @@
    "python-asyncpg"
    "python-psycopg"
    "python-psycopg-pool"
-   "python-arrow"
    "python-zstandard"
    "python-pyjwt"
    "python-passlib"

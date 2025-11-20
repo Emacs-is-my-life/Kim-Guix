@@ -2,7 +2,6 @@
 (specifications->manifest
  '(
    ;; "python-numpy"
-   "python-autograd"
    "python-scipy"
    "python-sympy"
    "python-kiwisolver"

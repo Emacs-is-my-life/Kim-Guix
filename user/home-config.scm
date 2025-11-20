@@ -244,7 +244,7 @@
    lean4
 
    ;; Python
-   python python-pip python-virtualenv python-lsp-server python-debugpy
+   python uv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
    
    ;; Julia
