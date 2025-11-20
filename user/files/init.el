@@ -1892,7 +1892,9 @@ DEADLINE: %^{Deadline}t
 (defun vterm/source-bashrc ()
   (interactive)
   (if (file-exists-p "~/.bash_custom")
-      (vterm-send-string "source ~/.bash_custom")))
+      (progn
+        (vterm-send-string "source ~/.bash_custom")
+        (vterm-send-return))))
 
 (use-package vterm
   :pin manual
