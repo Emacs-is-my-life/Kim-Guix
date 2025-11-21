@@ -1,5 +1,7 @@
 # LLM
+onnx
 safetensors
+ggml-python
 torchao
 bitsandbytes
 einops
