@@ -1894,7 +1894,8 @@ DEADLINE: %^{Deadline}t
   (if (file-exists-p "~/.bash_custom")
       (progn
         (vterm-send-string "source ~/.bash_custom")
-        (vterm-send-return))))
+        (vterm-send-return)
+        (vterm-clear))))
 
 (use-package vterm
   :pin manual
