@@ -11,6 +11,10 @@ frida-tools
 
 # Notebook
 marimo[recommended]
+python-lsp-server
+websockets
+vegafusion
+vl-convert-python
 
 # Web
 sqlmodel
