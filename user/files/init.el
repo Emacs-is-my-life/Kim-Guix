@@ -201,8 +201,10 @@
   (set-selection-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-  (setq-default indent-tabs-mode nil)
+  (setq-default indent-tabs-mode t)
   (setq-default tab-width 4)
+  (setq tab-always-indent 'complete)
+  (setq tab-first-completion 'word)
   (setq initial-major-mode 'text-mode)
   (setq initial-scratch-message ""))
 
@@ -536,6 +538,7 @@
 
 ;; Show line number
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(setq-default display-line-numbers-type 'relative)
 (setq linum-format "%4d ")
 
 ;; Highlight cursor line
