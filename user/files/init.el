@@ -492,7 +492,8 @@
   :ensure t
   :config
   (avy-setup-default)
-  (global-set-key (kbd "C-c C-j") 'avy-resume))
+  (global-set-key (kbd "C-: c") 'avy-goto-char)
+  (global-set-key (kbd "C-: r") 'avy-resume))
 
 
 
