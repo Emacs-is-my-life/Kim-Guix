@@ -20,9 +20,7 @@
    "python-aiosignal"
    "python-aiofiles"
    "python-aiosqlite"
-   "python-aiomysql"
    "python-aioredis"
-   "python-asyncpg"
    "python-psycopg"
    "python-psycopg-pool"
    "python-zstandard"
@@ -34,7 +32,5 @@
    "python-faker"
    "python-aiosmtpd"
    "python-email-validator"
-   "litecli"
-   "mycli"
    "pgcli"
    ))
