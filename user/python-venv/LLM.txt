@@ -12,6 +12,7 @@ xformers
 transformers[torch]
 transformers_stream_generator
 accelerate
+ktransformers
 vllm
 sglang
 unsloth
