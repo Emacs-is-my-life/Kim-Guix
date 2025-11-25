@@ -4,9 +4,10 @@
    ;; "python-numpy"
    "python-scipy"
    "python-sympy"
-   "python-kiwisolver"
    "python-numba"
    "python-tqdm"
+   "python-kiwisolver"
+   "python-cvxpy"
+   "python-pulp"
    "python-statsmodels"
-   "python-pymc"
    ))
