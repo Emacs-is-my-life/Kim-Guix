@@ -174,7 +174,7 @@
                     tpm2-tss tpm2-tools cryptsetup opendoas audit nmap nftables libfido2 libu2f-host yubikey-manager-qt yubico-piv-tool yubikey-personalization ;; usbguard
 
                     ;; virtualization
-                    qemu ovmf libvirt virt-manager virt-viewer spice spice-gtk podman distrobox
+                    qemu ovmf-x86-64 libvirt virt-manager virt-viewer spice spice-gtk podman distrobox
                     )
                    %base-packages))
  
@@ -314,11 +314,14 @@
                     (guix-service-type config => (guix-configuration
                                                   (inherit config)
                                                   (substitute-urls
-                                                   (append (list "https://substitutes.nonguix.org") %default-substitute-urls))
+                                                   (append (list "https://substitutes.nonguix.org" "https://guix.bordeaux.inria.fr") %default-substitute-urls))
                                                   (authorized-keys
                                                    (append (list (plain-file "non-guix.pub"
                                                                              "(public-key (ecc (curve Ed25519)
-                                                                                                 (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+                                                                                                 (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))")
+																 (plain-file "guix-science.pub"
+																			 "(public-key (ecc (curve Ed25519)
+                                                                                                 (q #89FBA276A976A8DE2A69774771A92C8C879E0F24614AAAAE23119608707B3F06#)))"))
                                                            %default-authorized-guix-keys))))
                     (sysctl-service-type config =>
                                          (sysctl-configuration

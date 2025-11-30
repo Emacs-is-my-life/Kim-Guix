@@ -137,6 +137,7 @@
              (gnu packages game-development)
              (gnu packages games)
              (nongnu packages game-client)
+			 (guix-science packages rstudio)
              (guix channels)
              (guix packages)
              (guix gexp))
@@ -251,16 +252,13 @@
    julia
 
    ;; R
-   r r-languageserver r-irkernel
+   r r-languageserver ;; rstudio
 
    ;; Golang
    go gopls
 
    ;; Java
    openjdk
-
-   ;; C#
-   ;; mono
 
    ;; JS
    node
@@ -273,9 +271,6 @@
    texlive-scheme-basic texlive-collection-plaingeneric
    texlive-xetex texlive-xetex-bin texlive-collection-xetex
    texlive-dvipng texlive-dvipng-bin texlive-dvisvgm texlive-dvisvgm-bin
-
-   ;; Virtualization
-   spike bochs
 
    ;; Serial
    minicom))
@@ -493,5 +488,14 @@ fi
                               (make-channel-introduction
                                "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
                                (openpgp-fingerprint
-                                "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5")))))
+                                "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+							(channel
+							 (name 'guix-science)
+							 (url "https://codeberg.org/guix-science/guix-science.git")
+							 (branch "master")
+							 (introduction
+							  (make-channel-introduction
+							   "b1fe5aaff3ab48e798a4cce02f0212bc91f423dc"
+							   (openpgp-fingerprint
+								"CA4F 8CF4 37D7 478F DA05  5FD4 4213 7701 1A37 8446")))))
                            %default-channels)))))
