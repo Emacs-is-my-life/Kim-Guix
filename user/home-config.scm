@@ -252,7 +252,6 @@
 
    ;; R
    r r-languageserver r-irkernel
-   r-dplyr r-tidyr r-tidyverse r-ggplot2
 
    ;; Golang
    go gopls
