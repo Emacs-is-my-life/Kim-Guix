@@ -92,10 +92,11 @@
   (auto-package-update-hide-results t)
   :config
   (setq auto-package-update-excluded-packages '(mu4e vterm guix 
-						                                         dash zmq magit-popup emacsql pg edit-indirect bui
-						                                         finalize peg
-						                                         geiser geiser-guile geiser-racket))
+						                             dash zmq magit-popup emacsql pg edit-indirect bui
+						                             finalize peg
+						                             geiser geiser-guile geiser-racket))
   (setq auto-package-update-delete-old-versions t)
+  (setq package-install-upgrade-built-in t)
   (auto-package-update-maybe))
 
 
@@ -109,7 +110,7 @@
   :diminish gcmh-mode
   :config
   (setq gcmh-idle-delay 5
-	      gcmh-high-cons-threshold (* 64 1024 1024)) ; 64 mb
+	    gcmh-high-cons-threshold (* 64 1024 1024)) ; 64 mb
   (gcmh-mode 1)
   (add-hook 'emacs-startup-hook
             #'(lambda ()
@@ -118,8 +119,8 @@
             #'(lambda ()
                 (message "Emacs ready in %s with %d garbade collections."
                          (format "%.2f seconds"
-		                             (float-time
-		                              (time-subtract after-init-time before-init-time)))
+		                         (float-time
+		                          (time-subtract after-init-time before-init-time)))
                          gcs-done))))
 
 
