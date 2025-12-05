@@ -69,6 +69,7 @@ if [ ! -d $PYTHON_DEFAULT_DIR ]; then
 fi
 source $PYTHON_DEFAULT_DIR/bin/activate
 uv pip install -r ./python-venv/Default.txt
+uv pip uninstall numpy ruff
 
 
 rm -rf ./.temp
