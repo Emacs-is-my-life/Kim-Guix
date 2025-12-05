@@ -1,7 +1,7 @@
 # LLM
 onnx
 safetensors
-ggml-python
+gguf[gui]
 torchao
 bitsandbytes
 einops
