@@ -24,7 +24,7 @@ trl
 
 # LLM RAG
 langchain
-llamaindex
+llama-index
 
 # Diffusion Model
 diffusers
