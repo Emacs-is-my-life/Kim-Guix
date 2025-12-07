@@ -1921,6 +1921,15 @@ DEADLINE: %^{Deadline}t
   (add-hook 'vterm-mode-hook #'eterm-256color-mode))
 
 
+;; GDB
+(defun my/gdb-mode-hook ()
+  "Customization for GDB mode"
+  (ansi-color-for-comint-mode-on)
+  (setq gdb-many-windows t))
+
+(add-hook 'gdb-mode-hook 'my/gdb-mode-hook)
+
+
 
 
 

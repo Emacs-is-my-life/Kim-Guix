@@ -245,7 +245,7 @@
    lean4
 
    ;; Python
-   python uv python-lsp-server python-debugpy
+   python uv python-lsp-server python-debugpy python-pygments
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
    
    ;; Julia
@@ -408,7 +408,8 @@ fi
 
    (simple-service 'home-files
                    home-files-service-type
-                   `((".gnuplot" ,(local-file "./files/gnuplotrc"))))
+                   `((".gnuplot" ,(local-file "./files/gnuplotrc"))
+					 (".gdbinit" ,(local-file "./files/gdbinit"))))
    
    (simple-service 'xdg-config-home-files
                    home-xdg-configuration-files-service-type
