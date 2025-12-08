@@ -1974,15 +1974,21 @@ DEADLINE: %^{Deadline}t
 				 command "lldb-dap"
 				 :type "lldb"
 				 :request "launch"
-				 :cwd ".")
+				 :showReturnValue t
+				 :justMyCode nil
+				 :cwd dape-cwd-function)
 			   ;; Python
 			   `(debugpy
 				 modes (python-mode python-ts-mode)
 				 command "python3"
 				 command-args ("-m" "debugpy.adapter")
-				 :request "launch"
+				 port :autoport
 				 :type "python"
-				 :cwd ".")))
+				 :request "launch"
+				 :console "integratedTerminal"
+				 :showReturnValue t
+				 :justMyCode nil
+				 :cwd dape-cwd-function)))
 
 ;; For a more ergonomic Emacs and `dape' experience
 (use-package repeat
