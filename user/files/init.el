@@ -1370,6 +1370,10 @@ DEADLINE: %^{Deadline}t
       "%?"
       :if-new (file+head "${slug}-%<%Y%m%d%H%M%S>-F.org" "#+TITLE: ${title}\n#+FILETAGS: FLEETING\n\n")
       :unarrowed t)
+	 ("l" "Literature Note" plain
+      "%?"
+      :if-new (file+head "${slug}-%<%Y%m%d%H%M%S>-L.org" "#+TITLE: ${title}\n#+FILETAGS: LITERATURE\n\n")
+      :unarrowed t)
      ("k" "Knowledge Note" plain
       "%?"
       :if-new (file+head "${slug}-%<%Y%m%d%H%M%S>-K.org" "#+TITLE: ${title}\n#+FILETAGS: KNOWLEDGE\n\n")
