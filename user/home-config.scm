@@ -421,7 +421,6 @@ fi
                      ("emacs/exwm/monitors-exwm.sh" ,(local-file "./files/monitors-exwm.sh" #:recursive? #t))
                      ("dunst/dunstrc" ,(local-file "./files/dunstrc"))
                      ("qutebrowser/config.py" ,(local-file "./files/config.py"))
-					 ("gdb/gdbinit" ,(local-file "./files/gdbinit"))
                      ("R/Renviron" ,(local-file "./files/Renviron"))
                      ("R/Rprofile" ,(local-file "./files/Rprofile"))
                      ("ipython/profile_default/startup/10-nopager.py" ,(local-file "./files/10-nopager.py"))
