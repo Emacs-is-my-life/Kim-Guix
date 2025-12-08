@@ -1974,10 +1974,8 @@ DEADLINE: %^{Deadline}t
 				 command "lldb-dap"
 				 :type "lldb"
 				 :request "launch"
-				 :showReturnValue t
-				 :justMyCode nil
 				 :cwd dape-cwd-function
-				 :program (lambda () (read-file-name "Select binary: " default-directory))))
+				 :program (lambda () (read-file-name "Select binary: " (project-root (project-current t))))))
 
   ;; Python
   (add-to-list 'dape-configs
