@@ -423,7 +423,7 @@
           treemacs-space-between-root-nodes      t
           treemacs-tag-follow-cleanup            t
           treemacs-tag-follow-delay              1.5
-          treemacs-width                         26)
+          treemacs-width                         40)
 
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
@@ -436,12 +436,12 @@
        (treemacs-git-mode 'simple))))
   :bind
   (:map global-map
-	("M-0"       . treemacs-select-window)
-	("C-x t 1"   . treemacs-delete-other-windows)
-	("C-x t t"   . treemacs)
-	("C-x t B"   . treemacs-bookmark)
-	("C-x t C-t" . treemacs-find-file)
-	("C-x t M-t" . treemacs-find-tag)))
+		("M-0"       . treemacs-select-window)
+		("C-x t 1"   . treemacs-delete-other-windows)
+		("C-x t t"   . treemacs)
+		("C-x t B"   . treemacs-bookmark)
+		("C-x t C-t" . treemacs-find-file)
+		("C-x t M-t" . treemacs-find-tag)))
 
 ;; treemacs-projectile
 (use-package treemacs-projectile
