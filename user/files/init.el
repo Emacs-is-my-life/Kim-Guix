@@ -1964,7 +1964,25 @@ DEADLINE: %^{Deadline}t
   (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
 
   ;; Kill compile buffer on build success
-  (add-hook 'dape-compile-hook #'kill-buffer))
+  (add-hook 'dape-compile-hook #'kill-buffer)
+
+  ;; Language Supports
+  (add-to-list 'dape-configs
+			   ;; C, C++, rust
+			   `(lldb-dap
+				 modes (c-mode c-ts-mode c++-mode c++-ts-mode rust-mode rust-ts-mode)
+				 command "lldb-dap"
+				 :type "lldb"
+				 :request "launch"
+				 :cwd ".")
+			   ;; Python
+			   `(debugpy
+				 modes (python-mode python-ts-mode)
+				 command "python3"
+				 command-args ("-m" "debugpy.adapter")
+				 :request "launch"
+				 :type "python"
+				 :cwd ".")))
 
 ;; For a more ergonomic Emacs and `dape' experience
 (use-package repeat
