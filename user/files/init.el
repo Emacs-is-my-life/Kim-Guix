@@ -1967,8 +1967,8 @@ DEADLINE: %^{Deadline}t
   (add-hook 'dape-compile-hook #'kill-buffer)
 
   ;; Language Supports
+  ;; C, C++, rust
   (add-to-list 'dape-configs
-			   ;; C, C++, rust
 			   `(lldb-dap
 				 modes (c-mode c-ts-mode c++-mode c++-ts-mode rust-mode rust-ts-mode)
 				 command "lldb-dap"
@@ -1976,8 +1976,11 @@ DEADLINE: %^{Deadline}t
 				 :request "launch"
 				 :showReturnValue t
 				 :justMyCode nil
-				 :cwd dape-cwd-function)
-			   ;; Python
+				 :cwd dape-cwd-function
+				 :program (lambda () (read-file-name "Select binary: " default-directory))))
+
+  ;; Python
+  (add-to-list 'dape-configs
 			   `(debugpy
 				 modes (python-mode python-ts-mode)
 				 command "python3"
@@ -1988,7 +1991,8 @@ DEADLINE: %^{Deadline}t
 				 :console "integratedTerminal"
 				 :showReturnValue t
 				 :justMyCode nil
-				 :cwd dape-cwd-function)))
+				 :cwd dape-cwd-function
+				 :program (lambda () (buffer-file-name)))))
 
 ;; For a more ergonomic Emacs and `dape' experience
 (use-package repeat
