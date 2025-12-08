@@ -569,6 +569,12 @@
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-auto-save-history nil))
 
+;; For repeating commands
+(use-package repeat
+  :ensure t
+  :custom
+  (repeat-mode +1))
+
 
 
 
@@ -1926,78 +1932,15 @@ DEADLINE: %^{Deadline}t
   (add-hook 'vterm-mode-hook #'eterm-256color-mode))
 
 
-;; Debugging
-(use-package dape
-  :ensure t
-  :preface
-  ;; By default dape shares the same keybinding prefix as `gud'
-  ;; If you do not want to use any prefix, set it to nil.
-  (setq dape-key-prefix "\C-x\C-a")
+;; GDB
+;; Enable the many-window layout for GDB
+(setq gdb-many-windows t)
 
-  ;; :hook
-  ;; Save breakpoints on quit
-  ;; (kill-emacs . dape-breakpoint-save)
-  ;; Load breakpoints on startup
-  ;; (after-init . dape-breakpoint-load)
+;; Optional: Restore window layout after quitting GDB
+(setq gdb-restore-window-configuration-after-quit t)
 
-  :custom
-  ;; Turn on global bindings for setting breakpoints with mouse
-  (dape-breakpoint-global-mode +1)
-
-  ;; Info buffers to the right
-  (dape-buffer-window-arrangement 'right)
-  ;; Info buffers like gud (gdb-mi)
-  ;; (dape-buffer-window-arrangement 'gud)
-  ;; (dape-info-hide-mode-line nil)
-
-  ;; Projectile users
-  (dape-cwd-function #'projectile-project-root)
-
-  :config
-  ;; Pulse source line (performance hit)
-  (add-hook 'dape-display-source-hook #'pulse-momentary-highlight-one-line)
-
-  ;; Inline variable values in code
-  (setq dape-inlay-hints t)
-
-  ;; Save buffers on startup, useful for interpreted languages
-  (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
-
-  ;; Kill compile buffer on build success
-  (add-hook 'dape-compile-hook #'kill-buffer)
-
-  ;; Language Supports
-  ;; C, C++, rust
-  (add-to-list 'dape-configs
-			   `(lldb-dap
-				 modes (c-mode c-ts-mode c++-mode c++-ts-mode rust-mode rust-ts-mode)
-				 command "lldb-dap"
-				 :type "lldb"
-				 :request "launch"
-				 :cwd dape-cwd-function
-				 :program (lambda () (read-file-name "Select binary: " (project-root (project-current t))))))
-
-  ;; Python
-  (add-to-list 'dape-configs
-			   `(debugpy
-				 modes (python-mode python-ts-mode)
-				 command "python3"
-				 command-args ("-m" "debugpy.adapter")
-				 port :autoport
-				 :type "python"
-				 :request "launch"
-				 :console "integratedTerminal"
-				 :showReturnValue t
-				 :justMyCode nil
-				 :cwd dape-cwd-function
-				 :program (lambda () (buffer-file-name)))))
-
-;; For a more ergonomic Emacs and `dape' experience
-(use-package repeat
-  :ensure t
-  :custom
-  (repeat-mode +1))
-
+;; Color Scheme
+(add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
 
 
 
