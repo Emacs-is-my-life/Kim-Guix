@@ -82,7 +82,8 @@
              (gnu packages commencement)
              (gnu packages gcc)
              (gnu packages boost)
-             (gnu packages tbb)
+             (gnu packages oneapi)
+			 (gnu packages logging)
              (gnu packages rust)
              (gnu packages rust-apps)
              (gnu packages haskell)
@@ -211,7 +212,7 @@
    nasm yasm capstone linasm
 
    ;; C/C++
-   gcc-toolchain clang-toolchain boost tbb
+   gcc-toolchain clang-toolchain boost onetbb spdlog
 
    ;; Rust
    rust rust-analyzer

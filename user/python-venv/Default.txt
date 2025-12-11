@@ -32,7 +32,9 @@ torchvision
 tensorboard
 torch-tb-profiler
 triton
+jax
 
 # Reinforcement Learning
 stable-baselines3
 gymnasium
+
