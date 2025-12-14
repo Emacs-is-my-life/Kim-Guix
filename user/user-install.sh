@@ -7,6 +7,12 @@ cat ./files/isyncrc.template \
     | sed "s|{{ USER_GMAIL_ADDRESS }}|$USER_GMAIL_ADDRESS|g" \
 > ./.temp/isyncrc
 
+cat ./files/gitconfig.template \
+    | sed "s|{{ USER_GMAIL_ADDRESS }}|$USER_GMAIL_ADDRESS|g" \
+> ./.temp/gitconfig
+
+
+
 export USER_FULL_NAME=$(cat /etc/passwd | grep $(whoami) | cut -d':' -f5)
 
 mkdir -p ~/.config/guix
