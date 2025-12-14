@@ -21,6 +21,7 @@ unsloth
 torchtune
 peft
 trl
+axolotl[flash-attn,deepspeed]
 
 # LLM RAG
 langchain
