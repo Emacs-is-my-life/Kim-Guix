@@ -1,0 +1,9 @@
+[user]
+	email = {{ USER_GMAIL_ADDRESS }}
+	name = GUIXXER
+[url "git@github.com:"]
+        insteadOf = https://github.com/
+[color]
+        ui = auto
+[column]
+        ui = auto
