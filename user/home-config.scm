@@ -31,6 +31,7 @@
              (gnu packages web-browsers)
              (gnu packages librewolf)
              (gnu packages browser-extensions)
+			 (gnu packages curl)
              (gnu packages mail)
              (gnu packages pdf)
              (gnu packages ebook)
@@ -178,6 +179,9 @@
    ;; Web Browser
    qutebrowser librewolf lagrange
 
+   ;; Network
+   curlie httpie
+
    ;; Finance
    hledger electrum monero-gui
 
@@ -200,7 +204,7 @@
    exercism cf-tool ;; openboard
 
    ;; Build Tools
-   gnu-make cmake meson ninja git shellcheck
+   gnu-make cmake pkg-config meson ninja ccache git shellcheck
 
    ;; Debugging Tools
    gdb ddd lldb valgrind strace uftrace ltrace wireshark ;; rr
@@ -212,13 +216,13 @@
    nasm yasm capstone linasm
 
    ;; C/C++
-   gcc-toolchain clang-toolchain boost onetbb spdlog
+   gcc-toolchain clang-toolchain boost onetbb
 
    ;; Rust
    rust rust-analyzer
 
    ;; Haskell
-   ghc ghc-rio cabal-install pkg-config
+   ghc ghc-rio cabal-install
 
    ;; Ocaml
    ocaml ocaml-utop ocaml-lsp-server ocamlformat ocamlformat-rpc-lib
