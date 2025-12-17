@@ -66,6 +66,7 @@
 	         (gnu packages autotools)
              (gnu packages build-tools)
              (gnu packages ninja)
+			 (gnu packages man)
              (gnu packages elf)
              (gnu packages engineering)
              (gnu packages version-control)
@@ -208,6 +209,9 @@
 
    ;; Debugging Tools
    gdb ddd lldb valgrind strace uftrace ltrace wireshark ;; rr
+
+   ;; Man page
+   man-pages
 
    ;; Working with binary
    radare2 cutter patchelf

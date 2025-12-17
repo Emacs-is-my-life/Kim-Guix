@@ -1579,6 +1579,12 @@ DEADLINE: %^{Deadline}t
 (use-package yasnippet
   :ensure t)
 
+;; Man page for help
+(use-package noman
+  :ensure t
+  :config
+  (setq noman-reuse-buffers t))
+
 
 
 
