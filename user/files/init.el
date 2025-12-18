@@ -541,7 +541,6 @@
 
 ;; Show line number
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(setq-default display-line-numbers-type 'relative)
 (setq linum-format "%4d ")
 
 ;; Highlight cursor line
@@ -1585,49 +1584,6 @@ DEADLINE: %^{Deadline}t
   :config
   (setq noman-reuse-buffers t))
 
-;; Dape for Debugging
-(use-package dape
-  :ensure t
-  :preface
-  (setq dape-key-prefix "\C-x\C-a")
-  :custom
-  (dape-breakpoint-global-mode +1)
-  (dape-buffer-window-arrangement 'right)
-  (dape-cwd-function #'projectile-project-root)
-  :config
-  (add-hook 'dape-display-source-hook #'pulse-momentary-highlight-one-line)
-  (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
-  (add-hook 'dape-compile-hook #'kill-buffer)
-
-  ;; CWD Resolution
-  (defun my/dape-cwd ()
-	"Return a string CWD based on git, falling back to '.' if nil."
-	(or (funcall dape-cwd-function) "."))
-  
-  ;; Dape C/C++/Rust
-  (add-to-list 'dape-configs
-			   `(gdb
-				 modes (c-mode c-ts-mode c++-mode c++-ts-mode rust-mode rust-ts-mode)
-				 command "gdb"
-				 command-args ("--interpreter=dap" "-q")
-				 :type "gdb"
-				 :request "launch"
-				 :cwd my/dape-cwd
-				 :program (lambda ()
-							(read-file-name "Enter compiled binary: " nil "a.out" t))
-				 :args []))
-
-  ;; Dape Python
-  (add-to-list 'dape-configs
-			   `(debugpy
-				 modes (python-mode python-ts-mode)
-				 command "python"
-				 command-args ("-m" "debugpy.adapter")
-				 :type "python"
-				 :request "launch"
-				 :cwd my/dape-cwd
-				 :program dape-find-file-buffer-default)))
-
 
 
 
@@ -1982,14 +1938,152 @@ DEADLINE: %^{Deadline}t
 
 
 ;; GDB
-;; Enable the many-window layout for GDB
-(setq gdb-many-windows t)
+(with-eval-after-load 'gdb-mi
+  ;; Don't ask me for debuginfod
+  (setq gdb-debuginfod-enable-setting nil)
+  ;; Restore window layout after quitting GDB
+  (setq gdb-restore-window-configuration-after-quit t)
+  ;; Color Scheme
+  (add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
 
-;; Optional: Restore window layout after quitting GDB
-(setq gdb-restore-window-configuration-after-quit t)
+  ;; High-Level layout
+  (defun my/gdb-layout-0 ()
+	"Layout for high level debugging"
+	(interactive)
+	(gdb-many-windows -1)
+	(delete-other-windows)
 
-;; Color Scheme
-(add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
+	(let* ((win-src (selected-window))
+		   ;; 2:1 Split
+		   (src-width (floor (* (window-total-width) 0.66)))
+		   (src-height (floor (* (window-total-height) 0.66)))
+
+		   (win-right (split-window-right src-width))
+		   (win-left-1 win-src)
+		   (win-left-2 (split-window-below src-height))
+
+		   (win-right-1 win-right)
+		   (win-right-3 (with-selected-window win-right (split-window-below src-height)))
+		   (win-right-2 (with-selected-window win-right-1 (split-window-below))))
+
+	  ;; Assign Buffers
+	  (when (and (boundp 'gdb-main-file) gdb-main-file)
+		(find-file gdb-main-file))	  
+	  (set-window-buffer win-left-2 gud-comint-buffer)
+
+	  (set-window-buffer win-right-1 (gdb-get-buffer-create 'gdb-stack-buffer))
+	  (set-window-buffer win-right-2 (gdb-get-buffer-create 'gdb-locals-buffer))
+	  (set-window-buffer win-right-3 (gdb-get-buffer-create 'gdb-inferior-io))))
+
+  ;; Low-Level layout
+  (defun my/gdb-layout-1 ()
+	"Layout for low level debugging"
+	(interactive)
+	(gdb-many-windows -1)
+	(delete-other-windows)
+
+	(let* ((win-src (selected-window))
+		   ;; 2:1 Split
+		   (src-width (floor (* (window-total-width) 0.66)))
+		   (src-height (floor (* (window-total-height) 0.66)))
+
+		   (win-right (split-window-right src-width))
+		   (win-left-1 win-src)
+		   (win-left-2 (split-window-below src-height))
+
+		   (win-right-1 win-right)
+		   (win-right-2 (with-selected-window win-right (split-window-below src-height))))
+
+	  ;; Assign Buffers
+	  (when (and (boundp 'gdb-main-file) gdb-main-file)
+		(find-file gdb-main-file))
+	  (set-window-buffer win-left-2 gud-comint-buffer)
+
+	  (set-window-buffer win-right-1 (gdb-get-buffer-create 'gdb-disassembly-buffer))
+	  (set-window-buffer win-right-2 (gdb-get-buffer-create 'gdb-registers-buffer))))
+
+  ;; Low-Level: Memory
+  (defun my/gdb-layout-2 ()
+	"Layout for low level debugging"
+	(interactive)
+	(gdb-many-windows -1)
+	(delete-other-windows)
+
+	(let* ((win-src (selected-window))
+		   ;; 2:1 Split
+		   (src-width (floor (* (window-total-width) 0.66)))
+		   (src-height (floor (* (window-total-height) 0.66)))
+		   
+		   (win-right (split-window-right src-width))
+		   (win-left-1 win-src)
+		   (win-left-2 (split-window-below src-height))
+
+		   (win-right win-right))
+
+	  ;; Assign Buffers
+	  (when (and (boundp 'gdb-main-file) gdb-main-file)
+		(find-file gdb-main-file))
+	  (set-window-buffer win-left-2 gud-comint-buffer)
+	  (set-window-buffer win-right (gdb-get-buffer-create 'gdb-memory-buffer))))
+
+  ;; Toggle Layout
+  (defvar my/gdb-layout-state 0 "Internal toggle state")
+
+  (defun my/gdb-layout-switch ()
+	"Toggle GDB layout High Level <-> Low Level"
+	(interactive)
+	(cond
+	 ((= my/gdb-layout-state 0)
+	  (my/gdb-layout-0)
+	  (setq my/gdb-layout-state 1))
+	 ((= my/gdb-layout-state 1)
+	  (my/gdb-layout-1)
+	  (setq my/gdb-layout-state 2))
+	 ((= my/gdb-layout-state 2)
+	  (my/gdb-layout-2)
+	  (setq my/gdb-layout-state 0))))
+
+  ;; Keymap
+  (define-key gud-mode-map (kbd "C-x C-a t") 'my/gdb-layout-switch)
+  (define-key gud-mode-map (kbd "<up>") 'comint-previous-input)
+  (define-key gud-mode-map (kbd "<down>") 'comint-next-input)
+
+  ;; Scroll
+  (setq comint-scroll-to-bottom-on-input t) 
+  (setq comint-scroll-to-bottom-on-output t)
+  (setq comint-move-point-for-output t)
+
+  ;; Add Title to GDB Buffers
+  (defun my/gdb-buffer-nano-header (title)
+	(face-remap-add-relative 'header-line 
+							 '(:inherit nano-face-header-strong :extend t))
+
+	(setq header-line-format
+          (list
+           ;; Title
+           (propertize (format " *%s* " title) 
+                       'face 'nano-face-header-strong))))
+
+  ;; Apply to Registers
+  (add-hook 'gdb-registers-mode-hook 
+			(lambda () (my/gdb-buffer-nano-header "Registers")))
+
+  ;; Apply to Locals
+  (add-hook 'gdb-locals-mode-hook 
+			(lambda () (my/gdb-buffer-nano-header "Local Variables")))
+
+  ;; Apply to Breakpoints
+  (add-hook 'gdb-breakpoints-mode-hook 
+			(lambda () (my/gdb-buffer-nano-header "Breakpoints")))
+
+  ;; Apply to Threads
+  (add-hook 'gdb-threads-mode-hook 
+			(lambda () (my/gdb-buffer-nano-header "Threads")))
+
+  ;; Apply to Memory
+  (add-hook 'gdb-memory-mode-hook 
+			(lambda () (my/gdb-buffer-nano-header "Memory View")))) 
+
 
 
 
