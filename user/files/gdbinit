@@ -1,0 +1,17 @@
+# Don't ask me
+set debuginfod enabled off
+
+# Aesthetics
+set style enabled on
+set style sources on
+set print pretty on
+set print array-indexes on
+
+# QoL
+set pagination off
+set history save on
+set history size 10000
+set history filename ~/.gdb_history
+
+# Intel syntax
+set disassembly-flavor intel
