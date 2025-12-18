@@ -4,6 +4,6 @@
    "gsl"
    "lapack"
    "openblas"
-   "openmpi"
-   "openmpi-c++"
+   ;; "openmpi"
+   ;; "openmpi-c++"
    ))

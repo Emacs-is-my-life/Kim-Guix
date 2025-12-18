@@ -65,6 +65,7 @@
              (gnu packages cmake)
 	         (gnu packages autotools)
              (gnu packages build-tools)
+			 (gnu packages ccache)
              (gnu packages ninja)
 			 (gnu packages man)
              (gnu packages elf)
@@ -181,7 +182,7 @@
    qutebrowser librewolf lagrange
 
    ;; Network
-   curlie httpie
+   curlie
 
    ;; Finance
    hledger electrum monero-gui
