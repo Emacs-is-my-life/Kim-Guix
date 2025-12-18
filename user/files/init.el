@@ -1599,16 +1599,23 @@ DEADLINE: %^{Deadline}t
   (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
   (add-hook 'dape-compile-hook #'kill-buffer)
 
+  ;; CWD Resolution
+  (defun my/dape-cwd ()
+	"Return a string CWD based on git, falling back to '.' if nil."
+	(or (funcall dape-cwd-function) "."))
+  
   ;; Dape C/C++/Rust
   (add-to-list 'dape-configs
 			   `(gdb
 				 modes (c-mode c-ts-mode c++-mode c++-ts-mode rust-mode rust-ts-mode)
 				 command "gdb"
-				 command-args ("--interpreter=dap")
-				 :type "cppdbg"
+				 command-args ("--interpreter=dap" "-q")
+				 :type "gdb"
 				 :request "launch"
-				 :cwd dape-cwd-function
-				 :program dape-buffer-default))
+				 :cwd my/dape-cwd
+				 :program (lambda ()
+							(read-file-name "Enter compiled binary: " nil "a.out" t))
+				 :args []))
 
   ;; Dape Python
   (add-to-list 'dape-configs
@@ -1616,9 +1623,9 @@ DEADLINE: %^{Deadline}t
 				 modes (python-mode python-ts-mode)
 				 command "python"
 				 command-args ("-m" "debugpy.adapter")
-				 :type "executable"
+				 :type "python"
 				 :request "launch"
-				 :cwd dape-cwd-function
+				 :cwd my/dape-cwd
 				 :program dape-find-file-buffer-default)))
 
 
