@@ -1585,6 +1585,20 @@ DEADLINE: %^{Deadline}t
   :config
   (setq noman-reuse-buffers t))
 
+;; Dape for Debugging
+(use-package dape
+  :ensure t
+  :preface
+  (setq dape-key-prefix "\C-x\C-a")
+  :custom
+  (dape-breakpoint-global-mode +1)
+  (dape-buffer-window-arrangement 'right)
+  (dape-cwd-function #'projectile-project-root)
+  :config
+  (add-hook 'dape-display-source-hook #'pulse-momentary-highlight-one-line)
+  (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
+  (add-hook 'dape-compile-hook #'kill-buffer))
+
 
 
 

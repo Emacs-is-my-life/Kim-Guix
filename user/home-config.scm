@@ -211,7 +211,7 @@
    gdb ddd lldb valgrind strace uftrace ltrace wireshark ;; rr
 
    ;; Man page
-   man-pages
+   man-pages stdman
 
    ;; Working with binary
    radare2 cutter patchelf
