@@ -1597,7 +1597,29 @@ DEADLINE: %^{Deadline}t
   :config
   (add-hook 'dape-display-source-hook #'pulse-momentary-highlight-one-line)
   (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
-  (add-hook 'dape-compile-hook #'kill-buffer))
+  (add-hook 'dape-compile-hook #'kill-buffer)
+
+  ;; Dape C/C++/Rust
+  (add-to-list 'dape-configs
+			   `(gdb
+				 modes (c-mode c-ts-mode c++-mode c++-ts-mode rust-mode rust-ts-mode)
+				 command "gdb"
+				 command-args ("--interpreter=dap")
+				 :type "cppdbg"
+				 :request "launch"
+				 :cwd dape-cwd-function
+				 :program dape-buffer-default))
+
+  ;; Dape Python
+  (add-to-list 'dape-configs
+			   `(debugpy
+				 modes (python-mode python-ts-mode)
+				 command "python"
+				 command-args ("-m" "debugpy.adapter")
+				 :type "executable"
+				 :request "launch"
+				 :cwd dape-cwd-function
+				 :program dape-find-file-buffer-default)))
 
 
 
