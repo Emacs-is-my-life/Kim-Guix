@@ -1948,6 +1948,11 @@ DEADLINE: %^{Deadline}t
   ;; Color Scheme
   (add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
 
+  ;; Don't pop io buffer when io happens
+  (setq gdb-display-io-nopopup t)
+  ;; Memory view item counts
+  (setq gdb-memory-rows 64)
+
   ;; ASM highlight
   (require 'nasm-mode)
   (defun my/gdb-disassembly-highlighting ()

@@ -9,5 +9,5 @@
    "python-kiwisolver"
    "python-cvxpy"
    "python-pulp"
-   "python-statsmodels"
+   ;; "python-statsmodels"
    ))
