@@ -7,7 +7,4 @@
    "python-numba"
    "python-tqdm"
    "python-kiwisolver"
-   "python-cvxpy"
-   "python-pulp"
-   ;; "python-statsmodels"
    ))
