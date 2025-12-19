@@ -1983,11 +1983,9 @@ DEADLINE: %^{Deadline}t
 	(delete-other-windows)
 
 	(let* ((win-src (selected-window))
-		   ;; 2:1 Split
-		   (src-width (floor (* (window-total-width) 0.66)))
 		   (src-height (floor (* (window-total-height) 0.66)))
 
-		   (win-right (split-window-right src-width))
+		   (win-right (split-window-right))
 		   (win-left-1 win-src)
 		   (win-left-2 (split-window-below src-height))
 
