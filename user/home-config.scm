@@ -257,6 +257,7 @@
    ;; Python
    python uv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
+   python-pygments
    
    ;; Julia
    julia

@@ -1946,6 +1946,41 @@ DEADLINE: %^{Deadline}t
   ;; Color Scheme
   (add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
 
+  ;; ASM highlight
+  (require 'asm-mode)
+  (defun my/gdb-disassembly-highlighting ()
+	"Apply asm-mode syntax highlighting to gdb disassembly buffer."
+	(setq font-lock-defaults '(asm-font-lock-keywords)))
+  (add-hook 'gdb-disassembly-mode-hook #'my/gdb-disassembly-highlighting)
+
+  ;; GDB scratchpad buffer
+  (require 'ansi-color)
+
+  (defun my/gdb-render-ansi-buffer ()
+	"Process ANSI escape codes in the current buffer"
+	(let ((inhibit-read-only t))
+	  (ansi-color-apply-on-region (point-min) (point-max))))
+  
+  (defun my/gdb-display-scratch-buffer ()
+	"Open the *gdb-scratch* buffer that tails /tmp/gdb-scratch.txt"
+	(interactive)
+	(let ((file "/tmp/gdb-scratch")
+          (buf-name "*gdb-scratch*"))
+      ;; Ensure file exists to prevent errors
+      (unless (file-exists-p file)
+		(write-region "" nil file))
+      
+      (let ((buf (find-file-noselect file)))
+		(with-current-buffer buf
+          (rename-buffer buf-name)
+		  (special-mode)
+		  (auto-revert-mode 1) ; Update automatically when GDB writes to it
+          (setq auto-revert-interval 1)
+		  (view-mode 1)
+
+		  (add-hook 'after-revert-hook #'my/gdb-render-ansi-buffer nil t))
+		(display-buffer buf))))
+
   ;; High-Level layout
   (defun my/gdb-layout-0 ()
 	"Layout for high level debugging"
@@ -1975,8 +2010,40 @@ DEADLINE: %^{Deadline}t
 	  (set-window-buffer win-right-2 (gdb-get-buffer-create 'gdb-locals-buffer))
 	  (set-window-buffer win-right-3 (gdb-get-buffer-create 'gdb-inferior-io))))
 
+  ;; High-Level layout
+  (defun my/gdb-layout-2 ()
+	"Layout for low level debugging"
+	(interactive)
+
+	;; Prepare *gdb-scratch* buffer
+	(unless (get-buffer "*gdb-scratch*")
+	  (my/gdb-display-scratch-buffer))
+	
+	(gdb-many-windows -1)
+	(delete-other-windows)
+
+	(let* ((win-src (selected-window))
+		   (src-height (floor (* (window-total-height) 0.66)))
+		   (src-height-smol (floor (* (window-total-height) 0.34)))
+
+		   (win-right (split-window-right))
+		   (win-left-1 win-src)
+		   (win-left-2 (split-window-below src-height))
+
+		   (win-right-1 win-right)
+		   (win-right-2 (with-selected-window win-right (split-window-below src-height-smol))))
+
+	  ;; Assign Buffers
+	  (when (and (boundp 'gdb-main-file) gdb-main-file)
+		(find-file gdb-main-file))
+	  (set-window-buffer win-left-2 gud-comint-buffer)
+
+	  (set-window-buffer win-right-1 (gdb-get-buffer-create 'gdb-stack-buffer))
+
+	  (set-window-buffer win-right-2 (get-buffer "*gdb-scratch*"))))
+
   ;; Low-Level layout
-  (defun my/gdb-layout-1 ()
+  (defun my/gdb-layout-2 ()
 	"Layout for low level debugging"
 	(interactive)
 	(gdb-many-windows -1)
@@ -2001,7 +2068,7 @@ DEADLINE: %^{Deadline}t
 	  (set-window-buffer win-right-2 (gdb-get-buffer-create 'gdb-registers-buffer))))
 
   ;; Low-Level: Memory
-  (defun my/gdb-layout-2 ()
+  (defun my/gdb-layout-3 ()
 	"Layout for low level debugging"
 	(interactive)
 	(gdb-many-windows -1)
@@ -2038,6 +2105,9 @@ DEADLINE: %^{Deadline}t
 	  (setq my/gdb-layout-state 2))
 	 ((= my/gdb-layout-state 2)
 	  (my/gdb-layout-2)
+	  (setq my/gdb-layout-state 3))
+	 ((= my/gdb-layout-state 3)
+	  (my/gdb-layout-3)
 	  (setq my/gdb-layout-state 0))))
 
   ;; Keymap
@@ -2058,7 +2128,7 @@ DEADLINE: %^{Deadline}t
 	(setq header-line-format
           (list
            ;; Title
-           (propertize (format " *%s* " title) 
+           (propertize (format " [%s] " title) 
                        'face 'nano-face-header-strong))))
 
   ;; Apply to Registers
