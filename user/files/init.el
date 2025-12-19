@@ -2071,7 +2071,6 @@ DEADLINE: %^{Deadline}t
   (defun my/gdb-layout-2 ()
 	"Layout for low level debugging"
 	(interactive)
-	(gdb-many-windows -1)
 	(delete-other-windows)
 
 	(let* ((win-src (selected-window))
@@ -2123,27 +2122,32 @@ DEADLINE: %^{Deadline}t
 	  (select-window win-left-2)))
 
   ;; Toggle Layout
-  (defvar my/gdb-layout-state 0 "Internal toggle state")
+  (defvar my/gdb-layout-cycle-list
+	'(my/gdb-layout-0 my/gdb-layout-1 my/gdb-layout-2 my/gdb-layout-3)
+	"Cycle order for GDB layouts.")
+
+  (defvar my/gdb-current-layout-func #'my/gdb-layout-0
+	"The currently active GDB layout function")
+
+  (defun my/gdb-setup-windows-delegate ()
+	"Call the currently selected custom GDB layout"
+	(funcall my/gdb-current-layout-func))
+
+  ;; Instruct GDB to use my function to manage layout
+  (advice-add 'gdb-setup-windows :override #'my/gdb-setup-windows-delegate)
+
   (defun my/gdb-layout-switch ()
-	"Toggle GDB layout High Level <-> Low Level"
+	"Cycle to the next GDB layout"
 	(interactive)
-	(cond
-	 ((= my/gdb-layout-state 0)
-	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-0)
-	  (gdb-setup-windows)
-	  (setq my/gdb-layout-state 1))
-	 ((= my/gdb-layout-state 1)
-	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-1)
-	  (gdb-setup-windows)
-	  (setq my/gdb-layout-state 2))
-	 ((= my/gdb-layout-state 2)
-	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-2)
-	  (gdb-setup-windows)
-	  (setq my/gdb-layout-state 3))
-	 ((= my/gdb-layout-state 3)
-	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-3)
-	  (gdb-setup-windows)
-	  (setq my/gdb-layout-state 0))))
+	;; 1. Find the current func in the list
+	(let* ((tail (member my/gdb-current-layout-func my/gdb-layout-cycle-list))
+		   ;; 2. Get the next one, or wrap to the start
+		   (next (if (and tail (cdr tail))
+					 (cadr tail)
+				   (car my/gdb-layout-cycle-list))))
+	  ;; 3. Update the state
+	  (setq my/gdb-current-layout-func next)
+	  (gdb-setup-windows)))
 
   ;; Keymap
   (define-key gud-mode-map (kbd "C-x C-a t") 'my/gdb-layout-switch)
