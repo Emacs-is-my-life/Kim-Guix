@@ -1943,6 +1943,8 @@ DEADLINE: %^{Deadline}t
   (setq gdb-debuginfod-enable-setting nil)
   ;; Restore window layout after quitting GDB
   (setq gdb-restore-window-configuration-after-quit t)
+  ;; Enable gdb many windows feature
+  (setq gdb-many-windows t)
   ;; Color Scheme
   (add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
 
@@ -1981,11 +1983,28 @@ DEADLINE: %^{Deadline}t
 		  (add-hook 'after-revert-hook #'my/gdb-render-ansi-buffer nil t))
 		(display-buffer buf))))
 
+  ;; Get target source file
+  (defun my/gdb-get-source-file ()
+	"Determine which file should be shown in the source window"
+	(cond
+	 ;; Case 1: Current buffer is already a source file
+	 ((derived-mode-p 'c-mode 'c++-mode 'rust-mode)
+	  (buffer-file-name))
+
+	 ;; Case 2: Check for breakpoints
+	 ((and (boundp 'gdb-breakpoints-list
+				   gdb-breakpoints-list))
+	  (let ((bp-file (cl-some (lambda (bp) (cdr (assoc 'fullname bp)))
+							  gdb-breakpoints-list)))
+		(or bp-file gdb-main-file)))
+
+	 ;; Case 3: Default Fallback
+	 (t gdb-main-file)))
+
   ;; High-Level layout
   (defun my/gdb-layout-0 ()
 	"Layout for high level debugging"
 	(interactive)
-	(gdb-many-windows -1)
 	(delete-other-windows)
 
 	(let* ((win-src (selected-window))
@@ -2002,24 +2021,27 @@ DEADLINE: %^{Deadline}t
 		   (win-right-2 (with-selected-window win-right-1 (split-window-below))))
 
 	  ;; Assign Buffers
-	  (when (and (boundp 'gdb-main-file) gdb-main-file)
-		(find-file gdb-main-file))	  
+	  ;; Source code file
+	  (let ((target-file (my/gdb-get-source-file)))
+		(when target-file
+		  (set-window-buffer win-left-1 (find-file-noselect target-file))))
 	  (set-window-buffer win-left-2 gud-comint-buffer)
 
 	  (set-window-buffer win-right-1 (gdb-get-buffer-create 'gdb-stack-buffer))
 	  (set-window-buffer win-right-2 (gdb-get-buffer-create 'gdb-locals-buffer))
-	  (set-window-buffer win-right-3 (gdb-get-buffer-create 'gdb-inferior-io))))
+	  (set-window-buffer win-right-3 (gdb-get-buffer-create 'gdb-inferior-io))
+
+	  (select-window win-left-2)))
 
   ;; High-Level layout
-  (defun my/gdb-layout-2 ()
-	"Layout for low level debugging"
+  (defun my/gdb-layout-1 ()
+	"Layout for high level, with *gdb-scratch* buffer."
 	(interactive)
 
 	;; Prepare *gdb-scratch* buffer
 	(unless (get-buffer "*gdb-scratch*")
 	  (my/gdb-display-scratch-buffer))
 	
-	(gdb-many-windows -1)
 	(delete-other-windows)
 
 	(let* ((win-src (selected-window))
@@ -2034,13 +2056,16 @@ DEADLINE: %^{Deadline}t
 		   (win-right-2 (with-selected-window win-right (split-window-below src-height-smol))))
 
 	  ;; Assign Buffers
-	  (when (and (boundp 'gdb-main-file) gdb-main-file)
-		(find-file gdb-main-file))
+	  ;; Source code file
+	  (let ((target-file (my/gdb-get-source-file)))
+		(when target-file
+		  (set-window-buffer win-left-1 (find-file-noselect target-file))))
 	  (set-window-buffer win-left-2 gud-comint-buffer)
 
 	  (set-window-buffer win-right-1 (gdb-get-buffer-create 'gdb-stack-buffer))
-
-	  (set-window-buffer win-right-2 (get-buffer "*gdb-scratch*"))))
+	  (set-window-buffer win-right-2 (get-buffer "*gdb-scratch*"))
+	  
+	  (select-window win-left-2)))
 
   ;; Low-Level layout
   (defun my/gdb-layout-2 ()
@@ -2060,18 +2085,21 @@ DEADLINE: %^{Deadline}t
 		   (win-right-2 (with-selected-window win-right (split-window-below src-height))))
 
 	  ;; Assign Buffers
-	  (when (and (boundp 'gdb-main-file) gdb-main-file)
-		(find-file gdb-main-file))
+	  ;; Source code file
+	  (let ((target-file (my/gdb-get-source-file)))
+		(when target-file
+		  (set-window-buffer win-left-1 (find-file-noselect target-file))))
 	  (set-window-buffer win-left-2 gud-comint-buffer)
 
 	  (set-window-buffer win-right-1 (gdb-get-buffer-create 'gdb-disassembly-buffer))
-	  (set-window-buffer win-right-2 (gdb-get-buffer-create 'gdb-registers-buffer))))
+	  (set-window-buffer win-right-2 (gdb-get-buffer-create 'gdb-registers-buffer))
+	  
+	  (select-window win-left-2)))
 
   ;; Low-Level: Memory
   (defun my/gdb-layout-3 ()
 	"Layout for low level debugging"
 	(interactive)
-	(gdb-many-windows -1)
 	(delete-other-windows)
 
 	(let* ((win-src (selected-window))
@@ -2085,29 +2113,36 @@ DEADLINE: %^{Deadline}t
 		   (win-right win-right))
 
 	  ;; Assign Buffers
-	  (when (and (boundp 'gdb-main-file) gdb-main-file)
-		(find-file gdb-main-file))
+	  ;; Source code file
+	  (let ((target-file (my/gdb-get-source-file)))
+		(when target-file
+		  (set-window-buffer win-left-1 (find-file-noselect target-file))))
 	  (set-window-buffer win-left-2 gud-comint-buffer)
-	  (set-window-buffer win-right (gdb-get-buffer-create 'gdb-memory-buffer))))
+	  (set-window-buffer win-right (gdb-get-buffer-create 'gdb-memory-buffer))
+
+	  (select-window win-left-2)))
 
   ;; Toggle Layout
   (defvar my/gdb-layout-state 0 "Internal toggle state")
-
   (defun my/gdb-layout-switch ()
 	"Toggle GDB layout High Level <-> Low Level"
 	(interactive)
 	(cond
 	 ((= my/gdb-layout-state 0)
-	  (my/gdb-layout-0)
+	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-0)
+	  (gdb-setup-windows)
 	  (setq my/gdb-layout-state 1))
 	 ((= my/gdb-layout-state 1)
-	  (my/gdb-layout-1)
+	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-1)
+	  (gdb-setup-windows)
 	  (setq my/gdb-layout-state 2))
 	 ((= my/gdb-layout-state 2)
-	  (my/gdb-layout-2)
+	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-2)
+	  (gdb-setup-windows)
 	  (setq my/gdb-layout-state 3))
 	 ((= my/gdb-layout-state 3)
-	  (my/gdb-layout-3)
+	  (advice-add 'gdb-setup-windows :override #'my/gdb-layout-3)
+	  (gdb-setup-windows)
 	  (setq my/gdb-layout-state 0))))
 
   ;; Keymap

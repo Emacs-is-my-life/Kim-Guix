@@ -90,7 +90,7 @@ class ScratchCommand(gdb.Command):
             try:
                 gdb_output = gdb.execute(arg, to_string=True)
                 lexer = self.get_lexer()
-                colored_output = highlight(gdb_output, lexer, Terminal256Formatter(style='base16-hopscotch'))
+                colored_output = highlight(gdb_output, lexer, Terminal256Formatter(style='emacs'))
                 f.write(f"{BOLD_GREEN}OUT [{RESET}{self.counter}{BOLD_GREEN}]{RESET}:\n" + colored_output + "\n\n")
             except Exception as e:
                 f.write(f"{BOLD_RED}ERR [{RESET}{self.counter}{BOLD_RED}]{RESET}:\n{e}\n\n")
