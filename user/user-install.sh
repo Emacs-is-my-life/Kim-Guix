@@ -64,6 +64,9 @@ mkdir -p ~/Documents/Org/agenda
 touch ~/Documents/Org/notes/default.org
 touch ~/Documents/Org/notes/contacts.org
 
+# GDB GEF
+wget -O ~/.config/gdb/gef.py
+
 # .bash_custom file
 cp ./files/bash_custom $HOME/.bash_custom
 
