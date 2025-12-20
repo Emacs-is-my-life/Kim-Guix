@@ -1936,25 +1936,11 @@ DEADLINE: %^{Deadline}t
   :config
   (add-hook 'vterm-mode-hook #'eterm-256color-mode)
 
-  ;; Color Scheme
-  (setq vterm-color-palette
-		[ "#000000"  ;; 0  - Black
-          "#95190C"  ;; 1  - Red
-          "#0CCA4A"  ;; 2  - Green
-          "#F28135"  ;; 3  - Yellow
-          "#33A1FD"  ;; 4  - Blue
-          "#DF57BC"  ;; 5  - Magenta
-          "#23F0C7"  ;; 6  - Cyan
-          "#FFFFFF"  ;; 7  - White
-          "#464228"  ;; 8  - Bright Black
-          "#F8333C"  ;; 9  - Bright Red
-          "#95C623"  ;; 10 - Bright Green
-          "#FCAB10"  ;; 11 - Bright Yellow
-          "#51D6FF"  ;; 12 - Bright Blue
-          "#DA4FCD"  ;; 13 - Bright Magenta
-          "#9CFFFA"  ;; 14 - Bright Cyan
-          "#FCFBF9"  ;; 15 - Bright White
-          ]))
+  ;; Remap Yellow Color
+  (set-face-attribute 'vterm-color-yellow nil 
+                      :foreground "#E3A222")
+  (set-face-attribute 'vterm-color-bright-yellow nil 
+                      :foreground "#FF950A"))
 
 
 ;; GDB
