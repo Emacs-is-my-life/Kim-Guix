@@ -1,4 +1,4 @@
-# Don't ask me
+# Don't ask me for debuginfod
 set debuginfod enabled off
 
 # Aesthetics
@@ -16,5 +16,14 @@ set history filename ~/.gdb_history
 # Intel syntax
 set disassembly-flavor intel
 
-# GEF
+# Load GEF for Terminal
+python
+import os
+import gdb
+
+in_emacs = os.getenv("INSIDE_EMACS")
+if not in_emacs:
+    gdb.execute("source ~/.config/gdb/gef.py")
+  
+end
 source ~/.config/gdb/gef.py

@@ -19,8 +19,8 @@ Xft.dpi: 120    # Large number means bigger text
 *.color10: #95C623
 
 ! Yellow (dark/light)
-*.color3: #FCAB10
-*.color11: #FC996E
+*.color3: #F28135
+*.color11: #FCAB10
 
 ! Red (dark/light)
 *.color1: #95190C

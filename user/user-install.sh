@@ -65,7 +65,7 @@ touch ~/Documents/Org/notes/default.org
 touch ~/Documents/Org/notes/contacts.org
 
 # GDB GEF
-wget -O ~/.config/gdb/gef.py
+wget -O ~/.config/gdb/gef.py -q https://gef.blah.cat/py
 
 # .bash_custom file
 cp ./files/bash_custom $HOME/.bash_custom
