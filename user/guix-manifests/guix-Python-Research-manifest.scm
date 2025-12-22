@@ -4,7 +4,5 @@
    "python-numpy"
    "python-scipy"
    "python-sympy"
-   "python-numba"
    "python-tqdm"
-   "python-kiwisolver"
    ))
