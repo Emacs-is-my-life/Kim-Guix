@@ -4,8 +4,26 @@ source $USER_PYTHON_ENV_DIR/Default/bin/activate
 # Marimo
 marimo() {
 	if [[ "$1" == "edit" ]]; then
-        	shift
-        	command marimo edit --host localhost --port 8000 --no-token "$@"
+        shift
+        command marimo edit --host localhost --port 8000 --no-token --allow-origins "http://localhost:8000" "$@"
+	else
+		command marimo "$@"
+	fi
+}
+
+marimo-ai() {
+	if [[ "$1" == "edit" ]]; then
+		# 1. Decrypt key from authinfo.gpg
+		GPG_TTY=$(tty) local api_key=$(gpg --quiet --for-your-eyes-only --decrypt ./authinfo.gpg | awk '/api.openai.com/ { for(i=1;i<=NF;i++) if($i=="password") print $(i+1) }')
+
+    	# 2. Check if decryption worked
+    	if [ -z "$api_key" ]; then
+           echo "Error: Could not extract OpenAI API key from authinfo.gpg"
+		   return 1
+    	fi
+
+        shift
+        OPENAI_API_KEY="$api_key" command marimo edit --host localhost --port 8000 --no-token --allow-origins "http://localhost:8000" "$@"
 	else
 		command marimo "$@"
 	fi
