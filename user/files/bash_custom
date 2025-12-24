@@ -14,7 +14,7 @@ marimo() {
 marimo-ai() {
 	if [[ "$1" == "edit" ]]; then
 		# 1. Decrypt key from authinfo.gpg
-		GPG_TTY=$(tty) local api_key=$(gpg --quiet --for-your-eyes-only --decrypt ./authinfo.gpg | awk '/api.openai.com/ { for(i=1;i<=NF;i++) if($i=="password") print $(i+1) }')
+		GPG_TTY=$(tty) api_key=$(gpg --quiet --for-your-eyes-only --decrypt ~/Documents/Secrets/authinfo.gpg | awk '/api.openai.com/ { for(i=1;i<=NF;i++) if($i=="password") print $(i+1) }')
 
     	# 2. Check if decryption worked
     	if [ -z "$api_key" ]; then

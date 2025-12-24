@@ -11,6 +11,7 @@ frida-tools
 
 # Notebook
 marimo[recommended]
+openai
 python-lsp-server
 websockets
 vegafusion
