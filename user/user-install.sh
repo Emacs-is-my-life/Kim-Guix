@@ -82,7 +82,7 @@ uv pip uninstall numpy ruff
 
 # Tell uv Default profile to use guix python packages
 GUIX_SITE=$(echo $GUIX_PYTHONPATH | cut -d: -f1)
-echo "$GUIX_SITE" > .python-venv/Default/lib/python$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')/site-packages/guix_links.pth
+echo "$GUIX_SITE" > $HOME/.python-venv/Default/lib/python$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')/site-packages/guix_links.pth
 
 rm -rf ./.temp
 
