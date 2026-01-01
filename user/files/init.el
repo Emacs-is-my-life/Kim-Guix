@@ -568,12 +568,6 @@
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-auto-save-history nil))
 
-;; For repeating commands
-(use-package repeat
-  :ensure t
-  :custom
-  (repeat-mode +1))
-
 
 
 
