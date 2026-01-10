@@ -279,9 +279,9 @@
               (tls-port "16555")))
 
     (extra-special-file "/usr/share/OVMF/OVMF_CODE.fd"
-                        (file-append ovmf "/share/firmware/ovmf_x64.bin"))
+                        (file-append ovmf-x86-64 "/share/firmware/ovmf_x64.bin"))
     (extra-special-file "/usr/share/OVMF/OVMF_VARS.fd"
-                        (file-append ovmf "/share/firmware/ovmf_vars_x64.bin"))
+                        (file-append ovmf-x86-64 "/share/firmware/ovmf_vars_x64.bin"))
 
     (service virtlog-service-type
              (virtlog-configuration
