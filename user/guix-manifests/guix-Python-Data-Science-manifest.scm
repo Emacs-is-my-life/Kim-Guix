@@ -5,7 +5,7 @@
    "python-pandas-stubs"
    "python-umap-learn"
    "python-networkx"
-   "python-pydot"
+   "python-pygraphviz"
    "python-hdbscan"
    "python-pyarrow"
    "python-openpyxl"
