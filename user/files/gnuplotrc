@@ -1,4 +1,4 @@
-set terminal x11 enhanced replotonresize
+set terminal x11 enhanced replotonresize font "APL386 Unicode,14"
 set encoding utf8
 
 set samples 256
@@ -7,12 +7,12 @@ set grid
 set hidden3d
 set border lw 3 lc rgb '#37474F'
 
-set title textcolor rgb '#37474F' 
-set xlabel "x" textcolor rgb '#0CCA4A'
-set ylabel "y" textcolor rgb '#0CCA4A'
-set zlabel "z" textcolor rgb '#0CCA4A'
-set key textcolor rgb '#37474F'
-set tics textcolor rgb '#95190C'
+set title textcolor rgb '#37474F' font ",16"
+set xlabel "x" textcolor rgb '#0CCA4A' font ",14"
+set ylabel "y" textcolor rgb '#0CCA4A' font ",14"
+set zlabel "z" textcolor rgb '#0CCA4A' font ",14"
+set key textcolor rgb '#37474F' font ",12"
+set tics textcolor rgb '#95190C' font ",12"
 
 set linetype 1 linecolor rgb '#37474F' linewidth 3 pointsize 1 pointtype 1
 set linetype 2 linecolor rgb '#FC996E' linewidth 3 pointsize 1 pointtype 2

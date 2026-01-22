@@ -256,10 +256,6 @@
     (setq focus-follows-mouse t)
     (setq mouse-autoselect-window-window t)
 
-    ;; Font
-    (setq nano-font-family-monospaced "APL386 Unicode")
-    (setq nano-font-size 12)
-
     ;; Nano theme
     (nano-toggle-theme)))
 
@@ -270,11 +266,14 @@
   :quelpa (nano-emacs
            :fetcher github
            :repo "rougier/nano-emacs")
+  :init
+  (setq nano-font-family-monospaced "JuliaMono")
+  (setq nano-font-size 12)
   :config
   ;; Font
-  (add-to-list 'default-frame-alist '(font . "APL386 Unicode"))
-  (set-face-attribute 'default nil :font "APL386 Unicode" :height 120 :weight 'regular)
-  (set-face-attribute 'bold nil :font "APL386 Unicode" :height 120 :weight 'bold)
+  (add-to-list 'default-frame-alist '(font . "JuliaMono"))
+  (set-face-attribute 'default nil :family "JuliaMono" :height 120 :weight 'regular)
+  (set-face-attribute 'bold nil :family "JuliaMono" :height 120 :weight 'bold)
   ;; Modeline
   (setq-default mode-line-format
 		        `((:propertize " %@%Z  [%b]  L%l (%p)    ")
