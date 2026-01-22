@@ -43,4 +43,4 @@ Xft.dpi: 120    # Large number means bigger text
 *.color15: #FCFBF9
 
 ! gnuplot
-gnuplot*font: APL386
+gnuplot*font: APL386 Unicode
