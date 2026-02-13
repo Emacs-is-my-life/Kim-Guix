@@ -31,7 +31,7 @@
              (gnu packages web-browsers)
              (gnu packages librewolf)
              (gnu packages browser-extensions)
-			 (gnu packages kde-internet)
+			 (gnu packages messaging)
 			 (gnu packages curl)
              (gnu packages mail)
              (gnu packages pdf)
@@ -183,7 +183,7 @@
    qutebrowser librewolf lagrange
 
    ;; Chat
-   neochat
+   nheko
    
    ;; Network
    curlie
