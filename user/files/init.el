@@ -594,10 +594,34 @@
 
 
 ;; DevDocs
+(defun my/devdocs-shortcut ()
+  (local-set-key (kbd "C-h d") 'devdocs-lookup))
+
 (use-package devdocs
   :ensure t
   :config
-  (global-set-key (kbd "C-h D") 'devdocs-lookup))
+  (add-hook 'prog-mode-hook 'my/devdocs-shortcut)
+  ;; Language default docs
+  (add-hook 'c-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("c"))))
+  (add-hook 'cpp-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("cpp"))))
+  (add-hook 'cmake-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("cmake"))))
+  (add-hook 'rust-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("rust"))))
+  (add-hook 'haskell-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("haskell"))))
+  (add-hook 'tuareg-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("ocaml"))))
+  (add-hook 'julia-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("julia"))))
+  (add-hook 'bash-ts-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("bash"))))
+  (add-hook 'latex-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("latex"))))
+  (add-hook 'python-mode-hook
+			(lambda () (setq-local devdocs-current-docs '("python~3.14,numpy,matplotlib")))))
 
 
 ;; MathJax
