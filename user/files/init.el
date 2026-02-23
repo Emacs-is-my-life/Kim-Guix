@@ -593,6 +593,13 @@
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
 
+;; DevDocs
+(use-package devdocs
+  :ensure t
+  :config
+  (global-set-key (kbd "C-h D") 'devdocs-lookup))
+
+
 
 
 
