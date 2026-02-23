@@ -600,6 +600,7 @@
 (use-package devdocs
   :ensure t
   :config
+  (add-hook 'devdocs-mode-hook #'mathjax-shr-setup)
   (add-hook 'prog-mode-hook 'my/devdocs-shortcut)
   ;; Language default docs
   (add-hook 'c-mode-hook
