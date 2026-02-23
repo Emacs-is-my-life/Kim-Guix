@@ -600,6 +600,11 @@
   (global-set-key (kbd "C-h D") 'devdocs-lookup))
 
 
+;; MathJax
+(use-package mathjax
+  :ensure t)
+
+
 
 
 
