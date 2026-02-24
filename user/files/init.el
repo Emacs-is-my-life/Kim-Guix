@@ -622,7 +622,7 @@
   (add-hook 'latex-mode-hook
 			(lambda () (setq-local devdocs-current-docs '("latex"))))
   (add-hook 'python-mode-hook
-			(lambda () (setq-local devdocs-current-docs '("python~3.14,numpy,matplotlib")))))
+			(lambda () (setq-local devdocs-current-docs '("python~3.14")))))
 
 
 ;; MathJax
