@@ -42,6 +42,7 @@
 	         (gnu packages ghostscript)
              (gnu packages education)
              (gnu packages textutils)
+			 (gnu packages text-editors)
              (gnu packages gawk)
              (gnu packages finance)
              (gnu packages image-viewers)
@@ -195,7 +196,7 @@
    zathura-pdf-mupdf evince fbreader sioyek
 
    ;; Document Edit
-   libreoffice ghostscript pandoc
+   libreoffice ghostscript pandoc texmacs
 
    ;; Media Viewer
    viewnior strawberry mpv
