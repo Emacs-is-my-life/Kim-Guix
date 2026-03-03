@@ -39,3 +39,5 @@ jax
 stable-baselines3
 gymnasium
 
+# LLM
+aider-chat

@@ -2737,9 +2737,10 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 
 
 
-;; agent-shell
-(defun agent-shell/get-llm-providers ()
-  (let ((service-provider-list '("generativelanguage.googleapis.com" "api.anthropic.com" "api.openai.com"))
+
+;; aidermacs
+(defun aidermacs/get-llm-providers ()
+  (let ((service-provider-list '("generativelanguage.googleapis.com" "api.anthropic.com" "api.openai.com" "api.deepseek.com"))
 	    (providers-list '()))
     (dolist (provider service-provider-list)
 	  (let ((auth-info (car (auth-source-search :max 1
@@ -2754,21 +2755,47 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
     providers-list))
 
 (if (file-exists-p (car auth-sources))
-    (use-package agent-shell
+    (use-package aidermacs
       :defer t
       :ensure t
       :after exwm
+	  :bind (("C-c a" . aidermacs-transient-menu))
       :config
-      (dolist (provider-info (agent-shell/get-llm-providers))
-        (let ((provider (car provider-info))
-	          (apikey (cdr provider-info)))
-	      (cond
-	       ((string= provider "api.openai.com")
-            (setq agent-shell-openai-authentication
-                  (agent-shell-openai-make-authentication :api-key apikey)))
-           ((string= provider "generativelanguage.googleapis.com")
-            (setq agent-shell-google-authentication
-                  (agent-shell-google-make-authentication :api-key apikey)))
-	       ((string= provider "api.anthropic.com")
-            (setq agent-shell-anthropic-authentication
-                  (agent-shell-anthropic-make-authentication :api-key apikey))))))))
+	  (add-hook 'aidermacs-before-run-backend-hook
+				(lambda ()
+				  (dolist (provider-info (aidermacs/get-llm-providers))
+					(let ((provider (car provider-info))
+						  (apikey (cdr provider-info)))
+					  (cond
+					   ((string= provider "api.openai.com")
+						(setenv "OPENAI_API_KEY" apikey))
+					   ((string= provider "generativelanguage.googleapis.com")
+						(setenv "GEMINI_API_KEY" apikey))
+					   ((string= provider "api.deepseek.com")
+						(setenv "DEEPSEEK_API_KEY" apikey))
+					   ((string= provider "api.anthropic.com")
+						(setenv "ANTHROPIC_API_KEY" apikey)))))))
+	  :custom
+	  (setq aidermacs-default-chat-mode 'architect)
+	  ;; Model Selection
+	  (setq aidermacs-default-model "gpt-4o")
+	  (setq aidermacs-architect-model "o3-mini")
+	  (setq aidermacs-editor-model "gpt-4o")
+	  (setq aidermacs-weak-model "gpt-4o-mini")
+	  ;; Other Options
+	  (setq aidermacs-auto-accept-architect nil)
+	  (setq aidermacs-backend 'vterm)
+	  (setopt aidermacs-vterm-use-theme-colors t)
+	  (setq aidermacs-vterm-multiline-newline-key "S-<return>")
+	  (setq aidermacs-watch-files t)
+	  (setq aidermacs-show-diff-after-change t)
+	  (setq aidermacs-global-read-only-files '("~/.aider/AI_RULES.md"))
+	  (setq aidermacs-project-read-only-files '("CONVENTIONS.md" "README.md"))
+	  (setq aidermacs-exit-kills-buffer t)
+	  (setq aidermacs-auto-mode-files
+			'(".aider.prompt.org"
+			  ".aider.chat.md"
+			  ".aider.chat.history.md"
+			  ".aider.input.history"
+			  "aider.org"))
+	  (setq aidermacs-extra-args '("--thinking-tokens" "32k" "--reasoning-effort" "high"))))
