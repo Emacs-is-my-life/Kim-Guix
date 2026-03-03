@@ -2689,7 +2689,8 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	          (apikey (cdr provider-info)))
 	      (cond
            ((string= provider "api.openai.com")
-	        (setq gptel-api-key apikey))
+	        (setq gptel-api-key apikey
+				  gptel-model 'gpt-5-mini))
 	       ((string= provider "generativelanguage.googleapis.com")
 	        (setq gptel-model 'gemini-2.5-pro
                   gptel-backend (gptel-make-gemini "Gemini"
@@ -2775,13 +2776,6 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 						(setenv "DEEPSEEK_API_KEY" apikey))
 					   ((string= provider "api.anthropic.com")
 						(setenv "ANTHROPIC_API_KEY" apikey)))))))
-	  :custom
-	  (setq aidermacs-default-chat-mode 'architect)
-	  ;; Model Selection
-	  (setq aidermacs-default-model "gpt-5-mini")
-	  (setq aidermacs-architect-model "o4-mini-deep-research")
-	  (setq aidermacs-editor-model "gpt-5")
-	  (setq aidermacs-weak-model "gpt-5-mini")
 	  ;; Other Options
 	  (setq aidermacs-auto-accept-architect nil)
 	  (setq aidermacs-backend 'vterm)
@@ -2798,4 +2792,11 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 			  ".aider.chat.history.md"
 			  ".aider.input.history"
 			  "aider.org"))
-	  (setq aidermacs-extra-args '("--thinking-tokens" "32k" "--reasoning-effort" "high"))))
+	  (setq aidermacs-extra-args '("--thinking-tokens" "32k" "--reasoning-effort" "high"))
+	  :custom
+	  (aidermacs-default-chat-mode 'architect)
+	  ;; Model Selection
+	  (aidermacs-default-model "gpt-5-mini")
+	  (aidermacs-architect-model "o4-mini-deep-research")
+	  (aidermacs-editor-model "gpt-5")
+	  (aidermacs-weak-model "gpt-5-mini")))
