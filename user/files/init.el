@@ -2559,7 +2559,7 @@ DEADLINE: %^{Deadline}t
 
 ;; GPTel
 (defun gptel/get-llm-providers ()
-  (let ((service-provider-list '("generativelanguage.googleapis.com" "api.perplexity.ai" "api.anthropic.com" "api.groq.com" "api.deepseek.com" "api.x.ai"))
+  (let ((service-provider-list '("api.openai.com" "generativelanguage.googleapis.com" "api.anthropic.com" "api.deepseek.com"))
 	    (providers-list '()))
     (dolist (provider service-provider-list)
 	  (let ((auth-info (car (auth-source-search :max 1
