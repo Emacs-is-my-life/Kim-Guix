@@ -2690,35 +2690,20 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	      (cond
            ((string= provider "api.openai.com")
 	        (setq gptel-model 'gpt-5-mini
-				  gptel-api-key apikey))
+				  gptel-backend (gptel-make-openai "ChatGPT"
+								  :key apikey
+								  :stream t
+								  :models '(gpt-5-mini gpt-5 o3 o4-mini-deep-research))))
 	       ((string= provider "generativelanguage.googleapis.com")
 	        (setq gptel-model 'gemini-2.5-pro
                   gptel-backend (gptel-make-gemini "Gemini"
 			                      :key apikey
 			                      :stream t)))
-	       ((string= provider "api.perplexity.ai")
-	        (setq gptel-model 'sonar
-                  gptel-backend (gptel-make-perplexity "Perplexity"
-				                  :key apikey
-				                  :stream t)))
 	       ((string= provider "api.anthropic.com")
 	        (setq gptel-model 'claude-3-sonnet-20240229
                   gptel-backend (gptel-make-anthropic "Claude"
 				                  :key apikey
 				                  :stream t)))
-	       ((string= provider "api.groq.com")
-	        (setq gptel-model 'mixtral-8x7b-32768
-                  gptel-backend (gptel-make-openai "Groq"
-			                      :key apikey
-			                      :host "api.groq.com"
-			                      :endpoint "/openai/v1/chat/completions"
-			                      :stream t
-			                      :models '(llama-3.1-70b-versatile
-					                        llama-3.1-8b-instant
-					                        llama3-70b-8192
-					                        llama3-8b-8192
-					                        mixtral-8x7b-32768
-					                        gemma-7b-it))))
 	       ((string= provider "api.deepseek.com")
 	        (setq gptel-model 'deepseek-chat
                   gptel-backend (gptel-make-openai "Deepseek"
