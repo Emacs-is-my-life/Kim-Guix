@@ -2781,7 +2781,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  (setq aidermacs-default-model "gpt-5-mini")
 	  (setq aidermacs-architect-model "o4-mini-deep-research")
 	  (setq aidermacs-editor-model "gpt-5")
-	  (setq aidermacs-weak-model "gpt-5-nano")
+	  (setq aidermacs-weak-model "gpt-5-mini")
 	  ;; Other Options
 	  (setq aidermacs-auto-accept-architect nil)
 	  (setq aidermacs-backend 'vterm)
