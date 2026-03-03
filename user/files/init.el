@@ -2689,8 +2689,13 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	          (apikey (cdr provider-info)))
 	      (cond
            ((string= provider "api.openai.com")
-	        (setq gptel-api-key apikey
-				  gptel-model 'gpt-5-mini))
+	        (setq gptel-model 'gpt-5-mini
+				  gptel-backend (gptel-make-openai "GPT"
+								  :key apikey
+								  :stream t
+								  :models '(gpt-5-mini
+											gpt-5
+											o4-mini-deep-research))))
 	       ((string= provider "generativelanguage.googleapis.com")
 	        (setq gptel-model 'gemini-2.5-pro
                   gptel-backend (gptel-make-gemini "Gemini"
