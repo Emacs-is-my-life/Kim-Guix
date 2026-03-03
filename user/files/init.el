@@ -1639,11 +1639,24 @@ DEADLINE: %^{Deadline}t
   :ensure t)
 
 ;; [Ocaml]
-(use-package tuareg
-  :ensure t)
+(use-package neocaml
+  :ensure t
+  :config
+  ;; Register neocaml modes with Eglot
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((neocaml-mode neocaml-interface-mode) . ("ocamllsp"))))
+  (add-hook 'neocaml-base-mode-hook #'outline-minor-mode)
+  (add-hook 'neocaml-base-mode-hook #'neocaml-repl-minor-mode)
+  (setq neocaml-repl-program-name "utop")
+  (setq neocaml-repl-program-args '("-emacs"))
+  (setq neocaml-repl-buffer-name "*OCaml-REPL*"))
 
 (use-package ocaml-eglot
-  :ensure t)
+  :ensure t
+  :hook
+  (neocaml-base-mode . ocaml-eglot)
+  (ocaml-eglot . eglot-ensure))
 
 ;; [Haskell]
 (use-package haskell-mode
