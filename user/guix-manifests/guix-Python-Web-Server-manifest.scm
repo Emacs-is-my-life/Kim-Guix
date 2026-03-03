@@ -15,7 +15,6 @@
    "python-celery"
    "python-filelock"
    "python-sqlalchemy"
-   "python-sqlalchemy-stubs"
    "python-aioitertools"
    "python-aiosignal"
    "python-aiofiles"
