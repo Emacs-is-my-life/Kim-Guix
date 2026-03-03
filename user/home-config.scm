@@ -288,6 +288,9 @@
    texlive-xetex texlive-xetex-bin texlive-collection-xetex
    texlive-dvipng texlive-dvipng-bin texlive-dvisvgm texlive-dvisvgm-bin
 
+   ;; LLM
+   codex-acp
+
    ;; Serial
    minicom))
  
