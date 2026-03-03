@@ -1,3 +1,6 @@
+;; -*- lexical-binding: t; -*-
+
+
 ;; # ==== [Initialization]
 
 
@@ -2686,40 +2689,32 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
               (chat . "You are a large language model and a conversation partner. Respond concisely.")))
       (dolist (provider-info (gptel/get-llm-providers))
         (let ((provider (car provider-info))
-	          (apikey (cdr provider-info)))
-	      (cond
-           ((string= provider "api.openai.com")
-	        (setq gptel-model 'gpt-5-mini
-				  gptel-backend (gptel-make-openai "ChatGPT"
+			  (apikey (cdr provider-info)))
+		  (cond
+		   ((string= provider "api.openai.com")
+			(setq gptel-backend (gptel-make-openai "ChatGPT"
 								  :key apikey
 								  :stream t
-								  :models '(gpt-5-mini gpt-5 o3 o4-mini-deep-research))))
-	       ((string= provider "generativelanguage.googleapis.com")
-	        (setq gptel-model 'gemini-2.5-pro
-                  gptel-backend (gptel-make-gemini "Gemini"
-			                      :key apikey
-			                      :stream t)))
-	       ((string= provider "api.anthropic.com")
-	        (setq gptel-model 'claude-3-sonnet-20240229
-                  gptel-backend (gptel-make-anthropic "Claude"
-				                  :key apikey
-				                  :stream t)))
-	       ((string= provider "api.deepseek.com")
-	        (setq gptel-model 'deepseek-chat
-                  gptel-backend (gptel-make-openai "Deepseek"
-			                      :key apikey
-			                      :host "api.deepseek.com"
-			                      :endpoint "/chat/completions"
-			                      :stream t
-			                      :models '(deepseek-chat deepseek-coder deepseek-reasoner))))
-	       ((string= provider "api.x.ai")
-	        (setq gptel-model 'grok-beta
-                  gptel-backend (gptel-make-openai "xAI"
-			                      :key apikey
-			                      :host "api.x.ai"
-			                      :endpoint "/v1/chat/completions"
-			                      :stream t
-			                      :models '(grok-beta)))))))))
+								  :models '(gpt-5-mini gpt-5 o3 o4-mini-deep-research))
+				  gptel-model 'gpt-5-mini))
+		   ((string= provider "generativelanguage.googleapis.com")
+			(setq gptel-backend (gptel-make-gemini "Gemini"
+								  :key apikey
+								  :stream t)
+				  gptel-model 'gemini-2.5-pro))
+		   ((string= provider "api.anthropic.com")
+			(setq gptel-backend (gptel-make-anthropic "Claude"
+								  :key apikey
+								  :stream t)
+				  gptel-model 'claude-3-sonnet-20240229))
+		   ((string= provider "api.deepseek.com")
+			(setq gptel-backend (gptel-make-openai "Deepseek"
+								  :key apikey
+								  :host "api.deepseek.com"
+								  :endpoint "/chat/completions"
+								  :stream t
+								  :models '(deepseek-chat deepseek-coder deepseek-reasoner))
+				  gptel-model 'deepseek-chat)))))))
 
 
 
