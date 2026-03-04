@@ -41,3 +41,7 @@ gymnasium
 
 # LLM
 aider-chat
+aider-chat[dev]
+aider-chat[help]
+aider-chat[browser]
+aider-chat[playwright]
