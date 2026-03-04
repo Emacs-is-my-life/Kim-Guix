@@ -2736,6 +2736,13 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 		       ((functionp apikey) (push (cons provider (funcall apikey)) providers-list)))))))
     providers-list))
 
+(defun my/aidermacs-path-guard (orig-fun &rest args)
+  "Only allow aidermacs to run if the current file is inside ~/Workspace/."
+  (let ((allowed-path (expand-file-name "~/Workspace/")))
+    (if (string-prefix-p allowed-path (expand-file-name default-directory))
+        (apply orig-fun args)
+      (message "🚫 Aidermacs is disabled outside of %s" allowed-path))))
+
 (if (file-exists-p (car auth-sources))
     (use-package aidermacs
       :defer t
@@ -2743,6 +2750,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
       :after exwm
 	  :bind (("C-c a" . aidermacs-transient-menu))
       :config
+	  (advice-add 'aidermacs-transient-menu :around #'my/aidermacs-path-guard)
 	  (add-hook 'aidermacs-before-run-backend-hook
 				(lambda ()
 				  (dolist (provider-info (aidermacs/get-llm-providers))
@@ -2760,7 +2768,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  ;; Other Options
 	  (setq aidermacs-auto-accept-architect nil)
 	  (setq aidermacs-backend 'vterm)
-	  (setopt aidermacs-vterm-use-theme-colors t)
+	  (setq aidermacs-vterm-use-theme-colors nil)
 	  (setq aidermacs-vterm-multiline-newline-key "S-<return>")
 	  (setq aidermacs-watch-files t)
 	  (setq aidermacs-show-diff-after-change t)
