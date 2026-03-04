@@ -2773,7 +2773,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 			  ".aider.chat.history.md"
 			  ".aider.input.history"
 			  "aider.org"))
-	  (setq aidermacs-extra-args '("--thinking-tokens" "32k" "--reasoning-effort" "high" "--cache-prompts" "--cache-keepalive-pings" "12"))
+	  (setq aidermacs-extra-args '("--thinking-tokens" "8k" "--reasoning-effort" "high" "--cache-prompts" "--cache-keepalive-pings" "12"))
 	  :custom
 	  (aidermacs-default-chat-mode 'architect)
 	  ;; Model Selection
