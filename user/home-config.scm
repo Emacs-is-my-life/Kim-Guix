@@ -181,10 +181,7 @@
    gawk sed the-silver-searcher
 
    ;; Web Browser
-   qutebrowser librewolf lagrange
-
-   ;; Chat
-   nheko
+   qutebrowser librewolf
    
    ;; Network
    curlie
@@ -193,34 +190,34 @@
    hledger electrum monero-gui
 
    ;; Document Viewer
-   zathura-pdf-mupdf evince fbreader sioyek
+   zathura-pdf-mupdf fbreader sioyek
 
    ;; Document Edit
-   libreoffice ghostscript pandoc texmacs
+   libreoffice ghostscript pandoc
 
    ;; Media Viewer
    viewnior strawberry mpv
 
    ;; Media Edit
-   gimp imagemagick inkscape graphviz blender
+   gimp imagemagick inkscape graphviz
 
    ;; Remote Tools
    openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
 
    ;; Study
-   exercism cf-tool ;; openboard
+   exercism
 
    ;; Build Tools
    gnu-make cmake pkg-config meson ninja ccache git shellcheck
 
    ;; Debugging Tools
-   gdb ddd lldb valgrind strace uftrace ltrace wireshark ;; rr
+   gdb lldb valgrind strace uftrace ltrace wireshark
 
    ;; Man page
    man-pages stdman
 
    ;; Working with binary
-   radare2 cutter patchelf
+   patchelf
 
    ;; Assembly
    nasm yasm capstone linasm
