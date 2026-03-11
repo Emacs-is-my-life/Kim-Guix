@@ -193,7 +193,7 @@
    zathura-pdf-mupdf fbreader sioyek
 
    ;; Document Edit
-   libreoffice ghostscript pandoc
+   ghostscript ;; libreoffice
 
    ;; Media Viewer
    viewnior strawberry mpv
