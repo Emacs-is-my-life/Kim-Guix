@@ -2777,12 +2777,21 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  (setq aidermacs-project-read-only-files '("CONVENTIONS.md" "README.md"))
 	  (setq aidermacs-exit-kills-buffer t)
 	  (setq aidermacs-auto-mode-files
-			'(".aider.prompt.org"
-			  ".aider.chat.md"
-			  ".aider.chat.history.md"
-			  ".aider.input.history"
+			'("aider.prompt.org"
+			  "aider.chat.md"
+			  "aider.chat.history.md"
+			  "aider.input.history"
+			  "aider.llm.history"
 			  "aider.org"))
-	  (setq aidermacs-extra-args '("--thinking-tokens" "8k" "--reasoning-effort" "high" "--cache-prompts" "--cache-keepalive-pings" "12"))
+	  (setq aidermacs-extra-args '("--thinking-tokens" "8k"
+								   "--reasoning-effort" "high"
+								   "--cache-prompts"
+								   "--cache-keepalive-pings" "12"
+								   "--restore-chat-history"
+								   "--input-history-file" ".aider/aider.input.history"
+								   "--chat-history-file" ".aider/aider.chat.history.md"
+								   "--llm-history-file" ".aider/aider.llm.history"
+								   "--analytics-disable"))
 	  :custom
 	  (aidermacs-default-chat-mode 'architect)
 	  ;; Model Selection
