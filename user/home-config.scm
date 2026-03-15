@@ -23,6 +23,7 @@
              (gnu packages disk)
              (gnu packages glib)
              (gnu packages kde-utils)
+			 (gnu packages kde-multimedia)
              (gnu packages fonts)
              (gnu packages emacs)
              (gnu packages emacs-xyz)
@@ -196,7 +197,7 @@
    ghostscript libreoffice
 
    ;; Media Viewer
-   viewnior strawberry mpv
+   viewnior strawberry haruna
 
    ;; Media Edit
    gimp imagemagick inkscape graphviz
