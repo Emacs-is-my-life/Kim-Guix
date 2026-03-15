@@ -492,7 +492,7 @@
                '(file))
          (list (openwith-make-extension-regexp
                 '("mp4" "mov" "flv" "avi" "wmv" "mkv"))
-               "haruna"
+               "mpv"
                '(file)))))
 
 ;; avy for efficient navigation
