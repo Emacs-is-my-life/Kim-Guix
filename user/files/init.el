@@ -654,6 +654,10 @@
 
 
 ;; helm
+(defun my/helm-remove-dot-commands (cmds)
+  "Filter out external commands that start with a dot."
+  (seq-remove (lambda (cmd) (string-prefix-p "." cmd)) cmds))
+
 (use-package helm
   :ensure t
   :init
@@ -665,6 +669,7 @@
   :config
   (helm-autoresize-mode 1)
   (setq helm-ff-skip-boring-files t)
+  (advice-add 'helm-external-commands-list-1 :filter-return #'my/helm-remove-dot-commands)
   (customize-set-variable 'helm-boring-file-regexp-list (cons "^\\..+" helm-boring-file-regexp-list)))
 
 ;; helm-xref
