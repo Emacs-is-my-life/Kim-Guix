@@ -158,6 +158,7 @@
    emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
    emacs-finalize emacs-peg
    emacs-geiser emacs-geiser-guile emacs-geiser-racket
+   gobject-introspection
 
    ;; Security
    gnupg paperkey argon2 keepassxc
