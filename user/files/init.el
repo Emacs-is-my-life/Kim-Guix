@@ -1986,7 +1986,12 @@ DEADLINE: %^{Deadline}t
             #'(lambda ()
                 (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix)))
   (add-hook 'vterm-mode-hook 'vterm/rename-buffer)
-  (add-hook 'vterm-mode-hook 'vterm/source-bashrc ))
+  (add-hook 'vterm-mode-hook 'vterm/source-bashrc)
+  ;; Don't bind page up key for command history lookup
+  (setq vterm-keymap-exceptions
+		(remove "<prior>" vterm-keymap-exceptions))
+  (with-eval-after-load 'vterm
+	(define-key vterm-mode-map (kbd "<prior>") #'scroll-down-command)))
 
 (use-package eterm-256color
   :ensure t
