@@ -1989,9 +1989,12 @@ DEADLINE: %^{Deadline}t
   (add-hook 'vterm-mode-hook 'vterm/source-bashrc)
   ;; Don't bind page up key for command history lookup
   (setq vterm-keymap-exceptions
-		(remove "<prior>" vterm-keymap-exceptions))
+		(remove "<prior>"
+				(remove "<next>" vterm-keymap-exceptions)))
+
   (with-eval-after-load 'vterm
-	(define-key vterm-mode-map (kbd "<prior>") #'scroll-down-command)))
+	(define-key vterm-mode-map (kbd "<prior>") #'scroll-down-command)
+	(define-key vterm-mode-map (kbd "<next>")  #'scroll-up-command)))
 
 (use-package eterm-256color
   :ensure t
