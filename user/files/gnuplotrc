@@ -33,10 +33,9 @@ set cblabel "value" textcolor rgb color_b font "JuliaMono Light,32" offset 2,0
 set tics textcolor rgb color_hl font "APL386 Unicode,24" scale 1.6
 set xtics mirror
 set ytics mirror
-set ztics mirror
 set mxtics 2
 set mytics 2
-set mztics 2
+unset ztics
 set key textcolor rgb color_b font "JuliaMono Light,24"
 set key box linecolor rgb color_b linewidth 3 width 1 height 0.6 top right offset -0.6,-0.6 opaque
 
