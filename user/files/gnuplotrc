@@ -2,27 +2,49 @@ set terminal x11 enhanced replotonresize font "APL386 Unicode,24"
 set encoding utf8
 
 
+# Colors
+# Black & White
+color_b = "#1A1F2B"
+color_w = "#FFFFFF"
+
+# Cold Colors
+color_c1 = "#3288BD"
+color_c2 = "#66C2A5"
+color_c3 = "#ABDDA4"
+color_c4 = "#E6F598"
+
+# Hot Colors
+color_h1 = "#D53E4F"
+color_h2 = "#F46D43"
+color_h3 = "#FDAE61"
+color_h4 = "#FEE08B"
+
+# Special
+color_tics = "#8B3A3A"
+color_grid = "#D2D0C8"
+
+
 # Text
-set title textcolor rgb '#2B2B2B' font "Inter,40"
-set xlabel "x-axis" textcolor rgb '#367055' font "JuliaMono Light,32"
-set ylabel "y-axis" textcolor rgb '#367055' font "JuliaMono Light,32"
-set zlabel "z-axis" textcolor rgb '#367055' font "JuliaMono Light,32"
-set cblabel "value" textcolor rgb '#367055' font "JuliaMono Light,32" offset 2,0
-set tics textcolor rgb '#8B3A3A' font "APL386 Unicode,24" scale 1.5
+set title textcolor rgb color_b font "TeX Gyre Termes,36" offset 0,-0.5
+set xlabel "x-axis" textcolor rgb color_b font "JuliaMono Light,32"
+set ylabel "y-axis" textcolor rgb color_b font "JuliaMono Light,32"
+set zlabel "z-axis" textcolor rgb color_b font "JuliaMono Light,32"
+set cblabel "value" textcolor rgb color_b font "JuliaMono Light,32" offset 2,0
+set tics textcolor rgb color_tics font "APL386 Unicode,24" scale 1.5
 set mxtics 2
 set mytics 2
 set mztics 2
-set key textcolor rgb '#2B2B2B' font "JuliaMono Light,24"
-set key box linecolor rgb '#2B2B2B' linewidth 4 width 1 height 0.6 noopaque
+set key textcolor rgb color_b font "JuliaMono Light,24"
+set key box linecolor rgb color_b linewidth 4 width 1 height 0.6 noopaque
 
 
 # Others
 set samples 128
 set isosamples 128
-set termoption enhanced
+set termoption dash
 set hidden3d
-set grid linetype 1 linecolor rgb '#D4D4D4' linewidth 3 dashtype 3
-set border lw 4 lc rgb '#2B2B2B'
+set grid linetype 1 linecolor rgb color_grid linewidth 3 dashtype 8
+set border lw 4 lc rgb color_b
 
 
 # Data Range
@@ -30,27 +52,26 @@ set autoscale fix
 set offsets graph 0.05, graph 0.05, graph 0.05, graph 0.05
 # set size ratio -1
 
-
-# Styles
-set linetype 1 linecolor rgb '#3288BD' linewidth 3 pointsize 3 pointtype 1
-set linetype 2 linecolor rgb '#D53E4F' linewidth 3 pointsize 3 pointtype 2
-set linetype 3 linecolor rgb '#66C2A5' linewidth 3 pointsize 3 pointtype 3
-set linetype 4 linecolor rgb '#F46D43' linewidth 3 pointsize 3 pointtype 4
-set linetype 5 linecolor rgb '#ABDDA4' linewidth 3 pointsize 3 pointtype 5 dashtype 1
-set linetype 6 linecolor rgb '#FDAE61' linewidth 3 pointsize 3 pointtype 6 dashtype 2
-set linetype 7 linecolor rgb '#E6F598' linewidth 3 pointsize 3 pointtype 7 dashtype 3
-set linetype 8 linecolor rgb '#FEE08B' linewidth 3 pointsize 3 pointtype 8 dashtype 4
+# Line Styles
+set linetype 1 linecolor rgb color_c1 linewidth 3 pointsize 2 pointtype 7 dt 1
+set linetype 2 linecolor rgb color_h1 linewidth 3 pointsize 2 pointtype 9 dt (6,4)
+set linetype 3 linecolor rgb color_c2 linewidth 3 pointsize 2 pointtype 5 dt 1
+set linetype 4 linecolor rgb color_h2 linewidth 3 pointsize 2 pointtype 15 dt (6,4)
+set linetype 5 linecolor rgb color_c3 linewidth 3 pointsize 2 pointtype 6 dt 1
+set linetype 6 linecolor rgb color_h3 linewidth 3 pointsize 2 pointtype 8 dt (6,4)
+set linetype 7 linecolor rgb color_c4 linewidth 3 pointsize 2 pointtype 4 dt 1
+set linetype 8 linecolor rgb color_h4 linewidth 3 pointsize 2 pointtype 14 dt (6,4)
 set linetype cycle 8
 
-set palette defined ( 0 '#3288BD',\
-    	    	      1 '#66C2A5',\
-		      2 '#ABDDA4',\
-		      3 '#E6F598',\
-		      4 '#FEE08B',\
-		      5 '#FDAE61',\
-		      6 '#F46D43',\
-		      7 '#D53E4F' )
-
-
-
-
+# Color palette
+set palette defined (\
+	0 color_c1,\
+    1 color_c2,\
+	2 color_c3,\
+	3 color_c4,\
+	4 color_w,\
+	5 color_h4,\
+	6 color_h3,\
+	7 color_h2,\
+	8 color_h1\
+)

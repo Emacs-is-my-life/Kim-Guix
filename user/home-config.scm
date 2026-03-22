@@ -167,7 +167,7 @@
    isync mu
    
    ;; Fonts
-   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-apl386 font-inter
+   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-apl386 font-tex-gyre
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
