@@ -1,4 +1,4 @@
-set terminal pngcairo size 1600,1200 enhanced replotonresize font "APL386 Unicode,24"
+set terminal pngcairo enhanced size 1600,1200 font "APL386 Unicode,24"
 set output "temp-plot.png"
 set encoding utf8
 
