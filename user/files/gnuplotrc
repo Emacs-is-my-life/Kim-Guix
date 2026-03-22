@@ -4,11 +4,17 @@ set encoding utf8
 
 # Output
 if (!exists("OUT")) {
-    if (GPVAL_TERM eq "pngcairo") OUT = "temp-plot.png"
-    else if (GPVAL_TERM eq "pdfcairo") OUT = "temp-plot.pdf"
+    if (GPVAL_TERM eq "pngcairo") {
+	    OUT = "temp-plot.png"
+	}
+    else if (GPVAL_TERM eq "pdfcairo") {
+	    OUT = "temp-plot.pdf"  
+	}	
 }
 
-if (exists("OUT")) set output OUT
+if (exists("OUT")) {
+    set output OUT
+}
 
 
 # Colors
