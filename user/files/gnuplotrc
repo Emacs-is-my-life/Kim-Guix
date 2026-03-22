@@ -2,6 +2,15 @@ set terminal x11 enhanced replotonresize font "APL386 Unicode,24"
 set encoding utf8
 
 
+# Output
+if (!exists("OUT")) {
+    if (GPVAL_TERM eq "pngcairo") OUT = "temp-plot.png"
+    else if (GPVAL_TERM eq "pdfcairo") OUT = "temp-plot.pdf"
+}
+
+if (exists("OUT")) set output OUT
+
+
 # Colors
 # Black & White
 color_b = "#1A1F2B"
@@ -41,7 +50,6 @@ set key box linecolor rgb color_b linewidth 4 width 1 height 0.6 noopaque
 # Others
 set samples 128
 set isosamples 128
-set termoption dash
 set hidden3d
 set grid linetype 1 linecolor rgb color_grid linewidth 3 dashtype 8
 set border lw 4 lc rgb color_b
