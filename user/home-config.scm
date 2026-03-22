@@ -435,6 +435,7 @@ fi
                      ("emacs/exwm/start-exwm.sh" ,(local-file "./files/start-exwm.sh" #:recursive? #t))
                      ("emacs/exwm/monitors-exwm.sh" ,(local-file "./files/monitors-exwm.sh" #:recursive? #t))
 					 ("mpv/mpv.conf" ,(local-file "./files/mpv.conf"))
+					 ("mpv/input.conf" ,(local-file "./files/mpv-input.conf"))
 					 ("gdb/gdbinit" ,(local-file "./files/gdbinit"))
                      ("dunst/dunstrc" ,(local-file "./files/dunstrc"))
                      ("qutebrowser/config.py" ,(local-file "./files/config.py"))
