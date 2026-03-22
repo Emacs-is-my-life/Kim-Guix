@@ -21,22 +21,25 @@ color_h3 = "#FDAE61"
 color_h4 = "#FEE08B"
 
 # Special
-color_tics = "#8B3A3A"
+color_hl = "#8B3A3A"
 color_grid = "#D2D0C8"
 
 
 # Text
-set title textcolor rgb color_b font "TeX Gyre Termes,36" offset 0,-0.5
+set title textcolor rgb color_hl font "TeX Gyre Cursor,40" offset 0,-0.5
 set xlabel "x-axis" textcolor rgb color_b font "JuliaMono Light,32"
 set ylabel "y-axis" textcolor rgb color_b font "JuliaMono Light,32"
 set zlabel "z-axis" textcolor rgb color_b font "JuliaMono Light,32"
 set cblabel "value" textcolor rgb color_b font "JuliaMono Light,32" offset 2,0
-set tics textcolor rgb color_tics font "APL386 Unicode,24" scale 1.5
+set tics textcolor rgb color_hl font "APL386 Unicode,24" scale 1.6
+set xtics mirror
+set ytics mirror
+set ztics mirror
 set mxtics 2
 set mytics 2
 set mztics 2
 set key textcolor rgb color_b font "JuliaMono Light,24"
-set key box linecolor rgb color_b linewidth 4 width 1 height 0.6 noopaque
+set key box linecolor rgb color_b linewidth 3 width 1 height 0.6 top right offset -0.6,-0.6 opaque
 
 
 # Others
@@ -44,7 +47,7 @@ set samples 128
 set isosamples 128
 set hidden3d
 set grid linetype 1 linecolor rgb color_grid linewidth 3 dashtype 8
-set border lw 4 lc rgb color_b
+set border front linewidth 4 linecolor rgb color_b
 
 
 # Data Range
