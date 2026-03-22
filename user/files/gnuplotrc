@@ -1,20 +1,6 @@
-set terminal x11 enhanced replotonresize font "APL386 Unicode,24"
+set terminal pngcairo size 1600,1200 enhanced replotonresize font "APL386 Unicode,24"
+set output "temp-plot.png"
 set encoding utf8
-
-
-# Output
-if (!exists("OUT")) {
-    if (GPVAL_TERM eq "pngcairo") {
-	    OUT = "temp-plot.png"
-	}
-    else if (GPVAL_TERM eq "pdfcairo") {
-	    OUT = "temp-plot.pdf"  
-	}	
-}
-
-if (exists("OUT")) {
-    set output OUT
-}
 
 
 # Colors
