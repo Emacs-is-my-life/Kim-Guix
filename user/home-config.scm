@@ -197,7 +197,7 @@
    ghostscript libreoffice
 
    ;; Media Viewer
-   viewnior strawberry mpv celluloid
+   viewnior strawberry mpv
 
    ;; Media Edit
    gimp imagemagick inkscape graphviz
