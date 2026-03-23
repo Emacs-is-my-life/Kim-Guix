@@ -2814,13 +2814,11 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 								   "--analytics-disable"))
 	  (add-hook 'aidermacs-vterm-mode-hook
 				(lambda ()
-				  (flycheck-mode -1)))
-	  ;; Make keymap consistent with gptel
-	  (with-eval-after-load 'aidermacs
-		(define-key aidermacs-vterm-mode-map (kbd "<return>")
-					#'aidermacs-vterm-insert-newline)
-		(define-key aidermacs-vterm-mode-map (kbd "C-c <return>")
-					#'aidermacs-vterm-send-return))
+				  (flycheck-mode -1)
+				  (define-key aidermacs-vterm-mode-map (kbd "<return>")
+							  #'aidermacs-vterm-insert-newline)
+				  (define-key aidermacs-vterm-mode-map (kbd "C-c <return>")
+							  #'aidermacs-vterm-send-return)))
 	  :custom
 	  (aidermacs-default-chat-mode 'ask)
 	  ;; Model Selection
@@ -2828,4 +2826,3 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  (aidermacs-architect-model "openai/gpt-5.4")
 	  (aidermacs-editor-model "openai/gpt-5.3-codex")
 	  (aidermacs-weak-model "openai/gpt-5.4-nano")))
-
