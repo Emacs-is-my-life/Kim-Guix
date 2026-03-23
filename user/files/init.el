@@ -2768,7 +2768,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
       :defer t
       :ensure t
       :after exwm
-	  :bind (("C-c a" . aidermacs-transient-menu))
+	  :bind (("C-c a d" . aidermacs-transient-menu))
       :config
 	  (advice-add 'aidermacs-transient-menu :around #'my/aidermacs-path-guard)
 	  (add-hook 'aidermacs-before-run-backend-hook
