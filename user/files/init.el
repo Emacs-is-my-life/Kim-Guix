@@ -2815,7 +2815,8 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 								   "--analytics-disable"))
 	  (add-hook 'aidermacs-vterm-mode-hook
 				(lambda ()
-				  (local-set-key (kbd "C-<return>") (kbd "S-<return>"))))
+				  (local-set-key (kbd "C-<return>") (kbd "S-<return>"))
+				  (flycheck-mode -1)))
 	  :custom
 	  (aidermacs-default-chat-mode 'ask)
 	  ;; Model Selection
