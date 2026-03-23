@@ -2824,5 +2824,5 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  ;; Model Selection
 	  (aidermacs-default-model "openai/gpt-5.3-chat-latest")
 	  (aidermacs-architect-model "openai/gpt-5.4")
-	  (aidermacs-editor-model "openai/gpt-5.3-codex")
+	  (aidermacs-editor-model "openai/gpt-5.4")
 	  (aidermacs-weak-model "openai/gpt-5.4-nano")))
