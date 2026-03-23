@@ -2814,15 +2814,18 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 								   "--analytics-disable"))
 	  (add-hook 'aidermacs-vterm-mode-hook
 				(lambda ()
-				  (flycheck-mode -1)
-				  (define-key aidermacs-vterm-mode-map (kbd "<return>")
-							  #'aidermacs-vterm-insert-newline)
-				  (define-key aidermacs-vterm-mode-map (kbd "C-c <return>")
-							  #'aidermacs-vterm-send-return)))
+				  (run-at-time
+				   0 nil
+				   (lambda ()
+					 (flycheck-mode -1)
+					 (define-key (current-local-map) (kbd "<return>")
+								 #'aidermacs-vterm-insert-newline)
+					 (define-key (current-local-map) (kbd "C-c <return>")
+								 #'aidermacs-vterm-send-return)))))
 	  :custom
 	  (aidermacs-default-chat-mode 'ask)
 	  ;; Model Selection
 	  (aidermacs-default-model "openai/gpt-5.3-chat-latest")
 	  (aidermacs-architect-model "openai/gpt-5.4")
-	  (aidermacs-editor-model "openai/gpt-5.4")
+	  (aidermacs-editor-model "openai/gpt-5.3-codex")
 	  (aidermacs-weak-model "openai/gpt-5.4-nano")))
