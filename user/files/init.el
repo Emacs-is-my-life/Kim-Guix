@@ -2811,12 +2811,16 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 								   "--chat-history-file" ".aider/aider.chat.history.md"
 								   "--llm-history-file" ".aider/aider.llm.history"
 								   "--add-gitignore-files"
-								   "--multiline"
 								   "--analytics-disable"))
 	  (add-hook 'aidermacs-vterm-mode-hook
 				(lambda ()
-				  (local-set-key (kbd "C-<return>") (kbd "S-<return>"))
 				  (flycheck-mode -1)))
+	  ;; Make keymap consistent with gptel
+	  (with-eval-after-load 'aidermacs
+		(define-key aidermacs-vterm-mode-map (kbd "<return>")
+					#'aidermacs-vterm-insert-newline)
+		(define-key aidermacs-vterm-mode-map (kbd "C-c <return>")
+					#'aidermacs-vterm-send-return))
 	  :custom
 	  (aidermacs-default-chat-mode 'ask)
 	  ;; Model Selection
