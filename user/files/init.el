@@ -2613,7 +2613,10 @@ DEADLINE: %^{Deadline}t
       (setf (alist-get 'org-mode gptel-response-prefix-alist)
             (propertize "* @LLM\n"
                         'face '(:weight bold :foreground "green")))
-      (add-hook 'gptel-mode-hook (lambda () (toggle-truncate-lines 0)))
+      (add-hook 'gptel-mode-hook
+				(lambda ()
+				  (toggle-truncate-lines 0)
+				  (flycheck-mode -1)))
       (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
 
       (defun my/gptel-post-response (begin end)
