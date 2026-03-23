@@ -2789,7 +2789,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  (setq aidermacs-auto-accept-architect nil)
 	  (setq aidermacs-backend 'vterm)
 	  (setq aidermacs-vterm-use-theme-colors nil)
-	  (setq aidermacs-vterm-multiline-newline-key "S-<return>")
+	  (setq aidermacs-vterm-multiline-newline-key "<return>")
 	  (setq aidermacs-watch-files t)
 	  (setq aidermacs-show-diff-after-change t)
 	  (setq aidermacs-global-read-only-files '("~/.aider/AI_RULES.md"))
@@ -2814,16 +2814,13 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 								   "--analytics-disable"))
 	  (add-hook 'aidermacs-vterm-mode-hook
 				(lambda ()
-				  (run-at-time
-				   0 nil
-				   (lambda ()
-					 (flycheck-mode -1)
-					 (define-key (current-local-map) (kbd "<return>")
-								 #'aidermacs-vterm-insert-newline)
-					 (define-key (current-local-map) (kbd "C-c <return>")
-								 #'aidermacs-vterm-send-return)))))
+				  (flycheck-mode -1)
+				  (define-key aidermacs-vterm-mode-map (kbd "<return>")
+							  #'aidermacs-vterm-insert-newline)
+				  (define-key aidermacs-vterm-mode-map (kbd "C-c <return>")
+							  #'aidermacs-vterm-send-return)))
 	  :custom
-	  (aidermacs-default-chat-mode 'ask)
+	  (aidermacs-default-chat-mode 'architect)
 	  ;; Model Selection
 	  (aidermacs-default-model "openai/gpt-5.3-chat-latest")
 	  (aidermacs-architect-model "openai/gpt-5.4")
