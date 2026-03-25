@@ -523,6 +523,7 @@
   (setq projectile-completion-system 'default)
   (make-directory (getenv "USER_PROJECT_DIR") t)
   (setq projectile-project-search-path `(,(getenv "USER_PROJECT_DIR")))
+  (setq projectile-auto-cleanup-known-projects t)
   :bind
   (:map projectile-mode-map
         ("C-c p" . projectile-command-map)))
