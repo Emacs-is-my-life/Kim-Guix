@@ -16,6 +16,9 @@
 (setq native-comp-async-report-warnings-errors 'silent) ;; native-comp warning
 (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 
+;; Turn off lexical binding warning
+(setq warning-suppress-types '((files missing-lexbind-cookie)))
+
 
 ;; * ---- <Emacs file management>
 
