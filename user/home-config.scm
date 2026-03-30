@@ -17,6 +17,7 @@
              (gnu packages xdisorg)
              (gnu packages wm)
              (gnu packages networking)
+			 (gnu packages tor)
              (gnu packages gnome)
              (gnu packages gnome-xyz)
              (gnu packages admin)
@@ -188,7 +189,7 @@
    curlie
 
    ;; Finance
-   hledger electrum monero-gui
+   hledger electrum monero-gui tor-client torsocks
 
    ;; Document Viewer
    zathura-pdf-mupdf fbreader sioyek
