@@ -603,6 +603,9 @@
   (which-key-setup-side-window-bottom)
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
+;; Show only commands relevant for the current mode
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
 
 ;; DevDocs
 (defun my/devdocs-shortcut ()
@@ -1818,6 +1821,11 @@ DEADLINE: %^{Deadline}t
 
 ;; [Java]
 (use-package eglot-java
+  :ensure t)
+
+
+;; [Gnuplot]
+(use-package gnuplot
   :ensure t)
 
 
