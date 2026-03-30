@@ -25,7 +25,7 @@ color_grid = "#D2D0C8"
 
 
 # Text
-set title textcolor rgb color_hl font "TeX Gyre Cursor,40" offset 0,-0.5
+set title textcolor rgb color_hl font "TeX Gyre Cursor Bold,42" offset 0,-0.5
 set xlabel "x-axis" textcolor rgb color_b font "JuliaMono Light,32"
 set ylabel "y-axis" textcolor rgb color_b font "JuliaMono Light,32"
 set zlabel "z-axis" textcolor rgb color_b font "JuliaMono Light,32"
