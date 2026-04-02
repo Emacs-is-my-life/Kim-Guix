@@ -165,7 +165,7 @@
                     elogind xorg-server xinit xinitrc-xsession xhost xterm xf86-input-evdev xf86-input-libinput xf86-input-wacom xrdb xmodmap xsettingsd xrandr arandr autorandr slock xss-lock dbus xdg-dbus-proxy picom
 
                     ;; monitoring
-                    htop lm-sensors tlp thermald acpi-call-linux-module fwupd rasdaemon earlyoom mcron procps util-linux sysstat numactl cpuid msr-tools 
+                    btop lm-sensors tlp thermald acpi-call-linux-module fwupd rasdaemon earlyoom mcron procps util-linux sysstat numactl cpuid msr-tools 
 
                     ;; printer
                     cups cups-filters system-config-printer
