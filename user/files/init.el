@@ -2814,10 +2814,10 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 			  "aider.input.history"
 			  "aider.llm.history"
 			  "aider.org"))
-	  (setq aidermacs-extra-args '("--thinking-tokens" "8k"
-								   "--reasoning-effort" "high"
+	  (setq aidermacs-extra-args '("--thinking-tokens" "16k"
+								   "--reasoning-effort" "xhigh"
 								   "--cache-prompts"
-								   "--cache-keepalive-pings" "12"
+								   "--cache-keepalive-pings" "8"
 								   "--restore-chat-history"
 								   "--input-history-file" ".aider/aider.input.history"
 								   "--chat-history-file" ".aider/aider.chat.history.md"
