@@ -17,6 +17,7 @@
              (gnu packages xdisorg)
              (gnu packages wm)
              (gnu packages networking)
+			 (gnu packages admin)
 			 (gnu packages tor)
              (gnu packages gnome)
              (gnu packages gnome-xyz)
@@ -181,6 +182,9 @@
 
    ;; Test Processing Utility
    gawk sed the-silver-searcher
+
+   ;; Other Utility
+   btop
 
    ;; Web Browser
    qutebrowser librewolf
