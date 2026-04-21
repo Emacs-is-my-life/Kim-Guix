@@ -835,39 +835,35 @@
 
   ;; Org Agenda Capture Setup
   ;; * ---- Capture templates for Org mode
-  (setq org-capture-template/agenda/todo-generic
+  (setq org-capture-template/agenda/todo-unassigned
         "TODO \[#%^{PRIORITY|B|A|C}\] %?
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
-:EFFORT: %(my/org-agenda-capture-prompt-effort)
+:Effort: %(my/org-agenda-capture-prompt-effort)
 :REFERENCE: %a
 :END:
-SCHEDULED: 
-DEADLINE: 
 
 %i")
 
   (setq org-capture-template/agenda/todo-scheduled
         "TODO \[#%^{PRIORITY|B|A|C}\] %?
+SCHEDULED: %^{Schedule}T
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
-:EFFORT: %(my/org-agenda-capture-prompt-effort)
+:Effort: %(my/org-agenda-capture-prompt-effort)
 :REFERENCE: %a
 :END:
-SCHEDULED: %^{Schedule}T
-DEADLINE: 
 
 %i")
 
   (setq org-capture-template/agenda/todo-deadlined
         "TODO \[#%^{PRIORITY|B|A|C}\] %?
+DEADLINE: %^{Deadline}t
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
-:EFFORT: %(my-org-agenda-capture-prompt-effort)
+:Effort: %(my-org-agenda-capture-prompt-effort)
 :REFERENCE: %a
 :END:
-SCHEDULED: 
-DEADLINE: %^{Deadline}t
 
 %i")
 
@@ -1054,7 +1050,7 @@ DEADLINE: %^{Deadline}t
 	    `(("t" "TODO" plain (function (lambda ()
                                         (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
            (function (lambda ()
-                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-generic)))
+                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-unassigned)))
            :empty-lines 1 :clock-in t :clock-resume t)
 
           ("s" "TODO Scheduled" plain (function (lambda ()
@@ -1106,10 +1102,10 @@ DEADLINE: %^{Deadline}t
   (setq org-cycle-hide-drawer-startup t) ;; Hide properties, its too verbose.
   (setq org-columns-default-format "%50ITEM(Task) %16CLOCKSUM %16TIMESTAMP_IA")
   (setq org-agenda-prefix-format
-        '((agenda  . "%i %-12t [%e] ")
-          (todo    . "%i %-12s [%e] " )
-          (tags    . "%i %-12s [%e] ")
-          (search  . "%i %-12s [%e] ")))
+        '((agenda  . " %t ")
+          (todo    . "" )
+          (tags    . "")
+          (search  . "")))
 
   (setq org-agenda-current-time-string
         " ←────────────────── NOW")
@@ -1143,7 +1139,7 @@ DEADLINE: %^{Deadline}t
   
   (defun my-org-agenda-project-view (parm)
 	"Generate a project report based on org agenda files."
-	(let ((report-text (concat (propertize "[Project Reports]" 'face 'bold ) "\n\n")))
+	(let ((report-text "\n"))
       (dolist (file (org-agenda-files))
 		(with-current-buffer (find-file-noselect file)
           (org-with-wide-buffer
@@ -1164,7 +1160,7 @@ DEADLINE: %^{Deadline}t
 						(unless (member todo org-done-keywords)
 						  ;; Backpressure score calculation						  
                           (let* ((priority (org-entry-get nil "PRIORITY"))
-								 (effort-str (org-entry-get nil "EFFORT"))
+								 (effort-str (org-entry-get nil "Effort"))
 								 (effort (if effort-str
 											 (org-duration-to-minutes effort-str)
 										   30))
@@ -1253,7 +1249,7 @@ DEADLINE: %^{Deadline}t
 										  (format " %s: %s\n" (propertize "■ Project" 'face 'bold) project-name)
 										  (format "  - %-10s: %s\n" (propertize "Pressure" 'face 'bold) bp-text)
 										  (format "  - %-10s: %s\n" (propertize "Time Spent" 'face 'bold) total-time)
-										  (format "  - %-10s: %.60s\n" "Summary" summary-text)
+										  (format "  - %-10s: %.60s\n" (propertize "Summary" 'face 'bold) summary-text)
 										  "\n\n"))))))))))))))
 	  
 	  (with-current-buffer (get-buffer "*Org Agenda*")
@@ -1272,7 +1268,6 @@ DEADLINE: %^{Deadline}t
 						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))
 						(org-agenda-skip-function
 						 '(or
-                           (org-agenda-skip-entry-if 'regexp "^[ ]*SCHEDULED:[ ]*$")
                            (org-agenda-skip-entry-if 'notscheduled)
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
 			(agenda ""
@@ -1307,7 +1302,6 @@ DEADLINE: %^{Deadline}t
 						(org-agenda-sorting-strategy '((todo user-defined-up urgency-down effort-down)))
 						(org-agenda-skip-function
 						 '(or
-                           (org-agenda-skip-entry-if 'notregexp "^[ ]*SCHEDULED: [ ]*$")
                            (org-agenda-skip-entry-if 'scheduled)
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
 			(tags-todo "+PROJECT_STATUS=\"ACTIVE\"+CATEGORY=\"CHORES\""
@@ -1317,7 +1311,6 @@ DEADLINE: %^{Deadline}t
 						(org-agenda-sorting-strategy '((todo user-defined-up urgency-down effort-down)))
 						(org-agenda-skip-function
 						 '(or
-                           (org-agenda-skip-entry-if 'notregexp "^[ ]*SCHEDULED: [ ]*$")
                            (org-agenda-skip-entry-if 'scheduled)
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))))
 
@@ -1349,7 +1342,6 @@ DEADLINE: %^{Deadline}t
 						(org-agenda-sorting-strategy '((todo user-defined-up category-up urgency-down effort-down)))                        
 						(org-agenda-skip-function
 						 '(or
-                           (org-agenda-skip-entry-if 'notregexp "^[ ]*SCHEDULED: [ ]*$")
                            (org-agenda-skip-entry-if 'scheduled)
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))))
 
@@ -2571,7 +2563,6 @@ DEADLINE: %^{Deadline}t
   (setq dashboard-items '((agenda . 16)))
   (setq dashboard-week-agenda t)
   (setq dashboard-agenda-sort-strategy '(time-up priority-down effort-down))
-  (setq dashboard-agenda-prefix-format " %i %-12t %s [%e] ")
   (setq dashboard-agenda-release-buffers t)
   (setq dashboard-navigation-cycle t)
   (setq dashboard-icon-types 'all-the-icons)
