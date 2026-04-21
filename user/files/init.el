@@ -2563,6 +2563,7 @@ DEADLINE: %^{Deadline}t
   (setq dashboard-items '((agenda . 16)))
   (setq dashboard-week-agenda t)
   (setq dashboard-agenda-sort-strategy '(time-up priority-down effort-down))
+  (setq dashboard-agenda-prefix-format " %s %i ")
   (setq dashboard-agenda-release-buffers t)
   (setq dashboard-navigation-cycle t)
   (setq dashboard-icon-types 'all-the-icons)
