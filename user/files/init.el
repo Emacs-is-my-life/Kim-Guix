@@ -1262,7 +1262,7 @@ DEADLINE: %^{Deadline}t
   (setq org-agenda-custom-commands
 		'(("d" "Daily View"
            ((tags-todo "+PRIORITY=\"A\"+CATEGORY=\"TASK\"|+CATEGORY=\"MEETING\""
-                       ((org-agenda-overriding-header "Today's Highlights")
+                       ((org-agenda-overriding-header "■ Today's Highlights")
 						(org-agenda-span 'day)
 						(org-deadline-warning-days 3)
 						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))
@@ -1271,7 +1271,7 @@ DEADLINE: %^{Deadline}t
                            (org-agenda-skip-entry-if 'notscheduled)
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
 			(agenda ""
-					((org-agenda-overriding-header "Today's Schedule")
+					((org-agenda-overriding-header "■ Today's Schedule")
 					 (org-agenda-span 'day)
 					 (org-agenda-time-grid '((daily today required-time)
 											 (600 800 1000 1200 1400 1600 1800 2000 2200 2400)
@@ -1284,7 +1284,7 @@ DEADLINE: %^{Deadline}t
 
           ("t" "Tomorrow Planning"
            ((agenda ""
-					((org-agenda-overriding-header "Scheduled Tomorrow")
+					((org-agenda-overriding-header "■ Scheduled Tomorrow")
 					 (org-agenda-span 'day)
 					 (org-agenda-start-day "+1d")
 					 (org-agenda-time-grid '((daily today required-time)
@@ -1296,7 +1296,7 @@ DEADLINE: %^{Deadline}t
                       '(or
 						(org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
 			(tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"TASK\""
-                       ((org-agenda-overriding-header "Available Tasks")
+                       ((org-agenda-overriding-header "■ Available Tasks")
 						(org-agenda-start-day "+1d")
 						(org-deadline-warning-days 3)
 						(org-agenda-sorting-strategy '((todo user-defined-up urgency-down effort-down)))
@@ -1305,7 +1305,7 @@ DEADLINE: %^{Deadline}t
                            (org-agenda-skip-entry-if 'scheduled)
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
 			(tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"CHORES\""
-                       ((org-agenda-overriding-header "Available Chores")
+                       ((org-agenda-overriding-header "■ Available Chores")
 						(org-agenda-start-day "+1d")
 						(org-deadline-warning-days 3)
 						(org-agenda-sorting-strategy '((todo user-defined-up urgency-down effort-down)))
@@ -1316,7 +1316,7 @@ DEADLINE: %^{Deadline}t
 
           ("w" "Weekly View"
            ((agenda ""
-					((org-agenda-overriding-header "Schedules This Week")
+					((org-agenda-overriding-header "■ Schedules This Week")
 					 (org-agenda-span 'week)
 					 (org-deadline-warning-days 7)
 					 (org-agenda-show-all-dates t)
@@ -1338,7 +1338,7 @@ DEADLINE: %^{Deadline}t
 
           ("c" "Chores"
            ((tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"CHORES\""
-                       ((org-agenda-overriding-header "Simple Chores")
+                       ((org-agenda-overriding-header "■ Simple Chores")
 						(org-agenda-sorting-strategy '((todo user-defined-up category-up urgency-down effort-down)))                        
 						(org-agenda-skip-function
 						 '(or
@@ -1347,7 +1347,7 @@ DEADLINE: %^{Deadline}t
 
 		  ("u" "Unassigned Tasks"
 		   ((tags-todo "+ACTIVE=\"TRUE\"+TODO=\"TODO\"-CATEGORY=\"CHORES\""
-					   ((org-agenda-overriding-header "Unassigned TODO")
+					   ((org-agenda-overriding-header "■ Unassigned TODO")
 						(org-agenda-skip-function
 						 '(or
 						   (org-agenda-skip-entry-if 'scheduled)
@@ -1355,7 +1355,7 @@ DEADLINE: %^{Deadline}t
 						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))))
 
 			(tags-todo "+ACTIVE=\"TRUE\"+TODO=\"NEXT\"-CATEGORY=\"CHORES\""
-					   ((org-agenda-overriding-header "Unassigned NEXT")
+					   ((org-agenda-overriding-header "■ Unassigned NEXT")
 						(org-agenda-skip-function
 						 '(or
 						   (org-agenda-skip-entry-if 'scheduled)
@@ -1364,7 +1364,7 @@ DEADLINE: %^{Deadline}t
 
           ("W" "Waiting Tasks"
            ((tags-todo "+ACTIVE=\"TRUE\"+TODO=\"WAIT\""
-                       ((org-agenda-overriding-header "Blocked Tasks")
+                       ((org-agenda-overriding-header "■ Blocked Tasks")
 						(org-agenda-sorting-strategy '((todo user-defined-up category-up urgency-down effort-down)))))))))
 
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
@@ -2563,7 +2563,7 @@ DEADLINE: %^{Deadline}t
   (setq dashboard-items '((agenda . 16)))
   (setq dashboard-week-agenda t)
   (setq dashboard-agenda-sort-strategy '(time-up priority-down effort-down))
-  (setq dashboard-agenda-prefix-format " %s %i ")
+  (setq dashboard-agenda-prefix-format " %s   %i ")
   (setq dashboard-agenda-release-buffers t)
   (setq dashboard-navigation-cycle t)
   (setq dashboard-icon-types 'all-the-icons)
