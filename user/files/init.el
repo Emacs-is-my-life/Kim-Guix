@@ -873,8 +873,8 @@ DEADLINE: %^{Deadline}t
 %?")
 
   (setq org-capture-template/agenda/project
-        "#+PROJECT_NAME: %^{Enter the project name}
-#+PROJECT_STATUS: ACTIVE
+        "#+PROJECT: %^{Enter the project name}
+#+ACTIVE: TRUE
 
 * Overview
 ** Summary
@@ -1119,8 +1119,8 @@ DEADLINE: %^{Deadline}t
 
   (defun my-org-agenda-cmp-by-project-name (a b)
     "Compare agenda entries A and B by their PROJECT_NAME property."
-    (let* ((pa (or (org-entry-get (get-text-property 0 'org-marker a) "PROJECT_NAME") ""))
-           (pb (or (org-entry-get (get-text-property 0 'org-marker b) "PROJECT_NAME") ""))
+    (let* ((pa (or (org-entry-get (get-text-property 0 'org-marker a) "PROJECT") ""))
+           (pb (or (org-entry-get (get-text-property 0 'org-marker b) "PROJECT") ""))
            (result (string-collate-lessp pa pb nil t)))
       (if result -1 (if (string= pa pb) 0 1))))
   (setq org-agenda-cmp-user-defined 'my-org-agenda-cmp-by-project-name)
@@ -1144,8 +1144,8 @@ DEADLINE: %^{Deadline}t
 		(with-current-buffer (find-file-noselect file)
           (org-with-wide-buffer
            (save-excursion
-			 (let ((project-name (or (my/org-get-file-property "PROJECT_NAME") "UNKNOWN"))
-                   (project-status (or (my/org-get-file-property "PROJECT_STATUS") "ACTIVE")))
+			 (let ((project-name (or (my/org-get-file-property "PROJECT") "UNKNOWN"))
+                   (project-status (or (my/org-get-file-property "ACTIVE") "TRUE")))
                (when (and project-status
                           (string-equal "ACTIVE" project-status))
 
@@ -1295,7 +1295,7 @@ DEADLINE: %^{Deadline}t
 					 (org-agenda-skip-function
                       '(or
 						(org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
-			(tags-todo "+PROJECT_STATUS=\"ACTIVE\"+CATEGORY=\"TASK\""
+			(tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"TASK\""
                        ((org-agenda-overriding-header "Available Tasks")
 						(org-agenda-start-day "+1d")
 						(org-deadline-warning-days 3)
@@ -1304,7 +1304,7 @@ DEADLINE: %^{Deadline}t
 						 '(or
                            (org-agenda-skip-entry-if 'scheduled)
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
-			(tags-todo "+PROJECT_STATUS=\"ACTIVE\"+CATEGORY=\"CHORES\""
+			(tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"CHORES\""
                        ((org-agenda-overriding-header "Available Chores")
 						(org-agenda-start-day "+1d")
 						(org-deadline-warning-days 3)
@@ -1337,7 +1337,7 @@ DEADLINE: %^{Deadline}t
            my/org-agenda-open-project)
 
           ("c" "Chores"
-           ((tags-todo "+PROJECT_STATUS=\"ACTIVE\"+CATEGORY=\"CHORES\""
+           ((tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"CHORES\""
                        ((org-agenda-overriding-header "Simple Chores")
 						(org-agenda-sorting-strategy '((todo user-defined-up category-up urgency-down effort-down)))                        
 						(org-agenda-skip-function
@@ -1346,7 +1346,7 @@ DEADLINE: %^{Deadline}t
                            (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))))
 
 		  ("u" "Unassigned Tasks"
-		   ((tags-todo "+PROJECT_STATUS=\"ACTIVE\"+TODO=\"TODO\"-CATEGORY=\"CHORES\""
+		   ((tags-todo "+ACTIVE=\"TRUE\"+TODO=\"TODO\"-CATEGORY=\"CHORES\""
 					   ((org-agenda-overriding-header "Unassigned TODO")
 						(org-agenda-skip-function
 						 '(or
@@ -1354,7 +1354,7 @@ DEADLINE: %^{Deadline}t
 						   (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))
 						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))))
 
-			(tags-todo "+PROJECT_STATUS=\"ACTIVE\"+TODO=\"NEXT\"-CATEGORY=\"CHORES\""
+			(tags-todo "+ACTIVE=\"TRUE\"+TODO=\"NEXT\"-CATEGORY=\"CHORES\""
 					   ((org-agenda-overriding-header "Unassigned NEXT")
 						(org-agenda-skip-function
 						 '(or
@@ -1363,7 +1363,7 @@ DEADLINE: %^{Deadline}t
 						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))))))
 
           ("W" "Waiting Tasks"
-           ((tags-todo "+PROJECT_STATUS=\"ACTIVE\"+TODO=\"WAIT\""
+           ((tags-todo "+ACTIVE=\"TRUE\"+TODO=\"WAIT\""
                        ((org-agenda-overriding-header "Blocked Tasks")
 						(org-agenda-sorting-strategy '((todo user-defined-up category-up urgency-down effort-down)))))))))
 
