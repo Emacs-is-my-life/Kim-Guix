@@ -1651,7 +1651,13 @@ DEADLINE: %^{Deadline}t
    (js-mode . eglot-ensure)
    (LaTeX-mode . eglot-ensure))
   :config
-  (define-key eglot-mode-map (kbd "C-l r") 'eglot-rename))
+  (define-key eglot-mode-map (kbd "C-l r") 'eglot-rename)
+  (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode)))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((c++-mode c-mode) . ("clangd"))))
 
 (use-package eglot-inactive-regions
   :ensure t

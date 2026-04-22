@@ -88,8 +88,10 @@
              (gnu packages commencement)
              (gnu packages gcc)
              (gnu packages boost)
+			 (gnu packages algebra)
              (gnu packages oneapi)
 			 (gnu packages logging)
+			 (gnu packages pretty-print)
              (gnu packages rust)
              (gnu packages rust-apps)
              (gnu packages haskell)
@@ -225,7 +227,8 @@
    nasm yasm capstone linasm
 
    ;; C/C++
-   gcc-toolchain clang-toolchain boost onetbb
+   gcc-toolchain clang-toolchain
+   boost eigen onetbb fmt spdlog
 
    ;; Rust
    rust rust-analyzer
