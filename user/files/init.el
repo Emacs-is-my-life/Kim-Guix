@@ -958,11 +958,10 @@ DEADLINE: %^{DEADLINE}T
           (setq not-chosen nil)))
 
       (setq fullpath (expand-file-name filename target-directory))
-      
-      ;; Open the file and move cursor to the very start
-	  (with-current-buffer (org-capture-target-buffer fullpath)
-		(goto-char (point-min))
-		(point-marker))))
+
+	  ;; Open the file and move cursor to the very start
+	  (set-buffer (org-capture-target-buffer fullpath))
+      (goto-char (point-min))))
 
   (defun my/org-agenda-capture-destination (target-directory level-1-heading level-2-heading)
     "Function for designating the destination(both file and location) of org agenda capture."
