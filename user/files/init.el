@@ -863,15 +863,14 @@ SCHEDULED: %^{SCHEDULED}T
 DEADLINE: %^{DEADLINE}T
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
-:Effort: %(my-org-agenda-capture-prompt-effort)
+:Effort: %(my/org-agenda-capture-prompt-effort)
 :REFERENCE: %a
 :END:
 
 %i")
 
   (setq org-capture-template/agenda/note
-        "Note at: %u
-
+        "Date: %u
 %?")
 
   (setq org-capture-template/agenda/project
