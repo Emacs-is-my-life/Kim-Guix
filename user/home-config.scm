@@ -146,7 +146,6 @@
              (gnu packages game-development)
              (gnu packages games)
              (nongnu packages game-client)
-			 (guix-science packages rstudio)
              (guix channels)
              (guix packages)
              (guix gexp))
