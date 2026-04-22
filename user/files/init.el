@@ -915,13 +915,12 @@ DEADLINE: %^{DEADLINE}T
 
   (defun my/org-agenda-capture-prompt-effort ()
     "Prompt for effort value in HH:MM format with validation."
-    (let* ((effort-options '("0:05" "0:10" "0:30" "1:00" "1:30" "3:00" "4:30" "6:00" "Unknown"))
+    (let* ((effort-options '("0:05" "0:10" "0:30" "1:00" "1:30" "3:00" "6:00" "Unknown"))
            (custom "Custom")
            (choice (completing-read "Effort (HH:MM): " 
                                     (append effort-options (list custom)))))
       (cond
-       ((string= choice "Unknown") 
-        nil)
+       ((string= choice "Unknown") nil)
        ((string= choice custom)
         (let ((input ""))
           (while (not (string-match-p "^[0-9]+:[0-5][0-9]$" input))
@@ -933,7 +932,7 @@ DEADLINE: %^{DEADLINE}T
        (t choice))))
 
   (defun my/org-agenda-open-project (&optional _arg)
-    (let ((org-files (directory-files org-agenda-directory nil "\\.org$"))
+    (let ((org-files (directory-files org-agenda-directory))
           (selected-file nil))
       ;; Prompt user to select an agenda org file
       (setq selected-file (completing-read "Select the project org file: "
@@ -964,10 +963,6 @@ DEADLINE: %^{DEADLINE}T
       (setq fullpath (expand-file-name filename target-directory))
       
       ;; Open the file and move cursor to the very start
-      ;;(set-buffer (org-capture-target-buffer fullpath))
-      ;;(goto-char (point-min))
-
-	  ;; Open the file and move cursor to the very start
 	  (with-current-buffer (org-capture-target-buffer fullpath)
 		(goto-char (point-min))
 		(point-marker))))
@@ -1007,52 +1002,51 @@ DEADLINE: %^{DEADLINE}T
           ;; Find the full path of the selected file
           (setq selected-file (expand-file-name selected-file target-directory))
           ;; Open the selected
-          ;; (set-buffer (org-capture-target-buffer selected-file))
+          ;; (find-file selected-file)
+          (set-buffer (org-capture-target-buffer selected-file))
+          ;; Try to find the level 1 heading
+          (goto-char (point-min))
+          (let ((found-level-1 (org-find-exact-headline-in-buffer level-1-heading)))
+            ;; If level 1 heading doesn't exist, create one
+            (unless found-level-1
+              (goto-char (point-max))
+              ;; Make sure that we are at the beginning of an empty line
+              (unless (bolp) (insert "\n"))
+              (insert (format "* %s" level-1-heading))
+              ;; Move to the heading we just created
+              (goto-char (point-max))
+              (search-backward (format "* %s" level-1-heading)))
 
-		  ;; Open the selected
-		  (with-current-buffer (org-capture-target-buffer selected-file)
-			;; Try to find the level 1 heading
-			(goto-char (point-min))
-			(let ((found-level-1 (org-find-exact-headline-in-buffer level-1-heading)))
-              ;; If level 1 heading doesn't exist, create one
-              (unless found-level-1
-				(goto-char (point-max))
-				;; Make sure that we are at the beginning of an empty line
-				(unless (bolp) (insert "\n"))
-				(insert (format "* %s" level-1-heading))
-				;; Move to the heading we just created
-				(goto-char (point-max))
-				(search-backward (format "* %s" level-1-heading)))
+            ;; If it exists, go to level 1 heading
+            (when found-level-1
+              (goto-char found-level-1))
 
-              ;; If it exists, go to level 1 heading
-              (when found-level-1
-				(goto-char found-level-1))
+            ;; Now at level 1 heading, narrow to its subtree to search for level 2 heading
+            (org-narrow-to-subtree)
 
-			  (save-restriction
-				;; Now at level 1 heading, narrow to its subtree to search for level 2 heading
-				(org-back-to-heading t)
-				(org-narrow-to-subtree)
+            ;; Search for level 2 heading
+            (let ((found-level-2 (org-find-exact-headline-in-buffer level-2-heading)))
+              ;; If level 2 heading doesn't exist, create one
+              (unless found-level-2
+                (goto-char (point-max))
+                ;; Ensure that we are at the beginning of an empty line
+                (unless (bolp) (insert "\n"))
+                (insert (format "** %s\n" level-2-heading))
+                ;; Move to the heading we just created
+                (goto-char (point-max))
+                (search-backward (format "** %s" level-2-heading)))
 
-				;; Search for level 2 heading
-				(let ((found-level-2 (org-find-exact-headline-in-buffer level-2-heading)))
-				  ;; If level 2 heading doesn't exist, create one
-				  (unless found-level-2
-					(goto-char (point-max))
-					;; Ensure that we are at the beginning of an empty line
-					(unless (bolp) (insert "\n"))
-					(insert (format "** %s\n" level-2-heading))
-					;; Move to the heading we just created
-					(goto-char (point-max))
-					(search-backward (format "** %s" level-2-heading)))
+              ;; If it exists, go to it
+              (when found-level-2
+                (goto-char found-level-2))
+              
+              ;; Ensure there's a newline for the new entry
+              (end-of-line)
+              (unless (bolp) (insert "\n"))
 
-				  ;; If it exists, go to it
-				  (when found-level-2
-					(goto-char found-level-2))
-				  
-				  ;; Ensure there's a newline for the new entry
-				  (end-of-line)
-				  (unless (bolp) (insert "\n"))))
-			  (point-marker)))))))
+              ;; Remove the org narrowing before the return
+              (widen)
+              (point-marker)))))))
 
   (setq org-capture-templates
 	    `(("t" "TODO" plain (function (lambda ()
