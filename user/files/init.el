@@ -835,6 +835,8 @@
 
   ;; Org Agenda Capture Setup
   ;; * ---- Capture templates for Org mode
+  (setq org-read-date-prefer-future t)
+  (setq org-capture-use-agenda-date t)
   (setq org-capture-template/agenda/todo-unassigned
         "TODO \[#%^{PRIORITY|B|A|C}\] %?
 :PROPERTIES:
@@ -847,7 +849,7 @@
 
   (setq org-capture-template/agenda/todo-scheduled
         "TODO \[#%^{PRIORITY|B|A|C}\] %?
-SCHEDULED: %^{Schedule}T
+SCHEDULED: %^{SCHEDULED}T
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
 :Effort: %(my/org-agenda-capture-prompt-effort)
@@ -858,7 +860,7 @@ SCHEDULED: %^{Schedule}T
 
   (setq org-capture-template/agenda/todo-deadlined
         "TODO \[#%^{PRIORITY|B|A|C}\] %?
-DEADLINE: %^{Deadline}t
+DEADLINE: %^{DEADLINE}T
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
 :Effort: %(my-org-agenda-capture-prompt-effort)
@@ -913,13 +915,13 @@ DEADLINE: %^{Deadline}t
 
   (defun my/org-agenda-capture-prompt-effort ()
     "Prompt for effort value in HH:MM format with validation."
-    (let* ((effort-options '("Unknown" "0:05" "0:10" "0:30" "1:00" "1:30" "3:00" "4:30" "6:00"))
+    (let* ((effort-options '("0:05" "0:10" "0:30" "1:00" "1:30" "3:00" "4:30" "6:00" "Unknown"))
            (custom "Custom")
            (choice (completing-read "Effort (HH:MM): " 
                                     (append effort-options (list custom)))))
       (cond
        ((string= choice "Unknown") 
-        "")
+        nil)
        ((string= choice custom)
         (let ((input ""))
           (while (not (string-match-p "^[0-9]+:[0-5][0-9]$" input))
@@ -962,8 +964,13 @@ DEADLINE: %^{Deadline}t
       (setq fullpath (expand-file-name filename target-directory))
       
       ;; Open the file and move cursor to the very start
-      (set-buffer (org-capture-target-buffer fullpath))
-      (goto-char (point-min))))
+      ;;(set-buffer (org-capture-target-buffer fullpath))
+      ;;(goto-char (point-min))
+
+	  ;; Open the file and move cursor to the very start
+	  (with-current-buffer (org-capture-target-buffer fullpath)
+		(goto-char (point-min))
+		(point-marker))))
 
   (defun my/org-agenda-capture-destination (target-directory level-1-heading level-2-heading)
     "Function for designating the destination(both file and location) of org agenda capture."
@@ -1000,51 +1007,52 @@ DEADLINE: %^{Deadline}t
           ;; Find the full path of the selected file
           (setq selected-file (expand-file-name selected-file target-directory))
           ;; Open the selected
-          ;; (find-file selected-file)
-          (set-buffer (org-capture-target-buffer selected-file))
-          ;; Try to find the level 1 heading
-          (goto-char (point-min))
-          (let ((found-level-1 (org-find-exact-headline-in-buffer level-1-heading)))
-            ;; If level 1 heading doesn't exist, create one
-            (unless found-level-1
-              (goto-char (point-max))
-              ;; Make sure that we are at the beginning of an empty line
-              (unless (bolp) (insert "\n"))
-              (insert (format "* %s" level-1-heading))
-              ;; Move to the heading we just created
-              (goto-char (point-max))
-              (search-backward (format "* %s" level-1-heading)))
+          ;; (set-buffer (org-capture-target-buffer selected-file))
 
-            ;; If it exists, go to level 1 heading
-            (when found-level-1
-              (goto-char found-level-1))
+		  ;; Open the selected
+		  (with-current-buffer (org-capture-target-buffer selected-file)
+			;; Try to find the level 1 heading
+			(goto-char (point-min))
+			(let ((found-level-1 (org-find-exact-headline-in-buffer level-1-heading)))
+              ;; If level 1 heading doesn't exist, create one
+              (unless found-level-1
+				(goto-char (point-max))
+				;; Make sure that we are at the beginning of an empty line
+				(unless (bolp) (insert "\n"))
+				(insert (format "* %s" level-1-heading))
+				;; Move to the heading we just created
+				(goto-char (point-max))
+				(search-backward (format "* %s" level-1-heading)))
 
-            ;; Now at level 1 heading, narrow to its subtree to search for level 2 heading
-            (org-narrow-to-subtree)
+              ;; If it exists, go to level 1 heading
+              (when found-level-1
+				(goto-char found-level-1))
 
-            ;; Search for level 2 heading
-            (let ((found-level-2 (org-find-exact-headline-in-buffer level-2-heading)))
-              ;; If level 2 heading doesn't exist, create one
-              (unless found-level-2
-                (goto-char (point-max))
-                ;; Ensure that we are at the beginning of an empty line
-                (unless (bolp) (insert "\n"))
-                (insert (format "** %s\n" level-2-heading))
-                ;; Move to the heading we just created
-                (goto-char (point-max))
-                (search-backward (format "** %s" level-2-heading)))
+			  (save-restriction
+				;; Now at level 1 heading, narrow to its subtree to search for level 2 heading
+				(org-back-to-heading t)
+				(org-narrow-to-subtree)
 
-              ;; If it exists, go to it
-              (when found-level-2
-                (goto-char found-level-2))
-              
-              ;; Ensure there's a newline for the new entry
-              (end-of-line)
-              (unless (bolp) (insert "\n"))
+				;; Search for level 2 heading
+				(let ((found-level-2 (org-find-exact-headline-in-buffer level-2-heading)))
+				  ;; If level 2 heading doesn't exist, create one
+				  (unless found-level-2
+					(goto-char (point-max))
+					;; Ensure that we are at the beginning of an empty line
+					(unless (bolp) (insert "\n"))
+					(insert (format "** %s\n" level-2-heading))
+					;; Move to the heading we just created
+					(goto-char (point-max))
+					(search-backward (format "** %s" level-2-heading)))
 
-              ;; Remove the org narrowing before the return
-              (widen)
-              (point-marker)))))))
+				  ;; If it exists, go to it
+				  (when found-level-2
+					(goto-char found-level-2))
+				  
+				  ;; Ensure there's a newline for the new entry
+				  (end-of-line)
+				  (unless (bolp) (insert "\n"))))
+			  (point-marker)))))))
 
   (setq org-capture-templates
 	    `(("t" "TODO" plain (function (lambda ()
@@ -1054,9 +1062,9 @@ DEADLINE: %^{Deadline}t
            :empty-lines 1 :clock-in t :clock-resume t)
 
           ("s" "TODO Scheduled" plain (function (lambda ()
-                                                  (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
-           (function (lambda ()
-                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-scheduled)))
+												  (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
+		   (function (lambda ()
+					   (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-scheduled)))
            :empty-lines 1 :clock-in t :clock-resume t)
 
           ("d" "TODO Deadlined" plain (function (lambda ()
@@ -1066,7 +1074,7 @@ DEADLINE: %^{Deadline}t
            :empty-lines 1 :clock-in t :clock-resume t)
 
           ("n" "Note" plain (function (lambda ()
-                                        (my/org-agenda-capture-destination org-agenda-directory "Capture" "Note")))
+										(my/org-agenda-capture-destination org-agenda-directory "Capture" "Note")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/note)))
            :empty-lines 1)
@@ -1074,15 +1082,15 @@ DEADLINE: %^{Deadline}t
           ("j" "Journal" entry (file ,(expand-file-name (concat (format-time-string "%Y-%m-%d-%a" (current-time)) ".org") org-journal-directory))
            (function (lambda ()
                        (let ((template-file-name (expand-file-name "journal-template.org" (concat org-directory "notes"))))
-                         (if (file-exists-p template-file-name)
-                             (org-file-contents template-file-name)
+						 (if (file-exists-p template-file-name)
+							 (org-file-contents template-file-name)
                            "")))))
 
           ("P" "New Project" plain (function (lambda () (my/org-agenda-project-destination org-agenda-directory)))
            (function (lambda ()
                        org-capture-template/agenda/project)))))
 
-  
+
   ;; Org Agenda View Setup
   ;; Time related
   (setq org-agenda-window-setup 'current-window)
@@ -1102,15 +1110,15 @@ DEADLINE: %^{Deadline}t
   (setq org-cycle-hide-drawer-startup t) ;; Hide properties, its too verbose.
   (setq org-columns-default-format "%50ITEM(Task) %16CLOCKSUM %16TIMESTAMP_IA")
   (setq org-agenda-prefix-format
-        '((agenda  . " %t ")
+		'((agenda  . " %t ")
           (todo    . "" )
           (tags    . "")
           (search  . "")))
 
   (setq org-agenda-current-time-string
-        " ←────────────────── NOW")
+		" ←────────────────── NOW")
   (setq org-agenda-time-grid
-        '((daily today)
+		'((daily today)
           (600 800 1000 1200 1400 1600 1800 2000 2200 2400)
           ". . . ."
           "- - - - - - - - - - - - - - - - - - - - - - - "))
@@ -1118,8 +1126,8 @@ DEADLINE: %^{Deadline}t
   (setq org-agenda-time-leading-zero t)
 
   (defun my-org-agenda-cmp-by-project-name (a b)
-    "Compare agenda entries A and B by their PROJECT_NAME property."
-    (let* ((pa (or (org-entry-get (get-text-property 0 'org-marker a) "PROJECT") ""))
+	"Compare agenda entries A and B by their PROJECT_NAME property."
+	(let* ((pa (or (org-entry-get (get-text-property 0 'org-marker a) "PROJECT") ""))
            (pb (or (org-entry-get (get-text-property 0 'org-marker b) "PROJECT") ""))
            (result (string-collate-lessp pa pb nil t)))
       (if result -1 (if (string= pa pb) 0 1))))
@@ -1136,7 +1144,7 @@ DEADLINE: %^{Deadline}t
 				 (format "^#\\+%s:[ \t]*\\(.*\\)$" (regexp-quote property))
 				 nil t)
 			(string-trim (match-string 1)))))))
-  
+
   (defun my-org-agenda-project-view (parm)
 	"Generate a project report based on org agenda files."
 	(let ((report-text "\n"))
