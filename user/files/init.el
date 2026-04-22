@@ -869,9 +869,7 @@ DEADLINE: %^{DEADLINE}T
 
 %i")
 
-  (setq org-capture-template/agenda/note
-        "Date: %u
-%?")
+  (setq org-capture-template/agenda/note "%?")
 
   (setq org-capture-template/agenda/project
         "#+PROJECT: %^{Enter the project name}
