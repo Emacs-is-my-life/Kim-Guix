@@ -51,6 +51,17 @@ do
         fi
 done
 
+regex="*.scm$"
+mkdir -p ~/Containers
+for f in $(ls ./guix-containers)
+do
+        if [[ $f =~ $regex ]]
+        then
+			guix package -m "./guix-containers/${f}"
+			cp "./guix-containers/${f}" "~/Containers/${f}"
+        fi
+done
+
 
 # Directory permission
 mkdir -p ~/Documents
@@ -66,9 +77,6 @@ touch ~/Documents/Org/notes/contacts.org
 
 # GDB GEF
 wget -O ~/.config/gdb/gef.py -q https://gef.blah.cat/py
-
-# .bash_custom file
-cp ./files/bash_custom $HOME/.bash_custom
 
 # Install Python Packages to Default Environment
 hash guix

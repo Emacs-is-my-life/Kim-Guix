@@ -40,7 +40,7 @@ guix-container() {
 		--preserve='^LANG$' \
 		--preserve='^LC_' \
         --share="$share_dir" \
-        -m "~/Documents/Guix/user/guix-containers/Claude-Code.scm" \
+        -m "$HOME/Documents/Guix/user/guix-containers/Default.scm" \
         -- bash
     fi
 	

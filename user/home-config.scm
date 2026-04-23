@@ -426,7 +426,8 @@ fi
 
    (simple-service 'home-files
                    home-files-service-type
-                   `((".gnuplot" ,(local-file "./files/gnuplotrc"))
+                   `((".bash_custom" ,(local-file "./files/bash_custom"))
+					 (".gnuplot" ,(local-file "./files/gnuplotrc"))
 					 (".gitconfig", (local-file "./.temp/gitconfig"))))
    
    (simple-service 'xdg-config-home-files
