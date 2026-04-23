@@ -35,7 +35,6 @@
              (gnu packages virtualization)
              (gnu packages spice)
              (gnu packages containers)
-			 (gnu packages nss)
              (gnu services linux)
              (gnu services admin)
              (gnu services pm)
@@ -157,7 +156,7 @@
                     alsa-lib alsa-utils alsa-plugins pulseaudio pavucontrol
 
                     ;; network
-                    network-manager network-manager-applet libnma wpa-supplicant wireguard-tools bridge-utils net-tools nss-certs
+                    network-manager network-manager-applet libnma wpa-supplicant wireguard-tools bridge-utils net-tools
 
                     ;; bluetooth
                     bluez bluez-alsa blueman
