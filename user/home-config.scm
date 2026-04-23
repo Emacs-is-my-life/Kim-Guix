@@ -409,6 +409,7 @@ done
 if [[ \"$INSIDE_EMACS\" = 'vterm' ]]; then
     VTERM_DIR=$(ls $HOME/.guix-home/profile/share/emacs/site-lisp/ | grep vterm)
     source $HOME/.guix-home/profile/share/emacs/site-lisp/$VTERM_DIR/etc/emacs-vterm-bash.sh
+    export COLORTERM=truecolor
 fi
 
 # EXWM
