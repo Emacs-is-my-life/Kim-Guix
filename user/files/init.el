@@ -1145,7 +1145,7 @@ DEADLINE: %^{DEADLINE}T
 			 (let ((project-name (or (my/org-get-file-property "PROJECT") "UNKNOWN"))
                    (project-status (or (my/org-get-file-property "ACTIVE") "TRUE")))
                (when (and project-status
-                          (string-equal "ACTIVE" project-status))
+                          (string-equal "TRUE" project-status))
 
 				 ;; -------- Backpressure calculation --------
 				 (let ((score 0.0)
