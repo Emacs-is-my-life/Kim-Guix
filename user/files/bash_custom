@@ -28,3 +28,27 @@ marimo-ai() {
 		command marimo "$@"
 	fi
 }
+
+guix-container() {
+    local manifest="$1"
+    local share_dir="${2:-$PWD}"
+
+    if [[ -z "$manifest" ]]; then
+        echo "usage: guix-container <manifest.scm> [share_dir]" >&2
+        return 1
+    fi
+    if [[ ! -f "$manifest" ]]; then
+        echo "guix-container: manifest not found: $manifest" >&2
+        return 1
+    fi
+    if [[ ! -d "$share_dir" ]]; then
+        echo "guix-container: share dir not found: $share_dir" >&2
+        return 1
+    fi
+
+    guix shell --container --emulate-fhs --network \
+        --preserve='^TERM$' \
+        --share="$share_dir" \
+        -m "$manifest" \
+        -- bash
+}
