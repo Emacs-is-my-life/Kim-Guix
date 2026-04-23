@@ -35,6 +35,7 @@
              (gnu packages virtualization)
              (gnu packages spice)
              (gnu packages containers)
+			 (gnu packages nss)
              (gnu services linux)
              (gnu services admin)
              (gnu services pm)
@@ -55,7 +56,7 @@
              (guix)
              (nongnu packages linux)
              (nongnu system linux-initrd)
-	     (nongnu packages video))
+			 (nongnu packages video))
 
 (define %XORG-LIBINPUT-M575
   "Section \"InputClass\"
@@ -156,7 +157,7 @@
                     alsa-lib alsa-utils alsa-plugins pulseaudio pavucontrol
 
                     ;; network
-                    network-manager network-manager-applet libnma wpa-supplicant wireguard-tools bridge-utils net-tools
+                    network-manager network-manager-applet libnma wpa-supplicant wireguard-tools bridge-utils net-tools nss-certs
 
                     ;; bluetooth
                     bluez bluez-alsa blueman

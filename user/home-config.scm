@@ -181,7 +181,7 @@
    gzip unzip
 
    ;; Test Processing Utility
-   gawk sed the-silver-searcher
+   gawk sed the-silver-searcher ripgrep
 
    ;; Web Browser
    qutebrowser librewolf
