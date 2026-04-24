@@ -1,0 +1,20 @@
+;; Manifest for Claude Code
+(specifications->manifest
+ '(
+   "nss-certs"
+   "coreutils"
+   "bash"
+   "curl"
+   "grep"
+   "sed"
+   "gcc-toolchain"
+   "make"
+   "pkg-config"
+   "python"
+   "node"
+   "ripgrep"
+   "findutils"
+   "which"
+   "less"
+   "glibc-locales"
+   ))
