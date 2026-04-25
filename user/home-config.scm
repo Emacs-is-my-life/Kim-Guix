@@ -16,6 +16,8 @@
              (gnu packages ncurses)
              (gnu packages xdisorg)
              (gnu packages wm)
+			 (gnu packages gtk)
+			 (gnu packages qt)
              (gnu packages networking)
 			 (gnu packages tor)
              (gnu packages gnome)
@@ -125,7 +127,6 @@
              (gnu packages time)
              (gnu packages graph)
 	         (gnu packages machine-learning)
-	         (gnu packages qt)
              (gnu packages parallel)
              (gnu packages package-management)
              (gnu packages julia)
@@ -171,6 +172,9 @@
    
    ;; Fonts
    font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-apl386 font-tex-gyre
+
+   ;; GUI Frameworks
+   gtk+ qtbase
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
