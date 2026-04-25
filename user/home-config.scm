@@ -18,6 +18,7 @@
              (gnu packages wm)
 			 (gnu packages gtk)
 			 (gnu packages qt)
+			 (gnu packages fcitx5)
              (gnu packages networking)
 			 (gnu packages tor)
              (gnu packages gnome)
@@ -30,7 +31,6 @@
              (gnu packages emacs)
              (gnu packages emacs-xyz)
              (gnu packages emacs-build)
-			 (gnu packages fcitx5)
              (gnu packages gnupg)
              (gnu packages web-browsers)
              (gnu packages librewolf)
@@ -172,12 +172,12 @@
    
    ;; Fonts
    font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-apl386 font-tex-gyre
-
-   ;; GUI Frameworks
-   gtk+ qtbase
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
+
+   ;; Input Method
+   fcitx5 fcitx5-configtool fcitx5-hangul
 
    ;; File Browser
    nautilus gvfs trash-cli
@@ -187,9 +187,6 @@
 
    ;; Test Processing Utility
    gawk sed the-silver-searcher ripgrep
-
-   ;; Input Methods
-   fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-hangul
 
    ;; Web Browser
    qutebrowser librewolf
