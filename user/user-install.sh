@@ -51,7 +51,7 @@ do
         fi
 done
 
-regex="*.scm$"
+regex=".*\.scm$"
 mkdir -p ~/Container
 for f in $(ls ./guix-container)
 do
