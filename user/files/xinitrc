@@ -26,6 +26,16 @@ export EDITOR="$VISUAL"
 # Debug purpose
 #exec xterm
 
+# Set input method Environment Variables
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export INPUT_METHOD=fcitx
+export SDL_IM_MODULE=fcitx
+
+# Start fcitx5
+fcitx5 -d &
+
 # Start EXWM
 # exec dbus-launch --exit-with-session emacs -mm --debug-init -f exwm-enable
 exec dbus-launch --exit-with-session emacs -mm -f exwm-wm-mode

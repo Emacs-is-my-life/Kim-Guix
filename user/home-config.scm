@@ -28,6 +28,7 @@
              (gnu packages emacs)
              (gnu packages emacs-xyz)
              (gnu packages emacs-build)
+			 (gnu packages fcitx5)
              (gnu packages gnupg)
              (gnu packages web-browsers)
              (gnu packages librewolf)
@@ -182,6 +183,9 @@
 
    ;; Test Processing Utility
    gawk sed the-silver-searcher ripgrep
+
+   ;; Input Methods
+   fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-hangul
 
    ;; Web Browser
    qutebrowser librewolf
