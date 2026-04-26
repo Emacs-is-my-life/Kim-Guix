@@ -341,7 +341,8 @@
 
 
 (setq default-input-method "korean-hangul")
-(global-set-key (kbd "<Hangul>") 'toggle-input-method)
+;; Input method is managed by fcitx5
+;; (global-set-key (kbd "<Hangul>") 'toggle-input-method)
 
 ;; IEdit
 (use-package iedit
