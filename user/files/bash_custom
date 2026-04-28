@@ -14,7 +14,7 @@ marimo() {
 marimo-ai() {
 	if [[ "$1" == "edit" ]]; then
 		# 1. Decrypt key from authinfo.gpg
-		GPG_TTY=$(tty) api_key=$(gpg --quiet --for-your-eyes-only --decrypt ~/Documents/Secrets/authinfo.gpg | awk '/api.openai.com/ { for(i=1;i<=NF;i++) if($i=="password") print $(i+1) }')
+		GPG_TTY=$(tty) api_key=$(gpg --quiet --for-your-eyes-only --decrypt $HOME/Documents/Secrets/authinfo.gpg | awk '/api.openai.com/ { for(i=1;i<=NF;i++) if($i=="password") print $(i+1) }')
 
     	# 2. Check if decryption worked
     	if [ -z "$api_key" ]; then
@@ -40,7 +40,7 @@ guix-container() {
 		--preserve='^LANG$' \
 		--preserve='^LC_' \
         --share="$share_dir" \
-        -m "$HOME/Documents/Guix/user/guix-containers/Default.scm" \
+        -m "$HOME/Container/Default.scm" \
         -- bash
     fi
 	
