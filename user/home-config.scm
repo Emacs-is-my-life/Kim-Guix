@@ -480,10 +480,12 @@ fi
 
    (service home-syncthing-service-type)
 
-   (service home-redshift-service-type
-            (home-redshift-configuration
-             (location-provider 'geoclue2)))
+   ;; (service home-redshift-service-type
+   ;;          (home-redshift-configuration
+   ;;           (location-provider 'geoclue2)))
 
+   (service home-x11-service-type)
+   
    (service home-unclutter-service-type
             (home-unclutter-configuration
              (idle-timeout 2)))
