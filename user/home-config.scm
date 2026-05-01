@@ -195,7 +195,7 @@
    curlie
 
    ;; Finance
-   hledger electrum monero-gui tor-client torsocks
+   hledger
 
    ;; Document Viewer
    zathura-pdf-mupdf fbreader sioyek
