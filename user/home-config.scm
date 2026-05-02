@@ -195,7 +195,7 @@
    curlie
 
    ;; Finance
-   hledger eletrum monero-gui
+   hledger electrum monero-gui
 
    ;; Document Viewer
    zathura-pdf-mupdf fbreader sioyek
