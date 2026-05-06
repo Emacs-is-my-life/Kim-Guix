@@ -40,7 +40,7 @@ guix-container() {
 		--preserve='^LANG$' \
 		--preserve='^LC_' \
         --share="$share_dir" \
-        -m "$HOME/Container/Default.scm" \
+        -m "$HOME/Documents/Container/Default.scm" \
         -- bash
     fi
 	
@@ -59,6 +59,6 @@ guix-container() {
 		--preserve='^LANG$' \
 		--preserve='^LC_' \
         --share="$share_dir" \
-        -m "$manifest" \
+        -m "${HOME}/Documents/Container/${manifest}.scm" \
         -- bash
 }

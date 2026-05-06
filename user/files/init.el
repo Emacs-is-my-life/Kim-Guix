@@ -1394,10 +1394,6 @@ DEADLINE: %^{DEADLINE}T
       (org-store-new-agenda-file-list (nreverse existing-files))))
   (advice-add 'org-agenda :before #'clean-org-agenda-files)
 
-  ;; org-clock for alarm
-  (if (file-exists-p (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav"))
-      (setq org-clock-sound (concat (getenv "USER_MUSIC_DIR") "SFX/bell.wav")))
-
   ;; org-babel language extension
   (use-package ob-prolog
 	:ensure t
