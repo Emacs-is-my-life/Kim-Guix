@@ -4,6 +4,7 @@
    "nss-certs"
    "coreutils"
    "bash"
+   "guix"
    "curl"
    "grep"
    "sed"

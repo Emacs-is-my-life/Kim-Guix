@@ -4,6 +4,7 @@
    "nss-certs"
    "coreutils"
    "bash"
+   "guix"
    "gcc-toolchain"
    "make"
    "pkg-config"
