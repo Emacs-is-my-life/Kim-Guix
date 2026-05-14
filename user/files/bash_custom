@@ -5,7 +5,7 @@ source $USER_PYTHON_ENV_DIR/Default/bin/activate
 marimo() {
 	if [[ "$1" == "edit" ]]; then
         shift
-        command marimo edit --host localhost --port 8000 --no-token --allow-origins "http://localhost:8000" "$@"
+        command marimo edit --host localhost --port 8000 --no-token --watch --allow-origins "http://localhost:8000" "$@"
 	else
 		command marimo "$@"
 	fi
@@ -23,7 +23,7 @@ marimo-ai() {
     	fi
 
         shift
-        OPENAI_API_KEY="$api_key" command marimo edit --host localhost --port 8000 --no-token --allow-origins "http://localhost:8000" "$@"
+        OPENAI_API_KEY="$api_key" command marimo edit --host localhost --port 8000 --no-token --watch --allow-origins "http://localhost:8000" "$@"
 	else
 		command marimo "$@"
 	fi
