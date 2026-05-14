@@ -30,34 +30,85 @@ marimo-ai() {
 }
 
 guix-container() {
-    local manifest="$1"
-    local share_dir="${2:-$PWD}"
+    local default_manifest="$HOME/Documents/Container/Default.scm"
+    local manifest_name=""
+    local manifest_file=""
+    local share_dir=""
+    local -a extra_packages=()
+    local -a share_args=()
 
-    if [[ -z "$manifest" ]]; then
-	    guix shell --container --emulate-fhs --network \
-        --preserve='^TERM$' \
-		--preserve='^COLORTERM$' \
-		--preserve='^LANG$' \
-		--preserve='^LC_' \
-        --share="$share_dir" \
-        -m "$HOME/Documents/Container/Default.scm" \
-        -- bash
-    elif [[ ! -f "$manifest" ]]; then
-        echo "guix-container: manifest not found: $manifest" >&2
+    # Usage:
+    #   guix-container
+    #   guix-container Python
+    #   guix-container --share "$PWD"
+    #   guix-container --add graphviz jq
+    #   guix-container Python --share "$PWD" --add graphviz jq
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --share)
+                shift
+                if [[ -z "$1" ]]; then
+                    echo "guix-container: --share requires a directory" >&2
+                    return 1
+                fi
+                share_dir="$1"
+                shift
+                ;;
+
+            --add)
+                shift
+                while [[ $# -gt 0 ]]; do
+                    extra_packages+=("$1")
+                    shift
+                done
+                ;;
+
+            -*)
+                echo "guix-container: unknown option: $1" >&2
+                return 1
+                ;;
+
+            *)
+                if [[ -z "$manifest_name" ]]; then
+                    manifest_name="$1"
+                    shift
+                else
+                    echo "guix-container: unexpected argument: $1" >&2
+                    return 1
+                fi
+                ;;
+        esac
+    done
+
+    if [[ -z "$manifest_name" ]]; then
+        manifest_file="$default_manifest"
+    else
+        manifest_file="$HOME/Documents/Container/${manifest_name}.scm"
+    fi
+
+    if [[ ! -f "$manifest_file" ]]; then
+        echo "guix-container: manifest not found: $manifest_file" >&2
         return 1
     fi
-	
-    if [[ ! -d "$share_dir" ]]; then
-        echo "guix-container: share dir not found: $share_dir" >&2
-        return 1
+
+    if [[ -n "$share_dir" ]]; then
+        if [[ ! -d "$share_dir" ]]; then
+            echo "guix-container: share dir not found: $share_dir" >&2
+            return 1
+        fi
+
+        share_args=(--share="$share_dir")
     fi
 
     guix shell --container --emulate-fhs --network \
-	    --preserve='^TERM$' \
-		--preserve='^COLORTERM$' \
-		--preserve='^LANG$' \
-		--preserve='^LC_' \
-        --share="$share_dir" \
-        -m "${HOME}/Documents/Container/${manifest}.scm" \
+        --no-cwd \
+        --preserve='^TERM$' \
+        --preserve='^COLORTERM$' \
+        --preserve='^LANG$' \
+        --preserve='^LC_' \
+        "${share_args[@]}" \
+        -m "$manifest_file" \
+        "${extra_packages[@]}" \
         -- bash
 }
