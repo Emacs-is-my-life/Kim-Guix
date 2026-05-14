@@ -42,12 +42,11 @@ guix-container() {
         --share="$share_dir" \
         -m "$HOME/Documents/Container/Default.scm" \
         -- bash
-    fi
-	
-    if [[ ! -f "$manifest" ]]; then
+    elif [[ ! -f "$manifest" ]]; then
         echo "guix-container: manifest not found: $manifest" >&2
         return 1
     fi
+	
     if [[ ! -d "$share_dir" ]]; then
         echo "guix-container: share dir not found: $share_dir" >&2
         return 1
