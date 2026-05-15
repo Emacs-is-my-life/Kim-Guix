@@ -40,9 +40,9 @@ guix-container() {
     # Usage:
     #   guix-container
     #   guix-container Python
-    #   guix-container --share "$PWD"
+    #   guix-container --share ./dir
     #   guix-container --add graphviz jq
-    #   guix-container Python --share "$PWD" --add graphviz jq
+    #   guix-container Python --share ./dir --add graphviz jq
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -55,20 +55,17 @@ guix-container() {
                 share_dir="$1"
                 shift
                 ;;
-
             --add)
                 shift
-                while [[ $# -gt 0 ]]; do
+                while [[ $# -gt 0 && "$1" != --* ]]; do
                     extra_packages+=("$1")
                     shift
                 done
                 ;;
-
             -*)
                 echo "guix-container: unknown option: $1" >&2
                 return 1
                 ;;
-
             *)
                 if [[ -z "$manifest_name" ]]; then
                     manifest_name="$1"
@@ -97,8 +94,10 @@ guix-container() {
             echo "guix-container: share dir not found: $share_dir" >&2
             return 1
         fi
-
-        share_args=(--share="$share_dir")
+        local abs_share
+        abs_share="$(realpath "$share_dir")"
+        # Mount host directory at $HOME/Mount inside the container.
+        share_args=(--share="${abs_share}=${HOME}/Mount")
     fi
 
     guix shell --container --emulate-fhs --network \
