@@ -37,15 +37,39 @@ guix-container() {
     local -a extra_packages=()
     local -a share_args=()
 
-    # Usage:
-    #   guix-container
-    #   guix-container Python
-    #   guix-container --share ./dir
-    #   guix-container --add graphviz jq
-    #   guix-container Python --share ./dir --add graphviz jq
+    _guix_container_usage() {
+        cat <<'EOF'
+Usage: guix-container [MANIFEST] [--share DIR] [--add PKG...] [-h|--help]
+
+Spin up a Guix FHS container shell with network access, using a manifest
+from ~/Documents/Container/.
+
+Arguments:
+  MANIFEST          Name of the manifest (without .scm) in
+                    ~/Documents/Container/. Defaults to "Default".
+
+Options:
+  --share DIR       Bind-mount host DIR (read/write) at ~/Mount inside
+                    the container.
+  --add PKG...      Extra packages to install on top of the manifest.
+                    Consumes all following args until the next --flag.
+  -h, --help        Show this help and exit.
+
+Examples:
+  guix-container
+  guix-container Python
+  guix-container --share ./dir
+  guix-container --add graphviz jq
+  guix-container Python --share ./dir --add graphviz jq
+EOF
+    }
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
+            -h|--help)
+                _guix_container_usage
+                return 0
+                ;;
             --share)
                 shift
                 if [[ -z "$1" ]]; then
@@ -64,6 +88,7 @@ guix-container() {
                 ;;
             -*)
                 echo "guix-container: unknown option: $1" >&2
+                echo "Try 'guix-container --help' for usage." >&2
                 return 1
                 ;;
             *)
