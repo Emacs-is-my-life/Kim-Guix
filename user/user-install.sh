@@ -52,13 +52,13 @@ do
 done
 
 regex=".*\.scm$"
-mkdir -p $HOME/Documents/Container
+mkdir -p $HOME/Containers/.manifests
 for f in $(ls ./guix-container)
 do
         if [[ $f =~ $regex ]]
         then
 			guix package -m "./guix-container/${f}"
-			cp "./guix-container/${f}" "$HOME/Documents/Container/${f}"
+			cp "./guix-container/${f}" "$HOME/Containers/.manifests/${f}"
         fi
 done
 

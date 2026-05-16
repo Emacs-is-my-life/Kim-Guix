@@ -30,7 +30,7 @@ marimo-ai() {
 }
 
 guix-container() {
-    local default_manifest="$HOME/Documents/Container/Default.scm"
+    local default_manifest="$HOME/Containers/.manifests/Default.scm"
     local manifest_name=""
     local manifest_file=""
     local share_dir=""
@@ -42,11 +42,11 @@ guix-container() {
 Usage: guix-container [MANIFEST] [--share DIR] [--add PKG...] [-h|--help]
 
 Spin up a Guix FHS container shell with network access, using a manifest
-from ~/Documents/Container/.
+from ~/Containers/.manifests/.
 
 Arguments:
   MANIFEST          Name of the manifest (without .scm) in
-                    ~/Documents/Container/. Defaults to "Default".
+                    ~/Container/.manifests/. Defaults to "Default".
 
 Options:
   --share DIR       Bind-mount host DIR (read/write) at ~/Mount inside
@@ -106,7 +106,7 @@ EOF
     if [[ -z "$manifest_name" ]]; then
         manifest_file="$default_manifest"
     else
-        manifest_file="$HOME/Documents/Container/${manifest_name}.scm"
+        manifest_file="$HOME/Containers/.manifests/${manifest_name}.scm"
     fi
 
     if [[ ! -f "$manifest_file" ]]; then
@@ -114,15 +114,20 @@ EOF
         return 1
     fi
 
-    if [[ -n "$share_dir" ]]; then
+	if [[ -n "$share_dir" ]]; then
         if [[ ! -d "$share_dir" ]]; then
-            echo "guix-container: share dir not found: $share_dir" >&2
+       	    echo "guix-container: share dir not found: $share_dir" >&2
             return 1
         fi
-        local abs_share
+        local abs_share containers_root
         abs_share="$(realpath "$share_dir")"
-        # Mount host directory at $HOME/Mount inside the container.
-        share_args=(--share="${abs_share}=${HOME}/Mount")
+        containers_root="$(realpath "$HOME/Containers")"
+        if [[ "$abs_share" != "$containers_root"/* ]]; then
+       	   echo "guix-container: --share directory must be under $containers_root" >&2
+           echo "  got: $abs_share" >&2
+           return 1
+        fi
+        share_args=(--share="${abs_share}=${HOME}")
     fi
 
     guix shell --container --emulate-fhs --network \
