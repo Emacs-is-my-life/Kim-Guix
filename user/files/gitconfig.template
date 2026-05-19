@@ -2,8 +2,13 @@
 	email = {{ USER_GMAIL_ADDRESS }}
 	name = GUIXXER
 [url "git@github.com:"]
-        insteadOf = https://github.com/
+	insteadOf = https://github.com/
 [color]
-        ui = auto
+	ui = auto
 [column]
-        ui = auto
+	ui = auto
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
