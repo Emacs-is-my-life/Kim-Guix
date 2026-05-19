@@ -216,7 +216,7 @@
    exercism
 
    ;; Build Tools
-   gnu-make cmake pkg-config meson ninja ccache git shellcheck
+   gnu-make cmake pkg-config meson ninja ccache git git-lfs shellcheck
 
    ;; Debugging Tools
    gdb lldb valgrind strace uftrace ltrace wireshark

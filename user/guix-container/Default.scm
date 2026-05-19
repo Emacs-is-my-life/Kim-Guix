@@ -18,4 +18,12 @@
    "which"
    "less"
    "glibc-locales"
+   "vim"
+   "git"
+   "git-lfs"
+   "gcc-toolchain"
+   "make"
+   "cmake"
+   "ninja"
+   "pkg-config"
    ))
