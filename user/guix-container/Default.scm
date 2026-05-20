@@ -26,4 +26,7 @@
    "cmake"
    "ninja"
    "pkg-config"
+   ;; cg-sim
+   "graphviz"
+   "python-pygraphviz"
    ))
