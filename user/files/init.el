@@ -1446,7 +1446,7 @@ DEADLINE: %^{DEADLINE}T
 
   ;; Org 9.7+
   (when (boundp 'org-src-content-indentation)
-    (setq org-src-content-indentation 0))
+    (setq org-src-content-indentation 0)))
 
 ;; org-contacts
 (use-package org-contacts
