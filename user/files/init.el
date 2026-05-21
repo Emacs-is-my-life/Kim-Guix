@@ -1440,6 +1440,14 @@ DEADLINE: %^{DEADLINE}T
   (setq org-image-actual-width '(1024 512 256))
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images))
 
+;; Org src block indent fix
+(with-eval-after-load 'org
+  (setq org-src-preserve-indentation t)
+
+  ;; Org 9.7+
+  (when (boundp 'org-src-content-indentation)
+    (setq org-src-content-indentation 0))
+
 ;; org-contacts
 (use-package org-contacts
   :ensure t
