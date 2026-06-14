@@ -293,7 +293,8 @@
    texlive-scheme-basic texlive-collection-plaingeneric
    texlive-xetex texlive-xetex-bin texlive-collection-xetex
    texlive-dvipng texlive-dvipng-bin texlive-dvisvgm texlive-dvisvgm-bin
-   texlive-latexdiff texlive-git-latexdiff 
+   texlive-latexdiff texlive-git-latexdiff
+   tectonic
 
    ;; Serial
    minicom))
