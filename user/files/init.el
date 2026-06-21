@@ -2820,7 +2820,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 			(setq gptel-backend (gptel-make-openai "ChatGPT"
 								  :key apikey
 								  :stream t
-								  :models '(gpt-5.3-chat-latest gpt-5.5 o3-deep-research))
+								  :models '(chat-latest gpt-5.5 o3-deep-research))
 				  gptel-model 'gpt-5.3-chat-latest))
 		   ((string= provider "generativelanguage.googleapis.com")
 			(setq gptel-backend (gptel-make-gemini "Gemini"
