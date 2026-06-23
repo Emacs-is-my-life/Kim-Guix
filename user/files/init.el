@@ -1045,42 +1045,218 @@ DEADLINE: %^{DEADLINE}T
               (widen)
               (point-marker)))))))
 
+  ;; Daily journal
+  (require 'org-capture)
+  (require 'org-table)
+  (require 'cl-lib)
+  (require 'subr-x)
+
+  (defvar my/org-journal-daily-volume-increase 500
+	"Daily PE volume increase in g*hr.")
+
+  (defun my/org-journal-file (&optional time)
+	"Return journal file path for TIME, or today if TIME is nil."
+	(expand-file-name
+	 (concat (format-time-string "%Y-%m-%d-%a" (or time (current-time))) ".org")
+	 org-journal-directory))
+
+  (defun my/org-journal-yesterday-file ()
+	"Return yesterday's journal file path."
+	(my/org-journal-file (time-subtract (current-time) (days-to-time 1))))
+
+  (defun my/org-journal-template-file ()
+	"Return journal template file path."
+	(expand-file-name "notes/journal-template.org" org-directory))
+
+  (defun my/org-journal--file-contents (file)
+	"Read FILE into a string."
+	(with-temp-buffer
+      (insert-file-contents file)
+      (buffer-string)))
+
+  (defun my/org-journal--bounds-of-table-under-heading (heading)
+	"Return bounds of the first Org table under HEADING in current buffer.
+
+This searches for a heading named HEADING, then finds the first Org table
+inside that heading's subtree."
+	(save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward
+			 (format "^\\(\\*+\\)[ \t]+%s[ \t]*$" (regexp-quote heading))
+			 nil t)
+		(let* ((level (length (match-string 1)))
+               (section-end
+				(save-excursion
+                  (catch 'end
+					(while (re-search-forward "^\\(\\*+\\)[ \t]+" nil t)
+                      (when (<= (length (match-string 1)) level)
+						(throw 'end (match-beginning 0))))
+					(point-max)))))
+          (when (re-search-forward "^[ \t]*|" section-end t)
+			(beginning-of-line)
+			(let ((beg (point)))
+              ;; Include table rows and directly following #+TBLFM lines.
+              (while (and (< (point) section-end)
+                          (looking-at-p "^[ \t]*\\(?:|\\|#\\+TBLFM:\\)"))
+				(forward-line 1))
+              (cons beg (point))))))))
+
+  (defun my/org-journal--extract-table-under-heading (text heading)
+	"Extract the first Org table under HEADING from TEXT."
+	(with-temp-buffer
+      (insert text)
+      (when-let* ((bounds (my/org-journal--bounds-of-table-under-heading heading)))
+		(buffer-substring-no-properties (car bounds) (cdr bounds)))))
+
+  (defun my/org-journal--replace-table-under-heading (text heading new-table)
+	"Replace the first Org table under HEADING in TEXT with NEW-TABLE."
+	(with-temp-buffer
+      (insert text)
+      (when-let* ((bounds (my/org-journal--bounds-of-table-under-heading heading)))
+		(delete-region (car bounds) (cdr bounds))
+		(goto-char (car bounds))
+		(insert (string-trim-right new-table) "\n"))
+      (buffer-string)))
+
+  (defun my/org-journal--table-cells (line)
+	"Return Org table cells from LINE as trimmed strings."
+	(mapcar #'string-trim
+			(butlast (cdr (split-string line "|")))))
+
+  (defun my/org-journal--table-hline-p (line)
+	"Return non-nil if LINE is an Org table separator line."
+	(string-match-p "^[ \t]*|[-+]+|[ \t]*$" line))
+
+  (defun my/org-journal--record-total-volume (text)
+	"Read the Total row's Volume column from the Record table in TEXT."
+	(when-let* ((table (my/org-journal--extract-table-under-heading text "Record")))
+      (let ((header nil)
+			(volume-index nil)
+			(total-volume nil))
+		(dolist (line (split-string table "\n" t))
+          (when (and (string-match-p "^[ \t]*|" line)
+					 (not (my/org-journal--table-hline-p line)))
+			(let ((cells (my/org-journal--table-cells line)))
+              (cond
+               ;; First non-separator row is the header.
+               ((null header)
+				(setq header cells)
+				(setq volume-index
+                      (cl-position "Volume (g*hr)" header :test #'string=)))
+
+               ;; Find the Total row.
+               ((and volume-index
+					 (string= (car cells) "Total"))
+				(setq total-volume (nth volume-index cells)))))))
+		(when (and total-volume
+                   (string-match-p
+					"\\`[ \t]*[0-9]+\\(?:\\.[0-9]+\\)?[ \t]*\\'"
+					total-volume))
+          (string-to-number total-volume)))))
+
+  (defun my/org-journal--make-target-table (yesterday-volume today-volume)
+	"Create an aligned Target table."
+	(with-temp-buffer
+      (org-mode)
+      (insert
+       (format "| Day | Volume (g*hr) |\n|-\n| Yesterday | %s |\n| Today | %s |\n"
+               yesterday-volume
+               today-volume))
+      (goto-char (point-min))
+      (org-table-align)
+      (buffer-string)))
+
+  (defun my/org-journal-capture-target ()
+	"Capture target for today's journal file."
+	(let ((file (my/org-journal-file)))
+      (set-buffer (org-capture-target-buffer file))
+      (goto-char (point-max))))
+
+  (defun my/org-journal-capture-template ()
+	"Build today's journal text from template and yesterday's journal.
+
+If yesterday's journal exists:
+- read yesterday's Record table,
+- extract the Total row's Volume value,
+- fill today's Target table,
+- copy yesterday's Record table into today's Record section."
+	(let* ((template-file (my/org-journal-template-file))
+           (today-text
+			(if (file-exists-p template-file)
+				(my/org-journal--file-contents template-file)
+              ""))
+           (yesterday-file (my/org-journal-yesterday-file)))
+
+      (if (not (file-exists-p yesterday-file))
+          today-text
+
+		(let* ((yesterday-text
+				(my/org-journal--file-contents yesterday-file))
+               (yesterday-record-table
+				(my/org-journal--extract-table-under-heading yesterday-text "Record"))
+               (yesterday-total-volume
+				(my/org-journal--record-total-volume yesterday-text))
+               (out today-text))
+
+          ;; Fill today's Target table from yesterday's Total volume.
+          (when yesterday-total-volume
+			(setq out
+                  (my/org-journal--replace-table-under-heading
+                   out
+                   "Target"
+                   (my/org-journal--make-target-table
+					yesterday-total-volume
+					(+ yesterday-total-volume
+                       my/org-journal-daily-volume-increase)))))
+
+          ;; Copy yesterday's Record table into today's Record section.
+          (when yesterday-record-table
+			(setq out
+                  (my/org-journal--replace-table-under-heading
+                   out
+                   "Record"
+                   yesterday-record-table)))
+
+          out))))
+
   (setq org-capture-templates
 	    `(("t" "TODO" plain (function (lambda ()
                                         (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-unassigned)))
-           :empty-lines 1)
+           :empty-lines-before 0
+		   :empty-lines-after 1)
 
           ("s" "TODO Scheduled" plain (function (lambda ()
 												  (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
 		   (function (lambda ()
 					   (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-scheduled)))
-           :empty-lines 1)
+           :empty-lines-before 0
+		   :empty-lines-after 1)
 
           ("d" "TODO Deadlined" plain (function (lambda ()
                                                   (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-deadlined)))
-           :empty-lines 1)
+           :empty-lines-before 0
+		   :empty-lines-after 1)
 
           ("n" "Note" plain (function (lambda ()
 										(my/org-agenda-capture-destination org-agenda-directory "Capture" "Note")))
            (function (lambda ()
                        (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/note)))
-           :empty-lines 1)
+           :empty-lines-before 0
+		   :empty-lines-after 1)
 
-          ("j" "Journal" entry (file ,(expand-file-name (concat (format-time-string "%Y-%m-%d-%a" (current-time)) ".org") org-journal-directory))
-           (function (lambda ()
-                       (let ((template-file-name (expand-file-name "journal-template.org" (concat org-directory "notes"))))
-						 (if (file-exists-p template-file-name)
-							 (org-file-contents template-file-name)
-                           "")))))
+          ("j" "Journal" plain
+		   (function my/org-journal-capture-target)
+		   (function my/org-journal-capture-template)
+		   :empty-lines-before 0
+		   :empty-lines-after 1)  
 
           ("P" "New Project" plain (function (lambda () (my/org-agenda-project-destination org-agenda-directory)))
            (function (lambda ()
                        org-capture-template/agenda/project)))))
-
 
   ;; Org Agenda View Setup
   ;; Time related
