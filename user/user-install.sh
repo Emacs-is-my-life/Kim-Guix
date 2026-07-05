@@ -21,7 +21,7 @@ cp ./files/channels.scm ~/.config/guix/
 # Keep trying
 while true; do
 	guix pull -C ./files/channels.scm && \
-	guix home reconfigure ./home-config.scm && \
+	guix home reconfigure ./home-config.scm --substitute-urls='https://ci.guix.gnu.org https://bordeaux.guix.gnu.org' && \
 	break
 
 	sleep 60
