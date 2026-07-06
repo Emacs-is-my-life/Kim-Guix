@@ -78,6 +78,22 @@ touch ~/Documents/Org/notes/contacts.org
 # GDB GEF
 wget -O ~/.config/gdb/gef.py -q https://gef.blah.cat/py
 
+# clangd configuration for CUDA
+export CUDA_HOME="$HOME/.local/opt/cuda"
+mkdir -p "$HOME/.config/clangd"
+cat > ~/.config/clangd/config.yaml <<EOF
+If:
+  PathMatch: .*\\.cu[h]?$
+
+CompileFlags:
+  Add:
+    - -xcuda
+    - --cuda-path=$CUDA_HOME
+    - --cuda-gpu-arch=sm_120
+    - --no-cuda-version-check
+    - -std=c++20
+EOF
+
 # Install Python Packages to Default Environment
 hash guix
 export PYTHON_DEFAULT_DIR=$HOME/.python-venv/Default
