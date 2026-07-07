@@ -1847,6 +1847,7 @@ If yesterday's journal exists:
 	 'eglot-server-programs
 	 '(cuda-c++-mode
 	   . ("clangd"
+		  "--enable-config"
 		  "--background-index"
 		  "--completion-style=detailed"
 		  "--header-insertion=never"

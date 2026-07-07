@@ -89,9 +89,9 @@ CompileFlags:
   Add:
     - -xcuda
     - --cuda-path=$CUDA_HOME
-    - --cuda-gpu-arch=sm_120
+    - --cuda-gpu-arch=sm_86
     - --no-cuda-version-check
-    - -std=c++20
+    - -std=c++17
 EOF
 
 # Install Python Packages to Default Environment
