@@ -1832,32 +1832,32 @@ If yesterday's journal exists:
   :config
   (define-key eglot-mode-map (kbd "C-l r") 'eglot-rename)
   ;; Eglot uses Eldoc for hover/signature/type information
-  (add-hook 'eglot-managed-mode-hook #'eldoc-mode)
-  
-  ;; [CUDA]
-  ;; Distinguish CUDA buffers from ordinary C++ buffers
-  (define-derived-mode cuda-c++-mode c++-mode "CUDA-C++"
-	"Major mode for CUDA C++ files, derived from 'c++-mode'")
-  ;; Recognize CUDA source/header files
-  (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.cuh\\'" . cuda-c++-mode))
-  ;; Use clangd for CUDA C++ buffers
-  (with-eval-after-load 'eglot
-	(add-to-list
-	 'eglot-server-programs
-	 '(cuda-c++-mode
-	   . ("clangd"
-		  "--enable-config"
-		  "--background-index"
-		  "--completion-style=detailed"
-		  "--header-insertion=never"
-		  "--clang-tidy"))))
-  ;; Start eglot automatically for CUDA files
-  (add-hook 'cuda-c++-mode-hook #'eglot-ensure))
+  (add-hook 'eglot-managed-mode-hook #'eldoc-mode))
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
                '((c++-mode c-mode) . ("clangd"))))
+
+;; [CUDA]
+;; Distinguish CUDA buffers from ordinary C++ buffers
+(define-derived-mode cuda-c++-mode c++-mode "CUDA-C++"
+  "Major mode for CUDA C++ files, derived from 'c++-mode'.")
+;; Recognize CUDA source/header files
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cuh\\'" . cuda-c++-mode))
+;; Use clangd for CUDA C++ buffers
+(with-eval-after-load 'eglot
+  (add-to-list
+   'eglot-server-programs
+   '(cuda-c++-mode
+	 . ("clangd"
+		"--enable-config"
+		"--background-index"
+		"--completion-style=detailed"
+		"--header-insertion=never"
+		"--clang-tidy"))))
+;; Start eglot automatically for CUDA files
+(add-hook 'cuda-c++-mode-hook #'eglot-ensure)
 
 (use-package eglot-inactive-regions
   :ensure t

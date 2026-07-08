@@ -82,18 +82,35 @@ wget -O ~/.config/gdb/gef.py -q https://gef.blah.cat/py
 export CUDA_HOME="$HOME/.local/opt/cuda"
 mkdir -p "$HOME/.config/clangd"
 cat > ~/.config/clangd/config.yaml <<EOF
+If:
+  PathMatch: .*\.cu[h]?$
+
 CompileFlags:
+  Compiler: clang++
+  Remove:
+    - "--cuda-path=*"
+    - "--cuda-path"
+    - "--cuda-gpu-arch=*"
+    - "--cuda-gpu-arch"
+    - "--offload-arch=*"
+    - "--offload-arch"
+    - "-nocudainc"
+    - "-nocudalib"
   Add:
-    - -x
-    - cuda
-	- -nocudainc
-	- -nocudalib
-	- -isystem
-	- $CUDA_HOME/include
-	- -D__CUDACC__
-    - --cuda-gpu-arch=sm_86
-    - --no-cuda-version-check
-    - -std=c++17
+    - "-x"
+    - "cuda"
+    - "-nocudainc"
+    - "-nocudalib"
+    - "-isystem"
+    - "$CUDA_HOME/clangd-extra"
+    - "-isystem"
+    - "$CUDA_HOME/include"
+    - "-isystem"
+    - "$CUDA_HOME/targets/x86_64-linux/include"
+    - "-include"
+    - "clangd_cuda_compat.h"
+    - "--offload-arch=sm_86"
+    - "-std=c++17"
 EOF
 
 # Install Python Packages to Default Environment
