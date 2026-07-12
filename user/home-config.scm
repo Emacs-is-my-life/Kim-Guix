@@ -192,7 +192,7 @@
    qutebrowser librewolf
    
    ;; Network
-   curlie
+   curlie mosh
 
    ;; Finance
    hledger electrum monero-gui
