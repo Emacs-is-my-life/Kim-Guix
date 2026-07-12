@@ -3016,8 +3016,8 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 			(setq gptel-backend (gptel-make-openai "ChatGPT"
 								  :key apikey
 								  :stream t
-								  :models '(chat-latest gpt-5.5 o3-deep-research))
-				  gptel-model 'gpt-5.3-chat-latest))
+								  :models '(chat-latest gpt-5.6-sol))
+				  gptel-model 'chat-latest))
 		   ((string= provider "generativelanguage.googleapis.com")
 			(setq gptel-backend (gptel-make-gemini "Gemini"
 								  :key apikey
@@ -3123,6 +3123,6 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  (aidermacs-default-chat-mode 'architect)
 	  ;; Model Selection
 	  (aidermacs-default-model "openai/gpt-5.3-chat-latest")
-	  (aidermacs-architect-model "openai/gpt-5.5")
-	  (aidermacs-editor-model "openai/gpt-5.3-codex")
-	  (aidermacs-weak-model "openai/gpt-5.4-nano")))
+	  (aidermacs-architect-model "openai/gpt-5.6-sol")
+	  (aidermacs-editor-model "openai/gpt-5.6-terra")
+	  (aidermacs-weak-model "openai/gpt-5.6-luna")))
