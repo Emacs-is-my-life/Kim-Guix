@@ -275,6 +275,7 @@
   :init
   (setq nano-font-family-monospaced "JuliaMono")
   (setq nano-font-size 12)
+  (setq nano-internal-border-width)
   :config
   ;; Font
   (add-to-list 'default-frame-alist '(font . "JuliaMono"))
@@ -308,7 +309,7 @@
             #'(lambda (frame)
   	            (select-frame frame)
   	            (when (display-graphic-p frame)
-                  (set-frame-parameter exwm--frame 'internal-border-width 32)
+                  (set-frame-parameter exwm--frame 'internal-border-width nano-internal-border-width)
                   (redraw-frame)
                   (my/nano-theme)))))
 
@@ -2632,6 +2633,17 @@ If yesterday's journal exists:
   (require 'exwm-xim)
   (exwm-xim-mode 1)
   (push ?\C-\\ exwm-input-prefix-keys)
+
+  (defun my/exwm-workspace-border ()
+	"Remove the internal border only from EXWM workspace 0 and 2."
+	(let ((width (if ((or (= exwm-workspace-current-index 0) (= exwm-workspace-current-index 2)))
+					 0
+                   nano-internal-border-width))) ; normal NANO margin
+      (set-frame-parameter nil 'internal-border-width width)))
+
+  (add-hook 'exwm-workspace-switch-hook
+			#'my/exwm-workspace-border)
+  (add-hook 'exwm-init-hook #'my/exwm-workspace-border)
 
   (add-hook 'exwm-init-hook #'exwm/exwm-init-hook)
   (add-hook 'exwm-update-class-hook #'exwm/update-class)
