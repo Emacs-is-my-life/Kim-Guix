@@ -275,7 +275,7 @@
   :init
   (setq nano-font-family-monospaced "JuliaMono")
   (setq nano-font-size 12)
-  (setq nano-internal-border-width)
+  (setq nano-internal-border-width 32)
   :config
   ;; Font
   (add-to-list 'default-frame-alist '(font . "JuliaMono"))
