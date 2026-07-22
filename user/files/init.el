@@ -2634,21 +2634,22 @@ If yesterday's journal exists:
   (exwm-xim-mode 1)
   (push ?\C-\\ exwm-input-prefix-keys)
 
+  (add-hook 'exwm-init-hook #'exwm/exwm-init-hook)
+  (add-hook 'exwm-update-class-hook #'exwm/update-class)
+  (add-hook 'exwm-update-title-hook #'exwm/exwm-update-title)
+  (add-hook 'exwm-manage-finish-hook #'exwm/configure-window-by-class)
+
   (defun my/exwm-workspace-border ()
 	"Remove the internal border only from EXWM workspace 0 and 2."
-	(let ((width (if ((or (= exwm-workspace-current-index 0) (= exwm-workspace-current-index 2)))
+	(let ((width (if (or (= exwm-workspace-current-index 0)
+						 (= exwm-workspace-current-index 2))
 					 0
-                   nano-internal-border-width))) ; normal NANO margin
+                   nano-internal-border-width)))
       (set-frame-parameter nil 'internal-border-width width)))
 
   (add-hook 'exwm-workspace-switch-hook
 			#'my/exwm-workspace-border)
   (add-hook 'exwm-init-hook #'my/exwm-workspace-border)
-
-  (add-hook 'exwm-init-hook #'exwm/exwm-init-hook)
-  (add-hook 'exwm-update-class-hook #'exwm/update-class)
-  (add-hook 'exwm-update-title-hook #'exwm/exwm-update-title)
-  (add-hook 'exwm-manage-finish-hook #'exwm/configure-window-by-class)
 
   (setq exwm-layout-show-all-buffers t)
   (setq exwm-workspace-show-all-buffers t)
