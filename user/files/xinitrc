@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Source .profile for commmon env vars
-source ~/.profile
+. "$HOME/.profile"
 
 # Disable access control for the current user
 xhost +SI:localuser:$USER
@@ -33,7 +33,29 @@ export XMODIFIERS=@im=fcitx
 export INPUT_METHOD=xim
 export SDL_IM_MODULE=xim
 
+# Describe this graphical session to desktop services and portals.
+export XDG_CURRENT_DESKTOP=EXWM
+export XDG_SESSION_DESKTOP=exwm
+export XDG_SESSION_TYPE=x11
+
 # Start EXWM
 # exec dbus-launch --exit-with-session emacs -mm --debug-init -f exwm-enable
 # exec dbus-launch --exit-with-session emacs -mm -f exwm-wm-mode
-exec dbus-launch --exit-with-session sh -c 'fcitx5 -d & exec emacs -mm -f exwm-wm-mode'
+# exec dbus-launch --exit-with-session sh -c 'fcitx5 -d & exec emacs -mm -f exwm-wm-mode'
+exec dbus-launch --exit-with-session sh -c '
+    # Make the X11/EXWM environment available to D-Bus-activated services,
+    # particularly xdg-desktop-portal and its GTK backend.
+    dbus-update-activation-environment \
+        DISPLAY \
+        XAUTHORITY \
+        XDG_RUNTIME_DIR \
+        XDG_CURRENT_DESKTOP \
+        XDG_SESSION_DESKTOP \
+        XDG_SESSION_TYPE \
+        XDG_DATA_DIRS \
+        FLATPAK_USER_DIR \
+        PATH
+
+    fcitx5 -d
+    exec emacs -mm -f exwm-wm-mode
+'

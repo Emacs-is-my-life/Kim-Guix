@@ -129,25 +129,16 @@
 	         (gnu packages machine-learning)
              (gnu packages parallel)
              (gnu packages package-management)
-             (gnu packages julia)
-             (gnu packages statistics)
-             (gnu packages cran)
+			 (gnu packages freedesktop)
              (gnu packages maths)
              (gnu packages gawk)
-             (gnu packages golang)
-             (gnu packages golang-xyz)
-             (gnu packages golang-apps)
-             (gnu packages java)
-             (gnu packages dotnet)
              (gnu packages node)
              (gnu packages web)
              (gnu packages tex)
              (gnu packages virtualization)
              (gnu packages engineering)
              (gnu packages password-utils)
-             (gnu packages game-development)
-             (gnu packages games)
-             (nongnu packages game-client)
+			 (gnu packages games)
              (guix channels)
              (guix packages)
              (guix gexp))
@@ -268,19 +259,7 @@
    ;; Python
    python uv python-lsp-server python-debugpy
    python-mypy python-mypy-extensions python-types-dataclasses python-pydantic
-   python-pygments
-   
-   ;; Julia
-   julia
-
-   ;; R
-   r r-languageserver
-
-   ;; Golang
-   go gopls
-
-   ;; Java
-   openjdk
+   python-pygments   
 
    ;; JS
    node
@@ -296,8 +275,9 @@
    texlive-latexdiff texlive-git-latexdiff
    tectonic
 
-   ;; Serial
-   minicom))
+   ;; flatpak
+   flatpak flatpak-xdg-utils
+   xdg-desktop-portal xdg-desktop-portal-gtk))
  
  (services
   (list
@@ -366,22 +346,8 @@ export PATH=$CABAL_DIR/bin:$PATH
 
 export PLTUSERHOME=$XDG_DATA_HOME/racket
 
-export GOPATH=$XDG_DATA_HOME/go
-export GOMODCACHE=$XDG_CACHE_HOME/go/mod
-export PATH=$PATH:$GOPATH/bin
-
-export _JAVA_OPTIONS=-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\"
-
 alias python='python3'
 export IPYTHONDIR=$XDG_CONFIG_HOME/ipython
-
-JULIA_VERSION=$(ls $HOME/.julia/environments/ | tail -n 1)
-export USER_JULIA_DIR=$HOME/.julia/environments/${JULIA_VERSION}/
-export JULIA_DEPOT_PATH=$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH
-export JULIAUP_DEPOT_PATH=$XDG_DATA_HOME/julia
-
-export R_ENVIRON=$XDG_CONFIG_HOME/R/Renviron
-export R_WORK_DIR=$USER_PROJECT_DIR
 
 export GNUPGHOME=\"$USER_SECRET_DIR\"GnuPG
 mkdir -p $GNUPGHOME
@@ -433,7 +399,8 @@ fi
 
    (simple-service 'home-files
                    home-files-service-type
-                   `((".bash_custom" ,(local-file "./files/bash_custom"))
+                   `((".profile" ,(local-file "./files/profile")
+					 (".bash_custom" ,(local-file "./files/bash_custom"))
 					 (".gnuplot" ,(local-file "./files/gnuplotrc"))
 					 (".gitconfig", (local-file "./.temp/gitconfig"))))
    
@@ -442,6 +409,7 @@ fi
                    `(("X11/xresources" ,(local-file "./files/xresources"))
                      ("X11/xinitrc" ,(local-file "./files/xinitrc"))
                      ("picom/picom.conf" ,(local-file "./files/picom.conf"))
+					 ("xdg-desktop-portal/portals.conf" ,(local-file "./files/portals.conf"))
                      ("xsettingsd/xsettingsd.conf" ,(local-file "./files/xsettingsd.conf"))
                      ("emacs/init.el" ,(local-file "./files/init.el"))
                      ("emacs/exwm/start-exwm.sh" ,(local-file "./files/start-exwm.sh" #:recursive? #t))
@@ -451,8 +419,6 @@ fi
 					 ("gdb/gdbinit" ,(local-file "./files/gdbinit"))
                      ("dunst/dunstrc" ,(local-file "./files/dunstrc"))
                      ("qutebrowser/config.py" ,(local-file "./files/config.py"))
-                     ("R/Renviron" ,(local-file "./files/Renviron"))
-                     ("R/Rprofile" ,(local-file "./files/Rprofile"))
                      ("ipython/profile_default/startup/10-nopager.py" ,(local-file "./files/10-nopager.py"))
                      ("isyncrc" ,(local-file "./.temp/isyncrc"))))
 
