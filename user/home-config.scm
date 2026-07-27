@@ -148,6 +148,7 @@
   (list
    ;; Emacs & EXWM
    emacs-next emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl redshift
+   xdg-desktop-portal xdg-desktop-portal-gtk
 
    ;; Emacs dependencies
    emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
@@ -273,11 +274,7 @@
    texlive-xetex texlive-xetex-bin texlive-collection-xetex
    texlive-dvipng texlive-dvipng-bin texlive-dvisvgm texlive-dvisvgm-bin
    texlive-latexdiff texlive-git-latexdiff
-   tectonic
-
-   ;; flatpak
-   flatpak flatpak-xdg-utils
-   xdg-desktop-portal xdg-desktop-portal-gtk))
+   tectonic))
  
  (services
   (list
