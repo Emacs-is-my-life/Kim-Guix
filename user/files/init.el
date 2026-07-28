@@ -3051,8 +3051,6 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 				  gptel-model 'deepseek-chat)))))))
 
 
-
-
 ;; aidermacs
 (defun aidermacs/get-llm-providers ()
   (let ((service-provider-list '("generativelanguage.googleapis.com" "api.anthropic.com" "api.openai.com" "api.deepseek.com"))
@@ -3139,3 +3137,139 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 	  (aidermacs-architect-model "openai/gpt-5.6-sol")
 	  (aidermacs-editor-model "openai/gpt-5.6-terra")
 	  (aidermacs-weak-model "openai/gpt-5.6-luna")))
+
+
+
+;; ECA
+(require 'auth-source)
+
+;; Remove ECA_CONFIG left behind by the previous setup.
+(setenv "ECA_CONFIG" nil)
+
+(defconst my/eca-provider-specs
+  ;; HOST                                  PROVIDER     MODEL
+  ;; API SCHEMA        API URL
+  '(("api.openai.com"
+     "openai"    "gpt-5.6-sol"
+     "openai-responses" "https://api.openai.com")
+
+    ("api.anthropic.com"
+     "anthropic" "claude-opus-5"
+     "anthropic" "https://api.anthropic.com")
+
+    ("generativelanguage.googleapis.com"
+     "google"    "gemini-2.5-pro"
+     "openai-chat"
+     "https://generativelanguage.googleapis.com/v1beta/openai")
+
+    ("api.deepseek.com"
+     "deepseek"  "deepseek-v4-pro"
+     "openai-chat" "https://api.deepseek.com"))
+  "ECA providers, in selection-priority order.")
+
+(defun my/eca--auth-key (host)
+  "Return HOST's API key from `auth-sources'."
+  (let* ((entry
+          (car
+           (auth-source-search
+            :max 1
+            :host host
+            :user "apikey"
+            :require '(:secret))))
+         (secret (plist-get entry :secret))
+         (key (cond
+               ((stringp secret) secret)
+               ((functionp secret) (funcall secret)))))
+    (and (stringp key) key)))
+
+(defun my/eca--object (&rest pairs)
+  "Make a JSON object from alternating key/value PAIRS."
+  (let ((object (make-hash-table :test #'equal)))
+    (while pairs
+      (puthash (pop pairs) (pop pairs) object))
+    object))
+
+(defun my/eca--config ()
+  "Build ECA configuration from the first available provider key."
+  (let ((selected
+         (catch 'found
+           (dolist (spec my/eca-provider-specs)
+             (when-let ((key (my/eca--auth-key (car spec))))
+               (throw 'found (cons key spec)))))))
+    (unless selected
+      (user-error "No ECA API key found in auth-sources"))
+
+    (pcase-let* ((`(,key ,_host ,provider ,model ,api ,url)
+                  selected)
+                 (full-model (concat provider "/" model))
+                 (provider-config
+                  (my/eca--object
+                   "api" api
+                   "url" url
+                   "key" key
+                   "models"
+                   (my/eca--object
+                    model (my/eca--object)))))
+      (message "ECA: using %s" full-model)
+      (list
+       :providers
+       (my/eca--object provider provider-config)
+
+       ;; Global fallback model.
+       :defaultModel full-model
+       :defaultAgent "code"
+
+       ;; Explicit default for the code agent.
+       :agent
+       (my/eca--object
+        "code"
+        (my/eca--object
+         "defaultModel" full-model))))))
+
+(defun my/eca--inject-config (args)
+  "Inject auth-source configuration into ECA's initialize request."
+  (let ((session (car args))
+        (request (cdr args)))
+    (when (equal (plist-get request :method) "initialize")
+      (let* ((params (plist-get request :params))
+             (options (plist-get params :initializationOptions)))
+        (setq params
+              (plist-put
+               params :initializationOptions
+               (append options (my/eca--config))))
+        (setq request (plist-put request :params params))))
+    (cons session request)))
+
+(defun my/eca-path-guard (orig-fun &rest args)
+  "Only allow ECA to run inside ~/Workspace/."
+  (let ((allowed-path (expand-file-name "~/Workspace/")))
+    (if (string-prefix-p allowed-path
+                         (expand-file-name default-directory))
+        (apply orig-fun args)
+      (message "🚫 ECA is disabled outside of %s" allowed-path))))
+
+(use-package eca
+  :ensure t
+  :defer t
+  :bind (("C-c e" . eca))
+  :config
+  ;; Only permit ECA inside ~/Workspace/.
+  (unless (advice-member-p #'my/eca-path-guard 'eca)
+    (advice-add 'eca :around #'my/eca-path-guard))
+
+  ;; Theme
+  (setq eca-chat-tab-line nil)
+
+  ;; Remove advice installed by the older ECA setup.
+  (when (and (fboundp 'my/eca--with-auth)
+             (advice-member-p #'my/eca--with-auth 'eca))
+    (advice-remove 'eca #'my/eca--with-auth))
+
+  ;; Inject provider configuration into ECA initialization.
+  (unless (advice-member-p
+           #'my/eca--inject-config
+           'eca-api-request-async)
+    (advice-add
+     'eca-api-request-async
+     :filter-args
+     #'my/eca--inject-config)))
