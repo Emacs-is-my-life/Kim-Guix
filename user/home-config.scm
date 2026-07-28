@@ -224,7 +224,7 @@
 
    ;; C/C++
    gcc-toolchain clang-toolchain
-   boost eigen onetbb fmt spdlog
+   boost eigen onetbb fmt
 
    ;; Rust
    rust rust-analyzer
