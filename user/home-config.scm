@@ -143,6 +143,10 @@
              (guix packages)
              (guix gexp))
 
+(define riscv64-linux-gnu-toolchain
+  ((@ (gnu packages cross-base) cross-gcc-toolchain)
+   "riscv64-linux-gnu"))
+
 (home-environment
  (packages
   (list
@@ -163,7 +167,9 @@
    isync mu
    
    ;; Fonts
-   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji font-google-roboto font-google-material-design-icons font-awesome font-juliamono font-apl386 font-tex-gyre
+   font-awesome font-juliamono font-apl386 font-tex-gyre
+   font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji
+   font-google-roboto font-google-material-design-icons
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
@@ -211,7 +217,8 @@
    gnu-make cmake pkg-config meson ninja ccache git git-lfs shellcheck
 
    ;; Debugging Tools
-   gdb lldb valgrind strace uftrace ltrace wireshark
+   gdb-multiarch lldb
+   valgrind strace uftrace ltrace wireshark
 
    ;; Man page
    man-pages stdman
@@ -225,6 +232,9 @@
    ;; C/C++
    gcc-toolchain clang-toolchain
    boost eigen onetbb fmt
+
+   ;; Cross-Compile
+   riscv64-linux-gnu-toolchain
 
    ;; Rust
    rust rust-analyzer
