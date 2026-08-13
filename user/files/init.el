@@ -1814,6 +1814,7 @@ If yesterday's journal exists:
   :hook
   ((haskell-mode . eglot-ensure)
    (tuareg-mode . eglot-ensure)
+   (asm-mode . eglot-ensure)
    (c-mode . eglot-ensure)
    (c++-mode . eglot-ensure)
    (rust-mode . eglot-ensure)
@@ -1944,7 +1945,13 @@ If yesterday's journal exists:
 
 ;; [RISC-V Assembly]
 (use-package riscv-mode
-  :ensure t)
+  :mode (("\\.S\\'" . riscv-mode)
+         ("\\.s\\'" . riscv-mode))
+  :hook (riscv-mode . eglot-ensure))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(riscv-mode . ("asm-lsp"))))
 
 ;; [Ocaml]
 (use-package neocaml
@@ -2179,6 +2186,7 @@ If yesterday's journal exists:
   (TeX-source-correlate-mode)
   (setq-default TeX-source-correlate-start-server t)
   (setq-default LaTeX-math-menu-unicode t)
+  (setq-default font-latex-fontify-script 'multi-level)
   (setq-default font-latex-fontify-sectioning 1.3)
   ;; Scale preview for my DPI
   (setq-default preview-scale-function 1.0)
@@ -2186,17 +2194,17 @@ If yesterday's journal exists:
     (assoc-delete-all "--" tex--prettify-symbols-alist)
     (assoc-delete-all "---" tex--prettify-symbols-alist))
   (add-hook 'LaTeX-mode-hook
-	          #'(lambda ()
+	        #'(lambda ()
                 (TeX-fold-mode 1)
                 (outline-minor-mode)))
   (add-to-list 'TeX-view-program-selection
-	             '(output-pdf "sioyek"))
+	           '(output-pdf "sioyek"))
   ;; Do not run eglot within templated TeX files
   (add-hook 'LaTeX-mode-hook
-	          (lambda ()
-	            (unless (string-match "\.hogan\.tex$" (buffer-name))
-		            (eglot))
-	            (setq-local flycheck-checker 'tex-chktex)))
+	        (lambda ()
+	          (unless (string-match "\.hogan\.tex$" (buffer-name))
+		        (eglot))
+	          (setq-local flycheck-checker 'tex-chktex)))
   (add-hook 'LaTeX-mode-hook #'smartparens-mode)
   (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
   (add-hook 'LaTeX-mode-hook #'display-line-numbers-mode))

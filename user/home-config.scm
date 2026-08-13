@@ -20,6 +20,7 @@
 			 (gnu packages qt)
 			 (gnu packages fcitx5)
              (gnu packages networking)
+			 (gnu packages tls)
 			 (gnu packages tor)
              (gnu packages gnome)
              (gnu packages gnome-xyz)
@@ -184,16 +185,16 @@
    gzip unzip
 
    ;; Test Processing Utility
-   gawk sed the-silver-searcher ripgrep
+   gawk sed findutils the-silver-searcher ripgrep
 
    ;; Web Browser
    qutebrowser librewolf
    
    ;; Network
-   curlie mosh
+   curlie
 
    ;; Finance
-   hledger electrum monero-gui
+   hledger electrum
 
    ;; Document Viewer
    zathura-pdf-mupdf fbreader sioyek
@@ -208,23 +209,23 @@
    gimp imagemagick inkscape graphviz
 
    ;; Remote Tools
-   openssh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
+   openssh mosh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
 
    ;; Study
    exercism
 
    ;; Build Tools
-   gnu-make cmake pkg-config meson ninja ccache git git-lfs shellcheck
+   gnu-make cmake openssl pkg-config meson ninja ccache git git-lfs shellcheck
 
    ;; Debugging Tools
    gdb-multiarch lldb
-   valgrind strace uftrace ltrace wireshark
+   valgrind strace uftrace bpftrace ltrace wireshark
 
    ;; Man page
    man-pages stdman
 
    ;; Working with binary
-   patchelf
+   elfutils patchelf
 
    ;; Assembly
    nasm yasm capstone linasm
