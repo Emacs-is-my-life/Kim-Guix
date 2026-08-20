@@ -161,6 +161,12 @@
    emacs-geiser emacs-geiser-guile emacs-geiser-racket
    gobject-introspection
 
+   ;; GNOME
+   gnome-session gnome-shell gnome-settings-daemon
+   gnome-control-center gnome-backgrounds dconf
+   adwaita-icon-theme font-adwaita
+   xdg-desktop-portal-gnome
+
    ;; Security
    gnupg paperkey argon2 keepassxc
    
@@ -197,7 +203,7 @@
    hledger electrum
 
    ;; Document Viewer
-   zathura-pdf-mupdf fbreader sioyek
+   zathura-pdf-mupdf sioyek
 
    ;; Document Edit
    ghostscript libreoffice
@@ -296,6 +302,10 @@
               (list
                (plain-file "bash_profile"
                            "
+# PulseAUdio
+unset PULSE_CONFIG
+unset PULSE_CLIENTCONFIG
+
 export USER_PROJECT_DIR=$HOME/Workspace/
 export USER_SCRATCH_DIR=$HOME/Scratch/
 export USER_ORG_DIR=$HOME/Documents/Org/
@@ -393,9 +403,16 @@ if [[ \"$INSIDE_EMACS\" = 'vterm' ]]; then
     export COLORTERM=truecolor
 fi
 
-# EXWM
-if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-   exec $XDG_CONFIG_HOME/emacs/exwm/start-exwm.sh
+# Desktop Environment
+if [[ -z ${DISPLAY:-} && -z ${WAYLAND_DISPLAY:-} ]]; then
+    case \"${XDG_VTNR:-0}\" in
+        1)
+            exec \"$XDG_CONFIG_HOME/emacs/exwm/start-exwm.sh\"
+            ;;
+        2)
+            exec \"$XDG_CONFIG_HOME/gnome/start-gnome.sh\"
+            ;;
+    esac 
 fi
 ")))
              
@@ -417,11 +434,12 @@ fi
                    `(("X11/xresources" ,(local-file "./files/xresources"))
                      ("X11/xinitrc" ,(local-file "./files/xinitrc"))
                      ("picom/picom.conf" ,(local-file "./files/picom.conf"))
-					 ("xdg-desktop-portal/portals.conf" ,(local-file "./files/portals.conf"))
+					 ("xdg-desktop-portal/exwm-portals.conf" ,(local-file "./files/exwm-portals.conf"))
                      ("xsettingsd/xsettingsd.conf" ,(local-file "./files/xsettingsd.conf"))
                      ("emacs/init.el" ,(local-file "./files/init.el"))
                      ("emacs/exwm/start-exwm.sh" ,(local-file "./files/start-exwm.sh" #:recursive? #t))
                      ("emacs/exwm/monitors-exwm.sh" ,(local-file "./files/monitors-exwm.sh" #:recursive? #t))
+					 ("gnome/start-gnome.sh" ,(local-file "./files/start-gnome.sh" #:recursive? #t))
 					 ("mpv/mpv.conf" ,(local-file "./files/mpv.conf"))
 					 ("mpv/input.conf" ,(local-file "./files/mpv-input.conf"))
 					 ("gdb/gdbinit" ,(local-file "./files/gdbinit"))
@@ -431,6 +449,11 @@ fi
                      ("isyncrc" ,(local-file "./.temp/isyncrc"))))
 
    (service home-shepherd-service-type)
+
+   (service home-dbus-service-type)
+   (service home-pipewire-service-type
+			(home-pipewire-configuration
+			 (enable-pulseaudio? #t)))
 
    (service home-batsignal-service-type
             (home-batsignal-configuration

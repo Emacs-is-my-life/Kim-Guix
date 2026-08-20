@@ -2290,6 +2290,8 @@ If yesterday's journal exists:
   :config
   (setq vterm-always-compile-module t)
   (setq vterm-ignore-blink-cursor nil)
+  (setq vterm-max-scrollback 100000)
+  (setq vterm-clear-scrollback-when-clearing nil)
   (add-hook 'vterm-mode-hook
             #'(lambda ()
                 (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix)))
