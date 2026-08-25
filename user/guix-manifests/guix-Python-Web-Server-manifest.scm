@@ -31,5 +31,6 @@
    "python-faker"
    "python-aiosmtpd"
    "python-email-validator"
+   "python-mcp"
    "pgcli"
    ))
