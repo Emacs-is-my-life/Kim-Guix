@@ -76,6 +76,7 @@
              (gnu packages ninja)
 			 (gnu packages man)
              (gnu packages elf)
+			 (gnu packages hexedit)
              (gnu packages engineering)
              (gnu packages version-control)
              (gnu packages bison)
@@ -153,6 +154,7 @@
   (list
    ;; Emacs & EXWM
    emacs-next emacs-vterm pinentry-emacs emacs-guix libtool ncurses dunst scrot brightnessctl playerctl redshift
+   adwaita-icon-theme font-adwaita
    xdg-desktop-portal xdg-desktop-portal-gtk
 
    ;; Emacs dependencies
@@ -162,10 +164,9 @@
    gobject-introspection
 
    ;; GNOME
-   gnome-session gnome-shell gnome-settings-daemon
-   gnome-control-center gnome-backgrounds dconf
-   adwaita-icon-theme font-adwaita
-   xdg-desktop-portal-gnome
+   ;; gnome-session gnome-shell gnome-settings-daemon
+   ;; gnome-control-center gnome-backgrounds dconf
+   ;; xdg-desktop-portal-gnome
 
    ;; Security
    gnupg paperkey argon2 keepassxc
@@ -231,7 +232,7 @@
    man-pages stdman
 
    ;; Working with binary
-   elfutils patchelf
+   elfutils patchelf fq
 
    ;; Assembly
    nasm yasm capstone linasm
