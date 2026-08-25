@@ -27,11 +27,11 @@ export EDITOR="$VISUAL"
 #exec xterm
 
 # Set input method Environment Variables
-export GTK_IM_MODULE=xim
-export QT_IM_MODULE=xim
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
-export INPUT_METHOD=xim
-export SDL_IM_MODULE=xim
+export INPUT_METHOD=fcitx
+export SDL_IM_MODULE=fcitx
 
 # Describe this graphical session to desktop services and portals.
 export XDG_CURRENT_DESKTOP=EXWM

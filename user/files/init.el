@@ -2640,9 +2640,10 @@ If yesterday's journal exists:
 (use-package exwm
   :ensure t
   :config
-  (require 'exwm-xim)
-  (exwm-xim-mode 1)
-  (push ?\C-\\ exwm-input-prefix-keys)
+  ;; fcitx is handling input
+  ;; (require 'exwm-xim)
+  ;; (exwm-xim-mode 1)
+  ;; (push ?\C-\\ exwm-input-prefix-keys)
 
   (add-hook 'exwm-init-hook #'exwm/exwm-init-hook)
   (add-hook 'exwm-update-class-hook #'exwm/update-class)
