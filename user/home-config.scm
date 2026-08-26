@@ -184,6 +184,11 @@
 
    ;; Input Method
    fcitx5 fcitx5-configtool fcitx5-hangul
+   fcitx5-gtk fcitx5-gtk4
+   (list fcitx5-gtk "gtk3")
+   (list fcitx5-gtk "gtk2")
+   fcitx5-qt
+   
 
    ;; File Browser
    nautilus gvfs trash-cli
