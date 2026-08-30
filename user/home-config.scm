@@ -67,6 +67,7 @@
              (gnu packages vnc)
              (gnu packages syncthing)
              (gnu packages magic-wormhole)
+			 (gnu packages freeipmi)
              (gnu packages base)
              (gnu packages code)
              (gnu packages cmake)
@@ -203,7 +204,7 @@
    qutebrowser librewolf
    
    ;; Network
-   curlie
+   curlie jq
 
    ;; Finance
    hledger electrum
@@ -222,6 +223,9 @@
 
    ;; Remote Tools
    openssh mosh sshfs syncthing syncthing-gtk remmina moonlight-qt magic-wormhole
+
+   ;; Server Management
+   freeipmi
 
    ;; Study
    exercism
