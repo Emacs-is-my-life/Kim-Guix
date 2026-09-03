@@ -241,7 +241,7 @@
    man-pages stdman
 
    ;; Working with binary
-   elfutils patchelf fq
+   elfutils patchelf fq imhex imhex-pattern-language
 
    ;; Assembly
    nasm yasm capstone linasm
