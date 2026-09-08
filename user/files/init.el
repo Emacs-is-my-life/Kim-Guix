@@ -2298,13 +2298,11 @@ If yesterday's journal exists:
   (add-hook 'vterm-mode-hook 'vterm/rename-buffer)
   (add-hook 'vterm-mode-hook 'vterm/source-bashrc)
   ;; Don't bind page up key for command history lookup
-  (setq vterm-keymap-exceptions
-		(remove "<prior>"
-				(remove "<next>" vterm-keymap-exceptions)))
+  (add-to-list 'vterm-keymap-exceptions "<prior>")
+  (add-to-list 'vterm-keymap-exceptions "<next>")
 
-  (with-eval-after-load 'vterm
-	(define-key vterm-mode-map (kbd "<prior>") #'scroll-down-command)
-	(define-key vterm-mode-map (kbd "<next>")  #'scroll-up-command)))
+  (define-key vterm-mode-map (kbd "<prior>") #'scroll-down-command)
+  (define-key vterm-mode-map (kbd "<next>")  #'scroll-up-command))
 
 (use-package eterm-256color
   :ensure t
