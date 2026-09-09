@@ -1878,12 +1878,15 @@ If yesterday's journal exists:
 			(lambda ()
 			  (setq-local symbols-outline-fetch-fn #'symbols-outline-lsp-fetch)))
   :config
-  (setq symbols-outline-window-position 'right
-		symbols-outline-window-width 40
-		symbols-outline-no-other-window nil
-		symbols-outline-no-delete-other-window nil
-		symbols-outline-use-nerd-icon-in-gui t)
+  (let ((wide-screen-p (> (frame-width) 160))) ; X = 160 columns
+	(setq symbols-outline-window-position
+          (if wide-screen-p 'right 'bottom)
+          symbols-outline-window-width 40
+          symbols-outline-window-height 12
+          symbols-outline-no-other-window nil
+          symbols-outline-no-delete-other-window nil))
   (symbols-outline-follow-mode))
+
 
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
