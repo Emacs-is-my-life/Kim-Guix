@@ -1869,6 +1869,21 @@ If yesterday's journal exists:
   :ensure
   :after eglot)
 
+;; symbols-outline
+(use-package symbols-outline
+  :ensure t
+  :bind ("C-c s" . symbols-outline-show)
+  :init
+  (add-hook 'eglot-managed-mode-hook
+			(lambda ()
+			  (setq-local symbols-outline-fetch-fn #'symbols-outline-lsp-fetch)))
+  :config
+  (setq symbols-outline-window-position 'right
+		symbols-outline-window-width 40
+		symbols-outline-no-other-window nil
+		symbols-outline-no-delete-other-window nil
+		symbols-outline-use-nerd-icon-in-gui t)
+  (symbols-outline-follow-mode))
 
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
@@ -3038,7 +3053,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
 			(setq gptel-backend (gptel-make-openai "ChatGPT"
 								  :key apikey
 								  :stream t
-								  :models '(chat-latest gpt-5.6-sol))
+								  :models '(chat-latest gpt-6-astra))
 				  gptel-model 'chat-latest))
 		   ((string= provider "generativelanguage.googleapis.com")
 			(setq gptel-backend (gptel-make-gemini "Gemini"
@@ -3070,7 +3085,7 @@ Replace <your-expressions-here> with mathematical expressions written in LaTeX g
   ;; HOST                                  PROVIDER     MODEL
   ;; API SCHEMA        API URL
   '(("api.openai.com"
-     "openai"    "gpt-5.6-sol"
+     "openai"    "gpt-6-astra"
      "openai-responses" "https://api.openai.com")
 
     ("api.anthropic.com"

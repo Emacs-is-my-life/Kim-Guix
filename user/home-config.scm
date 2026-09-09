@@ -179,6 +179,7 @@
    font-awesome font-juliamono font-apl386 font-tex-gyre
    font-google-noto font-google-noto-sans-cjk font-google-noto-serif-cjk font-google-noto-emoji
    font-google-roboto font-google-material-design-icons
+   emacs-nerd-icons emacs-nerd-icons-completion font-nerd-symbols
    
    ;; Desktop Themes
    glib materia-theme flat-remix-icon-theme
@@ -252,6 +253,9 @@
 
    ;; Cross-Compile
    riscv64-linux-gnu-toolchain
+
+   ;; Kernel Header
+   linux-libre-headers
 
    ;; Rust
    rust rust-analyzer
