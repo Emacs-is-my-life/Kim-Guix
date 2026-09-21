@@ -160,7 +160,7 @@
 
    ;; Emacs dependencies
    emacs-dash emacs-zmq emacs-magit-popup emacs-emacsql emacs-pg emacs-edit-indirect emacs-bui
-   emacs-finalize emacs-peg
+   emacs-finalize
    emacs-geiser emacs-geiser-guile emacs-geiser-racket
    gobject-introspection
 
@@ -188,8 +188,7 @@
    fcitx5-gtk fcitx5-gtk4
    (list fcitx5-gtk "gtk3")
    (list fcitx5-gtk "gtk2")
-   fcitx5-qt
-   
+   fcitx5-qt   
 
    ;; File Browser
    nautilus gvfs trash-cli
