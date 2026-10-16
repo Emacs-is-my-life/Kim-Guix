@@ -2653,30 +2653,116 @@ If yesterday's journal exists:
   (interactive)
   (start-process-shell-command "notify-send" nil "notify-send \"DUNST_COMMAND_TOGGLE\""))
 
+;; nano modeline compat issue
+(with-eval-after-load 'nano-modeline
+  (defun nano-mode-name ()
+    "Return the formatted major-mode name."
+    (format-mode-line mode-name)))
+
 (use-package exwm
   :ensure t
   :config
-  ;; fcitx is handling input
-  ;; (require 'exwm-xim)
-  ;; (exwm-xim-mode 1)
-  ;; (push ?\C-\\ exwm-input-prefix-keys)
 
   (add-hook 'exwm-init-hook #'exwm/exwm-init-hook)
   (add-hook 'exwm-update-class-hook #'exwm/update-class)
   (add-hook 'exwm-update-title-hook #'exwm/exwm-update-title)
   (add-hook 'exwm-manage-finish-hook #'exwm/configure-window-by-class)
 
+  (require 'cl-lib)
+  
   (defun my/exwm-workspace-border ()
-	"Remove the internal border only from EXWM workspace 0 and 2."
-	(let ((width (if (or (= exwm-workspace-current-index 0)
-						 (= exwm-workspace-current-index 2))
-					 0
-                   nano-internal-border-width)))
-      (set-frame-parameter nil 'internal-border-width width)))
+	"Remove internal borders on workspaces 0 and 2 without resizing frames."
+	(interactive)
+	(let ((frame-inhibit-implied-resize t)
+          changed-frames)
+      (cl-loop
+       for frame in exwm-workspace--list
+       for index from 0
+       for width = (if (memq index '(0 2))
+                       0
+					 nano-internal-border-width)
+       do
+       (when (and (frame-live-p frame)
+                  (not (equal
+						(frame-parameter frame 'internal-border-width)
+						width)))
+		 (set-frame-parameter frame 'internal-border-width width)
+		 (push frame changed-frames)))
 
-  (add-hook 'exwm-workspace-switch-hook
-			#'my/exwm-workspace-border)
-  (add-hook 'exwm-init-hook #'my/exwm-workspace-border)
+      (when changed-frames
+		(redisplay t)
+		(dolist (frame changed-frames)
+          (exwm-layout--refresh frame)))))
+
+  (dolist (hook '(exwm-init-hook
+                  exwm-workspace-switch-hook
+                  exwm-workspace-list-change-hook
+                  exwm-randr-refresh-hook))
+	(remove-hook hook #'my/exwm-workspace-border)
+	(add-hook hook #'my/exwm-workspace-border t))
+
+  (defun my/exwm-application-layout ()
+	"Remove application-window decorations on workspaces 0 and 2."
+	(let ((parameters '(header-line-format
+						mode-line-format
+						tab-line-format)))
+      (cl-loop
+       for frame in exwm-workspace--list
+       for index from 0
+       when (frame-live-p frame)
+       do
+       (dolist (window (window-list frame 'nomini))
+		 (with-current-buffer (window-buffer window)
+           (let ((clean (and (memq index '(0 2))
+							 (derived-mode-p 'exwm-mode)
+							 (not exwm--floating-frame)))
+				 (saved (window-parameter
+						 window 'my/exwm-saved-line-formats)))
+			 (cond
+              (clean
+               ;; Remember this window's original line formats.
+               (unless saved
+				 (set-window-parameter
+                  window 'my/exwm-saved-line-formats
+                  (mapcar
+                   (lambda (parameter)
+					 (cons parameter
+                           (window-parameter window parameter)))
+                   parameters)))
+
+               (dolist (parameter parameters)
+				 (unless (eq (window-parameter window parameter) 'none)
+                   (set-window-parameter window parameter 'none)))
+
+               (set-window-margins window 0 0)
+               (set-window-fringes window 0 0)
+               (set-window-scroll-bars window 0 nil 0 nil))
+
+              (saved
+               ;; Restore lines and the current buffer's normal spacing
+               ;; when this window no longer qualifies for cleanup.
+               (dolist (entry saved)
+				 (set-window-parameter window (car entry) (cdr entry)))
+
+               (set-window-margins
+				window left-margin-width right-margin-width)
+               (set-window-fringes
+				window left-fringe-width right-fringe-width
+				fringes-outside-margins)
+               (set-window-scroll-bars
+				window scroll-bar-width vertical-scroll-bar
+				scroll-bar-height horizontal-scroll-bar)
+
+               (set-window-parameter
+				window 'my/exwm-saved-line-formats nil)))))))))
+
+  (dolist (hook '(exwm-init-hook
+                  exwm-manage-finish-hook
+                  exwm-workspace-switch-hook
+                  exwm-workspace-list-change-hook
+                  window-configuration-change-hook))
+	;; Run after Nano's window-decoration updates.
+	(add-hook hook #'my/exwm-application-layout t))
 
   (setq exwm-layout-show-all-buffers t)
   (setq exwm-workspace-show-all-buffers t)
