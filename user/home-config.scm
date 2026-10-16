@@ -191,13 +191,13 @@
    fcitx5-qt   
 
    ;; File Browser
-   nautilus gvfs trash-cli
+   nautilus gvfs trash-cli fd
 
    ;; Compression Utility
    gzip unzip
 
    ;; Test Processing Utility
-   gawk sed findutils the-silver-searcher ripgrep
+   gawk sed findutils the-silver-searcher ripgrep ast-grep
 
    ;; Web Browser
    qutebrowser librewolf
