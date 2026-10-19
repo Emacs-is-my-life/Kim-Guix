@@ -287,6 +287,15 @@
              (virtlog-configuration
               (max-clients 128)))
 
+	(service opendoas-service-type
+			 (opendoas-configuration
+			  (rules
+			   (list
+				(opendoas-permit-rule
+				 (identity ":wheel")
+				 (as-user "root")
+				 (persist? #t))))))
+
     (service cups-service-type
              (cups-configuration
               (web-interface? #t)

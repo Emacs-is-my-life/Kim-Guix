@@ -2756,13 +2756,59 @@ If yesterday's journal exists:
                (set-window-parameter
 				window 'my/exwm-saved-line-formats nil)))))))))
 
+  (defvar my/exwm-layout-refresh-timer nil)
+  (defvar my/exwm-layout-refresh-running nil)
+
+  (defun my/exwm-refresh-applications ()
+	"Apply decorations, redisplay, and refresh workspaces 0 and 2."
+	(interactive)
+
+	(when (timerp my/exwm-layout-refresh-timer)
+      (cancel-timer my/exwm-layout-refresh-timer))
+	(setq my/exwm-layout-refresh-timer nil)
+
+	(when (and (bound-and-true-p exwm--connection)
+               (not my/exwm-layout-refresh-running))
+      (let ((my/exwm-layout-refresh-running t))
+		(my/exwm-application-layout)
+		(redisplay t)
+
+		;; Refresh the workspace frames explicitly, even when a
+		;; floating frame currently has focus.
+		(dolist (index '(0 2))
+          (let ((frame (nth index exwm-workspace--list)))
+			(when (and (frame-live-p frame)
+                       (exwm-workspace--active-p frame))
+              (exwm-layout--refresh frame)))))))
+
+  (defun my/exwm-schedule-layout-refresh (&rest _)
+	"Schedule one refresh after the current event processing."
+	(when (and (bound-and-true-p exwm--connection)
+               (not my/exwm-layout-refresh-running)
+               (not (timerp my/exwm-layout-refresh-timer)))
+      (setq my/exwm-layout-refresh-timer
+			(run-with-timer 0 nil #'my/exwm-refresh-applications))))
+
   (dolist (hook '(exwm-init-hook
                   exwm-manage-finish-hook
                   exwm-workspace-switch-hook
                   exwm-workspace-list-change-hook
+                  exwm-randr-refresh-hook
+                  exwm-floating-setup-hook
+                  exwm-floating-exit-hook
                   window-configuration-change-hook))
-	;; Run after Nano's window-decoration updates.
-	(add-hook hook #'my/exwm-application-layout t))
+	;; Keep cleanup after Nano's decoration updates.
+	(add-hook hook #'my/exwm-application-layout t)
+	;; Then update the actual application geometry.
+	(add-hook hook #'my/exwm-schedule-layout-refresh t))
+
+  (add-hook 'window-selection-change-functions
+			#'my/exwm-schedule-layout-refresh t)
+
+  (remove-function after-focus-change-function
+                   #'my/exwm-schedule-layout-refresh)
+  (add-function :after after-focus-change-function
+				#'my/exwm-schedule-layout-refresh)
 
   (setq exwm-layout-show-all-buffers t)
   (setq exwm-workspace-show-all-buffers t)
