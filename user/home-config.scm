@@ -188,7 +188,10 @@
    fcitx5-gtk fcitx5-gtk4
    (list fcitx5-gtk "gtk3")
    (list fcitx5-gtk "gtk2")
-   fcitx5-qt   
+   fcitx5-qt
+
+   ;; Screenshot
+   maim
 
    ;; File Browser
    nautilus gvfs trash-cli fd
