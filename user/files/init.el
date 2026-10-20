@@ -3130,7 +3130,7 @@ If yesterday's journal exists:
                (filename (format "%s%s-region-screenshot.png"
                                  dir
                                  (format-time-string "%Y%m%d-%H%M%S")))
-               (command (format "import %s" filename)))
+               (command (format "maim -s %s" filename)))
           (make-directory dir t)
           (shell-command command)
           filename))
