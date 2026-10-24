@@ -2153,41 +2153,6 @@ If yesterday's journal exists:
 
 
 
-;; <Hledger>
-;; hledger-mode
-(use-package hledger-mode
-  :ensure t
-  :mode ("\\.journal\\'" "\\.hledger\\'")
-  :commands hledger-enable-reporting
-  :bind (("C-c j" . hledger-run-command)
-         :map hledger-mode-map
-         ("C-c e" . hledger-jentry)
-         ("M-p" . hledger/prev-entry)
-         ("M-n" . hledger/next-entry))
-  :init
-  (setq hledger-jfile (getenv "LEDGER_FILE"))
-  (setq hledger-show-expanded-report nil)
-  :config
-  (add-hook 'hledger-view-mode-hook #'hl-line-mode)
-  (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
-  (add-hook 'hledger-mode-hook
-            #'(lambda ()
-                (make-local-variable 'company-backends)
-                (add-to-list 'company-backends 'hledger-company))))
-
-;; flycheck-hledger
-(use-package flycheck-hledger
-  :ensure t
-  :after (flycheck hledger-mode)
-  :demand t)
-
-
-;; <UML>
-;; PlantUML
-(use-package plantuml-mode
-  :ensure t
-  :mode ("\\.puml\\'" . plantuml-mode))
-
 ;; <LaTeX>
 ;; AUCTeX
 (use-package tex

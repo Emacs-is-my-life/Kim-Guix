@@ -209,7 +209,7 @@
    curlie jq
 
    ;; Finance
-   hledger electrum
+   electrum
 
    ;; Document Viewer
    zathura-pdf-mupdf sioyek
@@ -325,23 +325,17 @@ export USER_PROJECT_DIR=$HOME/Workspace/
 export USER_SCRATCH_DIR=$HOME/Scratch/
 export USER_ORG_DIR=$HOME/Documents/Org/
 export USER_ORG_SHORTCUT_DIR=$HOME/Org/
-export USER_HTML_DIR=$XDG_CACHE_HOME/public_html/
 export USER_SECRET_DIR=$HOME/Documents/Secrets/
-export USER_LEDGER_DIR=$HOME/Documents/Ledger/
 export USER_MAIL_DIR=$HOME/Documents/Mail/
-export USER_BOOK_DIR=$HOME/Books/
 export USER_BIBTEX_DIR=$HOME/Documents/BibTeX/
 export USER_PYTHON_ENV_DIR=$HOME/.python-venv/
 
 mkdir -p $USER_PROJECT_DIR
 mkdir -p $USER_SCRATCH_DIR
 mkdir -p $USER_ORG_DIR
-mkdir -p $USER_HTML_DIR
 mkdir -p $USER_SECRET_DIR
 chmod 700 $USER_SECRET_DIR
-mkdir -p $USER_LEDGER_DIR
 mkdir -p $USER_MAIL_DIR
-mkdir -p $USER_BOOK_DIR
 mkdir -p $USER_BIBTEX_DIR
 mkdir -p $USER_PYTHON_ENV_DIR
 
@@ -396,7 +390,6 @@ if [ -f $HOME/.bash_custom ]; then
     source $HOME/.bash_custom
 fi
 
-export LEDGER_FILE=$USER_LEDGER_DIR/hledger.journal
 export TEXMFHOME=$XDG_DATA_HOME/texmf
 export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
 export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
