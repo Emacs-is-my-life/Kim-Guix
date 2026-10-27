@@ -817,12 +817,12 @@
   (global-set-key (kbd "C-c i") (lambda () (interactive) (org-capture 0)))
 
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "DONE(d)")))
+        '((sequence "TODO(t)" "DOING(d)" "BLOCKED(b)" "DONE(d)")))
   
   (setq org-todo-keyword-faces
         '(("TODO" . (:foreground "blue" :weight bold))
-          ("NEXT" . (:foreground "green" :weight bold))
-          ("WAIT" . (:foreground "gray"))
+          ("DOING" . (:foreground "green" :weight bold))
+          ("BLOCKED" . (:foreground "gray"))
           ("DONE" . (:foreground "black" :weight bold))))
 
   (setq org-agenda-deadline-faces
