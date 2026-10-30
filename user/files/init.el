@@ -758,8 +758,6 @@
   (setq org-journal-directory (concat org-directory "journal"))
   (make-directory org-journal-directory t)
   (make-directory (concat org-directory "notes") t)
-  (make-directory (concat org-directory "agenda") t)
-  (make-directory (concat org-directory "agenda/.archive") t)
   (make-directory (concat org-directory "roam") t)
   (make-directory (concat org-directory ".archive") t)
   (setq org-archive-location (concat org-directory ".archive/%s::datetree"))
@@ -774,7 +772,6 @@
         org-pretty-entities t
         org-hide-emphasis-markers t
         ;; show actually italicized text instead of /italicized text/
-        org-agenda-block-separator ""
         org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
@@ -807,14 +804,13 @@
   (setq org-contacts-default-notes-file (concat (concat org-directory "notes/") "contacts.org"))
   
   ;; Org Agenda Capture Setup
-  (setq org-agenda-directory (concat org-directory "agenda/"))
-  (setq org-agenda-files (cons org-default-notes-file (directory-files-recursively org-agenda-directory "\\.org$")))
+  ;; Temporary inbox before moving tasks to Vikunja.
+  (setq org-agenda-files (list (concat org-directory "notes/agenda.org")))
   (setq org-use-property-inheritance t)
 
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
-  (global-set-key (kbd "C-c i") (lambda () (interactive) (org-capture 0)))
 
   (setq org-todo-keywords
         '((sequence "TODO(t)" "DOING(d)" "BLOCKED(b)" "DONE(d)")))
@@ -840,211 +836,32 @@
   (setq org-read-date-prefer-future t)
   (setq org-capture-use-agenda-date t)
   (setq org-capture-template/agenda/todo-unassigned
-        "TODO \[#%^{PRIORITY|B|A|C}\] %?
+        "* TODO \[#%^{PRIORITY|B|A|C}\] %?
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
-:Effort: %(my/org-agenda-capture-prompt-effort)
-:REFERENCE: %a
 :END:
 
 %i")
 
   (setq org-capture-template/agenda/todo-scheduled
-        "TODO \[#%^{PRIORITY|B|A|C}\] %?
+        "* TODO \[#%^{PRIORITY|B|A|C}\] %?
 SCHEDULED: %^{SCHEDULED}T
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
-:Effort: %(my/org-agenda-capture-prompt-effort)
-:REFERENCE: %a
 :END:
 
 %i")
 
   (setq org-capture-template/agenda/todo-deadlined
-        "TODO \[#%^{PRIORITY|B|A|C}\] %?
+        "* TODO \[#%^{PRIORITY|B|A|C}\] %?
 DEADLINE: %^{DEADLINE}T
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY|TASK|MEETING|CHORES}
-:Effort: %(my/org-agenda-capture-prompt-effort)
-:REFERENCE: %a
 :END:
 
 %i")
 
-  (setq org-capture-template/agenda/note "%?")
-
-  (setq org-capture-template/agenda/project
-        "#+PROJECT: %^{Enter the project name}
-#+ACTIVE: TRUE
-
-* Overview
-** Summary
-%?
-
-** Note
-
-
-* Capture
-** Note
-
-
-** Todo
-
-
-* Plan
-
-
-")
-
-  ;; Org Agenda Capture helper functions
-  (defun my/org-agenda-capture-insert-template (target-directory template-string)
-    (if (and (buffer-file-name)
-             (string-equal "org" (file-name-extension (buffer-file-name)))
-             (string-prefix-p (expand-file-name target-directory)
-                              (expand-file-name (buffer-file-name))))
-        (let ((level (or (org-current-level)
-                         0))
-              (heading-prefix ""))
-          ;; Calculate the new heading level
-          (setq level (+ level 1))
-          ;; Create the heading prefix with the appropriate number of asterisks
-          (setq heading-prefix (make-string level ?*))
-          (concat heading-prefix " " template-string))
-      (concat "*** " template-string)))
-
-  (defun my/org-agenda-capture-prompt-effort ()
-    "Prompt for effort value in HH:MM format with validation."
-    (let* ((effort-options '("0:05" "0:10" "0:30" "1:00" "1:30" "3:00" "6:00" "Unknown"))
-           (custom "Custom")
-           (choice (completing-read "Effort (HH:MM): " 
-                                    (append effort-options (list custom)))))
-      (cond
-       ((string= choice "Unknown") nil)
-       ((string= choice custom)
-        (let ((input ""))
-          (while (not (string-match-p "^[0-9]+:[0-5][0-9]$" input))
-            (setq input (read-string "Enter effort (HH:MM): "))
-            (when (not (string-match-p "^[0-9]+:[0-5][0-9]$" input))
-              (message "Invalid format. Please use HH:MM format.")
-              (sit-for 1)))
-          input))
-       (t choice))))
-
-  (defun my/org-agenda-open-project (&optional _arg)
-    (let ((org-files (directory-files org-agenda-directory))
-          (selected-file nil))
-      ;; Prompt user to select an agenda org file
-      (setq selected-file (completing-read "Select the project org file: "
-                                           (mapcar #'file-name-nondirectory org-files)
-                                           nil t))
-      ;; Find the full path of the selected file
-      (setq selected-file (expand-file-name selected-file org-agenda-directory))
-      (find-file selected-file)))
-
-  (defun my/org-agenda-project-destination (target-directory)
-    "Prompt for a filename and create an org file in target-directory."
-    (let* ((org-files (directory-files target-directory nil "\\.org$"))
-           (not-chosen t)
-           (filename nil)
-           (fullpath nil)
-           (buf nil))
-      (while not-chosen
-        (setq filename (read-string "Enter filename for the new project file: "))
-        (setq filename (if (string-equal "org" (file-name-extension filename))
-                           filename
-                         (concat filename ".org")))
-        (if (member filename org-files)
-            (progn
-              (message "Project file with the given name already exists!")
-              (sit-for 1))
-          (setq not-chosen nil)))
-
-      (setq fullpath (expand-file-name filename target-directory))
-
-	  ;; Open the file and move cursor to the very start
-	  (set-buffer (org-capture-target-buffer fullpath))
-      (goto-char (point-min))))
-
-  (defun my/org-agenda-capture-destination (target-directory level-1-heading level-2-heading)
-    "Function for designating the destination(both file and location) of org agenda capture."
-    (if (and (buffer-file-name)
-             (string-equal "org" (file-name-extension (buffer-file-name)))
-             (string-prefix-p (expand-file-name target-directory)
-                              (expand-file-name (buffer-file-name))))
-        ;; When current buffer is an org file, and is one of org agenda project file
-        (progn
-          ;; Check if current line is empty (only spaces or tabs)
-          (if (save-excursion
-                (beginning-of-line)
-                (looking-at "[ \t]*$"))
-              ;; Line is empty (only spaces or tabs)
-              (progn
-                (beginning-of-line)
-                (delete-horizontal-space))
-            ;; If line is not empty
-            (progn
-              (end-of-line)
-              (newline)
-              (beginning-of-line)))
-          ;; Place cursor
-          (point-marker))
-      ;; When current buffer isn't an org file in the org agenda project directory
-      (progn
-        ;; Get list of org files in target-directory
-        (let ((org-files (directory-files target-directory t "\\.org$"))
-              (selected-file nil))
-          ;; Prompt user to select an org file
-          (setq selected-file (completing-read "Select the project org file: "
-                                               (mapcar #'file-name-nondirectory org-files)
-                                               nil t))
-          ;; Find the full path of the selected file
-          (setq selected-file (expand-file-name selected-file target-directory))
-          ;; Open the selected
-          ;; (find-file selected-file)
-          (set-buffer (org-capture-target-buffer selected-file))
-          ;; Try to find the level 1 heading
-          (goto-char (point-min))
-          (let ((found-level-1 (org-find-exact-headline-in-buffer level-1-heading)))
-            ;; If level 1 heading doesn't exist, create one
-            (unless found-level-1
-              (goto-char (point-max))
-              ;; Make sure that we are at the beginning of an empty line
-              (unless (bolp) (insert "\n"))
-              (insert (format "* %s" level-1-heading))
-              ;; Move to the heading we just created
-              (goto-char (point-max))
-              (search-backward (format "* %s" level-1-heading)))
-
-            ;; If it exists, go to level 1 heading
-            (when found-level-1
-              (goto-char found-level-1))
-
-            ;; Now at level 1 heading, narrow to its subtree to search for level 2 heading
-            (org-narrow-to-subtree)
-
-            ;; Search for level 2 heading
-            (let ((found-level-2 (org-find-exact-headline-in-buffer level-2-heading)))
-              ;; If level 2 heading doesn't exist, create one
-              (unless found-level-2
-                (goto-char (point-max))
-                ;; Ensure that we are at the beginning of an empty line
-                (unless (bolp) (insert "\n"))
-                (insert (format "** %s\n" level-2-heading))
-                ;; Move to the heading we just created
-                (goto-char (point-max))
-                (search-backward (format "** %s" level-2-heading)))
-
-              ;; If it exists, go to it
-              (when found-level-2
-                (goto-char found-level-2))
-              
-              ;; Ensure there's a newline for the new entry
-              (end-of-line)
-              (unless (bolp) (insert "\n"))
-
-              ;; Remove the org narrowing before the return
-              (widen)
-              (point-marker)))))))
+  (setq org-capture-template/agenda/note "* %?")
 
   ;; Daily journal
   (require 'org-capture)
@@ -1220,44 +1037,33 @@ If yesterday's journal exists:
 
           out))))
 
+  ;; Agenda captures append top-level entries to the single temporary inbox.
   (setq org-capture-templates
-	    `(("t" "TODO" plain (function (lambda ()
-                                        (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
-           (function (lambda ()
-                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-unassigned)))
+        `(("t" "TODO" entry (file ,(concat org-directory "notes/agenda.org"))
+           ,org-capture-template/agenda/todo-unassigned
            :empty-lines-before 0
-		   :empty-lines-after 1)
+           :empty-lines-after 1)
 
-          ("s" "TODO Scheduled" plain (function (lambda ()
-												  (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
-		   (function (lambda ()
-					   (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-scheduled)))
+          ("s" "TODO Scheduled" entry (file ,(concat org-directory "notes/agenda.org"))
+           ,org-capture-template/agenda/todo-scheduled
            :empty-lines-before 0
-		   :empty-lines-after 1)
+           :empty-lines-after 1)
 
-          ("d" "TODO Deadlined" plain (function (lambda ()
-                                                  (my/org-agenda-capture-destination org-agenda-directory "Capture" "Todo")))
-           (function (lambda ()
-                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/todo-deadlined)))
+          ("d" "TODO Deadlined" entry (file ,(concat org-directory "notes/agenda.org"))
+           ,org-capture-template/agenda/todo-deadlined
            :empty-lines-before 0
-		   :empty-lines-after 1)
+           :empty-lines-after 1)
 
-          ("n" "Note" plain (function (lambda ()
-										(my/org-agenda-capture-destination org-agenda-directory "Capture" "Note")))
-           (function (lambda ()
-                       (my/org-agenda-capture-insert-template org-agenda-directory org-capture-template/agenda/note)))
+          ("n" "Note" entry (file ,(concat org-directory "notes/agenda.org"))
+           ,org-capture-template/agenda/note
            :empty-lines-before 0
-		   :empty-lines-after 1)
+           :empty-lines-after 1)
 
           ("j" "Journal" plain
 		   (function my/org-journal-capture-target)
 		   (function my/org-journal-capture-template)
 		   :empty-lines-before 0
-		   :empty-lines-after 1)  
-
-          ("P" "New Project" plain (function (lambda () (my/org-agenda-project-destination org-agenda-directory)))
-           (function (lambda ()
-                       org-capture-template/agenda/project)))))
+		   :empty-lines-after 1)))
 
   ;; Org Agenda View Setup
   ;; Time related
@@ -1293,283 +1099,11 @@ If yesterday's journal exists:
   (setq org-agenda-timegrid-use-ampm nil)
   (setq org-agenda-time-leading-zero t)
 
-  (defun my-org-agenda-cmp-by-project-name (a b)
-	"Compare agenda entries A and B by their PROJECT_NAME property."
-	(let* ((pa (or (org-entry-get (get-text-property 0 'org-marker a) "PROJECT") ""))
-           (pb (or (org-entry-get (get-text-property 0 'org-marker b) "PROJECT") ""))
-           (result (string-collate-lessp pa pb nil t)))
-      (if result -1 (if (string= pa pb) 0 1))))
-  (setq org-agenda-cmp-user-defined 'my-org-agenda-cmp-by-project-name)
-
-  (defun my/org-get-file-property (property)
-	"Get PROPERTY from #+PROPERTY: at file top."
-	(save-excursion
-      (save-restriction
-		(widen) ;; ensure we can see whole file even if narrowed
-		(goto-char (point-min))
-		(let ((case-fold-search t))
-          (when (re-search-forward
-				 (format "^#\\+%s:[ \t]*\\(.*\\)$" (regexp-quote property))
-				 nil t)
-			(string-trim (match-string 1)))))))
-
-  (defun my-org-agenda-project-view (parm)
-	"Generate a project report based on org agenda files."
-	(let ((report-text "\n"))
-      (dolist (file (org-agenda-files))
-		(with-current-buffer (find-file-noselect file)
-          (org-with-wide-buffer
-           (save-excursion
-			 (let ((project-name (or (my/org-get-file-property "PROJECT") "UNKNOWN"))
-                   (project-status (or (my/org-get-file-property "ACTIVE") "TRUE")))
-               (when (and project-status
-                          (string-equal "TRUE" project-status))
-
-				 ;; -------- Backpressure calculation --------
-				 (let ((score 0.0)
-                       (now (current-time))
-					   (any-overdue nil))
-                   (org-map-entries
-					(lambda ()
-                      (let* ((todo (org-get-todo-state)))
-						;; skip DONE states
-						(unless (member todo org-done-keywords)
-						  ;; Backpressure score calculation						  
-                          (let* ((priority (org-entry-get nil "PRIORITY"))
-								 (effort-str (org-entry-get nil "Effort"))
-								 (effort (if effort-str
-											 (org-duration-to-minutes effort-str)
-										   30))
-								 (scheduled (org-get-scheduled-time (point)))
-								 (deadline (org-get-deadline-time (point)))
-								 (priority-weight (cond
-												   ((equal priority "A") 5)
-												   ((equal priority "B") 3)
-												   (t 1)))
-								 (has-overdue (and deadline (time-less-p deadline now)))
-
-								 ;; --- urgency ---
-								 (urgency-weight
-								  (cond
-								   ;; DEADLINE path
-								   (deadline
-									(let* ((diff-days (/ (float-time (time-subtract deadline now)) 86400.0)))
-									  (if (>= diff-days 0)
-										  ;; future deadline → quadratic ramp as it approaches
-										  (let ((horizon 7.0)
-												(x (- 1 (/ (min diff-days 7.0) 7.0))))
-											(max 0.1 (* 6.0 x x)))
-										;; past deadline → keep growing (quadratic)
-										(let ((overdue (abs diff-days)))
-										  (+ 3.0 (* overdue overdue))))))
-
-								   ;; SCHEDULED path (only if no deadline)
-								   (scheduled
-									(let* ((diff-days (/ (float-time (time-subtract scheduled now)) 86400.0))
-										   (horizon 7.0))
-									  (if (>= diff-days 0)
-										  ;; future schedule → linear
-										  (max 0.1 (* 2.0 (- 1 (/ (min diff-days horizon) horizon))))
-										;; past schedule → continue linearly past zero
-										(+ 2.0 (/ (abs diff-days) horizon)))))
-
-								   ;; no time info
-								   (t 0.1)))
-
-								 (effort-factor (max 0.2 (/ effort 60.0)))
-								 (contrib (* urgency-weight priority-weight effort-factor)))
-
-							;; accumulate
-							(setq score (+ score contrib))
-
-							;; Mark overdue
-							(when has-overdue
-							  (setq any-overdue t)))))
-					  t 'file) ;; all entries
-
-					;; classify on TOTAL score
-					(let ((bp-level (cond
-									 (any-overdue "HIGH")
-									 ((< score 10) "LOW")
-									 ((< score 30) "MEDIUM")
-									 (t "HIGH"))))
-
-					  ;; -------- Summary --------
-					  (goto-char (point-min))
-					  (let ((summary-found (org-find-exact-headline-in-buffer "Summary"))
-							(summary-text ""))
-						(when summary-found
-						  (goto-char summary-found)
-						  (forward-line 1)
-						  (let ((start (point))
-								(end (org-end-of-subtree)))
-							(setq summary-text (buffer-substring-no-properties start end))))
-
-						;; -------- Clock (7 days) --------
-						(goto-char (point-min))
-						(let* ((end (current-time))
-                               (start (time-subtract end (days-to-time 7)))
-                               (org-clock-file-total-minutes 0))
-						  (org-clock-sum start end)
-						  (let* ((hours (/ org-clock-file-total-minutes 60))
-								 (minutes (% org-clock-file-total-minutes 60))
-								 (total-time (format "%02d:%02d" hours minutes))
-								 (bp-face (cond
-										   ((string= bp-level "LOW") 'success)
-										   ((string= bp-level "MEDIUM") 'warning)
-										   (t 'error)))
-								 (bp-text (propertize bp-level 'face bp-face)))
-
-							(setq report-text
-								  (concat report-text
-										  (format " %s: %s\n" (propertize "■ Project" 'face 'bold) project-name)
-										  (format "  - %-10s: %s\n" (propertize "Pressure" 'face 'bold) bp-text)
-										  (format "  - %-10s: %s\n" (propertize "Time Spent" 'face 'bold) total-time)
-										  (format "  - %-10s: %.60s\n" (propertize "Summary" 'face 'bold) summary-text)
-										  "\n\n"))))))))))))))
-	  
-	  (with-current-buffer (get-buffer "*Org Agenda*")
-		(let ((inhibit-read-only t))
-		  (erase-buffer)
-		  (insert report-text)
-		  (special-mode))
-		(display-buffer (current-buffer)))))
-
-  (setq org-agenda-custom-commands
-		'(("d" "Daily View"
-           ((tags-todo "+PRIORITY=\"A\"+CATEGORY=\"TASK\"|+CATEGORY=\"MEETING\""
-                       ((org-agenda-overriding-header "■ Today's Highlights")
-						(org-agenda-span 'day)
-						(org-deadline-warning-days 3)
-						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))
-						(org-agenda-skip-function
-						 '(or
-                           (org-agenda-skip-entry-if 'notscheduled)
-                           (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
-			(agenda ""
-					((org-agenda-overriding-header "■ Today's Schedule")
-					 (org-agenda-span 'day)
-					 (org-agenda-time-grid '((daily today required-time)
-											 (600 800 1000 1200 1400 1600 1800 2000 2200 2400)
-											 ". . . ."
-											 "- - - - - - - - - - - - - - - - - - - - - - - "))
-					 (org-agenda-sorting-strategy '((agenda time-up timestamp-up scheduled-up urgency-down effort-down)))
-					 (org-agenda-skip-function
-                      '(or                        
-						(org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))))
-
-          ("t" "Tomorrow Planning"
-           ((agenda ""
-					((org-agenda-overriding-header "■ Scheduled Tomorrow")
-					 (org-agenda-span 'day)
-					 (org-agenda-start-day "+1d")
-					 (org-agenda-time-grid '((daily today required-time)
-											 (600 1200 1800 2400)
-											 ". . . ."
-											 "- - - - - - - - - - - - - - - - - - - - - - - "))
-					 (org-agenda-sorting-strategy '((agenda time-up timestamp-up scheduled-up urgency-down effort-down)))
-					 (org-agenda-skip-function
-                      '(or
-						(org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
-			(tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"TASK\""
-                       ((org-agenda-overriding-header "■ Available Tasks")
-						(org-agenda-start-day "+1d")
-						(org-deadline-warning-days 3)
-						(org-agenda-sorting-strategy '((todo user-defined-up urgency-down effort-down)))
-						(org-agenda-skip-function
-						 '(or
-                           (org-agenda-skip-entry-if 'scheduled)
-                           (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))
-			(tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"CHORES\""
-                       ((org-agenda-overriding-header "■ Available Chores")
-						(org-agenda-start-day "+1d")
-						(org-deadline-warning-days 3)
-						(org-agenda-sorting-strategy '((todo user-defined-up urgency-down effort-down)))
-						(org-agenda-skip-function
-						 '(or
-                           (org-agenda-skip-entry-if 'scheduled)
-                           (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))))
-
-          ("w" "Weekly View"
-           ((agenda ""
-					((org-agenda-overriding-header "■ Schedules This Week")
-					 (org-agenda-span 'week)
-					 (org-deadline-warning-days 7)
-					 (org-agenda-show-all-dates t)
-					 (org-agenda-time-grid '((daily today required-time)
-											 (1200 2400)
-											 ". . . ."
-											 "- - - - - - - - - - - - - - - - - - - - - - - "))                     
-					 (org-agenda-entry-types '(:timestamp :deadline :scheduled))
-					 (org-agenda-skip-function
-                      '(or
-						(org-agenda-skip-entry-if 'regexp ":CATEGORY: CHORES")))
-					 (org-agenda-sorting-strategy '((agenda time-up timestamp-up scheduled-up urgency-down effort-down)))))))
-          
-          ("p" "Projects View"
-           ((my-org-agenda-project-view nil)))
-
-		  ("P" "Open a Project File"
-           my/org-agenda-open-project)
-
-          ("c" "Chores"
-           ((tags-todo "+ACTIVE=\"TRUE\"+CATEGORY=\"CHORES\""
-                       ((org-agenda-overriding-header "■ Simple Chores")
-						(org-agenda-sorting-strategy '((todo user-defined-up category-up urgency-down effort-down)))                        
-						(org-agenda-skip-function
-						 '(or
-                           (org-agenda-skip-entry-if 'scheduled)
-                           (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))))))
-
-		  ("u" "Unassigned Tasks"
-		   ((tags-todo "+ACTIVE=\"TRUE\"+TODO=\"TODO\"-CATEGORY=\"CHORES\""
-					   ((org-agenda-overriding-header "■ Unassigned TODO")
-						(org-agenda-skip-function
-						 '(or
-						   (org-agenda-skip-entry-if 'scheduled)
-						   (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))
-						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))))
-
-			(tags-todo "+ACTIVE=\"TRUE\"+TODO=\"NEXT\"-CATEGORY=\"CHORES\""
-					   ((org-agenda-overriding-header "■ Unassigned NEXT")
-						(org-agenda-skip-function
-						 '(or
-						   (org-agenda-skip-entry-if 'scheduled)
-						   (org-agenda-skip-entry-if 'todo '("WAIT" "DONE"))))
-						(org-agenda-sorting-strategy '((todo urgency-down effort-down category-up)))))))
-
-          ("W" "Waiting Tasks"
-           ((tags-todo "+ACTIVE=\"TRUE\"+TODO=\"WAIT\""
-                       ((org-agenda-overriding-header "■ Blocked Tasks")
-						(org-agenda-sorting-strategy '((todo user-defined-up category-up urgency-down effort-down)))))))))
+  ;; Use the standard agenda dispatcher without custom views.
+  (setq org-agenda-custom-commands nil)
 
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
 				                   (org-agenda-files :maxlevel . 9))))
-
-  (defun refresh-org-agenda-files ()
-	"Refresh 'org-agenda-files' variable if the current buffer is an .org file."
-	(when (and (buffer-file-name)
-               (string-equal "org" (file-name-extension (buffer-file-name)))
-               (or (file-equal-p org-agenda-directory (file-name-directory (buffer-file-name)))
-                   (string-equal (concat (getenv "USER_ORG_SHORTCUT_DIR") "agenda/") (file-name-directory (buffer-file-name)))))
-      (progn
-		(org-agenda-file-to-front)
-		(let ((return-buffer-name (buffer-name)))
-          (dashboard-refresh-buffer)
-          (switch-to-buffer return-buffer-name)))))
-  (add-hook 'after-save-hook 'refresh-org-agenda-files)
-
-  (defun clean-org-agenda-files ()
-	"Remove non-existent files from org-agenda-files"
-	(interactive)
-	(let ((existing-files nil))
-      ;; Get the current list of agenda files
-      (dolist (org-file (org-agenda-files))
-		(if (file-exists-p org-file)
-			(push org-file existing-files)))
-
-      (org-store-new-agenda-file-list (nreverse existing-files))))
-  (advice-add 'org-agenda :before #'clean-org-agenda-files)
 
   ;; org-babel language extension
   (use-package ob-prolog
